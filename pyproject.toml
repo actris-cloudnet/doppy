@@ -2,8 +2,6 @@
 requires = ["maturin>=1.4,<2.0"]
 build-backend = "maturin"
 
-#requires = ["setuptools"]
-#build-backend = "setuptools.build_meta"
 [project]
 name = "doppy"
 description = "Doppler lidar processing"
@@ -31,7 +29,6 @@ dependencies = [
   "matplotlib",
   "scikit-learn",
   "scipy",
-  "seaborn"
 ]
 
 [project.optional-dependencies]
@@ -73,7 +70,7 @@ module = "doppy.rs.*"
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = "doppydata.*"
+module = "doppy.data.*"
 ignore_errors = true
 
 [[tool.mypy.overrides]]
@@ -102,3 +99,4 @@ select = [
 
 [tool.pytest.ini_options]
 markers = ["slow"]
+addopts = "-k 'not slow'"

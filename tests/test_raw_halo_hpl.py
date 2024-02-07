@@ -2,7 +2,7 @@ import doppy
 import numpy as np
 import pytest
 from doppy import exceptions
-from doppydata.api import Api
+from doppy.data.api import Api
 
 
 @pytest.mark.parametrize(

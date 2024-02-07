@@ -1,7 +1,7 @@
 import datetime
 
 import doppy
-from doppydata.api import Api
+from doppy.data.api import Api
 import json
 
 API = Api()

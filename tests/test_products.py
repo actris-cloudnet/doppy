@@ -1,7 +1,7 @@
 import doppy.netcdf
 import pytest
 from doppy import exceptions, options, product
-from doppydata.api import Api
+from doppy.data.api import Api
 
 
 @pytest.mark.slow

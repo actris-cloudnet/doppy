@@ -4,12 +4,12 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from doppydata import exceptions
-from doppydata.cache import cached_record
+from doppy.data import exceptions
+from doppy.data.cache import cached_record
 
-import logging
+
 class Api:
-    def __init__(self) -> None:
+    def __init__(self, cache: bool = False) -> None:
         retries = Retry(total=10, backoff_factor=0.2)
         adapter = HTTPAdapter(max_retries=retries)
         session = requests.Session()
@@ -17,6 +17,7 @@ class Api:
         session.mount("http://", adapter)
         self.session = session
         self.api_endpoint = "https://cloudnet.fmi.fi/api"
+        self.cache = cache
 
     def get(self, path: str, params: dict[str, str]) -> list:
         res = self.session.get(
@@ -38,4 +39,6 @@ class Api:
         )
 
     def get_record_content(self, rec: dict) -> io.BytesIO:
-        return cached_record(rec, self.session)
+        if self.cache:
+            return cached_record(rec, self.session)
+        return io.BytesIO(self.session.get(rec["downloadUrl"]).content)

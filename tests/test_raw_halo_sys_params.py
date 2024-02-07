@@ -1,6 +1,6 @@
 import doppy
 import pytest
-from doppydata.api import Api
+from doppy.data.api import Api
 
 
 @pytest.mark.parametrize(
