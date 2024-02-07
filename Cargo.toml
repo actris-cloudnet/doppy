@@ -1,0 +1,10 @@
+[workspace]
+members = ["crates/*"]
+resolver = "2"
+
+
+[workspace.package]
+edition = "2021"
+version = "0.0.0"
+authors = ["Niko Leskinen <niko.leskinen@fmi.fi>"]
+license-file = "LICENSE"

@@ -1,0 +1,13 @@
+[package]
+name = "doprs"
+version = { workspace = true }
+authors = { workspace = true }
+edition = { workspace = true }
+license-file = { workspace = true }
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = "0.4"
+regex = "1.10"
+rayon = "1.8"

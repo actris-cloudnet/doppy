@@ -1,0 +1,104 @@
+[build-system]
+requires = ["maturin>=1.4,<2.0"]
+build-backend = "maturin"
+
+#requires = ["setuptools"]
+#build-backend = "setuptools.build_meta"
+[project]
+name = "doppy"
+description = "Doppler lidar processing"
+dynamic = ["version"]
+authors = [{ name = "Niko Leskinen", email = "niko.leskinen@fmi.fi" }]
+requires-python = ">=3.10"
+readme = "README.md"
+license = { file = "LICENSE" }
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+]
+dependencies = [
+  "requests",
+  "urllib3",
+  "numpy",
+  "netCDF4",
+  "typer[all]",
+  "matplotlib",
+  "scikit-learn",
+  "scipy",
+  "seaborn"
+]
+
+[project.optional-dependencies]
+dev = ["mypy", "ruff", "pytest", "types-requests", "py-spy", "maturin"]
+
+[project.scripts]
+doppy = "doppy.__main__:app"
+
+[project.urls]
+Homepage = "https://github.com/actris-cloudnet/doppy"
+Repository = "https://github.com/actris-cloudnet/doppy"
+Changelog = "https://github.com/actris-cloudnet/doppy/blob/main/CHANGELOG.md"
+"Bug Tracker" = "https://github.com/actris-cloudnet/doppy/issues"
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+module-name = "doppy.rs"
+manifest-path = "crates/doppy_rs/Cargo.toml"
+python-source = "src/"
+
+[tool.mypy]
+strict = true
+plugins = "numpy.typing.mypy_plugin"
+
+[[tool.mypy.overrides]]
+module = "scipy.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "netCDF4.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "sklearn.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "doppy.rs.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "doppydata.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "doppy.bench.*"
+ignore_errors = true
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint]
+select = [
+  # Pyflakes
+  "F",
+  # Pycodestyle
+  "E",
+  "W",
+  # isort
+  "I001"
+]
+
+[tool.pytest.ini_options]
+markers = ["slow"]

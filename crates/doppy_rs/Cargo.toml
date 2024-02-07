@@ -1,0 +1,19 @@
+[package]
+name = "doppy_rs"
+version = { workspace = true }
+authors = { workspace = true }
+edition = { workspace = true }
+license-file = { workspace = true }
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "doppy_rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+numpy = "0.20"
+doprs = {path = "../doprs"}
+
+[dependencies.pyo3]
+version = "0.20.0"
+features = ["abi3-py310"]
