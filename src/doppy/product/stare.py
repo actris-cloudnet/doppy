@@ -507,8 +507,38 @@ def _select_raws_for_stare(
     if len(raws) == 0:
         raise doppy.exceptions.NoDataError("No data to select from")
 
-    # Select files that stare vertically
-    raws_stare = [raw for raw in raws if raw.elevation_angles == {90}]
+    # Select files that stare
+    raws_stare = [
+        raw
+        for raw in raws
+        if len(raw.azimuth_angles) == 1 or raw.azimuth_angles == {0, 360}
+    ]
+    if len(raws_stare) == 0:
+        raise doppy.exceptions.NoDataError(
+            "No data suitable for stare product. Data is probably from scans"
+        )
+    raws_stare = [raw for raw in raws if len(raw.elevation_angles) == 1]
+    if len(raws_stare) == 0:
+        raise doppy.exceptions.NoDataError(
+            "No data suitable for stare product. "
+            "Elevation angle does not remain constant"
+        )
+    elevation_angles = []
+    for raw in raws_stare:
+        elevation_angles += list(raw.elevation_angles)
+    max_elevation_angle = max(elevation_angles)
+
+    ELEVATION_ANGLE_FLUCTUATION_THRESHOLD = 2
+    ELEVATION_ANGLE_VERTICAL_OFFSET_THRESHOLD = 15
+
+    raws_stare = [
+        raw
+        for raw in raws
+        if abs(next(iter(raw.elevation_angles)) - max_elevation_angle)
+        < ELEVATION_ANGLE_FLUCTUATION_THRESHOLD
+        and abs(next(iter(raw.elevation_angles)) - 90)
+        < ELEVATION_ANGLE_VERTICAL_OFFSET_THRESHOLD
+    ]
 
     if len(raws_stare) == 0:
         raise doppy.exceptions.NoDataError("No data suitable for stare product")
@@ -554,6 +584,8 @@ def _cluster_background_profiles(
     background_signal: npt.NDArray[np.float64], radial_distance: npt.NDArray[np.float64]
 ) -> npt.NDArray[np.int64]:
     default_labels = np.zeros(len(background_signal), dtype=int)
+    if len(background_signal) < 2:
+        return default_labels
     radial_distance_mask = (90 < radial_distance) & (radial_distance < 1500)
 
     normalised_background_signal = background_signal / np.median(

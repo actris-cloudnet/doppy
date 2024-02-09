@@ -18,7 +18,7 @@ from doppy.data.api import Api
         ("juelich", "2023-11-01", ""),
         ("kenttarova", "2023-11-01", ""),
         ("leipzig", "2023-10-12", ""),
-        # ("lindenberg", "2023-11-01", ""),
+        ("lindenberg", "2024-02-08", ""),
         ("mindelo", "2023-11-01", ""),
         ("mindelo", "2023-11-02", ""),
         ("mindelo", "2023-11-03", ""),
@@ -28,10 +28,12 @@ from doppy.data.api import Api
         ("vehmasmaki", "2022-12-30", ""),
         ("warsaw", "2023-11-01", ""),
         ("hyytiala", "2024-01-29", "some files have problems => skip them"),
+        ("neumayer", "2024-02-01", "elevation angle 89"),
+        ("potenza", "2024-02-05", "k-means error"),
     ],
 )
 def test_stare(site, date, reason):
-    api = Api()
+    api = Api(cache=True)
     records = api.get_raw_records(site, date)
     records_hpl = [
         rec
@@ -51,12 +53,6 @@ def test_stare(site, date, reason):
     "site,date,err,reason",
     [
         ("warsaw", "2024-02-03", exceptions.NoDataError, "Missing bg files"),
-        (
-            "neumayer",
-            "2024-02-02",
-            exceptions.NoDataError,
-            "No data with elevation angle 90",
-        ),
     ],
 )
 def test_bad_stare(site, date, err, reason):
