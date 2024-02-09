@@ -188,4 +188,4 @@ def test_merge_halo_hpl_raw(site, date, prefix, suffix, reason):
         if rec["filename"].startswith(prefix) and rec["filename"].endswith(suffix)
     ]
     raws = doppy.raw.HaloHpl.from_srcs([api.get_record_content(r) for r in records])
-    raw = doppy.raw.HaloHpl.merge(raws).sorted_by_time()
+    _raw = doppy.raw.HaloHpl.merge(raws).sorted_by_time()

@@ -20,7 +20,6 @@ from doppy import exceptions
 T = TypeVar("T")
 
 
-
 @dataclass
 class HaloHpl:
     header: HaloHplHeader
@@ -179,7 +178,7 @@ class HaloHpl:
     def non_strictly_increasing_timesteps_removed(self) -> HaloHpl:
         if len(self.time) == 0:
             return self
-        mask = np.ones_like(self.time,dtype=np.bool_)
+        mask = np.ones_like(self.time, dtype=np.bool_)
         latest_time = self.time[0]
         for i, t in enumerate(self.time[1:], start=1):
             if t <= latest_time:
@@ -364,8 +363,7 @@ def _convert_time(
     HOURS_TO_MICROSECONDS = 3600000000.0
     start_of_day = datetime64(start_time, "D").astype("datetime64[us]")
     delta_hours = (decimal_time * HOURS_TO_MICROSECONDS).astype("timedelta64[us]")
-    return np.array(start_of_day + delta_hours,dtype=datetime64)
-
+    return np.array(start_of_day + delta_hours, dtype=datetime64)
 
 
 def _parser_start_time(s: bytes) -> datetime64:

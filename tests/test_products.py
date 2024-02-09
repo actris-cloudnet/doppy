@@ -51,7 +51,12 @@ def test_stare(site, date, reason):
     "site,date,err,reason",
     [
         ("warsaw", "2024-02-03", exceptions.NoDataError, "Missing bg files"),
-        ("neumayer", "2024-02-02",exceptions.NoDataError, "No data with elevation angle 90"),
+        (
+            "neumayer",
+            "2024-02-02",
+            exceptions.NoDataError,
+            "No data with elevation angle 90",
+        ),
     ],
 )
 def test_bad_stare(site, date, err, reason):

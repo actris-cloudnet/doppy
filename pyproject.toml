@@ -6,10 +6,10 @@ build-backend = "maturin"
 name = "doppy"
 description = "Doppler lidar processing"
 dynamic = ["version"]
-authors = [{ name = "Niko Leskinen", email = "niko.leskinen@fmi.fi" }]
+authors = [{name = "Niko Leskinen", email = "niko.leskinen@fmi.fi"}]
 requires-python = ">=3.10"
 readme = "README.md"
-license = { file = "LICENSE" }
+license = {file = "LICENSE"}
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python :: 3",
@@ -18,7 +18,7 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "License :: OSI Approved :: MIT License",
   "Intended Audience :: Science/Research",
-  "Operating System :: OS Independent",
+  "Operating System :: OS Independent"
 ]
 dependencies = [
   "requests",
@@ -28,11 +28,11 @@ dependencies = [
   "typer[all]",
   "matplotlib",
   "scikit-learn",
-  "scipy",
+  "scipy"
 ]
 
 [project.optional-dependencies]
-dev = ["mypy", "ruff", "pytest", "types-requests", "py-spy", "maturin"]
+dev = ["mypy", "ruff", "pytest", "types-requests", "py-spy", "maturin", "release-version", "pre-commit"]
 
 [project.scripts]
 doppy = "doppy.__main__:app"
@@ -52,6 +52,7 @@ python-source = "src/"
 [tool.mypy]
 strict = true
 plugins = "numpy.typing.mypy_plugin"
+exclude = 'tests/'
 
 [[tool.mypy.overrides]]
 module = "scipy.*"
@@ -77,6 +78,14 @@ ignore_errors = true
 module = "doppy.bench.*"
 ignore_errors = true
 
+[tool.pytest.ini_options]
+markers = ["slow"]
+addopts = "-k 'not slow'"
+
+[tool.release-version]
+filename = "Cargo.toml"
+pattern = "version = \"(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)\""
+
 [tool.ruff]
 line-length = 88
 
@@ -96,7 +105,3 @@ select = [
   # isort
   "I001"
 ]
-
-[tool.pytest.ini_options]
-markers = ["slow"]
-addopts = "-k 'not slow'"
