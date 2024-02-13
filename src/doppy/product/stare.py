@@ -508,11 +508,7 @@ def _select_raws_for_stare(
         raise doppy.exceptions.NoDataError("No data to select from")
 
     # Select files that stare
-    raws_stare = [
-        raw
-        for raw in raws
-        if len(raw.azimuth_angles) == 1 or raw.azimuth_angles == {0, 360}
-    ]
+    raws_stare = [raw for raw in raws if len(raw.azimuth_angles) == 1]
     if len(raws_stare) == 0:
         raise doppy.exceptions.NoDataError(
             "No data suitable for stare product. Data is probably from scans"
