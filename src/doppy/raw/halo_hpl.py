@@ -149,7 +149,7 @@ class HaloHpl:
 
     @functools.cached_property
     def azimuth_angles(self) -> set[int]:
-        return set(int(x) for x in np.round(self.azimuth))
+        return set(int(x) % 360 for x in np.round(self.azimuth))
 
     @functools.cached_property
     def elevation_angles(self) -> set[int]:
