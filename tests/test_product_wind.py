@@ -1,5 +1,5 @@
 import pytest
-from doppy import options, product
+from doppy import product
 from doppy.data.api import Api
 
 

@@ -13,7 +13,6 @@ from scipy.ndimage import generic_filter
 from sklearn.cluster import KMeans
 
 import doppy
-from doppy import options
 
 # ngates, elevation angle, tuple of sorted azimuth angles
 SelectionGroupKeyType: TypeAlias = tuple[int, int, tuple[int, ...]]
@@ -22,7 +21,7 @@ SelectionGroupKeyType: TypeAlias = tuple[int, int, tuple[int, ...]]
 @dataclass
 class Wind:
     time: npt.NDArray[np.datetime64]
-    height: npt.NDArray[np.datetime64]
+    height: npt.NDArray[np.float64]
     zonal_wind: npt.NDArray[np.float64]
     meridional_wind: npt.NDArray[np.float64]
     vertical_wind: npt.NDArray[np.float64]
@@ -34,9 +33,9 @@ class Wind:
 
     @functools.cached_property
     def horizontal_wind_direction(self) -> npt.NDArray[np.float64]:
-        direction =  np.arctan2(self.zonal_wind, self.meridional_wind)
-        direction[direction < 0] += 2*np.pi
-        return np.degrees(direction)
+        direction = np.arctan2(self.zonal_wind, self.meridional_wind)
+        direction[direction < 0] += 2 * np.pi
+        return np.array(np.degrees(direction), dtype=np.float64)
 
     @classmethod
     def from_halo_data(
@@ -77,7 +76,7 @@ class Wind:
         if not np.allclose(elevation, elevation[0]):
             raise ValueError("Elevation is expected to stay same")
         height = raw.radial_distance * np.sin(np.deg2rad(elevation[0]))
-        mask = _compute_mask(wind, raw.intensity, rmse)
+        mask = _compute_mask(wind, rmse)
         return Wind(
             time=time,
             height=height,
@@ -134,7 +133,9 @@ def _compute_wind(
     return time, elevation[0], wind, rmse
 
 
-def _compute_mask(wind, intensity, rmse):
+def _compute_mask(
+    wind: npt.NDArray[np.float64], rmse: npt.NDArray[np.float64]
+) -> npt.NDArray[np.bool_]:
     """
     Parameters
     ----------
@@ -144,20 +145,22 @@ def _compute_mask(wind, intensity, rmse):
     rmse (time,range)
     """
 
-    def neighbour_diff(X):
+    def neighbour_diff(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
         mdiff = np.max(np.abs(X - X[len(X) // 2]))
-        return mdiff
+        return np.array(mdiff, dtype=np.float64)
 
     WIND_NEIGHBOUR_DIFFERENCE = 20
     neighbour_mask = np.any(
-        generic_filter(wind, neighbour_diff, size=(1, 3, 1)) > WIND_NEIGHBOUR_DIFFERENCE, axis=2
+        generic_filter(wind, neighbour_diff, size=(1, 3, 1))
+        > WIND_NEIGHBOUR_DIFFERENCE,
+        axis=2,
     )
 
     rmse_th = 5
-    return (rmse > rmse_th) | neighbour_mask
+    return np.array((rmse > rmse_th) | neighbour_mask, dtype=np.bool_)
 
 
-def _group_scans(raw: doppy.raw.HaloHpl):
+def _group_scans(raw: doppy.raw.HaloHpl) -> npt.NDArray[np.int64]:
     if len(raw.time) < 4:
         raise ValueError("Expected at least 4 profiles to compute wind profile")
     if raw.time.dtype != "<M8[us]":
@@ -174,7 +177,7 @@ def _group_scans(raw: doppy.raw.HaloHpl):
             "expected to be between 0.1 and 30 seconds"
         )
     scanstep_timediff_upperbound = 2 * scanstep_timediff
-    groups_by_time = -1 * np.ones_like(time, dtype=int)
+    groups_by_time = -1 * np.ones_like(time, dtype=np.int64)
     groups_by_time[0] = 0
     scan_index = 0
     for i, (t_prev, t) in enumerate(zip(time[:-1], time[1:]), start=1):
@@ -185,11 +188,13 @@ def _group_scans(raw: doppy.raw.HaloHpl):
     return _subgroup_scans(raw, groups_by_time)
 
 
-def _subgroup_scans(raw: doppy.raw.HaloHpl, time_groups: npt.NDArray[np.int]):
+def _subgroup_scans(
+    raw: doppy.raw.HaloHpl, time_groups: npt.NDArray[np.int64]
+) -> npt.NDArray[np.int64]:
     """
     Groups scans further based on the azimuth angles
     """
-    group = -1 * np.ones_like(raw.time, dtype=int)
+    group = -1 * np.ones_like(raw.time, dtype=np.int64)
     i = -1
     for time_group in set(time_groups):
         i += 1
