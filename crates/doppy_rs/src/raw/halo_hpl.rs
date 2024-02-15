@@ -32,7 +32,7 @@ pub fn from_bytes_src<'a>(py: Python<'a>, content: &'a [u8]) -> PyResult<(&'a Py
         Err(e) => {
             return Err(PyRuntimeError::new_err(format!(
                 "Failed to read files: {}",
-                e.to_string()
+                e
             )))
         }
     };
@@ -56,7 +56,7 @@ pub fn from_filename_src(py: Python, filename: String) -> PyResult<(&PyDict, &Py
         Err(e) => {
             return Err(PyRuntimeError::new_err(format!(
                 "Failed to read files: {}",
-                e.to_string()
+                e
             )))
         }
     };

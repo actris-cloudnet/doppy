@@ -5,6 +5,12 @@ pub struct RawParseError {
     message: String,
 }
 
+impl Default for RawParseError {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl RawParseError {
     pub fn new() -> Self {
         Self {

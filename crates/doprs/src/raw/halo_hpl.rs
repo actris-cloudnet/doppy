@@ -98,10 +98,7 @@ pub fn from_bytes_src(content: &[u8]) -> Result<HaloHpl, RawParseError> {
     }
     let info = parse_header(&buf_header)?;
     let data = parse_data(&mut cur, info.ngates, info.range_gate_length)?;
-    Ok(HaloHpl {
-        info: info,
-        data: data,
-    })
+    Ok(HaloHpl { info, data })
 }
 
 fn parse_data(
@@ -137,13 +134,13 @@ fn parse_data(
     let mut data_2d = vec![vec![0f64; (ngates * nfull_profiles) as usize]; n2d as usize];
     let mut k = 0;
     for p in 0..nfull_profiles as usize {
-        for i in 0..n1d as usize {
-            data_1d[i][p] = data_flat[k];
+        for var in data_1d.iter_mut() {
+            var[p] = data_flat[k];
             k += 1;
         }
         for g in 0..ngates as usize {
-            for j in 0..n2d as usize {
-                data_2d[j][g + p * ngates as usize] = data_flat[k];
+            for var in data_2d.iter_mut() {
+                var[g + p * ngates as usize] = data_flat[k];
                 k += 1;
             }
         }

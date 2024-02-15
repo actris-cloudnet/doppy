@@ -12,7 +12,7 @@ repos:
         args: ["--fix", "lf"]
       - id: trailing-whitespace
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.6
+    rev: v0.2.1
     hooks:
       - id: ruff
         args: ["--fix"]
@@ -40,3 +40,4 @@ repos:
     hooks:
       - id: fmt
       - id: cargo-check
+      - id: clippy
