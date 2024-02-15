@@ -14,8 +14,8 @@ from sklearn.cluster import KMeans
 
 import doppy
 
-# ngates, elevation angle, tuple of sorted azimuth angles
-SelectionGroupKeyType: TypeAlias = tuple[int, int, tuple[int, ...]]
+# ngates, gate points, elevation angle, tuple of sorted azimuth angles
+SelectionGroupKeyType: TypeAlias = tuple[int, int, int | None, int, tuple[int, ...]]
 
 
 @dataclass
@@ -55,8 +55,10 @@ class Wind:
             .sorted_by_time()
             .non_strictly_increasing_timesteps_removed()
         )
+        if len(raw.time) == 0:
+            raise doppy.exceptions.NoDataError("No suitable data for the wind product")
 
-        groups = _group_scans(raw)
+        groups = _group_scans_by_azimuth_rotation(raw)
         time_list = []
         elevation_list = []
         wind_list = []
@@ -64,12 +66,18 @@ class Wind:
 
         for group_index in set(groups):
             pick = group_index == groups
+            if pick.sum() < 4:
+                continue
             time_, elevation_, wind_, rmse_ = _compute_wind(raw[pick])
             time_list.append(time_)
             elevation_list.append(elevation_)
             wind_list.append(wind_[np.newaxis, :, :])
             rmse_list.append(rmse_[np.newaxis, :])
         time = np.array(time_list)
+        if len(time) == 0:
+            raise doppy.exceptions.NoDataError(
+                "Probably something wrong with scan grouping"
+            )
         elevation = np.array(elevation_list)
         wind = np.concatenate(wind_list)
         rmse = np.concatenate(rmse_list)
@@ -160,6 +168,33 @@ def _compute_mask(
     return np.array((rmse > rmse_th) | neighbour_mask, dtype=np.bool_)
 
 
+def _group_scans_by_azimuth_rotation(raw: doppy.raw.HaloHpl) -> npt.NDArray[np.int64]:
+    max_timedelta_in_scan = np.timedelta64(30, "s")
+    if len(raw.time) < 4:
+        raise doppy.exceptions.NoDataError(
+            "Less than 4 profiles is not sufficient for wind product."
+        )
+    groups = -1 * np.ones_like(raw.time, dtype=np.int64)
+
+    group = 0
+    first_azimuth_of_scan = _wrap_and_round_angle(raw.azimuth[0])
+    groups[0] = group
+    for i, (time_prev, time, azimuth) in enumerate(
+        zip(raw.time[:-1], raw.time[1:], raw.azimuth[1:]), start=1
+    ):
+        if (
+            angle := _wrap_and_round_angle(azimuth)
+        ) == first_azimuth_of_scan or time - time_prev > max_timedelta_in_scan:
+            group += 1
+            first_azimuth_of_scan = angle
+        groups[i] = group
+    return groups
+
+
+def _wrap_and_round_angle(a: np.float64) -> int:
+    return int(np.round(a)) % 360
+
+
 def _group_scans(raw: doppy.raw.HaloHpl) -> npt.NDArray[np.int64]:
     if len(raw.time) < 4:
         raise ValueError("Expected at least 4 profiles to compute wind profile")
@@ -214,6 +249,10 @@ def _subgroup_scans(
 def _select_raws_for_wind(
     raws: Sequence[doppy.raw.HaloHpl],
 ) -> Sequence[doppy.raw.HaloHpl]:
+    if len(raws) == 0:
+        raise doppy.exceptions.NoDataError(
+            "Cannot select raws for wind from empty list"
+        )
     raws_wind = [
         raw
         for raw in raws
@@ -221,6 +260,14 @@ def _select_raws_for_wind(
         and next(iter(raw.elevation_angles)) < 80
         and len(raw.azimuth_angles) > 3
     ]
+    if len(raws_wind) == 0:
+        raise doppy.exceptions.NoDataError(
+            "No data suitable for winds: "
+            "Multiple elevation angles or "
+            "elevation angle >= 80 or "
+            "no more than 3 azimuth angles"
+        )
+
     groups: dict[SelectionGroupKeyType, int] = defaultdict(int)
 
     for raw in raws_wind:
@@ -239,6 +286,8 @@ def _selection_key(raw: doppy.raw.HaloHpl) -> SelectionGroupKeyType:
         raise ValueError("Expected only one elevation angle")
     return (
         raw.header.ngates,
+        raw.header.gate_points,
+        raw.header.nrays,
         next(iter(raw.elevation_angles)),
         tuple(sorted(raw.azimuth_angles)),
     )

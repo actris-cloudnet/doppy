@@ -1,7 +1,11 @@
+import os
+
 import doppy.netcdf
 import pytest
 from doppy import exceptions, options, product
 from doppy.data.api import Api
+
+CACHE = "GITHUB_ACTIONS" not in os.environ
 
 
 @pytest.mark.slow
@@ -30,10 +34,11 @@ from doppy.data.api import Api
         ("hyytiala", "2024-01-29", "some files have problems => skip them"),
         ("neumayer", "2024-02-01", "elevation angle 89"),
         ("potenza", "2024-02-05", "k-means error"),
+        ("neumayer", "2024-01-30", "cannot merge header: Gate length (pts) changes"),
     ],
 )
 def test_stare(site, date, reason):
-    api = Api(cache=True)
+    api = Api(cache=CACHE)
     records = api.get_raw_records(site, date)
     records_hpl = [
         rec
@@ -56,7 +61,7 @@ def test_stare(site, date, reason):
     ],
 )
 def test_bad_stare(site, date, err, reason):
-    api = Api()
+    api = Api(cache=CACHE)
     records = api.get_raw_records(site, date)
     records_hpl = [
         rec
@@ -81,7 +86,7 @@ def test_bad_stare(site, date, err, reason):
     ],
 )
 def test_netcdf_writing(site, date, reason):
-    api = Api()
+    api = Api(cache=CACHE)
     records = api.get_raw_records(site, date)
     records_hpl = [
         rec

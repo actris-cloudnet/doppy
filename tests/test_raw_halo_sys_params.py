@@ -1,6 +1,10 @@
+import os
+
 import doppy
 import pytest
 from doppy.data.api import Api
+
+CACHE = "GITHUB_ACTIONS" not in os.environ
 
 
 @pytest.mark.parametrize(
@@ -49,7 +53,7 @@ from doppy.data.api import Api
     ],
 )
 def test_good_system_parameters_files(site, date, fname, uuid, reason, len_time):
-    api = Api()
+    api = Api(cache=CACHE)
     records = api.get(
         "raw-files",
         {

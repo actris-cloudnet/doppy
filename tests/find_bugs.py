@@ -1,10 +1,12 @@
 import datetime
 import json
+import os
 
 import doppy
 from doppy.data.api import Api
 
-API = Api()
+CACHE = "GITHUB_ACTIONS" not in os.environ
+API = Api(cache=CACHE)
 
 
 def find_bugs():

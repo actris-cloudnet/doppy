@@ -4,7 +4,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from io import BufferedIOBase
 from pathlib import Path
-from typing import Sequence, Tuple
+from typing import Sequence, Tuple, TypeAlias
 
 import numpy as np
 import numpy.typing as npt
@@ -14,6 +14,8 @@ from sklearn.cluster import KMeans
 
 import doppy
 from doppy import defaults, options
+
+SelectionGroupKeyType: TypeAlias = tuple[str, int, int, int | None]
 
 
 @dataclass
@@ -502,7 +504,7 @@ def _exponential_linear_fit(
 def _select_raws_for_stare(
     raws: Sequence[doppy.raw.HaloHpl],
 ) -> Sequence[doppy.raw.HaloHpl]:
-    groups: dict[tuple[str, int], int] = defaultdict(int)
+    groups: dict[SelectionGroupKeyType, int] = defaultdict(int)
 
     if len(raws) == 0:
         raise doppy.exceptions.NoDataError("No data to select from")
@@ -541,19 +543,24 @@ def _select_raws_for_stare(
 
     # count the number of profiles each (scan_type,ngates) group has
     for raw in raws_stare:
-        groups[(raw.header.scan_type, raw.header.ngates)] += raw.time.shape[0]
+        groups[_selection_key(raw)] += len(raw.time)
 
-    def key_func(key: tuple[str, int]) -> int:
+    def key_func(key: SelectionGroupKeyType) -> int:
         return groups[key]
 
-    # (scan_type,ngates) group with the most profiles
-    scan_type, ngates = max(groups, key=key_func)
+    # (scan_type,ngates, gate_points) group with the most profiles
+    select_tuple = max(groups, key=key_func)
 
-    return [
-        raw
-        for raw in raws_stare
-        if raw.header.scan_type == scan_type and raw.header.ngates == ngates
-    ]
+    return [raw for raw in raws_stare if _selection_key(raw) == select_tuple]
+
+
+def _selection_key(raw: doppy.raw.HaloHpl) -> SelectionGroupKeyType:
+    return (
+        raw.header.scan_type,
+        raw.header.ngates,
+        raw.header.gate_points,
+        raw.header.nrays,
+    )
 
 
 def _time2bg_time(
