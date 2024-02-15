@@ -18,6 +18,9 @@ CACHE = "GITHUB_ACTIONS" not in os.environ
         ("neumayer", "2024-01-30", "handle header merge"),
         ("mindelo", "2023-10-23", "unexpected scan time difference"),
         ("hyytiala", "2023-12-13", "unexpected scan time difference"),
+        ("warsaw", "2023-06-15", "header merge"),
+        ("warsaw", "2023-06-19", "header merge"),
+        ("neumayer", "2024-01-16", "header merge"),
     ],
 )
 def test_wind(site, date, reason):

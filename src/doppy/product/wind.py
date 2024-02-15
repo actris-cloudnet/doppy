@@ -15,7 +15,7 @@ from sklearn.cluster import KMeans
 import doppy
 
 # ngates, gate points, elevation angle, tuple of sorted azimuth angles
-SelectionGroupKeyType: TypeAlias = tuple[int, int, int | None, int, tuple[int, ...]]
+SelectionGroupKeyType: TypeAlias = tuple[int, int, tuple[int, ...]]
 
 
 @dataclass
@@ -285,9 +285,7 @@ def _selection_key(raw: doppy.raw.HaloHpl) -> SelectionGroupKeyType:
     if len(raw.elevation_angles) != 1:
         raise ValueError("Expected only one elevation angle")
     return (
-        raw.header.ngates,
-        raw.header.gate_points,
-        raw.header.nrays,
+        raw.header.mergable_hash(),
         next(iter(raw.elevation_angles)),
         tuple(sorted(raw.azimuth_angles)),
     )

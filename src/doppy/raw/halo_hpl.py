@@ -204,6 +204,25 @@ class HaloHplHeader:
     system_id: str
     instrument_spectral_width: float | None
 
+    def mergable_hash(self) -> int:
+        return hash(
+            (
+                self.gate_points,
+                self.nrays,
+                self.nwaypoints,
+                self.ngates,
+                self.pulses_per_ray,
+                round(self.range_gate_length, 1),
+                round(self.resolution, 1),
+                self.scan_type,
+                self.focus_range,
+                self.system_id,
+                round(x, 1)
+                if isinstance((x := self.instrument_spectral_width), float)
+                else None,
+            )
+        )
+
     @classmethod
     def from_dict(cls, data: dict[bytes, bytes]) -> HaloHplHeader:
         return cls(
@@ -235,9 +254,9 @@ class HaloHplHeader:
         )
 
 
-def _merger(lst: list[T]) -> T:
+def _merger(key: str, lst: list[T]) -> T:
     if len(set(lst)) != 1:
-        raise ValueError(f"Cannot merge header values {lst}")
+        raise ValueError(f"Cannot merge header key {key} values {lst}")
     return lst[0]
 
 
@@ -246,7 +265,7 @@ def _merge_headers(headers: list[HaloHplHeader]) -> HaloHplHeader:
         filename=commonprefix([h.filename for h in headers]),
         start_time=np.min([h.start_time for h in headers]),
         **{
-            key: _merger([getattr(h, key) for h in headers])
+            key: _merger(key, [getattr(h, key) for h in headers])
             for key in (
                 "gate_points",
                 "nrays",

@@ -15,7 +15,7 @@ from sklearn.cluster import KMeans
 import doppy
 from doppy import defaults, options
 
-SelectionGroupKeyType: TypeAlias = tuple[str, int, int, int | None]
+SelectionGroupKeyType: TypeAlias = tuple[int,]
 
 
 @dataclass
@@ -555,12 +555,7 @@ def _select_raws_for_stare(
 
 
 def _selection_key(raw: doppy.raw.HaloHpl) -> SelectionGroupKeyType:
-    return (
-        raw.header.scan_type,
-        raw.header.ngates,
-        raw.header.gate_points,
-        raw.header.nrays,
-    )
+    return (raw.header.mergable_hash(),)
 
 
 def _time2bg_time(

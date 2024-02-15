@@ -85,6 +85,7 @@ addopts = "-k 'not slow'"
 [tool.release-version]
 filename = "Cargo.toml"
 pattern = "version = \"(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)\""
+changelog = "CHANGELOG.md"
 
 [tool.ruff]
 line-length = 88
