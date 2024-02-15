@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.7 – 2024-02-15
+
+- Fix issue causing headers to be unmergeable
+
 ## [0.0.4] - 2024-02-14
 
 - Add wind product
