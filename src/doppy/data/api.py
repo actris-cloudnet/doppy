@@ -1,3 +1,4 @@
+import gzip
 import io
 
 import requests
@@ -35,10 +36,17 @@ class Api:
     def get_raw_records(self, site: str, date: str) -> list:
         return self.get(
             "raw-files",
-            params={"instrument": "halo-doppler-lidar", "site": site, "date": date},
+            params={
+                "instrument": ["halo-doppler-lidar", "wls100s", "wls200s", "wls400s"],
+                "site": site,
+                "date": date,
+            },
         )
 
     def get_record_content(self, rec: dict) -> io.BytesIO:
         if self.cache:
             return cached_record(rec, self.session)
-        return io.BytesIO(self.session.get(rec["downloadUrl"]).content)
+        content = self.session.get(rec["downloadUrl"]).content
+        if rec["filename"].endswith(".gz"):
+            content = gzip.decompress(content)
+        return io.BytesIO(content)

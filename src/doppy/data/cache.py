@@ -1,3 +1,4 @@
+import gzip
 import shutil
 from io import BytesIO
 from pathlib import Path
@@ -23,6 +24,8 @@ def cached_record(
     else:
         path.parent.mkdir(parents=True, exist_ok=True)
         content = session.get(record["downloadUrl"]).content
+        if record["filename"].endswith(".gz"):
+            content = gzip.decompress(content)
         with path.open("wb") as f:
             f.write(content)
         return BytesIO(content)
