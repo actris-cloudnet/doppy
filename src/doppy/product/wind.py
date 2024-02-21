@@ -94,9 +94,63 @@ class Wind:
             mask=mask,
         )
 
+    @classmethod
+    def from_windcube_data(
+        cls,
+        data: Sequence[str]
+        | Sequence[Path]
+        | Sequence[bytes]
+        | Sequence[BufferedIOBase],
+    ) -> Wind:
+        raws = doppy.raw.WindCube.from_vad_srcs(data)
+
+        if len(raws) == 0:
+            raise doppy.exceptions.NoDataError("WindCube data missing")
+
+        raw = (
+            doppy.raw.WindCube.merge(raws)
+            .sorted_by_time()
+            .non_strictly_increasing_timesteps_removed()
+            .reindex_scan_indices()
+        )
+        if len(raw.time) == 0:
+            raise doppy.exceptions.NoDataError("No suitable data for the wind product")
+
+        time_list = []
+        elevation_list = []
+        wind_list = []
+        rmse_list = []
+
+        for scan_index in set(raw.scan_index):
+            pick = raw.scan_index == scan_index
+            if pick.sum() < 4:
+                continue
+            time_, elevation_, wind_, rmse_ = _compute_wind(raw[pick])
+            time_list.append(time_)
+            elevation_list.append(elevation_)
+            wind_list.append(wind_[np.newaxis, :, :])
+            rmse_list.append(rmse_[np.newaxis, :])
+
+        time = np.array(time_list)
+        elevation = np.array(elevation_list)
+        wind = np.concatenate(wind_list)
+        rmse = np.concatenate(rmse_list)
+        mask = _compute_mask(wind, rmse)
+        if not np.allclose(elevation, elevation[0]):
+            raise ValueError("Elevation is expected to stay same")
+        height = np.array(raw.height, dtype=np.float64)
+        return Wind(
+            time=time,
+            height=height,
+            zonal_wind=wind[:, :, 0],
+            meridional_wind=wind[:, :, 1],
+            vertical_wind=wind[:, :, 2],
+            mask=mask,
+        )
+
 
 def _compute_wind(
-    raw: doppy.raw.HaloHpl,
+    raw: doppy.raw.HaloHpl | doppy.raw.WindCube,
 ) -> tuple[float, float, npt.NDArray[np.float64], npt.NDArray[np.float64]]:
     """
     Returns
