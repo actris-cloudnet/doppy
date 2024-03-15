@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1 – 2024-03-15
+
+- Exclude small elevation angles in wind product
+
 ## 0.1.0 – 2024-02-21
 
 - Add wind product from windcube
