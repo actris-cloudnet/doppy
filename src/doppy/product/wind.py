@@ -311,7 +311,8 @@ def _select_raws_for_wind(
         raw
         for raw in raws
         if len(raw.elevation_angles) == 1
-        and next(iter(raw.elevation_angles)) < 80
+        and (el := next(iter(raw.elevation_angles))) < 80
+        and el > 25
         and len(raw.azimuth_angles) > 3
     ]
     if len(raws_wind) == 0:
@@ -319,6 +320,7 @@ def _select_raws_for_wind(
             "No data suitable for winds: "
             "Multiple elevation angles or "
             "elevation angle >= 80 or "
+            "elevation angle <= 25 or "
             "no more than 3 azimuth angles"
         )
 

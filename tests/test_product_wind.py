@@ -21,6 +21,7 @@ CACHE = "GITHUB_ACTIONS" not in os.environ
         ("warsaw", "2023-06-15", "header merge"),
         ("warsaw", "2023-06-19", "header merge"),
         ("neumayer", "2024-01-16", "header merge"),
+        ("hyytiala", "2024-01-01", "ignore scans with small elevation angle"),
     ],
 )
 def test_wind(site, date, reason):
@@ -43,6 +44,7 @@ def test_wind(site, date, reason):
     "site,date,err,reason",
     [
         ("potenza", "2023-12-06", NoDataError, "max() arg is an empty sequence"),
+        ("kenttarova", "2023-03-01", NoDataError, "only scans with elevation angle 0"),
     ],
 )
 def test_bad_wind(site, date, err, reason):
