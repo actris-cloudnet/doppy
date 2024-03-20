@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3 – 2024-03-20
+
+- Fix netcdf time unit
+
 ## 0.1.2 – 2024-03-20
 
 - Fix fillvalue
