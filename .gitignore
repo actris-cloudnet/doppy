@@ -26,3 +26,5 @@ cache/
 *.log
 
 *.speedscope.json
+
+node_modules/

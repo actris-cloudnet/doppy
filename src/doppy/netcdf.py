@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Literal, TypeAlias
 
 import netCDF4
@@ -11,11 +10,15 @@ NetCDFDataType: TypeAlias = Literal["f4", "f8", "i4", "i8", "u4", "u8"]
 
 
 class Dataset:
-    def __init__(self) -> None:
-        self.nc = netCDF4.Dataset("inmemory.nc", mode="w", memory=1028)
+    def __init__(self, filename: str) -> None:
+        self.nc = netCDF4.Dataset(filename, mode="w")
 
     def add_dimension(self, dim: str) -> Dataset:
         self.nc.createDimension(dim, None)
+        return self
+
+    def add_atribute(self, key: str, val: str) -> Dataset:
+        setattr(self.nc, key, val)
         return self
 
     def add_time(
@@ -28,7 +31,7 @@ class Dataset:
         long_name: str | None = None,
     ) -> Dataset:
         time, units, calendar = _convert_time(data)
-        var = self.nc.createVariable(name, dtype, dimensions)
+        var = self.nc.createVariable(name, dtype, dimensions, compression="zlib")
         var.units = units
         var.calendar = calendar
         var[:] = time
@@ -49,7 +52,10 @@ class Dataset:
         long_name: str | None = None,
         mask: npt.NDArray[np.bool_] | None = None,
     ) -> Dataset:
-        var = self.nc.createVariable(name, dtype, dimensions)
+        fill_value = netCDF4.default_fillvals[dtype] if mask is not None else None
+        var = self.nc.createVariable(
+            name, dtype, dimensions, fill_value=fill_value, compression="zlib"
+        )
         var.units = units
         if mask is not None:
             var[:] = np.ma.masked_array(data, mask)  # type: ignore
@@ -80,16 +86,8 @@ class Dataset:
             var.long_name = long_name
         return self
 
-    def close(self) -> memoryview:
-        buf = self.nc.close()
-        if isinstance(buf, memoryview):
-            return buf
-        raise TypeError
-
-    def write(self, path: str | Path) -> None:
-        buf = self.nc.close()
-        with Path(path).open("wb") as f:
-            f.write(buf)
+    def close(self) -> None:
+        self.nc.close()
 
 
 def _convert_time(

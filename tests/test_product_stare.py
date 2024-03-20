@@ -1,4 +1,5 @@
 import os
+import tempfile
 
 import doppy.netcdf
 import pytest
@@ -100,8 +101,9 @@ def test_netcdf_writing(site, date, reason):
         bg_correction_method=options.BgCorrectionMethod.FIT,
     )
 
-    _nc_buf = (
-        doppy.netcdf.Dataset()
+    temp_file = tempfile.NamedTemporaryFile(delete=True)
+    (
+        doppy.netcdf.Dataset(temp_file.name)
         .add_dimension("time")
         .add_dimension("range")
         .add_time(
