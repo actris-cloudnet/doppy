@@ -106,6 +106,6 @@ def _convert_time(
     hours_since_start_of_day = (time - start_of_day).astype(
         np.float64
     ) * MICROSECONDS_TO_HOURS
-    units = f"hours since {np.datetime_as_string(start_of_day)} 00:00:00 +0000"
+    units = f"hours since {np.datetime_as_string(start_of_day)} 00:00:00 +00:00"
     calendar = "standard"
     return hours_since_start_of_day, units, calendar
