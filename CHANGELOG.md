@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 – 2024-03-20
+
+- Fix fillvalue
+
 ## 0.1.1 – 2024-03-15
 
 - Exclude small elevation angles in wind product
