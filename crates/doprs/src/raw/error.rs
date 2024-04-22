@@ -2,7 +2,7 @@ use std::fmt;
 
 #[derive(Debug, Clone)]
 pub struct RawParseError {
-    message: String,
+    pub message: String,
 }
 
 impl Default for RawParseError {

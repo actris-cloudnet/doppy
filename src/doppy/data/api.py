@@ -37,7 +37,13 @@ class Api:
         return self.get(
             "raw-files",
             params={
-                "instrument": ["halo-doppler-lidar", "wls100s", "wls200s", "wls400s"],
+                "instrument": [
+                    "halo-doppler-lidar",
+                    "wls100s",
+                    "wls200s",
+                    "wls400s",
+                    "wls70",
+                ],
                 "site": site,
                 "date": date,
             },

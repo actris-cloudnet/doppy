@@ -39,6 +39,25 @@ def test_wind(site, date, reason):
     )
 
 
+@pytest.mark.parametrize(
+    "site,date,reason",
+    [
+        ("palaiseau", "2024-05-01", ""),
+    ],
+)
+def test_wind_wls70(site, date, reason):
+    api = Api(cache=CACHE)
+    records = api.get_raw_records(site, date)
+    records_wls70 = [
+        rec
+        for rec in records
+        if rec["instrumentId"] == "wls70" and rec["filename"].endswith(".rtd")
+    ]
+    _wind = product.Wind.from_wls70_data(
+        data=[api.get_record_content(r) for r in records_wls70],
+    )
+
+
 @pytest.mark.slow
 @pytest.mark.parametrize(
     "site,date,err,reason",

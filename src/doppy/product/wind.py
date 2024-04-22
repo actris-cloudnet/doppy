@@ -149,6 +149,38 @@ class Wind:
             mask=mask,
         )
 
+    @classmethod
+    def from_wls70_data(
+        cls,
+        data: Sequence[str]
+        | Sequence[Path]
+        | Sequence[bytes]
+        | Sequence[BufferedIOBase],
+    ) -> Wind:
+        raws = doppy.raw.Wls70.from_srcs(data)
+
+        if len(raws) == 0:
+            raise doppy.exceptions.NoDataError("Wls70 data missing")
+
+        raw = (
+            doppy.raw.Wls70.merge(raws)
+            .sorted_by_time()
+            .non_strictly_increasing_timesteps_removed()
+        )
+        mask = (
+            np.isnan(raw.meridional_wind)
+            | np.isnan(raw.zonal_wind)
+            | np.isnan(raw.vertical_wind)
+        )
+        return Wind(
+            time=raw.time,
+            height=raw.altitude,
+            zonal_wind=raw.zonal_wind,
+            meridional_wind=raw.meridional_wind,
+            vertical_wind=raw.vertical_wind,
+            mask=mask,
+        )
+
 
 def _compute_wind(
     raw: doppy.raw.HaloHpl | doppy.raw.WindCube,

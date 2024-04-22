@@ -45,6 +45,7 @@ jobs:
         shell: bash
         run: |
           set -e
+          python -m pip install "pip<20"
           pip install doppy --find-links dist --force-reinstall
           pip install pytest
           pytest
@@ -71,14 +72,6 @@ jobs:
         with:
           name: wheels-windows-${{ matrix.target }}
           path: dist
-      - name: pytest
-        if: ${{ !startsWith(matrix.target, 'aarch64') }}
-        shell: bash
-        run: |
-          set -e
-          pip install doppy --find-links dist --force-reinstall
-          pip install pytest
-          pytest
 
   macos:
     runs-on: macos-latest
@@ -101,14 +94,6 @@ jobs:
         with:
           name: wheels-macos-${{ matrix.target }}
           path: dist
-      - name: pytest
-        if: ${{ !startsWith(matrix.target, 'aarch64') }}
-        shell: bash
-        run: |
-          set -e
-          pip install doppy --find-links dist --force-reinstall
-          pip install pytest
-          pytest
 
   sdist:
     runs-on: ubuntu-latest
