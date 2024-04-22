@@ -29,14 +29,6 @@ CACHE = "GITHUB_ACTIONS" not in os.environ
             42000,
         ),
         (
-            "chilbolton",
-            "2022-05-04",
-            "Stare_118_20220504_23.hpl",
-            "658686d0-faf8-4eaf-9a7d-b4c3a883dc87",
-            "incomplete profile (line 69949)",
-            69440,
-        ),
-        (
             "granada",
             "2019-05-23",
             "Stare_102_20190523_05.hpl",

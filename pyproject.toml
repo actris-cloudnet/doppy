@@ -25,7 +25,7 @@ dependencies = [
   "urllib3",
   "numpy",
   "netCDF4",
-  "typer[all]",
+  "typer",
   "matplotlib",
   "scikit-learn",
   "scipy"
