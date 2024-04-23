@@ -54,6 +54,7 @@ class Wind:
             doppy.raw.HaloHpl.merge(_select_raws_for_wind(raws))
             .sorted_by_time()
             .non_strictly_increasing_timesteps_removed()
+            .nans_removed()
         )
         if len(raw.time) == 0:
             raise doppy.exceptions.NoDataError("No suitable data for the wind product")

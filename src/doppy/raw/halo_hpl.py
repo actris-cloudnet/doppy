@@ -187,6 +187,10 @@ class HaloHpl:
                 latest_time = t
         return self[mask]
 
+    def nans_removed(self) -> HaloHpl:
+        is_ok = ~np.isnan(self.intensity).any(axis=1)
+        return self[is_ok]
+
 
 @dataclass(slots=True)
 class HaloHplHeader:

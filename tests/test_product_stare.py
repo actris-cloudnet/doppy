@@ -36,6 +36,7 @@ CACHE = "GITHUB_ACTIONS" not in os.environ
         ("neumayer", "2024-02-01", "elevation angle 89"),
         ("potenza", "2024-02-05", "k-means error"),
         ("neumayer", "2024-01-30", "cannot merge header: Gate length (pts) changes"),
+        ("mindelo", "2024-04-17", "nans in data"),
     ],
 )
 def test_stare(site, date, reason):

@@ -21,6 +21,7 @@ share/python-wheels/
 target/
 
 cache/
+data/
 *.db
 *.txt
 *.log
