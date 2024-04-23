@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4 – 2024-04-23
+
+- Remove nan profiles
+
 ## 0.1.3 – 2024-03-20
 
 - Fix netcdf time unit
