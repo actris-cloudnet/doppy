@@ -50,6 +50,7 @@ class Stare:
             doppy.raw.HaloHpl.merge(_select_raws_for_stare(raws))
             .sorted_by_time()
             .non_strictly_increasing_timesteps_removed()
+            .nans_removed()
         )
 
         bgs = doppy.raw.HaloBg.from_srcs(data_bg)
