@@ -60,6 +60,12 @@ def test_stare(site, date, reason):
     "site,date,err,reason",
     [
         ("warsaw", "2024-02-03", exceptions.NoDataError, "Missing bg files"),
+        (
+            "chilbolton",
+            "2016-12-14",
+            exceptions.NoDataError,
+            "No matching data and bg files",
+        ),
     ],
 )
 def test_bad_stare(site, date, err, reason):

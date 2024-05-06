@@ -66,6 +66,8 @@ class Stare:
             .non_strictly_increasing_timesteps_removed()
         )
         raw, intensity_bg_corrected = _correct_background(raw, bg, bg_correction_method)
+        if len(raw.time) == 0:
+            raise doppy.exceptions.NoDataError("No matching data and bg files")
         intensity_noise_bias_corrected = _correct_intensity_noise_bias(
             raw, intensity_bg_corrected
         )
