@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0 – 2024-05-06
+
+- Add wls70 wind product
+- Handle non-overlapping data and background files
+
 ## 0.1.4 – 2024-04-23
 
 - Remove nan profiles
