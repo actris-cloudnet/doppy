@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 – 2024-05-07
+
+- Include system ID in products
+
 ## 0.2.0 – 2024-05-06
 
 - Add wls70 wind product
