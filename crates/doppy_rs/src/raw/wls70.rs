@@ -68,6 +68,7 @@ pub fn from_filename_src(py: Python, filename: String) -> PyResult<PyReturnType>
 fn convert_to_python(py: Python, raw: doprs::raw::wls70::Wls70) -> PyResult<PyReturnType> {
     let info_dict = PyDict::new(py);
     info_dict.set_item("altitude", raw.info.altitude.as_slice().to_pyarray(py))?;
+    info_dict.set_item("system_id", raw.info.system_id)?;
     Ok((
         info_dict,
         PyList::new(py, raw.data_columns),

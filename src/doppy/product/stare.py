@@ -27,6 +27,7 @@ class Stare:
     radial_velocity: npt.NDArray[np.float64]
     mask: npt.NDArray[np.bool_]
     wavelength: float
+    system_id: str
 
     @classmethod
     def from_halo_data(
@@ -89,6 +90,7 @@ class Stare:
             radial_velocity=raw.radial_velocity,
             mask=mask,
             wavelength=wavelength,
+            system_id=raw.header.system_id,
         )
 
 

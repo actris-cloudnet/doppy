@@ -10,6 +10,8 @@ import numpy.typing as npt
 from netCDF4 import Dataset, num2date
 from numpy import datetime64
 
+from doppy.utils import merge_all_equal
+
 
 @dataclass
 class WindCube:
@@ -22,6 +24,7 @@ class WindCube:
     radial_velocity: npt.NDArray[np.float64]  # dim: (time, radial_distance)
     radial_velocity_confidence: npt.NDArray[np.float64]  # dim: (time, radial_distance)
     scan_index: npt.NDArray[np.int64]
+    system_id: str
 
     @classmethod
     def from_vad_srcs(
@@ -53,6 +56,7 @@ class WindCube:
                 [r.radial_velocity_confidence for r in raws]
             ),
             cnr=np.concatenate([r.cnr for r in raws]),
+            system_id=merge_all_equal("system_id", [r.system_id for r in raws]),
         )
 
     def __getitem__(
@@ -75,6 +79,7 @@ class WindCube:
                 radial_velocity_confidence=self.radial_velocity_confidence[index],
                 cnr=self.cnr[index],
                 scan_index=self.scan_index[index],
+                system_id=self.system_id,
             )
         raise TypeError
 
@@ -189,6 +194,7 @@ def _from_vad_src(nc: Dataset) -> WindCube:
         radial_velocity=np.concatenate(radial_wind_speed_list),
         radial_velocity_confidence=np.concatenate(radial_wind_speed_confidence_list),
         cnr=np.concatenate(cnr_list),
+        system_id=nc.instrument_name,
     )
 
 

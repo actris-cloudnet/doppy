@@ -26,6 +26,7 @@ class Wind:
     meridional_wind: npt.NDArray[np.float64]
     vertical_wind: npt.NDArray[np.float64]
     mask: npt.NDArray[np.bool_]
+    system_id: str
 
     @functools.cached_property
     def horizontal_wind_speed(self) -> npt.NDArray[np.float64]:
@@ -93,6 +94,7 @@ class Wind:
             meridional_wind=wind[:, :, 1],
             vertical_wind=wind[:, :, 2],
             mask=mask,
+            system_id=raw.header.system_id,
         )
 
     @classmethod
@@ -147,6 +149,7 @@ class Wind:
             meridional_wind=wind[:, :, 1],
             vertical_wind=wind[:, :, 2],
             mask=mask,
+            system_id=raw.system_id,
         )
 
     @classmethod
@@ -179,6 +182,7 @@ class Wind:
             meridional_wind=raw.meridional_wind,
             vertical_wind=raw.vertical_wind,
             mask=mask,
+            system_id=raw.system_id,
         )
 
 

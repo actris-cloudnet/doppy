@@ -16,6 +16,7 @@ pub struct Wls70 {
 #[derive(Debug, Default, Clone)]
 pub struct Info {
     pub altitude: Vec<f64>,
+    pub system_id: String,
 }
 
 pub fn from_file_src(mut file: &File) -> Result<Wls70, RawParseError> {
@@ -131,6 +132,14 @@ fn parse_info(info_str: &[u8]) -> Result<Info, RawParseError> {
                             })
                     })
                     .collect::<Result<Vec<f64>, _>>()?;
+            }
+            b if b.starts_with(b"ID System=") => {
+                info.system_id = std::str::from_utf8(&line[10..])
+                    .map(|s| s.trim())
+                    .map_err(|_| RawParseError {
+                        message: "UTF-8 conversion error".into(),
+                    })?
+                    .to_string();
             }
             _ => (),
         }

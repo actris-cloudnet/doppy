@@ -1,4 +1,5 @@
 import os
+import re
 
 import pytest
 from doppy import product
@@ -80,3 +81,65 @@ def test_bad_wind(site, date, err, reason):
         _wind = product.Wind.from_halo_data(
             data=[api.get_record_content(r) for r in records_hpl],
         )
+
+
+@pytest.mark.parametrize(
+    "site,date,ftype,reason",
+    [
+        ("payerne", "2024-01-01", "vad", ""),
+    ],
+)
+def test_windcube_wind(site, date, ftype, reason, cache):
+    api = Api(cache=cache)
+    records = api.get_raw_records(site, date)
+    r = re.compile(rf".*{ftype}.*\.nc\..*")
+    files = []
+    for rec in [rec for rec in records if r.match(rec["filename"])]:
+        files.append(api.get_record_content(rec))
+
+    _wind = product.Wind.from_windcube_data(files)
+
+
+# @pytest.mark.slow
+def test_halo_system_id():
+    api = Api(cache=CACHE)
+    records = api.get_raw_records("lindenberg", "2024-02-08")
+    records_hpl = [
+        rec
+        for rec in records
+        if rec["filename"].endswith(".hpl")
+        and not rec["filename"].startswith("Stare")
+        and "cross" not in set(rec["tags"])
+    ]
+    wind = product.Wind.from_halo_data(
+        data=[api.get_record_content(r) for r in records_hpl],
+    )
+    assert wind.system_id == "44"
+
+
+# @pytest.mark.slow
+def test_windcube_system_id():
+    api = Api(cache=CACHE)
+    records = api.get_raw_records("payerne", "2024-01-01")
+    r = re.compile(r".*vad.*\.nc\..*")
+    files = []
+    for rec in [rec for rec in records if r.match(rec["filename"])]:
+        files.append(api.get_record_content(rec))
+
+    wind = product.Wind.from_windcube_data(files)
+    assert wind.system_id == "WLS200s-197"
+
+
+# @pytest.mark.slow
+def test_wls70_system_id():
+    api = Api(cache=CACHE)
+    records = api.get_raw_records("palaiseau", "2024-05-01")
+    records_wls70 = [
+        rec
+        for rec in records
+        if rec["instrumentId"] == "wls70" and rec["filename"].endswith(".rtd")
+    ]
+    wind = product.Wind.from_wls70_data(
+        data=[api.get_record_content(r) for r in records_wls70],
+    )
+    assert wind.system_id == "WLS70-10"
