@@ -86,6 +86,30 @@ def test_bad_stare(site, date, err, reason):
         )
 
 
+# @pytest.mark.slow
+@pytest.mark.parametrize(
+    "site,date,system_id",
+    [
+        ("chilbolton", "2024-05-06", "118"),
+    ],
+)
+def test_system_id(site, date, system_id):
+    api = Api(cache=CACHE)
+    records = api.get_raw_records(site, date)
+    records_hpl = [
+        rec
+        for rec in records
+        if rec["filename"].endswith(".hpl") and "cross" not in set(rec["tags"])
+    ]
+    records_bg = [rec for rec in records if rec["filename"].startswith("Background")]
+    stare = product.Stare.from_halo_data(
+        data=[api.get_record_content(r) for r in records_hpl],
+        data_bg=[(api.get_record_content(r), r["filename"]) for r in records_bg],
+        bg_correction_method=options.BgCorrectionMethod.FIT,
+    )
+    assert stare.system_id == system_id
+
+
 @pytest.mark.slow
 @pytest.mark.parametrize(
     "site,date,reason",

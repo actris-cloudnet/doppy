@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from io import BufferedIOBase
 from pathlib import Path
-from typing import Sequence
+from typing import Any, Sequence
 
 import numpy as np
 import numpy.typing as npt
@@ -12,6 +12,7 @@ from numpy import datetime64
 
 import doppy
 from doppy import exceptions
+from doppy.utils import merge_all_equal
 
 
 @dataclass
@@ -31,6 +32,7 @@ class Wls70:
         np.float64
     ]  # v := meridional wind?, dim: (time, altitude)
     vertical_wind: npt.NDArray[np.float64]  # w := vertical wind?, dim: (time, altitude)
+    system_id: str
 
     @classmethod
     def from_srcs(
@@ -108,6 +110,7 @@ class Wls70:
                 zonal_wind=self.zonal_wind[index],
                 meridional_wind=self.meridional_wind[index],
                 vertical_wind=self.vertical_wind[index],
+                system_id=self.system_id,
             )
         raise TypeError
 
@@ -133,6 +136,7 @@ class Wls70:
             zonal_wind=np.concatenate(tuple(r.zonal_wind for r in raws)),
             meridional_wind=np.concatenate(tuple(r.meridional_wind for r in raws)),
             vertical_wind=np.concatenate(tuple(r.vertical_wind for r in raws)),
+            system_id=merge_all_equal("system_id", [r.system_id for r in raws]),
         )
 
     def non_strictly_increasing_timesteps_removed(self) -> Wls70:
@@ -149,12 +153,11 @@ class Wls70:
 
 
 def _raw_rs_to_wls70(
-    raw_rs: tuple[
-        dict[str, npt.NDArray[np.float64]], list[str], npt.NDArray[np.float64]
-    ],
+    raw_rs: tuple[dict[str, Any], list[str], npt.NDArray[np.float64]],
 ) -> Wls70:
     info, cols, data = raw_rs
     altitude = info["altitude"]
+    system_id = info["system_id"]
     data = data.reshape(-1, len(cols))
     time_ts = data[:, 0]
     time = np.array([datetime64(datetime.utcfromtimestamp(ts)) for ts in time_ts])
@@ -185,4 +188,5 @@ def _raw_rs_to_wls70(
         zonal_wind=u,
         meridional_wind=v,
         vertical_wind=w,
+        system_id=system_id,
     )

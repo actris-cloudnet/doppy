@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from io import BufferedIOBase
 from os.path import commonprefix
 from pathlib import Path
-from typing import Any, Sequence, TypeVar, cast
+from typing import Any, Sequence, cast
 
 import numpy as np
 import numpy.typing as npt
@@ -16,8 +16,7 @@ from numpy import datetime64, timedelta64
 
 import doppy
 from doppy import exceptions
-
-T = TypeVar("T")
+from doppy.utils import merge_all_equal
 
 
 @dataclass
@@ -258,18 +257,12 @@ class HaloHplHeader:
         )
 
 
-def _merger(key: str, lst: list[T]) -> T:
-    if len(set(lst)) != 1:
-        raise ValueError(f"Cannot merge header key {key} values {lst}")
-    return lst[0]
-
-
 def _merge_headers(headers: list[HaloHplHeader]) -> HaloHplHeader:
     return HaloHplHeader(
         filename=commonprefix([h.filename for h in headers]),
         start_time=np.min([h.start_time for h in headers]),
         **{
-            key: _merger(key, [getattr(h, key) for h in headers])
+            key: merge_all_equal(key, [getattr(h, key) for h in headers])
             for key in (
                 "gate_points",
                 "nrays",
