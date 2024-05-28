@@ -19,6 +19,11 @@ SelectionGroupKeyType: TypeAlias = tuple[int, int, tuple[int, ...]]
 
 
 @dataclass
+class Options:
+    azimuth_offset_deg: float | None
+
+
+@dataclass
 class Wind:
     time: npt.NDArray[np.datetime64]
     height: npt.NDArray[np.float64]
@@ -45,6 +50,7 @@ class Wind:
         | Sequence[Path]
         | Sequence[bytes]
         | Sequence[BufferedIOBase],
+        options: Options | None = None,
     ) -> Wind:
         raws = doppy.raw.HaloHpl.from_srcs(data)
 
@@ -59,6 +65,9 @@ class Wind:
         )
         if len(raw.time) == 0:
             raise doppy.exceptions.NoDataError("No suitable data for the wind product")
+
+        if options and options.azimuth_offset_deg:
+            raw.azimuth += options.azimuth_offset_deg
 
         groups = _group_scans_by_azimuth_rotation(raw)
         time_list = []
@@ -104,6 +113,7 @@ class Wind:
         | Sequence[Path]
         | Sequence[bytes]
         | Sequence[BufferedIOBase],
+        options: Options | None = None,
     ) -> Wind:
         raws = doppy.raw.WindCube.from_vad_srcs(data)
 
@@ -118,6 +128,9 @@ class Wind:
         )
         if len(raw.time) == 0:
             raise doppy.exceptions.NoDataError("No suitable data for the wind product")
+
+        if options and options.azimuth_offset_deg:
+            raw.azimuth += options.azimuth_offset_deg
 
         time_list = []
         elevation_list = []
@@ -159,6 +172,7 @@ class Wind:
         | Sequence[Path]
         | Sequence[bytes]
         | Sequence[BufferedIOBase],
+        options: Options | None = None,
     ) -> Wind:
         raws = doppy.raw.Wls70.from_srcs(data)
 
@@ -170,6 +184,20 @@ class Wind:
             .sorted_by_time()
             .non_strictly_increasing_timesteps_removed()
         )
+
+        if options and options.azimuth_offset_deg:
+            theta = np.deg2rad(options.azimuth_offset_deg)
+            cos_theta = np.cos(theta)
+            sin_theta = np.sin(theta)
+
+            meridional_wind = (
+                sin_theta * raw.zonal_wind + cos_theta * raw.meridional_wind
+            )
+            zonal_wind = cos_theta * raw.zonal_wind - sin_theta * raw.meridional_wind
+        else:
+            meridional_wind = raw.meridional_wind
+            zonal_wind = raw.zonal_wind
+
         mask = (
             np.isnan(raw.meridional_wind)
             | np.isnan(raw.zonal_wind)
@@ -178,8 +206,8 @@ class Wind:
         return Wind(
             time=raw.time,
             height=raw.altitude,
-            zonal_wind=raw.zonal_wind,
-            meridional_wind=raw.meridional_wind,
+            zonal_wind=zonal_wind,
+            meridional_wind=meridional_wind,
             vertical_wind=raw.vertical_wind,
             mask=mask,
             system_id=raw.system_id,
