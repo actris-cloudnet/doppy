@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2 – 2024-05-28
+
+- Add azimuth offset for wind product
+
 ## 0.2.1 – 2024-05-07
 
 - Include system ID in products
