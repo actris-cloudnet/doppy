@@ -66,7 +66,8 @@ def test_wind_with_options(site, date, reason):
 @pytest.mark.parametrize(
     "site,date,reason",
     [
-        ("palaiseau", "2024-05-01", ""),
+        ("palaiseau", "2024-05-01", "newer file format"),
+        ("palaiseau", "2012-01-01", "older file format"),
     ],
 )
 def test_wind_wls70(site, date, reason):
