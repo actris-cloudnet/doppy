@@ -33,6 +33,7 @@ class Wls70:
     ]  # v := meridional wind?, dim: (time, altitude)
     vertical_wind: npt.NDArray[np.float64]  # w := vertical wind?, dim: (time, altitude)
     system_id: str
+    cnr_threshold: float
 
     @classmethod
     def from_srcs(
@@ -111,6 +112,7 @@ class Wls70:
                 meridional_wind=self.meridional_wind[index],
                 vertical_wind=self.vertical_wind[index],
                 system_id=self.system_id,
+                cnr_threshold=self.cnr_threshold,
             )
         raise TypeError
 
@@ -137,6 +139,9 @@ class Wls70:
             meridional_wind=np.concatenate(tuple(r.meridional_wind for r in raws)),
             vertical_wind=np.concatenate(tuple(r.vertical_wind for r in raws)),
             system_id=merge_all_equal("system_id", [r.system_id for r in raws]),
+            cnr_threshold=merge_all_equal(
+                "cnr_threshold", [r.cnr_threshold for r in raws]
+            ),
         )
 
     def non_strictly_increasing_timesteps_removed(self) -> Wls70:
@@ -158,6 +163,7 @@ def _raw_rs_to_wls70(
     info, cols, data = raw_rs
     altitude = info["altitude"]
     system_id = info["system_id"]
+    cnr_threshold = float(info["cnr_threshold"])
     data = data.reshape(-1, len(cols))
     time_ts = data[:, 0]
     time = np.array([datetime64(datetime.utcfromtimestamp(ts)) for ts in time_ts])
@@ -173,7 +179,10 @@ def _raw_rs_to_wls70(
     u = data[:, 9::8]
     v = data[:, 10::8]
     w = data[:, 11::8]
-
+    mask = (np.abs(u) > 90) | (np.abs(v) > 90) | (np.abs(w) > 90)
+    u[mask] = np.nan
+    v[mask] = np.nan
+    w[mask] = np.nan
     return Wls70(
         time=time,
         altitude=altitude,
@@ -189,4 +198,5 @@ def _raw_rs_to_wls70(
         meridional_wind=v,
         vertical_wind=w,
         system_id=system_id,
+        cnr_threshold=cnr_threshold,
     )

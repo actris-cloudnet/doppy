@@ -17,6 +17,7 @@ pub struct Wls70 {
 pub struct Info {
     pub altitude: Vec<f64>,
     pub system_id: String,
+    pub cnr_threshold: f64,
 }
 
 pub fn from_file_src(mut file: &File) -> Result<Wls70, RawParseError> {
@@ -72,7 +73,9 @@ pub fn from_bytes_src(content: &[u8]) -> Result<Wls70, RawParseError> {
         let line = line?;
         match phase {
             Phase::Info => {
-                if line.starts_with(b"Timestamp\tPosition\tTemperature") {
+                if line.starts_with(b"Timestamp\tPosition\tTemperature")
+                    || line.starts_with(b"Date\tPosition\tTemperature")
+                {
                     header.extend_from_slice(&line);
                     header.push(b'\n');
                     phase = Phase::Data;
@@ -140,6 +143,17 @@ fn parse_info(info_str: &[u8]) -> Result<Info, RawParseError> {
                         message: "UTF-8 conversion error".into(),
                     })?
                     .to_string();
+            }
+            b if b.starts_with(b"CNRThreshold=") => {
+                info.cnr_threshold = std::str::from_utf8(&line[13..])
+                    .map_err(|_| RawParseError {
+                        message: "UTF-8 conversion error".into(),
+                    })?
+                    .trim()
+                    .parse::<f64>()
+                    .map_err(|_| RawParseError {
+                        message: "Parse float error".into(),
+                    })?;
             }
             _ => (),
         }
@@ -224,6 +238,15 @@ mod tests {
     #[test]
     fn test_from_file_src() -> Result<(), Box<dyn std::error::Error>> {
         let file_path = "../../data/palaiseau/2024-04-01/wlscerea_0a_windLz1Lb87R10s-HR_v01_20240401_000000.rtd";
+        let file = File::open(file_path)?;
+        assert!(from_file_src(&file).is_ok());
+
+        Ok(())
+    }
+    #[test]
+    fn test_from_file_src_with_old_format() -> Result<(), Box<dyn std::error::Error>> {
+        let file_path =
+            "../../data/palaiseau/2012-01-01/wlscerea_0a_windLz1R10s-HR_v01_20120101_000000.rtd";
         let file = File::open(file_path)?;
         assert!(from_file_src(&file).is_ok());
 

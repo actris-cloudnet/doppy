@@ -69,6 +69,7 @@ fn convert_to_python(py: Python, raw: doprs::raw::wls70::Wls70) -> PyResult<PyRe
     let info_dict = PyDict::new(py);
     info_dict.set_item("altitude", raw.info.altitude.as_slice().to_pyarray(py))?;
     info_dict.set_item("system_id", raw.info.system_id)?;
+    info_dict.set_item("cnr_threshold", raw.info.cnr_threshold)?;
     Ok((
         info_dict,
         PyList::new(py, raw.data_columns),
