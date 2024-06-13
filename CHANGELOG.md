@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.3 – 2024-06-13
+
+- Add support for older data format
+
 ## 0.2.2 – 2024-05-28
 
 - Add azimuth offset for wind product
