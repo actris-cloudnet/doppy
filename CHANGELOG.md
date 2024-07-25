@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.4 – 2024-07-25
+
+- Deprecate `add_atribute`. Use `add_attribute` instead.
+
 ## 0.2.3 – 2024-06-13
 
 - Add support for older data format
