@@ -57,7 +57,7 @@ CACHE = "GITHUB_ACTIONS" not in os.environ
             "2023-10-15",
             "Stare_194_20231015_07.hpl",
             "fd80e5b4-78fb-4e00-9a0c-34b7806c02e6",
-            "header with 'Range of measurement' insteead of Altitude. "
+            "header with 'Range of measurement' instead of Altitude. "
             "Instrument spectral width on header divider line",
             382400,
         ),

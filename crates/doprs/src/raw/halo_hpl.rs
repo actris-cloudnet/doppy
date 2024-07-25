@@ -40,7 +40,7 @@ pub struct Data {
     pub elevation: Vec<f64>,
     pub pitch: Option<Vec<f64>>,
     pub roll: Option<Vec<f64>>,
-    // 2 Dimensinal data, shape (time, range)
+    // 2 Dimensional data, shape (time, range)
     // such that X[t,r] represented in 1D vec Y[t*r] in "range-major" order
     pub range: Vec<f64>,
     pub radial_velocity: Vec<f64>,

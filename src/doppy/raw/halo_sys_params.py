@@ -81,7 +81,7 @@ def _from_src(data: BufferedIOBase) -> HaloSysParams:
     b = [r.split(b"\t") for r in a]
     arr = np.array(b)
     if arr.shape[1] != 7:
-        raise ValueError("Unexpected data fromat")
+        raise ValueError("Unexpected data format")
 
     def timestr2datetime64_12H(datetime_bytes: bytes) -> np.datetime64:
         return datetime64(

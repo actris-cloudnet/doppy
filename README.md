@@ -1,4 +1,4 @@
-# Doppy - Wind doppler lidar processing
+# Doppy – Doppler wind lidar processing
 
 [![CI](https://github.com/actris-cloudnet/doppy/actions/workflows/ci.yml/badge.svg)](https://github.com/actris-cloudnet/doppy/actions/workflows/ci.yml)
 [![PyPI version](https://badge.fury.io/py/doppy.svg)](https://badge.fury.io/py/doppy)
@@ -90,8 +90,8 @@ stare = doppy.product.Stare.from_halo_data(
         data=stare.wavelength,
         dtype="f4",
     )
-    .add_atribute("serial_number", stare.system_id)
-    .add_atribute("doppy_version", doppy.__version__)
+    .add_attribute("serial_number", stare.system_id)
+    .add_attribute("doppy_version", doppy.__version__)
 ).close()
 
 ```

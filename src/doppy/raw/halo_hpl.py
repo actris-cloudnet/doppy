@@ -207,7 +207,7 @@ class HaloHplHeader:
     system_id: str
     instrument_spectral_width: float | None
 
-    def mergable_hash(self) -> int:
+    def mergeable_hash(self) -> int:
         return hash(
             (
                 self.gate_points,

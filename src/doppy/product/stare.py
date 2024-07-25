@@ -142,7 +142,7 @@ def _compute_beta(
     c
         speed of light
     B
-        reveiver bandwidth
+        receiver bandwidth
 
     References
     ----------
@@ -560,7 +560,7 @@ def _select_raws_for_stare(
 
 
 def _selection_key(raw: doppy.raw.HaloHpl) -> SelectionGroupKeyType:
-    return (raw.header.mergable_hash(),)
+    return (raw.header.mergeable_hash(),)
 
 
 def _time2bg_time(

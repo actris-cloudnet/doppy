@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import warnings
 from typing import Literal, TypeAlias
 
 import netCDF4
@@ -17,9 +18,13 @@ class Dataset:
         self.nc.createDimension(dim, None)
         return self
 
-    def add_atribute(self, key: str, val: str) -> Dataset:
+    def add_attribute(self, key: str, val: str) -> Dataset:
         setattr(self.nc, key, val)
         return self
+
+    def add_atribute(self, key: str, val: str) -> Dataset:
+        warnings.warn("Use add_attribute", DeprecationWarning)
+        return self.add_attribute(key, val)
 
     def add_time(
         self,

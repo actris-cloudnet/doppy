@@ -406,7 +406,7 @@ def _selection_key(raw: doppy.raw.HaloHpl) -> SelectionGroupKeyType:
     if len(raw.elevation_angles) != 1:
         raise ValueError("Expected only one elevation angle")
     return (
-        raw.header.mergable_hash(),
+        raw.header.mergeable_hash(),
         next(iter(raw.elevation_angles)),
         tuple(sorted(raw.azimuth_angles)),
     )
