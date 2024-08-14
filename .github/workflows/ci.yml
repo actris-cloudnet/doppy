@@ -124,6 +124,11 @@ jobs:
         with:
           command: upload
           args: --non-interactive --skip-existing wheels-*/*
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            CHANGELOG.md
+          sparse-checkout-cone-mode: false
       - name: Generate changelog
         run: |
           version=${GITHUB_REF#refs/tags/v}
