@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import warnings
+from types import TracebackType
 from typing import Literal, TypeAlias
 
 import netCDF4
@@ -13,6 +14,17 @@ NetCDFDataType: TypeAlias = Literal["f4", "f8", "i4", "i8", "u4", "u8"]
 class Dataset:
     def __init__(self, filename: str) -> None:
         self.nc = netCDF4.Dataset(filename, mode="w")
+
+    def __enter__(self) -> Dataset:
+        return self
+
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
+    ) -> None:
+        self.close()
 
     def add_dimension(self, dim: str) -> Dataset:
         self.nc.createDimension(dim, None)
