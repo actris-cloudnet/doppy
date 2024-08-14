@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 – 2024-08-14
+
+- Add depolarisation product
+- Support context manager in `doppy.netcdf.Dataset`
+
 ## 0.2.4 – 2024-07-25
 
 - Deprecate `add_atribute`. Use `add_attribute` instead.
