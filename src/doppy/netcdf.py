@@ -35,7 +35,7 @@ class Dataset:
         return self
 
     def add_atribute(self, key: str, val: str) -> Dataset:
-        warnings.warn("Use add_attribute", DeprecationWarning)
+        warnings.warn("Use add_attribute", DeprecationWarning, stacklevel=2)
         return self.add_attribute(key, val)
 
     def add_time(
