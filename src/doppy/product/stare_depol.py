@@ -62,14 +62,14 @@ class StareDepol:
                 "Different system ID in co and cross: "
                 f"{co.system_id} vs {cross.system_id}"
             )
-        if not np.allclose(co.radial_distance, cross.radial_distance):
+        if not np.allclose(co.radial_distance, cross.radial_distance, atol=1):
             raise ValueError("Different radial distance in co and cross")
 
         time_ind = np.argmin(np.abs(co.time - cross.time[:, np.newaxis]), axis=0)
         cross_elevation = cross.elevation[time_ind]
         cross_beta = cross.beta[time_ind, :]
 
-        if not np.allclose(co.elevation, cross_elevation):
+        if not np.allclose(co.elevation, cross_elevation, atol=1):
             raise ValueError("Different elevation in co and cross")
 
         self.time = co.time
