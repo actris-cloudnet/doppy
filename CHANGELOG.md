@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1 – 2024-08-15
+
+- Increase tolerance when checking co and cross values
+
 ## 0.3.0 – 2024-08-14
 
 - Add depolarisation product
