@@ -29,6 +29,28 @@ class Stare:
     wavelength: float
     system_id: str
 
+    def __getitem__(
+        self,
+        index: int
+        | slice
+        | list[int]
+        | npt.NDArray[np.int64]
+        | npt.NDArray[np.bool_]
+        | tuple[slice, slice],
+    ) -> Stare:
+        if isinstance(index, (int, slice, list, np.ndarray)):
+            return Stare(
+                time=self.time[index],
+                radial_distance=self.radial_distance,
+                elevation=self.elevation[index],
+                beta=self.beta[index],
+                radial_velocity=self.radial_velocity[index],
+                mask=self.mask[index],
+                wavelength=self.wavelength,
+                system_id=self.system_id,
+            )
+        raise TypeError
+
     @classmethod
     def from_halo_data(
         cls,

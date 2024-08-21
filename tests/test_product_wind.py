@@ -59,7 +59,7 @@ def test_wind_with_options(site, date, reason):
     ]
     _wind = product.Wind.from_halo_data(
         data=[api.get_record_content(r) for r in records_hpl],
-        options=product.wind.Options(azimuth_offset=30),
+        options=product.wind.Options(azimuth_offset_deg=30),
     )
 
 
