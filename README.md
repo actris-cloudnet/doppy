@@ -5,8 +5,8 @@
 
 ## Products
 
-- [Stare](https://github.com/actris-cloudnet/doppy/blob/main/src/doppy/product/stare.py): [Examples](https://cloudnet.fmi.fi/search/visualizations?experimental=true&product=doppler-lidar&dateFrom=2024-06-05&dateTo=2024-06-05)
-- [Wind](https://github.com/actris-cloudnet/doppy/blob/main/src/doppy/product/wind.py): [Examples](https://cloudnet.fmi.fi/search/visualizations?experimental=true&product=doppler-lidar-wind&dateFrom=2024-06-05&dateTo=2024-06-05)
+- Stare: [src](https://github.com/actris-cloudnet/doppy/blob/main/src/doppy/product/stare.py), [Cloudnet examples](https://cloudnet.fmi.fi/search/visualizations?experimental=true&product=doppler-lidar&dateFrom=2024-06-05&dateTo=2024-06-05)
+- Wind: [src](https://github.com/actris-cloudnet/doppy/blob/main/src/doppy/product/wind.py), [Cloudnet examples](https://cloudnet.fmi.fi/search/visualizations?experimental=true&product=doppler-lidar-wind&dateFrom=2024-06-05&dateTo=2024-06-05)
 
 ## Instruments
 
@@ -22,6 +22,8 @@ pip install doppy
 
 ## Usage
 
+### Stare
+
 ```python
 import doppy
 
@@ -31,67 +33,67 @@ stare = doppy.product.Stare.from_halo_data(
     bg_correction_method=doppy.options.BgCorrectionMethod.FIT,
 )
 
+stare.write_to_netcdf(FILENAME)
+```
 
-(
-    doppy.netcdf.Dataset(FILENAME)
-    .add_dimension("time")
-    .add_dimension("range")
-    .add_time(
-        name="time",
-        dimensions=("time",),
-        standard_name="time",
-        long_name="Time UTC",
-        data=stare.time,
-        dtype="f8",
-    )
-    .add_variable(
-        name="range",
-        dimensions=("range",),
-        units="m",
-        data=stare.radial_distance,
-        dtype="f4",
-    )
-    .add_variable(
-        name="elevation",
-        dimensions=("time",),
-        units="degrees",
-        data=stare.elevation,
-        dtype="f4",
-        long_name="elevation from horizontal",
-    )
-    .add_variable(
-        name="beta_raw",
-        dimensions=("time", "range"),
-        units="sr-1 m-1",
-        data=stare.beta,
-        dtype="f4",
-    )
-    .add_variable(
-        name="beta",
-        dimensions=("time", "range"),
-        units="sr-1 m-1",
-        data=stare.beta,
-        dtype="f4",
-        mask=stare.mask,
-    )
-    .add_variable(
-        name="v",
-        dimensions=("time", "range"),
-        units="m s-1",
-        long_name="Doppler velocity",
-        data=stare.radial_velocity,
-        dtype="f4",
-        mask=stare.mask,
-    )
-    .add_scalar_variable(
-        name="wavelength",
-        units="m",
-        standard_name="radiation_wavelength",
-        data=stare.wavelength,
-        dtype="f4",
-    )
-    .add_attribute("serial_number", stare.system_id)
-    .add_attribute("doppy_version", doppy.__version__)
-).close()
+### Stare with depolarisation
 
+```python
+import doppy
+
+stare_depol = doppy.product.StareDepol.from_halo_data(
+    co_data=LIST_OF_STARE_CO_FILE_PATHS,
+    co_data_bg=LIST_OF_BACKGROUND_CO_FILE_PATHS,
+    cross_data=LIST_OF_STARE_CROSS_FILE_PATHS,
+    cross_data_bg=LIST_OF_BACKGROUND_CROSS_FILE_PATHS,
+    bg_correction_method=doppy.options.BgCorrectionMethod.FIT,
+    polariser_bleed_through=0,
+)
+
+stare_depol.write_to_netcdf(FILENAME)
+```
+
+### Wind
+
+```python
+import doppy
+
+wind = doppy.product.Wind.from_halo_data(
+    data=LIST_OF_WIND_SCAN_HPL_FILES,
+)
+
+# You can also pass instrument azimuth offset in degrees as an option
+wind = doppy.product.Wind.from_halo_data(
+    data=LIST_OF_WIND_SCAN_HPL_FILES,
+    options=doppy.product.wind.Options(azimuth_offset_deg=30),
+)
+
+# For windcube wls200s use
+wind = doppy.product.Wind.from_windcube_data(
+    data=LIST_OF_VAD_NETCDF_FILES,
+)
+
+# For windcube wls70 use
+wind = doppy.product.Wind.from_wls70_data(
+    data=LIST_OF_RTD_FILES,
+)
+
+wind.write_to_netcdf(FILENAME)
+```
+
+### Raw files
+
+```python
+import doppy
+
+# Halo
+raws_hpl = doppy.raw.HaloHpl.from_srcs(LIST_OF_HPL_FILES)
+raws_bg = doppy.raw.HaloBg.from_srcs(LIST_OF_BACKGROUND_FILES)
+raw_system_params = doppy.raw.HaloSysParams.from_src(SYSTEM_PARAMS_FILENAME)
+
+# Windcube WLS200S
+raws_wls200s = doppy.raw.WindCube.from_vad_srcs(LIST_OF_VAD_NETCDF_FILES)
+
+# Windcube WLS70
+raws_wls70 = doppy.raw.Wls70.from_srcs(LIST_OF_RTD_FILES)
 ```

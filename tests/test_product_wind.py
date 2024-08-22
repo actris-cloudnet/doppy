@@ -1,5 +1,7 @@
 import os
+import pathlib
 import re
+import tempfile
 
 import pytest
 from doppy import product
@@ -35,9 +37,11 @@ def test_wind(site, date, reason):
         and not rec["filename"].startswith("Stare")
         and "cross" not in set(rec["tags"])
     ]
-    _wind = product.Wind.from_halo_data(
+    wind = product.Wind.from_halo_data(
         data=[api.get_record_content(r) for r in records_hpl],
     )
+    with tempfile.NamedTemporaryFile(suffix=".nc", delete=True) as filename:
+        wind.write_to_netcdf(pathlib.Path(filename.name))
 
 
 @pytest.mark.slow
@@ -124,7 +128,7 @@ def test_windcube_wind(site, date, ftype, reason, cache):
     _wind = product.Wind.from_windcube_data(files)
 
 
-# @pytest.mark.slow
+@pytest.mark.slow
 def test_halo_system_id():
     api = Api(cache=CACHE)
     records = api.get_raw_records("lindenberg", "2024-02-08")

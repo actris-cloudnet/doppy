@@ -32,6 +32,7 @@ class Wind:
     vertical_wind: npt.NDArray[np.float64]
     mask: npt.NDArray[np.bool_]
     system_id: str
+    options: Options | None
 
     @functools.cached_property
     def horizontal_wind_speed(self) -> npt.NDArray[np.float64]:
@@ -104,6 +105,7 @@ class Wind:
             vertical_wind=wind[:, :, 2],
             mask=mask,
             system_id=raw.header.system_id,
+            options=options,
         )
 
     @classmethod
@@ -163,6 +165,7 @@ class Wind:
             vertical_wind=wind[:, :, 2],
             mask=mask,
             system_id=raw.system_id,
+            options=options,
         )
 
     @classmethod
@@ -211,7 +214,73 @@ class Wind:
             vertical_wind=raw.vertical_wind,
             mask=mask,
             system_id=raw.system_id,
+            options=options,
         )
+
+    def write_to_netcdf(self, filename: str | Path) -> None:
+        with doppy.netcdf.Dataset(filename) as nc:
+            nc.add_dimension("time")
+            nc.add_dimension("height")
+            nc.add_time(
+                name="time",
+                dimensions=("time",),
+                standard_name="time",
+                long_name="Time UTC",
+                data=self.time,
+                dtype="f8",
+            )
+            nc.add_variable(
+                name="height",
+                dimensions=("height",),
+                units="m",
+                data=self.height,
+                dtype="f4",
+            )
+            nc.add_variable(
+                name="uwind_raw",
+                dimensions=("time", "height"),
+                units="m s-1",
+                data=self.zonal_wind,
+                dtype="f4",
+                long_name="Non-screened zonal wind",
+            )
+            nc.add_variable(
+                name="uwind",
+                dimensions=("time", "height"),
+                units="m s-1",
+                data=self.zonal_wind,
+                mask=self.mask,
+                dtype="f4",
+                long_name="Zonal wind",
+            )
+            nc.add_variable(
+                name="vwind_raw",
+                dimensions=("time", "height"),
+                units="m s-1",
+                data=self.meridional_wind,
+                dtype="f4",
+                long_name="Non-screened meridional wind",
+            )
+            nc.add_variable(
+                name="vwind",
+                dimensions=("time", "height"),
+                units="m s-1",
+                data=self.meridional_wind,
+                mask=self.mask,
+                dtype="f4",
+                long_name="Meridional wind",
+            )
+            nc.add_attribute("serial_number", self.system_id)
+            nc.add_attribute("doppy_version", doppy.__version__)
+            if self.options is not None and self.options.azimuth_offset_deg is not None:
+                nc.add_scalar_variable(
+                    name="azimuth_offset",
+                    units="degrees",
+                    data=self.options.azimuth_offset_deg,
+                    dtype="f4",
+                    long_name="Azimuth offset of the instrument "
+                    "(positive clockwise from north)",
+                )
 
 
 def _compute_wind(

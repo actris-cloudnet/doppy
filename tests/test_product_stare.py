@@ -1,7 +1,7 @@
 import os
+import pathlib
 import tempfile
 
-import doppy.netcdf
 import pytest
 from doppy import exceptions, options, product
 from doppy.data.api import Api
@@ -86,7 +86,7 @@ def test_bad_stare(site, date, err, reason):
         )
 
 
-# @pytest.mark.slow
+@pytest.mark.slow
 @pytest.mark.parametrize(
     "site,date,system_id",
     [
@@ -132,63 +132,8 @@ def test_netcdf_writing(site, date, reason):
         bg_correction_method=options.BgCorrectionMethod.FIT,
     )
 
-    temp_file = tempfile.NamedTemporaryFile(delete=True)
-    (
-        doppy.netcdf.Dataset(temp_file.name)
-        .add_dimension("time")
-        .add_dimension("range")
-        .add_time(
-            name="time",
-            dimensions=("time",),
-            standard_name="time",
-            long_name="Time UTC",
-            data=stare.time,
-            dtype="f8",
-        )
-        .add_variable(
-            name="range",
-            dimensions=("range",),
-            units="m",
-            data=stare.radial_distance,
-            dtype="f4",
-        )
-        .add_variable(
-            name="elevation",
-            dimensions=("time",),
-            units="degrees",
-            data=stare.elevation,
-            dtype="f4",
-            long_name="elevation from horizontal",
-        )
-        .add_variable(
-            name="beta_raw",
-            dimensions=("time", "range"),
-            units="sr-1 m-1",
-            data=stare.beta,
-            dtype="f4",
-        )
-        .add_variable(
-            name="beta",
-            dimensions=("time", "range"),
-            units="sr-1 m-1",
-            data=stare.beta,
-            dtype="f4",
-            mask=stare.mask,
-        )
-        .add_variable(
-            name="v",
-            dimensions=("time", "range"),
-            units="m s-1",
-            long_name="Doppler velocity",
-            data=stare.radial_velocity,
-            dtype="f4",
-            mask=stare.mask,
-        )
-        .add_scalar_variable(
-            name="wavelength",
-            units="m",
-            standard_name="radiation_wavelength",
-            data=stare.wavelength,
-            dtype="f4",
-        )
-    ).close()
+    with tempfile.NamedTemporaryFile(suffix=".nc", delete=True) as filename:
+        stare.write_to_netcdf(filename.name)
+
+    with tempfile.NamedTemporaryFile(suffix=".nc", delete=True) as filename:
+        stare.write_to_netcdf(pathlib.Path(filename.name))

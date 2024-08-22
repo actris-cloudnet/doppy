@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pathlib
 import warnings
 from types import TracebackType
 from typing import Literal, TypeAlias
@@ -12,7 +13,7 @@ NetCDFDataType: TypeAlias = Literal["f4", "f8", "i4", "i8", "u4", "u8"]
 
 
 class Dataset:
-    def __init__(self, filename: str) -> None:
+    def __init__(self, filename: str | pathlib.Path) -> None:
         self.nc = netCDF4.Dataset(filename, mode="w")
 
     def __enter__(self) -> Dataset:

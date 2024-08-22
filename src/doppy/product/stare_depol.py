@@ -8,6 +8,7 @@ from typing import Sequence
 import numpy as np
 import numpy.typing as npt
 
+import doppy
 from doppy import options
 from doppy.product.stare import Stare
 
@@ -178,3 +179,103 @@ class StareDepol:
             bg_correction_method=bg_correction_method,
         )
         return cls(co, cross, polariser_bleed_through)
+
+    def write_to_netcdf(self, filename: str | Path) -> None:
+        with doppy.netcdf.Dataset(filename) as nc:
+            nc.add_dimension("time")
+            nc.add_dimension("range")
+            nc.add_time(
+                name="time",
+                dimensions=("time",),
+                standard_name="time",
+                long_name="Time UTC",
+                data=self.time,
+                dtype="f8",
+            )
+            nc.add_variable(
+                name="range",
+                dimensions=("range",),
+                units="m",
+                data=self.radial_distance,
+                dtype="f4",
+            )
+            nc.add_variable(
+                name="elevation",
+                dimensions=("time",),
+                units="degrees",
+                data=self.elevation,
+                dtype="f4",
+                long_name="elevation from horizontal",
+            )
+            nc.add_variable(
+                name="beta_raw",
+                dimensions=("time", "range"),
+                units="sr-1 m-1",
+                data=self.beta,
+                dtype="f4",
+            )
+            nc.add_variable(
+                name="beta",
+                dimensions=("time", "range"),
+                units="sr-1 m-1",
+                data=self.beta,
+                dtype="f4",
+                mask=self.mask,
+            )
+            nc.add_variable(
+                name="v",
+                dimensions=("time", "range"),
+                units="m s-1",
+                long_name="Doppler velocity",
+                data=self.radial_velocity,
+                dtype="f4",
+                mask=self.mask,
+            )
+            nc.add_scalar_variable(
+                name="wavelength",
+                units="m",
+                standard_name="radiation_wavelength",
+                data=self.wavelength,
+                dtype="f4",
+            )
+            nc.add_variable(
+                name="depolarisation_raw",
+                dimensions=("time", "range"),
+                units="1",
+                data=self.depolarisation,
+                dtype="f4",
+                mask=self.mask_depolarisation,
+            )
+            nc.add_variable(
+                name="depolarisation",
+                dimensions=("time", "range"),
+                units="1",
+                data=self.depolarisation,
+                dtype="f4",
+                mask=self.mask | self.mask_depolarisation,
+            )
+            nc.add_variable(
+                name="beta_cross_raw",
+                dimensions=("time", "range"),
+                units="sr-1 m-1",
+                data=self.beta_cross,
+                mask=self.mask_beta_cross,
+                dtype="f4",
+            )
+            nc.add_variable(
+                name="beta_cross",
+                dimensions=("time", "range"),
+                units="sr-1 m-1",
+                data=self.beta_cross,
+                mask=self.mask | self.mask_beta_cross,
+                dtype="f4",
+            )
+            nc.add_scalar_variable(
+                name="polariser_bleed_through",
+                units="1",
+                long_name="Polariser bleed-through",
+                data=self.polariser_bleed_through,
+                dtype="f4",
+            )
+            nc.add_attribute("serial_number", self.system_id)
+            nc.add_attribute("doppy_version", doppy.__version__)

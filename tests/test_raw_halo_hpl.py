@@ -162,6 +162,7 @@ def test_bad_hpl_files(site, date, fname, uuid, reason, err):
             doppy.raw.HaloHpl.from_src(file)
 
 
+@pytest.mark.slow
 @pytest.mark.parametrize(
     "site,date,prefix,suffix,reason",
     [

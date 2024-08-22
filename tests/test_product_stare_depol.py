@@ -1,4 +1,6 @@
 import os
+import pathlib
+import tempfile
 
 import pytest
 from doppy import exceptions, options, product
@@ -7,6 +9,7 @@ from doppy.data.api import Api
 CACHE = "GITHUB_ACTIONS" not in os.environ
 
 
+@pytest.mark.slow
 @pytest.mark.parametrize(
     "site,date,reason",
     [
@@ -37,7 +40,7 @@ def test_stare_depol(site, date, reason):
         for rec in records
         if rec["filename"].startswith("Background") and "cross" in set(rec["tags"])
     ]
-    _depol = product.StareDepol.from_halo_data(
+    stare_depol = product.StareDepol.from_halo_data(
         co_data=[api.get_record_content(r) for r in records_hpl_co],
         co_data_bg=[(api.get_record_content(r), r["filename"]) for r in records_bg_co],
         cross_data=[api.get_record_content(r) for r in records_hpl_cross],
@@ -48,7 +51,11 @@ def test_stare_depol(site, date, reason):
         polariser_bleed_through=0,
     )
 
+    with tempfile.NamedTemporaryFile(suffix=".nc", delete=True) as filename:
+        stare_depol.write_to_netcdf(pathlib.Path(filename.name))
 
+
+@pytest.mark.slow
 @pytest.mark.parametrize(
     "site,date,err,reason",
     [

@@ -115,6 +115,67 @@ class Stare:
             system_id=raw.header.system_id,
         )
 
+    def write_to_netcdf(self, filename: str | Path) -> None:
+        with doppy.netcdf.Dataset(filename) as nc:
+            nc.add_dimension("time")
+            nc.add_dimension("range")
+            nc.add_time(
+                name="time",
+                dimensions=("time",),
+                standard_name="time",
+                long_name="Time UTC",
+                data=self.time,
+                dtype="f8",
+            )
+            nc.add_variable(
+                name="range",
+                dimensions=("range",),
+                units="m",
+                data=self.radial_distance,
+                dtype="f4",
+            )
+            nc.add_variable(
+                name="elevation",
+                dimensions=("time",),
+                units="degrees",
+                data=self.elevation,
+                dtype="f4",
+                long_name="elevation from horizontal",
+            )
+            nc.add_variable(
+                name="beta_raw",
+                dimensions=("time", "range"),
+                units="sr-1 m-1",
+                data=self.beta,
+                dtype="f4",
+            )
+            nc.add_variable(
+                name="beta",
+                dimensions=("time", "range"),
+                units="sr-1 m-1",
+                data=self.beta,
+                dtype="f4",
+                mask=self.mask,
+            )
+            nc.add_variable(
+                name="v",
+                dimensions=("time", "range"),
+                units="m s-1",
+                long_name="Doppler velocity",
+                data=self.radial_velocity,
+                dtype="f4",
+                mask=self.mask,
+            )
+            nc.add_scalar_variable(
+                name="wavelength",
+                units="m",
+                standard_name="radiation_wavelength",
+                data=self.wavelength,
+                dtype="f4",
+            )
+            nc.add_attribute("serial_number", self.system_id)
+            nc.add_attribute("doppy_version", doppy.__version__)
+
 
 def _compute_noise_mask(
     intensity: npt.NDArray[np.float64],
