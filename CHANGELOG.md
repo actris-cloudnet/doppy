@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2 – 2024-08-22
+
+- add beta cross signal to StareDepol product
+
 ## 0.3.1 – 2024-08-15
 
 - Increase tolerance when checking co and cross values
