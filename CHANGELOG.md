@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.3 – 2024-08-22
+
+- Add product netcdf writers
+
 ## 0.3.2 – 2024-08-22
 
 - add beta cross signal to StareDepol product
