@@ -34,6 +34,18 @@ class Wind:
     system_id: str
     options: Options | None
 
+    @property
+    def mask_zonal_wind(self) -> npt.NDArray[np.bool_]:
+        return np.isnan(self.zonal_wind)
+
+    @property
+    def mask_meridional_wind(self) -> npt.NDArray[np.bool_]:
+        return np.isnan(self.meridional_wind)
+
+    @property
+    def mask_vertical_wind(self) -> npt.NDArray[np.bool_]:
+        return np.isnan(self.vertical_wind)
+
     @functools.cached_property
     def horizontal_wind_speed(self) -> npt.NDArray[np.float64]:
         return np.sqrt(self.zonal_wind**2 + self.meridional_wind**2)
@@ -153,7 +165,7 @@ class Wind:
         elevation = np.array(elevation_list)
         wind = np.concatenate(wind_list)
         rmse = np.concatenate(rmse_list)
-        mask = _compute_mask(wind, rmse)
+        mask = _compute_mask(wind, rmse) | np.any(np.isnan(wind), axis=2)
         if not np.allclose(elevation, elevation[0]):
             raise ValueError("Elevation is expected to stay same")
         height = np.array(raw.height, dtype=np.float64)
@@ -241,6 +253,7 @@ class Wind:
                 dimensions=("time", "height"),
                 units="m s-1",
                 data=self.zonal_wind,
+                mask=self.mask_zonal_wind,
                 dtype="f4",
                 long_name="Non-screened zonal wind",
             )
@@ -249,7 +262,7 @@ class Wind:
                 dimensions=("time", "height"),
                 units="m s-1",
                 data=self.zonal_wind,
-                mask=self.mask,
+                mask=self.mask | self.mask_zonal_wind,
                 dtype="f4",
                 long_name="Zonal wind",
             )
@@ -258,6 +271,7 @@ class Wind:
                 dimensions=("time", "height"),
                 units="m s-1",
                 data=self.meridional_wind,
+                mask=self.mask_meridional_wind,
                 dtype="f4",
                 long_name="Non-screened meridional wind",
             )
@@ -266,7 +280,7 @@ class Wind:
                 dimensions=("time", "height"),
                 units="m s-1",
                 data=self.meridional_wind,
-                mask=self.mask,
+                mask=self.mask | self.mask_meridional_wind,
                 dtype="f4",
                 long_name="Meridional wind",
             )

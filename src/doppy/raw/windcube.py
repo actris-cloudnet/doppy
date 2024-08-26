@@ -216,7 +216,7 @@ def _extract_float64_or_raise(nc: Dataset) -> npt.NDArray[np.float64]:
             if nc.units != "dB":
                 raise ValueError(f"Unexpected units for {nc.name}")
             if nc[:].mask is not np.bool_(False):
-                raise ValueError
+                pass  # ignore that array contains masked values
             return np.array(nc[:].data, dtype=np.float64)
         case "radial_wind_speed":
             if nc.dimensions != ("time", "gate_index"):
@@ -224,7 +224,7 @@ def _extract_float64_or_raise(nc: Dataset) -> npt.NDArray[np.float64]:
             if nc.units != "m s-1":
                 raise ValueError(f"Unexpected units for {nc.name}")
             if nc[:].mask is not np.bool_(False):
-                raise ValueError
+                pass  # ignore that array contains masked values
             return np.array(nc[:].data, dtype=np.float64)
         case "radial_wind_speed_ci":
             if nc.dimensions != ("time", "gate_index"):
@@ -232,7 +232,7 @@ def _extract_float64_or_raise(nc: Dataset) -> npt.NDArray[np.float64]:
             if nc.units != "percent":
                 raise ValueError(f"Unexpected units for {nc.name}")
             if nc[:].mask is not np.bool_(False):
-                raise ValueError
+                pass  # ignore that array contains masked values
             return np.array(nc[:].data, dtype=np.float64)
         case "azimuth" | "elevation":
             if nc.dimensions != ("time",):

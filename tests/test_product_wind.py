@@ -115,6 +115,7 @@ def test_bad_wind(site, date, err, reason):
     "site,date,ftype,reason",
     [
         ("payerne", "2024-01-01", "vad", ""),
+        ("payerne", "2023-06-13", "vad", "fails"),
     ],
 )
 def test_windcube_wind(site, date, ftype, reason, cache):

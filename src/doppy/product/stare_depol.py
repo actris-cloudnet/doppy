@@ -71,8 +71,6 @@ class StareDepol:
     radial_velocity: npt.NDArray[np.float64]
     mask: npt.NDArray[np.bool_]
     depolarisation: npt.NDArray[np.float64]
-    mask_depolarisation: npt.NDArray[np.bool_]
-    mask_beta_cross: npt.NDArray[np.bool_]
     polariser_bleed_through: float
     wavelength: float
     system_id: str
@@ -142,11 +140,17 @@ class StareDepol:
         self.radial_velocity = co.radial_velocity
         self.mask = co.mask
         self.depolarisation = depolarisation
-        self.mask_depolarisation = np.isnan(depolarisation)
-        self.mask_beta_cross = np.isnan(self.beta_cross)
         self.polariser_bleed_through = polariser_bleed_through
         self.wavelength = co.wavelength
         self.system_id = co.system_id
+
+    @property
+    def mask_depolarisation(self) -> npt.NDArray[np.bool_]:
+        return np.isnan(self.depolarisation)
+
+    @property
+    def mask_beta_cross(self) -> npt.NDArray[np.bool_]:
+        return np.isnan(self.beta_cross)
 
     @classmethod
     def from_halo_data(
