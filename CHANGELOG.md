@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.4 – 2024-08-26
+
+- Ignore parsing errors while reading multiple halo bg files
+- Ignore masks from wls200s
+
 ## 0.3.3 – 2024-08-22
 
 - Add product netcdf writers
