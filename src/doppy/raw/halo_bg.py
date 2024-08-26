@@ -12,6 +12,8 @@ import numpy as np
 import numpy.typing as npt
 from numpy import datetime64
 
+from doppy.exceptions import RawParsingError
+
 
 @dataclass
 class HaloBg:
@@ -30,6 +32,28 @@ class HaloBg:
         | Sequence[tuple[bytes, str]]
         | Sequence[tuple[BufferedIOBase, str]],
     ) -> list[HaloBg]:
+        """
+        Creates a list of `HaloBg` instances from various data sources.
+
+        Parameters
+        ----------
+        data
+            A sequence of data source identifiers which can be file paths (as strings
+            or `Path` objects), tuples of raw byte data with filenames, or tuples of
+            buffered reader streams with filenames.
+
+        Returns
+        -------
+        list[HaloBg]
+            A list of `HaloBg` instances created from the provided data sources. Data
+            sources that cause a raw parsing error are ignored and not included in
+            the resulting list.
+
+        Raises
+        ------
+        TypeError
+            If `data` is not a list or tuple of supported types.
+        """
         if not isinstance(data, (list, tuple)):
             raise TypeError("data should be list or tuple")
         # TODO: rust reader and proper type checking
@@ -46,10 +70,13 @@ class HaloBg:
                 data_normalised.append(item)
             elif isinstance(item, tuple) and isinstance(item[0], BufferedIOBase):
                 data_normalised.append((item[0].read(), item[1]))
-        return [
-            HaloBg.from_src(data_bytes, filename)
-            for data_bytes, filename in data_normalised
-        ]
+        bgs = []
+        for data_bytes, filename in data_normalised:
+            try:
+                bgs.append(HaloBg.from_src(data_bytes, filename))
+            except RawParsingError:
+                continue
+        return bgs
 
     @classmethod
     def from_src(
@@ -124,9 +151,13 @@ def _from_src(data: BufferedIOBase, filename: str) -> HaloBg:
         try:
             signal = np.array(list(map(float, data_bytes.split(b"\r\n"))))[np.newaxis]
         except ValueError:
-            signal = np.array(
-                list(map(float, data_bytes.replace(b",", b".").split(b"\r\n")))
-            )[np.newaxis]
+            try:
+                signal = np.array(
+                    list(map(float, data_bytes.replace(b",", b".").split(b"\r\n")))
+                )[np.newaxis]
+            except ValueError as err:
+                raise RawParsingError(err) from err
+
     return HaloBg(time, signal)
 
 

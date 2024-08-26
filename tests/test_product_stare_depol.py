@@ -59,9 +59,18 @@ def test_stare_depol(site, date, reason):
 @pytest.mark.parametrize(
     "site,date,err,reason",
     [
-        ("hyytiala", "2022-01-01", exceptions.NoDataError, "bg files missing"),
-        ("hyytiala", "2022-05-23", exceptions.NoDataError, "bg files missing"),
-        ("kenttarova", "2022-08-26", exceptions.NoDataError, "bg files missing"),
+        (
+            "hyytiala",
+            "2024-06-13",
+            exceptions.ShapeError,
+            "operands could not be broadcast together with shapes (320,) (160,)",
+        ),
+        (
+            "hyytiala",
+            "2022-12-26",
+            exceptions.RawParsingError,
+            "Incoherent range gates: Number of gates in the middle of the file",
+        ),
     ],
 )
 def test_bad_stare_depol(site, date, err, reason):
@@ -72,30 +81,19 @@ def test_bad_stare_depol(site, date, err, reason):
         for rec in records
         if rec["filename"].endswith(".hpl") and "cross" not in set(rec["tags"])
     ]
-    records_bg_co = [
-        rec
-        for rec in records
-        if rec["filename"].startswith("Background") and "cross" not in set(rec["tags"])
-    ]
+    records_bg = [rec for rec in records if rec["filename"].startswith("Background")]
     records_hpl_cross = [
         rec
         for rec in records
         if rec["filename"].endswith(".hpl") and "cross" in set(rec["tags"])
     ]
-    records_bg_cross = [
-        rec
-        for rec in records
-        if rec["filename"].startswith("Background") and "cross" in set(rec["tags"])
-    ]
     with pytest.raises(err):
         _depol = product.StareDepol.from_halo_data(
             co_data=[api.get_record_content(r) for r in records_hpl_co],
-            co_data_bg=[
-                (api.get_record_content(r), r["filename"]) for r in records_bg_co
-            ],
+            co_data_bg=[(api.get_record_content(r), r["filename"]) for r in records_bg],
             cross_data=[api.get_record_content(r) for r in records_hpl_cross],
             cross_data_bg=[
-                (api.get_record_content(r), r["filename"]) for r in records_bg_cross
+                (api.get_record_content(r), r["filename"]) for r in records_bg
             ],
             bg_correction_method=options.BgCorrectionMethod.FIT,
             polariser_bleed_through=0,

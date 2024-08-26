@@ -8,3 +8,7 @@ class RawParsingError(DoppyException):
 
 class NoDataError(DoppyException):
     pass
+
+
+class ShapeError(DoppyException):
+    pass

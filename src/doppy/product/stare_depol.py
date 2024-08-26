@@ -94,6 +94,12 @@ class StareDepol:
             The amount of bleed-through from the polariser.
         """
 
+        if co.beta.shape[1] != cross.beta.shape[1]:
+            raise doppy.exceptions.ShapeError(
+                "Range dimension mismatch in co and cross: "
+                f"{co.beta.shape[1]} vs {cross.beta.shape[1]}"
+            )
+
         if not np.isclose(co.wavelength, cross.wavelength):
             raise ValueError(
                 "Different wavelength in co and cross: "
@@ -106,12 +112,6 @@ class StareDepol:
             )
         if not np.allclose(co.radial_distance, cross.radial_distance, atol=1):
             raise ValueError("Different radial distance in co and cross")
-
-        if co.beta.shape[1] != cross.beta.shape[1]:
-            raise ValueError(
-                "Range dimension mismatch in co and cross: "
-                f"{co.beta.shape[1]} vs {cross.beta.shape[1]}"
-            )
 
         ind = np.searchsorted(cross.time, co.time, side="left")
         pick_ind = ind < len(cross.time)

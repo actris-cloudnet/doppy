@@ -37,16 +37,42 @@ def test_bg_files(site, date, fname, reason):
             "2022-12-26",
             "Background_261222-050029.txt",
             "Measurement data in bg file",
-            ValueError,
+            doppy.exceptions.RawParsingError,
         ),
     ],
 )
 def test_bad_bg_files(site, date, fname, reason, err):
     api = Api(cache=CACHE)
     records = api.get_raw_records(site, date)
-    records = [rec for rec in records if rec["filename"] == fname or fname is None]
+    records = [
+        rec
+        for rec in records
+        if rec["filename"].startswith("Background")
+        and (rec["filename"] == fname or fname is None)
+    ]
     assert len(records) > 0
     for record in records:
         file = api.get_record_content(record)
         with pytest.raises(err):
             doppy.raw.HaloBg.from_src(file, record["filename"])
+
+
+@pytest.mark.parametrize(
+    "site,date,reason",
+    [
+        (
+            "hyytiala",
+            "2022-12-26",
+            "Measurement data in bg file",
+        ),
+    ],
+)
+def test_some_bad_bg_files(site, date, reason):
+    api = Api(cache=CACHE)
+    records = api.get_raw_records(site, date)
+    records = [rec for rec in records if rec["filename"].startswith("Background")]
+    assert len(records) > 0
+    bgs = doppy.raw.HaloBg.from_srcs(
+        [(api.get_record_content(r), r["filename"]) for r in records]
+    )
+    assert len(bgs) > 0
