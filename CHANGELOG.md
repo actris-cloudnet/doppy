@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.5 – 2024-08-30
+
+- Add time_reference to nc units in old windcube files
+
 ## 0.3.4 – 2024-08-26
 
 - Ignore parsing errors while reading multiple halo bg files
