@@ -160,11 +160,14 @@ def _from_vad_src(nc: Dataset) -> WindCube:
     elevation_list = []
     range_list = []
     height_list = []
+    time_reference = (
+        nc["time_reference"][:] if "time_reference" in nc.variables else None
+    )
 
     for i, group in enumerate(
         nc[group] for group in (nc.variables["sweep_group_name"][:])
     ):
-        time_list.append(_extract_datetime64_or_raise(group["time"]))
+        time_list.append(_extract_datetime64_or_raise(group["time"], time_reference))
         radial_wind_speed_list.append(
             _extract_float64_or_raise(group["radial_wind_speed"])
         )
@@ -198,12 +201,21 @@ def _from_vad_src(nc: Dataset) -> WindCube:
     )
 
 
-def _extract_datetime64_or_raise(nc: Dataset) -> npt.NDArray[np.datetime64]:
+def _extract_datetime64_or_raise(
+    nc: Dataset, time_reference: str | None
+) -> npt.NDArray[np.datetime64]:
     match nc.name:
         case "time":
             if nc.dimensions != ("time",):
                 raise ValueError
-            return np.array(num2date(nc[:], units=nc.units), dtype="datetime64[us]")
+
+            units = nc.units
+            if "time_reference" in nc.units:
+                if time_reference is not None:
+                    units = nc.units.replace("time_reference", time_reference)
+                else:
+                    raise ValueError("Unknown time_reference")
+            return np.array(num2date(nc[:], units=units), dtype="datetime64[us]")
         case _:
             raise ValueError(f"Unexpected variable name {nc.name}")
 
