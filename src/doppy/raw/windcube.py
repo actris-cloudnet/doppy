@@ -16,8 +16,8 @@ from doppy.utils import merge_all_equal
 @dataclass
 class WindCube:
     time: npt.NDArray[datetime64]  # dim: (time, )
-    radial_distance: npt.NDArray[np.int64]  # dim: (radial_distance, )
-    height: npt.NDArray[np.int64]  # dim: (radial_distance, )
+    radial_distance: npt.NDArray[np.int64]  # dim: (time, radial_distance)
+    height: npt.NDArray[np.int64]  # dim: (time,radial_distance)
     azimuth: npt.NDArray[np.float64]  # dim: (time, )
     elevation: npt.NDArray[np.float64]  # dim: (time, )
     cnr: npt.NDArray[np.float64]  # dim: (time, radial_distance)
@@ -27,28 +27,28 @@ class WindCube:
     system_id: str
 
     @classmethod
-    def from_vad_srcs(
+    def from_vad_or_dbs_srcs(
         cls,
         data: Sequence[str]
         | Sequence[Path]
         | Sequence[bytes]
         | Sequence[BufferedIOBase],
     ) -> list[WindCube]:
-        return [WindCube.from_vad_src(src) for src in data]
+        return [WindCube.from_vad_or_dbs_src(src) for src in data]
 
     @classmethod
-    def from_vad_src(cls, data: str | Path | bytes | BufferedIOBase) -> WindCube:
+    def from_vad_or_dbs_src(cls, data: str | Path | bytes | BufferedIOBase) -> WindCube:
         data_bytes = _src_to_bytes(data)
         nc = Dataset("inmemory.nc", "r", memory=data_bytes)
-        return _from_vad_src(nc)
+        return _from_vad_or_dbs_src(nc)
 
     @classmethod
     def merge(cls, raws: list[WindCube]) -> WindCube:
         return WindCube(
             scan_index=_merge_scan_index([r.scan_index for r in raws]),
             time=np.concatenate([r.time for r in raws]),
-            height=_merge_range_vars([r.height for r in raws]),
-            radial_distance=_merge_range_vars([r.radial_distance for r in raws]),
+            height=np.concatenate([r.height for r in raws]),
+            radial_distance=np.concatenate([r.radial_distance for r in raws]),
             azimuth=np.concatenate([r.azimuth for r in raws]),
             elevation=np.concatenate([r.elevation for r in raws]),
             radial_velocity=np.concatenate([r.radial_velocity for r in raws]),
@@ -71,8 +71,8 @@ class WindCube:
         if isinstance(index, (int, slice, list, np.ndarray)):
             return WindCube(
                 time=self.time[index],
-                radial_distance=self.radial_distance,
-                height=self.height,
+                radial_distance=self.radial_distance[index],
+                height=self.height[index],
                 azimuth=self.azimuth[index],
                 elevation=self.elevation[index],
                 radial_velocity=self.radial_velocity[index],
@@ -113,13 +113,6 @@ class WindCube:
         return self
 
 
-def _merge_range_vars(vars: list[npt.NDArray[np.int64]]) -> npt.NDArray[np.int64]:
-    var = np.concatenate([v[np.newaxis, :] for v in vars])
-    if not (var[0] == var).all():
-        raise ValueError("Cannot merge unequal range variable")
-    return np.array(var[0], dtype=np.int64)
-
-
 def _merge_scan_index(index_list: list[npt.NDArray[np.int64]]) -> npt.NDArray[np.int64]:
     if len(index_list) == 0:
         raise ValueError("cannot merge empty list")
@@ -150,7 +143,7 @@ def _src_to_bytes(data: str | Path | bytes | BufferedIOBase) -> bytes:
     raise TypeError("Unsupported data type")
 
 
-def _from_vad_src(nc: Dataset) -> WindCube:
+def _from_vad_or_dbs_src(nc: Dataset) -> WindCube:
     scan_index_list = []
     time_list = []
     cnr_list = []
@@ -181,17 +174,11 @@ def _from_vad_src(nc: Dataset) -> WindCube:
         height_list.append(_extract_int64_or_raise(group["measurement_height"]))
         scan_index_list.append(np.full(group["time"][:].shape, i, dtype=np.int64))
 
-    height = np.concatenate(height_list)
-    if not (height == height[0]).all():
-        raise ValueError("Unexpected heights")
-    radial_distance = np.concatenate(range_list)
-    if not (radial_distance == radial_distance[0]).all():
-        raise ValueError("Unexpected range")
     return WindCube(
         scan_index=np.concatenate(scan_index_list),
         time=np.concatenate(time_list),
-        radial_distance=radial_distance[0],
-        height=height[0],
+        radial_distance=np.concatenate(range_list),
+        height=np.concatenate(height_list),
         azimuth=np.concatenate(azimuth_list),
         elevation=np.concatenate(elevation_list),
         radial_velocity=np.concatenate(radial_wind_speed_list),

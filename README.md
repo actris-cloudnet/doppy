@@ -92,7 +92,7 @@ raws_bg = doppy.raw.HaloBg.from_srcs(LIST_OF_BACKGROUND_FILES)
 raw_system_params = doppy.raw.HaloSysParams.from_src(SYSTEM_PARAMS_FILENAME)
 
 # Windcube WLS200S
-raws_wls200s = doppy.raw.WindCube.from_vad_srcs(LIST_OF_VAD_NETCDF_FILES)
+raws_wls200s = doppy.raw.WindCube.from_vad_or_dbs_srcs(LIST_OF_VAD_NETCDF_FILES)
 
 # Windcube WLS70
 raws_wls70 = doppy.raw.Wls70.from_srcs(LIST_OF_RTD_FILES)

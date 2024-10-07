@@ -129,7 +129,7 @@ class Wind:
         | Sequence[BufferedIOBase],
         options: Options | None = None,
     ) -> Wind:
-        raws = doppy.raw.WindCube.from_vad_srcs(data)
+        raws = doppy.raw.WindCube.from_vad_or_dbs_srcs(data)
 
         if len(raws) == 0:
             raise doppy.exceptions.NoDataError("WindCube data missing")
@@ -140,6 +140,13 @@ class Wind:
             .non_strictly_increasing_timesteps_removed()
             .reindex_scan_indices()
         )
+        # select scans with most frequent elevation angle from range (15,85)
+        raw = raw[(raw.elevation > 15) & (raw.elevation < 85)]
+        elevation_ints = raw.elevation.round().astype(int)
+        unique_elevations, counts = np.unique(elevation_ints, return_counts=True)
+        most_frequent_elevation = unique_elevations[np.argmax(counts)]
+        raw = raw[elevation_ints == most_frequent_elevation]
+
         if len(raw.time) == 0:
             raise doppy.exceptions.NoDataError("No suitable data for the wind product")
 
@@ -168,7 +175,9 @@ class Wind:
         mask = _compute_mask(wind, rmse) | np.any(np.isnan(wind), axis=2)
         if not np.allclose(elevation, elevation[0]):
             raise ValueError("Elevation is expected to stay same")
-        height = np.array(raw.height, dtype=np.float64)
+        if not (raw.height == raw.height[0]).all():
+            raise ValueError("Unexpected heights")
+        height = np.array(raw.height[0], dtype=np.float64)
         return Wind(
             time=time,
             height=height,

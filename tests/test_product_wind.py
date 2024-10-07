@@ -118,15 +118,15 @@ def test_bad_wind(site, date, err, reason):
         ("payerne", "2024-01-01", "vad", ""),
         ("payerne", "2023-06-13", "vad", ""),
         ("payerne", "2022-01-02", "vad", "time_reference in nc time units"),
+        ("cabauw", "2024-10-04", "dbs", ""),
     ],
 )
 def test_windcube_wind(site, date, ftype, reason, cache):
     api = Api(cache=cache)
     records = api.get_raw_records(site, date)
-    r = re.compile(rf".*{ftype}.*\.nc\..*")
-    ftype_re = re.compile(rf".*{ftype}_(.*)\.nc\..*")
+    ftype_re = re.compile(rf".*{ftype}_(.*)\.nc(?:\..*)?")
     ftype_groups = defaultdict(list)
-    for rec in [rec for rec in records if r.match(rec["filename"])]:
+    for rec in [rec for rec in records if ftype_re.match(rec["filename"])]:
         m = ftype_re.match(rec["filename"])
         group = m.group(1)
         file = api.get_record_content(rec)
