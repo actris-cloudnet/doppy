@@ -1,2 +1,2 @@
 [default]
-extend-ignore-identifiers-re = ["explin", "EXPLIN", "add_atribute"]
+extend-ignore-identifiers-re = ["explin", "EXPLIN", "add_atribute", "tke"]
