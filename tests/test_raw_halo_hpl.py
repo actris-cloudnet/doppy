@@ -1,12 +1,8 @@
-import os
-
 import doppy
 import numpy as np
 import pytest
 from doppy import exceptions
 from doppy.data.api import Api
-
-CACHE = "GITHUB_ACTIONS" not in os.environ
 
 
 @pytest.mark.parametrize(
@@ -95,8 +91,8 @@ CACHE = "GITHUB_ACTIONS" not in os.environ
         ),
     ],
 )
-def test_hpl_files(site, date, fname, uuid, reason, len_intensity):
-    api = Api(cache=CACHE)
+def test_hpl_files(site, date, fname, uuid, reason, len_intensity, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records = [
         rec for rec in records if rec["filename"] == fname and rec["uuid"] == uuid
@@ -149,8 +145,8 @@ def test_hpl_files(site, date, fname, uuid, reason, len_intensity):
         ),
     ],
 )
-def test_bad_hpl_files(site, date, fname, uuid, reason, err):
-    api = Api(cache=CACHE)
+def test_bad_hpl_files(site, date, fname, uuid, reason, err, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records = [
         rec for rec in records if rec["filename"] == fname and rec["uuid"] == uuid
@@ -176,8 +172,8 @@ def test_bad_hpl_files(site, date, fname, uuid, reason, err):
         ),
     ],
 )
-def test_merge_halo_hpl_raw(site, date, prefix, suffix, reason):
-    api = Api(cache=CACHE)
+def test_merge_halo_hpl_raw(site, date, prefix, suffix, reason, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records = [
         rec

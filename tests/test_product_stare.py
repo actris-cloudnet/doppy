@@ -1,12 +1,9 @@
-import os
 import pathlib
 import tempfile
 
 import pytest
 from doppy import exceptions, options, product
 from doppy.data.api import Api
-
-CACHE = "GITHUB_ACTIONS" not in os.environ
 
 
 @pytest.mark.slow
@@ -39,8 +36,8 @@ CACHE = "GITHUB_ACTIONS" not in os.environ
         ("mindelo", "2024-04-17", "nans in data"),
     ],
 )
-def test_stare(site, date, reason):
-    api = Api(cache=CACHE)
+def test_stare(site, date, reason, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records_hpl = [
         rec
@@ -68,8 +65,8 @@ def test_stare(site, date, reason):
         ),
     ],
 )
-def test_bad_stare(site, date, err, reason):
-    api = Api(cache=CACHE)
+def test_bad_stare(site, date, err, reason, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records_hpl = [
         rec
@@ -93,8 +90,8 @@ def test_bad_stare(site, date, err, reason):
         ("chilbolton", "2024-05-06", "118"),
     ],
 )
-def test_system_id(site, date, system_id):
-    api = Api(cache=CACHE)
+def test_system_id(site, date, system_id, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records_hpl = [
         rec
@@ -117,8 +114,8 @@ def test_system_id(site, date, system_id):
         ("warsaw", "2023-11-01", ""),
     ],
 )
-def test_netcdf_writing(site, date, reason):
-    api = Api(cache=CACHE)
+def test_netcdf_writing(site, date, reason, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records_hpl = [
         rec

@@ -1,10 +1,6 @@
-import os
-
 import pytest
 from doppy import exceptions, options, product
 from doppy.data.api import Api
-
-CACHE = "GITHUB_ACTIONS" not in os.environ
 
 
 @pytest.mark.slow
@@ -17,8 +13,8 @@ CACHE = "GITHUB_ACTIONS" not in os.environ
         ("vehmasmaki", "2022-12-23", ""),
     ],
 )
-def test_tke(site, date, reason):
-    api = Api(cache=CACHE)
+def test_tke(site, date, reason, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records_hpl_stare = [
         rec
@@ -47,9 +43,10 @@ def test_tke(site, date, reason):
     pulse_repetition_rate = 15e3  # 1/s
     integration_time = pulses_per_ray / pulse_repetition_rate
     beam_divergence = 33e-6  # radians
-    _tke = product.turbulent_kinetic_energy.from_stare_and_wind(
+    _tke = product.TurbulentKineticEnergy.from_stare_and_wind(
         stare, wind, integration_time, beam_divergence
     )
+    breakpoint()
 
 
 @pytest.mark.slow
@@ -70,8 +67,8 @@ def test_tke(site, date, reason):
         ("soverato", "2021-09-03", "", exceptions.NoDataError),
     ],
 )
-def test_tke_bad(site, date, reason, err):
-    api = Api(cache=CACHE)
+def test_tke_bad(site, date, reason, err, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records_hpl_stare = [
         rec

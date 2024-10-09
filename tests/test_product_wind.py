@@ -1,4 +1,3 @@
-import os
 import pathlib
 import re
 import tempfile
@@ -8,8 +7,6 @@ import pytest
 from doppy import product
 from doppy.data.api import Api
 from doppy.exceptions import NoDataError
-
-CACHE = "GITHUB_ACTIONS" not in os.environ
 
 
 @pytest.mark.slow
@@ -28,8 +25,8 @@ CACHE = "GITHUB_ACTIONS" not in os.environ
         ("hyytiala", "2024-01-01", "ignore scans with small elevation angle"),
     ],
 )
-def test_wind(site, date, reason):
-    api = Api(cache=CACHE)
+def test_wind(site, date, reason, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records_hpl = [
         rec
@@ -52,8 +49,8 @@ def test_wind(site, date, reason):
         ("lindenberg", "2024-02-08", ""),
     ],
 )
-def test_wind_with_options(site, date, reason):
-    api = Api(cache=CACHE)
+def test_wind_with_options(site, date, reason, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records_hpl = [
         rec
@@ -75,8 +72,8 @@ def test_wind_with_options(site, date, reason):
         ("palaiseau", "2012-01-01", "older file format"),
     ],
 )
-def test_wind_wls70(site, date, reason):
-    api = Api(cache=CACHE)
+def test_wind_wls70(site, date, reason, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records_wls70 = [
         rec
@@ -96,8 +93,8 @@ def test_wind_wls70(site, date, reason):
         ("kenttarova", "2023-03-01", NoDataError, "only scans with elevation angle 0"),
     ],
 )
-def test_bad_wind(site, date, err, reason):
-    api = Api(cache=True)
+def test_bad_wind(site, date, err, reason, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records_hpl = [
         rec
@@ -131,13 +128,13 @@ def test_windcube_wind(site, date, ftype, reason, cache):
         group = m.group(1)
         file = api.get_record_content(rec)
         ftype_groups[group].append(file)
-    for group, files in ftype_groups.items():
+    for _group, files in ftype_groups.items():
         _wind = product.Wind.from_windcube_data(files)
 
 
 @pytest.mark.slow
-def test_halo_system_id():
-    api = Api(cache=CACHE)
+def test_halo_system_id(cache):
+    api = Api(cache=cache)
     records = api.get_raw_records("lindenberg", "2024-02-08")
     records_hpl = [
         rec
@@ -152,9 +149,9 @@ def test_halo_system_id():
     assert wind.system_id == "44"
 
 
-# @pytest.mark.slow
-def test_windcube_system_id():
-    api = Api(cache=CACHE)
+@pytest.mark.slow
+def test_windcube_system_id(cache):
+    api = Api(cache=cache)
     records = api.get_raw_records("payerne", "2024-01-01")
     r = re.compile(r".*vad.*\.nc\..*")
     files = []
@@ -165,9 +162,9 @@ def test_windcube_system_id():
     assert wind.system_id == "WLS200s-197"
 
 
-# @pytest.mark.slow
-def test_wls70_system_id():
-    api = Api(cache=CACHE)
+@pytest.mark.slow
+def test_wls70_system_id(cache):
+    api = Api(cache=cache)
     records = api.get_raw_records("palaiseau", "2024-05-01")
     records_wls70 = [
         rec

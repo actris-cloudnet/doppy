@@ -131,7 +131,7 @@ class Wls70:
             cnr=np.concatenate(tuple(r.cnr for r in raws)),
             radial_velocity=np.concatenate(tuple(r.radial_velocity for r in raws)),
             radial_velocity_deviation=np.concatenate(
-                tuple(r.radial_velocity_deviation for r in raws)
+                tuple(r.radial_velocity_deviation for r in raws),
             ),
             vh=np.concatenate(tuple(r.vh for r in raws)),
             wind_direction=np.concatenate(tuple(r.wind_direction for r in raws)),
@@ -140,7 +140,8 @@ class Wls70:
             vertical_wind=np.concatenate(tuple(r.vertical_wind for r in raws)),
             system_id=merge_all_equal("system_id", [r.system_id for r in raws]),
             cnr_threshold=merge_all_equal(
-                "cnr_threshold", [r.cnr_threshold for r in raws]
+                "cnr_threshold",
+                [r.cnr_threshold for r in raws],
             ),
         )
 
