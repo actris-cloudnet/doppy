@@ -91,7 +91,8 @@ def _from_src(data: BufferedIOBase) -> HaloSysParams:
 
     def timestr2datetime64_24H(datetime_bytes: bytes) -> np.datetime64:
         return datetime64(
-            datetime.strptime(datetime_bytes.decode("utf-8"), "%d/%m/%Y %H:%M:%S"), "s"
+            datetime.strptime(datetime_bytes.decode("utf-8"), "%d/%m/%Y %H:%M:%S"),
+            "s",
         )
 
     arr_time = np.full_like(arr[:, 0], np.datetime64("NaT"), dtype="datetime64[s]")

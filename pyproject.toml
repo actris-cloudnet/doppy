@@ -107,12 +107,4 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [tool.ruff.lint]
-select = [
-  # Pyflakes
-  "F",
-  # Pycodestyle
-  "E",
-  "W",
-  # isort
-  "I001"
-]
+select = ["E", "F", "W", "I", "B", "C4", "PIE", "PLE", "RUF"]

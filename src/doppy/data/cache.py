@@ -8,7 +8,9 @@ from requests import Session
 
 
 def cached_record(
-    record: dict, session: Session, check_disk_usage: bool = True
+    record: dict,
+    session: Session,
+    check_disk_usage: bool = True,
 ) -> BytesIO:
     cache_dir = Path("cache")
     path = cache_dir / record["uuid"]

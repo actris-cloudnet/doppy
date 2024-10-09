@@ -1,13 +1,9 @@
-import os
-
 from doppy import product
 from doppy.data.api import Api
 
-CACHE = "GITHUB_ACTIONS" not in os.environ
 
-
-def plot_winds(site, date):
-    api = Api(cache=CACHE)
+def plot_winds(site, date, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records_hpl = [
         rec

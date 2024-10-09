@@ -142,17 +142,17 @@ class HaloHpl:
             pitch=_merge_float_arrays_or_nones(tuple(r.pitch for r in raws)),
             roll=_merge_float_arrays_or_nones(tuple(r.roll for r in raws)),
             spectral_width=_merge_float_arrays_or_nones(
-                tuple(r.spectral_width for r in raws)
+                tuple(r.spectral_width for r in raws),
             ),
         )
 
     @functools.cached_property
     def azimuth_angles(self) -> set[int]:
-        return set(int(x) % 360 for x in np.round(self.azimuth))
+        return {int(x) % 360 for x in np.round(self.azimuth)}
 
     @functools.cached_property
     def elevation_angles(self) -> set[int]:
-        return set(int(x) for x in np.round(self.elevation))
+        return {int(x) for x in np.round(self.elevation)}
 
     @functools.cached_property
     def time_diffs(self) -> set[int]:
@@ -162,7 +162,7 @@ class HaloHpl:
     def median_time_diff(self) -> float:
         med = np.round(
             np.median(
-                np.diff(1e-6 * self.time.astype("datetime64[us]").astype("float"))
+                np.diff(1e-6 * self.time.astype("datetime64[us]").astype("float")),
             ),
             2,
         )
@@ -223,7 +223,7 @@ class HaloHplHeader:
                 round(x, 1)
                 if isinstance((x := self.instrument_spectral_width), float)
                 else None,
-            )
+            ),
         )
 
     @classmethod
@@ -332,26 +332,30 @@ def _raw_tuple2halo_hpl(
     ):
         raise TypeError
     range_ = cast(npt.NDArray[np.float64], data_dict["range"]).reshape(
-        -1, header.ngates
+        -1,
+        header.ngates,
     )
     radial_distance = cast(npt.NDArray[np.float64], data_dict["radial_distance"])
     azimuth = cast(npt.NDArray[np.float64], data_dict["azimuth"])
     elevation = cast(npt.NDArray[np.float64], data_dict["elevation"])
     radial_velocity = cast(
-        npt.NDArray[np.float64], data_dict["radial_velocity"]
+        npt.NDArray[np.float64],
+        data_dict["radial_velocity"],
     ).reshape(-1, header.ngates)
     intensity = cast(npt.NDArray[np.float64], data_dict["intensity"]).reshape(
-        -1, header.ngates
+        -1,
+        header.ngates,
     )
     beta = cast(npt.NDArray[np.float64], data_dict["beta"]).reshape(-1, header.ngates)
     if not np.isclose(range_, expected_range).all():
         raise exceptions.RawParsingError(
-            "Incoherent range gates: Number of gates in the middle of the file"
+            "Incoherent range gates: Number of gates in the middle of the file",
         )
     return HaloHpl(
         header=header,
         time=_convert_time(
-            header.start_time, cast(npt.NDArray[np.float64], data_dict["time"])
+            header.start_time,
+            cast(npt.NDArray[np.float64], data_dict["time"]),
         ),
         radial_distance=radial_distance,
         azimuth=azimuth,
@@ -368,7 +372,8 @@ def _raw_tuple2halo_hpl(
 
 
 def _convert_time(
-    start_time: datetime64, decimal_time: npt.NDArray[np.float64]
+    start_time: datetime64,
+    decimal_time: npt.NDArray[np.float64],
 ) -> npt.NDArray[datetime64]:
     """
     Parameters
@@ -436,7 +441,8 @@ def _read_data(data: bytes, header: HaloHplHeader) -> HaloHpl:
         raise exceptions.RawParsingError("No data found")
     data = data.strip()
     data = data.replace(
-        b"\x00", b""
+        b"\x00",
+        b"",
     )  # Some files contain null characters between profiles
     data_lines = data.split(b"\r\n")
 
@@ -466,7 +472,7 @@ def _read_data(data: bytes, header: HaloHplHeader) -> HaloHpl:
         if "inhomogeneous" in str(err):
             raise exceptions.RawParsingError(
                 "Inhomogeneous raw data. "
-                "Probable reason: Number of gates changes in middle of the file"
+                "Probable reason: Number of gates changes in middle of the file",
             ) from err
         else:
             raise
@@ -477,7 +483,7 @@ def _read_data(data: bytes, header: HaloHplHeader) -> HaloHpl:
 
     decimal_time = data1Darr[:, 0]
     time = header.start_time.astype("datetime64[D]") + np.array(
-        list(map(_decimal_time2timedelta, decimal_time))
+        list(map(_decimal_time2timedelta, decimal_time)),
     )
     azimuth = data1Darr[:, 1]
     elevation = data1Darr[:, 2]

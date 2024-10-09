@@ -80,7 +80,9 @@ class HaloBg:
 
     @classmethod
     def from_src(
-        cls, data: str | Path | bytes | BufferedIOBase, filename: str | None = None
+        cls,
+        data: str | Path | bytes | BufferedIOBase,
+        filename: str | None = None,
     ) -> HaloBg:
         if isinstance(data, str):
             path = Path(data)
@@ -100,7 +102,7 @@ class HaloBg:
         elif isinstance(data, BufferedIOBase):
             if filename is None:
                 raise TypeError(
-                    "Filename is mandatory if data is given as BufferedIOBase"
+                    "Filename is mandatory if data is given as BufferedIOBase",
                 )
             return _from_src(data, filename)
         else:
@@ -153,7 +155,7 @@ def _from_src(data: BufferedIOBase, filename: str) -> HaloBg:
         except ValueError:
             try:
                 signal = np.array(
-                    list(map(float, data_bytes.replace(b",", b".").split(b"\r\n")))
+                    list(map(float, data_bytes.replace(b",", b".").split(b"\r\n"))),
                 )[np.newaxis]
             except ValueError as err:
                 raise RawParsingError(err) from err

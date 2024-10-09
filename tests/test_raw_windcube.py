@@ -6,6 +6,7 @@ import pytest
 from doppy.data.api import Api
 
 
+@pytest.mark.slow
 @pytest.mark.parametrize(
     "site,date,ftype,reason",
     [
@@ -38,11 +39,12 @@ def test_windcube(site, date, ftype, reason, cache):
             case _:
                 return
                 raise NotImplementedError
-    for group, raws in groups.items():
+    for _group, raws in groups.items():
         raw = doppy.raw.WindCube.merge(raws)
         assert len(raw.time) > 0
 
 
+@pytest.mark.slow
 @pytest.mark.parametrize(
     "site,date,ftype,reason,err",
     [

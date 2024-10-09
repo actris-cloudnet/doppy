@@ -72,7 +72,11 @@ class Dataset:
     ) -> Dataset:
         fill_value = netCDF4.default_fillvals[dtype] if mask is not None else None
         var = self.nc.createVariable(
-            name, dtype, dimensions, fill_value=fill_value, compression="zlib"
+            name,
+            dtype,
+            dimensions,
+            fill_value=fill_value,
+            compression="zlib",
         )
         var.units = units
         if mask is not None:
@@ -122,7 +126,7 @@ def _convert_time(
     MICROSECONDS_TO_HOURS = 1 / (1e6 * 3600)
     start_of_day = time.min().astype("datetime64[D]")
     hours_since_start_of_day = (time - start_of_day).astype(
-        np.float64
+        np.float64,
     ) * MICROSECONDS_TO_HOURS
     units = f"hours since {np.datetime_as_string(start_of_day)} 00:00:00 +00:00"
     calendar = "standard"

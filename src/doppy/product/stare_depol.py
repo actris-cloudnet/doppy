@@ -57,7 +57,7 @@ class StareDepol:
 
     References
     ----------
-    Aerosol particle depolarization ratio at 1565 nm measured with a Halo Doppler lidar
+    Aerosol particle depolarization ratio at 1565 nm measured with a Halo Doppler lidar
         authors: Ville Vakkari, Holger Baars, Stephanie Bohlmann, Johannes Bühl,
             Mika Komppula, Rodanthi-Elisavet Mamouri, and Ewan James O'Connor
         doi: https://doi.org/10.5194/acp-21-5807-2021
@@ -95,18 +95,18 @@ class StareDepol:
         if co.beta.shape[1] != cross.beta.shape[1]:
             raise doppy.exceptions.ShapeError(
                 "Range dimension mismatch in co and cross: "
-                f"{co.beta.shape[1]} vs {cross.beta.shape[1]}"
+                f"{co.beta.shape[1]} vs {cross.beta.shape[1]}",
             )
 
         if not np.isclose(co.wavelength, cross.wavelength):
             raise ValueError(
                 "Different wavelength in co and cross: "
-                f"{co.wavelength} vs {cross.wavelength}"
+                f"{co.wavelength} vs {cross.wavelength}",
             )
         if co.system_id != cross.system_id:
             raise ValueError(
                 "Different system ID in co and cross: "
-                f"{co.system_id} vs {cross.system_id}"
+                f"{co.system_id} vs {cross.system_id}",
             )
         if not np.allclose(co.radial_distance, cross.radial_distance, atol=1):
             raise ValueError("Different radial distance in co and cross")
@@ -120,7 +120,9 @@ class StareDepol:
         pick_ind[pick_ind] &= co_cross_timediff_below_threshold
 
         if not np.allclose(
-            co.elevation[pick_ind], cross.elevation[ind[pick_ind]], atol=1
+            co.elevation[pick_ind],
+            cross.elevation[ind[pick_ind]],
+            atol=1,
         ):
             raise ValueError("Different elevation in co and cross")
 
@@ -175,7 +177,9 @@ class StareDepol:
         polariser_bleed_through: float = 0,
     ) -> StareDepol:
         co = Stare.from_halo_data(
-            data=co_data, data_bg=co_data_bg, bg_correction_method=bg_correction_method
+            data=co_data,
+            data_bg=co_data_bg,
+            bg_correction_method=bg_correction_method,
         )
         cross = Stare.from_halo_data(
             data=cross_data,

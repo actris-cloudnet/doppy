@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import functools
+import itertools
 from collections import defaultdict
 from dataclasses import dataclass
 from io import BufferedIOBase
@@ -100,7 +101,7 @@ class Wind:
         time = np.array(time_list)
         if len(time) == 0:
             raise doppy.exceptions.NoDataError(
-                "Probably something wrong with scan grouping"
+                "Probably something wrong with scan grouping",
             )
         elevation = np.array(elevation_list)
         wind = np.concatenate(wind_list)
@@ -337,7 +338,7 @@ def _compute_wind(
             (np.sin(azimuth) * cos_elevation).reshape(-1, 1),
             (np.cos(azimuth) * cos_elevation).reshape(-1, 1),
             (np.sin(elevation)).reshape(-1, 1),
-        )
+        ),
     )
     A_inv = np.linalg.pinv(A)
 
@@ -353,7 +354,8 @@ def _compute_wind(
 
 
 def _compute_mask(
-    wind: npt.NDArray[np.float64], rmse: npt.NDArray[np.float64]
+    wind: npt.NDArray[np.float64],
+    rmse: npt.NDArray[np.float64],
 ) -> npt.NDArray[np.bool_]:
     """
     Parameters
@@ -383,7 +385,7 @@ def _group_scans_by_azimuth_rotation(raw: doppy.raw.HaloHpl) -> npt.NDArray[np.i
     max_timedelta_in_scan = np.timedelta64(30, "s")
     if len(raw.time) < 4:
         raise doppy.exceptions.NoDataError(
-            "Less than 4 profiles is not sufficient for wind product."
+            "Less than 4 profiles is not sufficient for wind product.",
         )
     groups = -1 * np.ones_like(raw.time, dtype=np.int64)
 
@@ -391,7 +393,8 @@ def _group_scans_by_azimuth_rotation(raw: doppy.raw.HaloHpl) -> npt.NDArray[np.i
     first_azimuth_of_scan = _wrap_and_round_angle(raw.azimuth[0])
     groups[0] = group
     for i, (time_prev, time, azimuth) in enumerate(
-        zip(raw.time[:-1], raw.time[1:], raw.azimuth[1:]), start=1
+        zip(raw.time[:-1], raw.time[1:], raw.azimuth[1:], strict=True),
+        start=1,
     ):
         if (
             angle := _wrap_and_round_angle(azimuth)
@@ -420,13 +423,13 @@ def _group_scans(raw: doppy.raw.HaloHpl) -> npt.NDArray[np.int64]:
     if scanstep_timediff < 0.1 or scanstep_timediff > 30:
         raise ValueError(
             "Time difference between profiles in one scan "
-            "expected to be between 0.1 and 30 seconds"
+            "expected to be between 0.1 and 30 seconds",
         )
     scanstep_timediff_upperbound = 2 * scanstep_timediff
     groups_by_time = -1 * np.ones_like(time, dtype=np.int64)
     groups_by_time[0] = 0
     scan_index = 0
-    for i, (t_prev, t) in enumerate(zip(time[:-1], time[1:]), start=1):
+    for i, (t_prev, t) in enumerate(itertools.pairwise(time), start=1):
         if t - t_prev > scanstep_timediff_upperbound:
             scan_index += 1
         groups_by_time[i] = scan_index
@@ -435,7 +438,8 @@ def _group_scans(raw: doppy.raw.HaloHpl) -> npt.NDArray[np.int64]:
 
 
 def _subgroup_scans(
-    raw: doppy.raw.HaloHpl, time_groups: npt.NDArray[np.int64]
+    raw: doppy.raw.HaloHpl,
+    time_groups: npt.NDArray[np.int64],
 ) -> npt.NDArray[np.int64]:
     """
     Groups scans further based on the azimuth angles
@@ -449,7 +453,8 @@ def _subgroup_scans(
         first_azimuth_angle = int(np.round(raw_group.azimuth[0])) % 360
         group[pick[0]] = i
         for j, azi in enumerate(
-            (int(np.round(azi)) % 360 for azi in raw_group.azimuth[1:]), start=1
+            (int(np.round(azi)) % 360 for azi in raw_group.azimuth[1:]),
+            start=1,
         ):
             if azi == first_azimuth_angle:
                 i += 1
@@ -462,7 +467,7 @@ def _select_raws_for_wind(
 ) -> Sequence[doppy.raw.HaloHpl]:
     if len(raws) == 0:
         raise doppy.exceptions.NoDataError(
-            "Cannot select raws for wind from empty list"
+            "Cannot select raws for wind from empty list",
         )
     raws_wind = [
         raw
@@ -478,7 +483,7 @@ def _select_raws_for_wind(
             "Multiple elevation angles or "
             "elevation angle >= 80 or "
             "elevation angle <= 25 or "
-            "no more than 3 azimuth angles"
+            "no more than 3 azimuth angles",
         )
 
     groups: dict[SelectionGroupKeyType, int] = defaultdict(int)

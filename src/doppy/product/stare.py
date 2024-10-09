@@ -92,7 +92,8 @@ class Stare:
         if len(raw.time) == 0:
             raise doppy.exceptions.NoDataError("No matching data and bg files")
         intensity_noise_bias_corrected = _correct_intensity_noise_bias(
-            raw, intensity_bg_corrected
+            raw,
+            intensity_bg_corrected,
         )
         wavelength = defaults.Halo.wavelength
         beta = _compute_beta(
@@ -102,7 +103,9 @@ class Stare:
             wavelength,
         )
         mask = _compute_noise_mask(
-            intensity_noise_bias_corrected, raw.radial_velocity, raw.radial_distance
+            intensity_noise_bias_corrected,
+            raw.radial_velocity,
+            raw.radial_distance,
         )
         return Stare(
             time=raw.time,
@@ -285,7 +288,8 @@ def _compute_effective_receiver_energy(
 
 
 def _correct_intensity_noise_bias(
-    raw: doppy.raw.HaloHpl, intensity: npt.NDArray[np.float64]
+    raw: doppy.raw.HaloHpl,
+    intensity: npt.NDArray[np.float64],
 ) -> npt.NDArray[np.float64]:
     """
     Parameters
@@ -341,7 +345,9 @@ def _locate_noise(intensity: npt.NDArray[np.float64]) -> npt.NDArray[np.bool_]:
     )
 
     gaussian = scipy.ndimage.gaussian_filter(
-        (intensity_mask | median_mask).astype(np.float64), sigma=8, radius=16
+        (intensity_mask | median_mask).astype(np.float64),
+        sigma=8,
+        radius=16,
     )
     gaussian_mask = gaussian > GAUSSIAN_THRESHOLD
 
@@ -372,7 +378,9 @@ def _correct_background(
     match method:
         case options.BgCorrectionMethod.FIT:
             bg_signal_corrected = _correct_background_by_fitting(
-                bg_relevant, raw.radial_distance, fit_method=None
+                bg_relevant,
+                raw.radial_distance,
+                fit_method=None,
             )
         case options.BgCorrectionMethod.MEAN:
             raise NotImplementedError
@@ -398,7 +406,9 @@ def _correct_background_by_fitting(
     signal_correcred = np.zeros_like(bg.signal)
     for cluster in set(clusters):
         signal_correcred[clusters == cluster] = _fit_background(
-            bg[clusters == cluster], radial_distance, fit_method
+            bg[clusters == cluster],
+            radial_distance,
+            fit_method,
         )
     return signal_correcred
 
@@ -420,19 +430,22 @@ def _fit_background(
 
 
 def _lin_func(
-    x: npt.NDArray[np.float64], radial_distance: npt.NDArray[np.float64]
+    x: npt.NDArray[np.float64],
+    radial_distance: npt.NDArray[np.float64],
 ) -> npt.NDArray[np.float64]:
     return np.array(x[0] * radial_distance + x[1], dtype=np.float64)
 
 
 def _exp_func(
-    x: npt.NDArray[np.float64], radial_distance: npt.NDArray[np.float64]
+    x: npt.NDArray[np.float64],
+    radial_distance: npt.NDArray[np.float64],
 ) -> npt.NDArray[np.float64]:
     return np.array(x[0] * np.exp(x[1] * radial_distance ** x[2]), dtype=np.float64)
 
 
 def _explin_func(
-    x: npt.NDArray[np.float64], radial_distance: npt.NDArray[np.float64]
+    x: npt.NDArray[np.float64],
+    radial_distance: npt.NDArray[np.float64],
 ) -> npt.NDArray[np.float64]:
     return np.array(
         _exp_func(x[:3], radial_distance) + _lin_func(x[3:], radial_distance),
@@ -441,7 +454,8 @@ def _explin_func(
 
 
 def _infer_fit_type(
-    bg_signal: npt.NDArray[np.float64], radial_distance: npt.NDArray[np.float64]
+    bg_signal: npt.NDArray[np.float64],
+    radial_distance: npt.NDArray[np.float64],
 ) -> options.BgFitMethod:
     peaks = _detect_peaks(bg_signal, radial_distance)
     dist_mask = (90 < radial_distance) & (radial_distance < 8000)
@@ -464,13 +478,22 @@ def _infer_fit_type(
 
     method = "Nelder-Mead"
     res_lin = scipy.optimize.minimize(
-        lin_func_rss, [1e-5, 1], method=method, options={"maxiter": 2 * 600}
+        lin_func_rss,
+        [1e-5, 1],
+        method=method,
+        options={"maxiter": 2 * 600},
     )
     res_exp = scipy.optimize.minimize(
-        exp_func_rss, [1, -1, -1], method=method, options={"maxiter": 3 * 600}
+        exp_func_rss,
+        [1, -1, -1],
+        method=method,
+        options={"maxiter": 3 * 600},
     )
     res_explin = scipy.optimize.minimize(
-        explin_func_rss, [1, -1, -1, 0, 0], method=method, options={"maxiter": 5 * 600}
+        explin_func_rss,
+        [1, -1, -1, 0, 0],
+        method=method,
+        options={"maxiter": 5 * 600},
     )
 
     fit_lin = _lin_func(res_lin.x, rdist)
@@ -492,7 +515,8 @@ def _infer_fit_type(
 
 
 def _detect_peaks(
-    background_signal: npt.NDArray[np.float64], radial_distance: npt.NDArray[np.float64]
+    background_signal: npt.NDArray[np.float64],
+    radial_distance: npt.NDArray[np.float64],
 ) -> npt.NDArray[np.bool_]:
     """
     background_signal: dim = (time,range)
@@ -509,8 +533,8 @@ def _detect_peaks(
                 np.array([False]),
                 np.diff(np.diff(bg.mean(axis=0))) < -0.01,
                 np.array([False]),
-            )
-        )
+            ),
+        ),
     )
 
 
@@ -522,7 +546,8 @@ def _set_adjacent_true(arr: npt.NDArray[np.bool_]) -> npt.NDArray[np.bool_]:
 
 
 def _linear_fit(
-    bg_signal: npt.NDArray[np.float64], radial_distance: npt.NDArray[np.float64]
+    bg_signal: npt.NDArray[np.float64],
+    radial_distance: npt.NDArray[np.float64],
 ) -> npt.NDArray[np.float64]:
     dist_mask = 90 < radial_distance
     peaks = _detect_peaks(bg_signal, radial_distance)
@@ -533,7 +558,8 @@ def _linear_fit(
     signal_fit = (bg_signal / scale)[:, mask]
 
     A = np.tile(
-        np.concatenate((rdist_fit, np.ones_like(rdist_fit))).T, (signal_fit.shape[0], 1)
+        np.concatenate((rdist_fit, np.ones_like(rdist_fit))).T,
+        (signal_fit.shape[0], 1),
     )
     x = np.linalg.pinv(A) @ signal_fit.reshape(-1, 1)
     fit = (
@@ -547,7 +573,8 @@ def _linear_fit(
 
 
 def _exponential_fit(
-    bg_signal: npt.NDArray[np.float64], radial_distance: npt.NDArray[np.float64]
+    bg_signal: npt.NDArray[np.float64],
+    radial_distance: npt.NDArray[np.float64],
 ) -> npt.NDArray[np.float64]:
     dist_mask = 90 < radial_distance
     peaks = _detect_peaks(bg_signal, radial_distance)
@@ -560,14 +587,18 @@ def _exponential_fit(
         return np.float64(((signal_fit - _exp_func(x, rdist_fit)) ** 2).sum())
 
     result = scipy.optimize.minimize(
-        exp_func_rss, [1, -1, -1], method="Nelder-Mead", options={"maxiter": 3 * 600}
+        exp_func_rss,
+        [1, -1, -1],
+        method="Nelder-Mead",
+        options={"maxiter": 3 * 600},
     )
     fit = _exp_func(result.x, radial_distance)[np.newaxis, :]
     return np.array(fit * scale, dtype=np.float64)
 
 
 def _exponential_linear_fit(
-    bg_signal: npt.NDArray[np.float64], radial_distance: npt.NDArray[np.float64]
+    bg_signal: npt.NDArray[np.float64],
+    radial_distance: npt.NDArray[np.float64],
 ) -> npt.NDArray[np.float64]:
     dist_mask = 90 < radial_distance
     peaks = _detect_peaks(bg_signal, radial_distance)
@@ -601,13 +632,13 @@ def _select_raws_for_stare(
     raws_stare = [raw for raw in raws if len(raw.azimuth_angles) == 1]
     if len(raws_stare) == 0:
         raise doppy.exceptions.NoDataError(
-            "No data suitable for stare product. Data is probably from scans"
+            "No data suitable for stare product. Data is probably from scans",
         )
     raws_stare = [raw for raw in raws if len(raw.elevation_angles) == 1]
     if len(raws_stare) == 0:
         raise doppy.exceptions.NoDataError(
             "No data suitable for stare product. "
-            "Elevation angle does not remain constant"
+            "Elevation angle does not remain constant",
         )
     elevation_angles = []
     for raw in raws_stare:
@@ -647,13 +678,15 @@ def _selection_key(raw: doppy.raw.HaloHpl) -> SelectionGroupKeyType:
 
 
 def _time2bg_time(
-    time: npt.NDArray[np.datetime64], bg_time: npt.NDArray[np.datetime64]
+    time: npt.NDArray[np.datetime64],
+    bg_time: npt.NDArray[np.datetime64],
 ) -> npt.NDArray[np.int64]:
     return np.searchsorted(bg_time, time, side="right") - 1
 
 
 def _select_relevant_background_profiles(
-    bg: doppy.raw.HaloBg, time: npt.NDArray[np.datetime64]
+    bg: doppy.raw.HaloBg,
+    time: npt.NDArray[np.datetime64],
 ) -> doppy.raw.HaloBg:
     """
     expects bg.time to be sorted
@@ -667,7 +700,8 @@ def _select_relevant_background_profiles(
 
 
 def _cluster_background_profiles(
-    background_signal: npt.NDArray[np.float64], radial_distance: npt.NDArray[np.float64]
+    background_signal: npt.NDArray[np.float64],
+    radial_distance: npt.NDArray[np.float64],
 ) -> npt.NDArray[np.int64]:
     default_labels = np.zeros(len(background_signal), dtype=int)
     if len(background_signal) < 2:
@@ -675,11 +709,14 @@ def _cluster_background_profiles(
     radial_distance_mask = (90 < radial_distance) & (radial_distance < 1500)
 
     normalised_background_signal = background_signal / np.median(
-        background_signal, axis=1, keepdims=True
+        background_signal,
+        axis=1,
+        keepdims=True,
     )
 
     profile_median = np.median(
-        normalised_background_signal[:, radial_distance_mask], axis=1
+        normalised_background_signal[:, radial_distance_mask],
+        axis=1,
     )
     kmeans = KMeans(n_clusters=2, n_init="auto").fit(profile_median[:, np.newaxis])
     cluster_width = np.array([None, None])
@@ -687,7 +724,7 @@ def _cluster_background_profiles(
         cluster = profile_median[kmeans.labels_ == label]
         cluster_width[label] = np.max(cluster) - np.min(cluster)
     cluster_distance = np.abs(
-        kmeans.cluster_centers_[0, 0] - kmeans.cluster_centers_[1, 0]
+        kmeans.cluster_centers_[0, 0] - kmeans.cluster_centers_[1, 0],
     )
     max_cluster_width = np.float64(np.max(cluster_width))
     if np.isclose(max_cluster_width, 0):

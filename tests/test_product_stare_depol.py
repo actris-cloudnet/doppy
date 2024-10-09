@@ -1,12 +1,9 @@
-import os
 import pathlib
 import tempfile
 
 import pytest
 from doppy import exceptions, options, product
 from doppy.data.api import Api
-
-CACHE = "GITHUB_ACTIONS" not in os.environ
 
 
 @pytest.mark.slow
@@ -17,8 +14,8 @@ CACHE = "GITHUB_ACTIONS" not in os.environ
         ("vehmasmaki", "2021-06-30", ""),
     ],
 )
-def test_stare_depol(site, date, reason):
-    api = Api(cache=CACHE)
+def test_stare_depol(site, date, reason, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records_hpl_co = [
         rec
@@ -73,8 +70,8 @@ def test_stare_depol(site, date, reason):
         ),
     ],
 )
-def test_bad_stare_depol(site, date, err, reason):
-    api = Api(cache=CACHE)
+def test_bad_stare_depol(site, date, err, reason, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records_hpl_co = [
         rec

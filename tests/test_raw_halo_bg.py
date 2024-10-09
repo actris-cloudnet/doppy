@@ -1,10 +1,6 @@
-import os
-
 import doppy
 import pytest
 from doppy.data.api import Api
-
-CACHE = "GITHUB_ACTIONS" not in os.environ
 
 
 @pytest.mark.parametrize(
@@ -19,8 +15,8 @@ CACHE = "GITHUB_ACTIONS" not in os.environ
         ),
     ],
 )
-def test_bg_files(site, date, fname, reason):
-    api = Api(cache=CACHE)
+def test_bg_files(site, date, fname, reason, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records = [rec for rec in records if rec["filename"] == fname or fname is None]
     assert len(records) > 0
@@ -41,8 +37,8 @@ def test_bg_files(site, date, fname, reason):
         ),
     ],
 )
-def test_bad_bg_files(site, date, fname, reason, err):
-    api = Api(cache=CACHE)
+def test_bad_bg_files(site, date, fname, reason, err, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records = [
         rec
@@ -67,8 +63,8 @@ def test_bad_bg_files(site, date, fname, reason, err):
         ),
     ],
 )
-def test_some_bad_bg_files(site, date, reason):
-    api = Api(cache=CACHE)
+def test_some_bad_bg_files(site, date, reason, cache):
+    api = Api(cache=cache)
     records = api.get_raw_records(site, date)
     records = [rec for rec in records if rec["filename"].startswith("Background")]
     assert len(records) > 0

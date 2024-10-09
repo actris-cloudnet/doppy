@@ -22,14 +22,16 @@ class Api:
 
     def get(self, path: str, params: dict[str, str]) -> list:
         res = self.session.get(
-            f"{self.api_endpoint}/{path}", params=params, timeout=1800
+            f"{self.api_endpoint}/{path}",
+            params=params,
+            timeout=1800,
         )
         if res.ok:
             data = res.json()
             if isinstance(data, list):
                 return data
             raise exceptions.ApiRequestError(
-                f"Unexpected response type from api: {type(data)}"
+                f"Unexpected response type from api: {type(data)}",
             )
         raise exceptions.ApiRequestError(f"Api request error: {res.status_code}")
 

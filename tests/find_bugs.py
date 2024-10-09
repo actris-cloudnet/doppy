@@ -5,8 +5,7 @@ import os
 import doppy
 from doppy.data.api import Api
 
-CACHE = "GITHUB_ACTIONS" not in os.environ
-API = Api(cache=CACHE)
+API = Api(cache="GITHUB_ACTIONS" not in os.environ)
 
 
 def find_bugs():
@@ -49,7 +48,7 @@ def _process_date(site, date):
 
 def _sites(date):
     records = API.get("raw-files", {"instrument": "halo-doppler-lidar", "date": date})
-    return sorted(list(set((r["siteId"] for r in records))))
+    return sorted({r["siteId"] for r in records})
 
 
 def _iter_dates(start=0, end=10):

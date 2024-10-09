@@ -53,7 +53,7 @@ class WindCube:
             elevation=np.concatenate([r.elevation for r in raws]),
             radial_velocity=np.concatenate([r.radial_velocity for r in raws]),
             radial_velocity_confidence=np.concatenate(
-                [r.radial_velocity_confidence for r in raws]
+                [r.radial_velocity_confidence for r in raws],
             ),
             cnr=np.concatenate([r.cnr for r in raws]),
             system_id=merge_all_equal("system_id", [r.system_id for r in raws]),
@@ -166,11 +166,11 @@ def _from_vad_or_dbs_src(nc: Dataset) -> WindCube:
 
         time_list.append(_extract_datetime64_or_raise(group["time"], time_reference_))
         radial_wind_speed_list.append(
-            _extract_float64_or_raise(group["radial_wind_speed"])
+            _extract_float64_or_raise(group["radial_wind_speed"]),
         )
         cnr_list.append(_extract_float64_or_raise(group["cnr"]))
         radial_wind_speed_confidence_list.append(
-            _extract_float64_or_raise(group["radial_wind_speed_ci"])
+            _extract_float64_or_raise(group["radial_wind_speed_ci"]),
         )
         azimuth_list.append(_extract_float64_or_raise(group["azimuth"]))
         elevation_list.append(_extract_float64_or_raise(group["elevation"]))
@@ -193,7 +193,8 @@ def _from_vad_or_dbs_src(nc: Dataset) -> WindCube:
 
 
 def _extract_datetime64_or_raise(
-    nc: Dataset, time_reference: str | None
+    nc: Dataset,
+    time_reference: str | None,
 ) -> npt.NDArray[np.datetime64]:
     match nc.name:
         case "time":
