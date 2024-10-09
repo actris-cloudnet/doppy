@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.6 – 2024-10-09
+
+- Add windcube dbs support for the wind product
+
 ## 0.3.5 – 2024-08-30
 
 - Add time_reference to nc units in old windcube files
