@@ -1,3 +1,4 @@
+import devboard as db
 import pytest
 from doppy import exceptions, options, product
 from doppy.data.api import Api
@@ -43,10 +44,20 @@ def test_tke(site, date, reason, cache):
     pulse_repetition_rate = 15e3  # 1/s
     integration_time = pulses_per_ray / pulse_repetition_rate
     beam_divergence = 33e-6  # radians
-    _tke = product.TurbulentKineticEnergy.from_stare_and_wind(
+    tke = product.TurbulentKineticEnergy.from_stare_and_wind(
         stare, wind, integration_time, beam_divergence
     )
-    breakpoint()
+    fig, ax = db.plt.subplots()
+    eps = tke.dissipation_rate
+    eps[tke.mask] = db.np.nan
+    ax.imshow(
+        eps.T,
+        origin="lower",
+        aspect="auto",
+        norm=db.mpl.colors.LogNorm(vmin=1e-7, vmax=1e-1),
+        extent=[tke.time[0], tke.time[-1], tke.height[0], tke.height[-1]],
+    )
+    db.add_fig(fig)
 
 
 @pytest.mark.slow
