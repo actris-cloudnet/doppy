@@ -160,7 +160,11 @@ def _from_vad_or_dbs_src(nc: Dataset) -> WindCube:
     for i, group in enumerate(
         nc[group] for group in (nc.variables["sweep_group_name"][:])
     ):
-        time_list.append(_extract_datetime64_or_raise(group["time"], time_reference))
+        time_reference_ = time_reference
+        if time_reference is None and "time_reference" in group.variables:
+            time_reference_ = group["time_reference"][:]
+
+        time_list.append(_extract_datetime64_or_raise(group["time"], time_reference_))
         radial_wind_speed_list.append(
             _extract_float64_or_raise(group["radial_wind_speed"])
         )

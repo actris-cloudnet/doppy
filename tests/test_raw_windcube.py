@@ -13,12 +13,14 @@ from doppy.data.api import Api
         ("payerne", "2024-01-01", "ppi", ""),
         ("payerne", "2024-01-01", "vad", ""),
         ("payerne", "2024-01-01", "fixed", ""),
+        ("cabauw", "2024-03-01", "dbs", "time reference in root dataset"),
+        ("cabauw", "2024-01-01", "dbs", "time regerence in sweep group dataset"),
     ],
 )
 def test_windcube(site, date, ftype, reason, cache):
     api = Api(cache=cache)
     records = api.get_raw_records(site, date)
-    r = re.compile(rf".*{ftype}_(.+)\.nc\..*")
+    r = re.compile(rf".*{ftype}_(.+)\.nc(?:\..*)?")
     groups = defaultdict(list)
     for rec in records:
         match_ = r.match(rec["filename"])
