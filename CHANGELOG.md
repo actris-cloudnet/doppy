@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.7 – 2024-10-14
+
+- Fix cabauw dbs time reference
+
 ## 0.3.6 – 2024-10-09
 
 - Add windcube dbs support for the wind product
