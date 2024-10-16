@@ -112,6 +112,7 @@ def test_bad_wind(site, date, err, reason):
         )
 
 
+@pytest.mark.slow
 @pytest.mark.parametrize(
     "site,date,ftype,reason",
     [
@@ -132,6 +133,61 @@ def test_windcube_wind(site, date, ftype, reason, cache):
         file = api.get_record_content(rec)
         ftype_groups[group].append(file)
     for group, files in ftype_groups.items():
+        _wind = product.Wind.from_windcube_data(files)
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize(
+    "site,date,ftype,reason",
+    [
+        (
+            "cabauw",
+            "2024-10-10",
+            "dbs",
+            "'63_100m', '65_100m' with different time resolutions",
+        ),
+    ],
+)
+def test_windcube_wind_with_different_filetypes(site, date, ftype, reason, cache):
+    api = Api(cache=cache)
+    records = api.get_raw_records(site, date)
+    ftype_re = re.compile(rf".*{ftype}_(.*)\.nc(?:\..*)?")
+    files = [
+        api.get_record_content(rec)
+        for rec in records
+        if ftype_re.match(rec["filename"])
+    ]
+
+    wind = product.Wind.from_windcube_data(files)
+    assert len(wind.time) > 1
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize(
+    "site,date,ftype,err,reason",
+    [
+        (
+            "payerne",
+            "2021-07-07",
+            "dbs",
+            ValueError,
+            "groups: '264_50m', '270_100m', '280_100m'",
+        ),
+    ],
+)
+def test_bad_windcube_wind_with_different_filetypes(
+    site, date, ftype, err, reason, cache
+):
+    api = Api(cache=cache)
+    records = api.get_raw_records(site, date)
+    ftype_re = re.compile(rf".*{ftype}_(.*)\.nc(?:\..*)?")
+    files = [
+        api.get_record_content(rec)
+        for rec in records
+        if ftype_re.match(rec["filename"])
+    ]
+
+    with pytest.raises(err):
         _wind = product.Wind.from_windcube_data(files)
 
 

@@ -52,6 +52,19 @@ class Stare:
         raise TypeError
 
     @classmethod
+    def from_windcube_data(
+        cls,
+        data: Sequence[str]
+        | Sequence[Path]
+        | Sequence[bytes]
+        | Sequence[BufferedIOBase],
+    ) -> Stare:
+        raws = doppy.raw.WindCubeFixed.from_srcs(data)
+        raw = doppy.raw.WindCubeFixed.merge(raws)
+        breakpoint()
+        pass
+
+    @classmethod
     def from_halo_data(
         cls,
         data: Sequence[str]

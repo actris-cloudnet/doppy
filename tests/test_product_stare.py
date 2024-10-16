@@ -1,5 +1,6 @@
 import os
 import pathlib
+import re
 import tempfile
 
 import pytest
@@ -52,6 +53,24 @@ def test_stare(site, date, reason):
         data=[api.get_record_content(r) for r in records_hpl],
         data_bg=[(api.get_record_content(r), r["filename"]) for r in records_bg],
         bg_correction_method=options.BgCorrectionMethod.FIT,
+    )
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize(
+    "site,date,reason",
+    [
+        ("cabauw", "2023-08-26", ""),
+    ],
+)
+def test_stare_windcube(site, date, reason):
+    api = Api(cache=CACHE)
+    records = api.get_raw_records(site, date)
+    r = re.compile(r".*fixed.*", re.IGNORECASE)
+    records_fixed = [rec for rec in records if r.match(rec["filename"])]
+    records_bg = [rec for rec in records if rec["filename"].startswith("Background")]
+    _stare = product.Stare.from_windcube_data(
+        data=[api.get_record_content(r) for r in records_fixed],
     )
 
 

@@ -12,6 +12,81 @@ from numpy import datetime64
 
 from doppy.utils import merge_all_equal
 
+# Fixed file variables (in sweep groups)
+# ['scan_file',
+# 'settings_file',
+# 'res_file',
+# 'ray_angle_resolution',
+# 'range_gate_length',
+# 'ray_accumulation_time',
+# 'time_reference',
+# 'sweep_mode',
+# 'sweep_index',
+# 'time',
+# 'range',
+# 'timestamp',
+# 'ray_index',
+# 'azimuth',
+# 'elevation',
+# 'cnr',
+# 'gate_index',
+# 'radial_wind_speed',
+# 'radial_wind_speed_ci',
+# 'radial_wind_speed_status',
+# 'doppler_spectrum_width',
+# 'doppler_spectrum_mean_error',
+# 'relative_beta',
+# 'instrumental_function_x_max',
+# 'instrumental_function_y_average',
+# 'instrumental_function_amplitude',
+# 'instrumental_function_half_height_width',
+# 'instrumental_function_status']
+
+
+@dataclass
+class WindCubeFixed:
+    time: npt.NDArray[datetime64]  # dim: (time, )
+    radial_distance: npt.NDArray[np.int64]  # dim: (radial_distance,)
+    azimuth: npt.NDArray[np.float64]  # dim: (time, )
+    elevation: npt.NDArray[np.float64]  # dim: (time, )
+    cnr: npt.NDArray[np.float64]  # dim: (time, radial_distance)
+    relative_beta: npt.NDArray[np.float64]  # dim: (time, radial_distance)
+    radial_velocity: npt.NDArray[np.float64]  # dim: (time, radial_distance)
+    radial_velocity_confidence: npt.NDArray[np.float64]  # dim: (time, radial_distance)
+    system_id: str
+
+    @classmethod
+    def from_srcs(
+        cls,
+        data: Sequence[str]
+        | Sequence[Path]
+        | Sequence[bytes]
+        | Sequence[BufferedIOBase],
+    ) -> list[WindCube]:
+        return [WindCubeFixed.from_fixed_src(src) for src in data]
+
+    @classmethod
+    def from_fixed_src(cls, data: str | Path | bytes | BufferedIOBase) -> WindCubeFixed:
+        data_bytes = _src_to_bytes(data)
+        nc = Dataset("inmemory.nc", "r", memory=data_bytes)
+        return _from_fixed_src(nc)
+
+    @classmethod
+    def merge(cls, raws: list[WindCubeFixed]) -> WindCubeFixed:
+        return WindCubeFixed(
+            time=np.concatenate([r.time for r in raws]),
+            radial_distance=np.concatenate([r.radial_distance for r in raws]),
+            azimuth=np.concatenate([r.azimuth for r in raws]),
+            elevation=np.concatenate([r.elevation for r in raws]),
+            radial_velocity=np.concatenate([r.radial_velocity for r in raws]),
+            radial_velocity_confidence=np.concatenate(
+                [r.radial_velocity_confidence for r in raws]
+            ),
+            cnr=np.concatenate([r.cnr for r in raws]),
+            relative_beta=np.concatenate([r.relative_beta for r in raws]),
+            system_id=merge_all_equal("system_id", [r.system_id for r in raws]),
+        )
+
 
 @dataclass
 class WindCube:
@@ -143,6 +218,63 @@ def _src_to_bytes(data: str | Path | bytes | BufferedIOBase) -> bytes:
     raise TypeError("Unsupported data type")
 
 
+def _from_fixed_src(nc: Dataset) -> WindCube:
+    time_list = []
+    cnr_list = []
+    relative_beta_list = []
+    radial_wind_speed_list = []
+    radial_wind_speed_confidence_list = []
+    azimuth_list = []
+    elevation_list = []
+    range_list = []
+    time_reference = (
+        nc["time_reference"][:] if "time_reference" in nc.variables else None
+    )
+
+    expected_dimensions = ("time", "range")
+    for i, group in enumerate(
+        nc[group] for group in (nc.variables["sweep_group_name"][:])
+    ):
+        time_reference_ = time_reference
+        if time_reference is None and "time_reference" in group.variables:
+            time_reference_ = group["time_reference"][:]
+
+        time_list.append(_extract_datetime64_or_raise(group["time"], time_reference_))
+        radial_wind_speed_list.append(
+            _extract_float64_or_raise(group["radial_wind_speed"], expected_dimensions)
+        )
+        cnr_list.append(_extract_float64_or_raise(group["cnr"], expected_dimensions))
+        relative_beta_list.append(
+            _extract_float64_or_raise(group["relative_beta"], expected_dimensions)
+        )
+        radial_wind_speed_confidence_list.append(
+            _extract_float64_or_raise(
+                group["radial_wind_speed_ci"], expected_dimensions
+            )
+        )
+        azimuth_list.append(
+            _extract_float64_or_raise(group["azimuth"], expected_dimensions)
+        )
+        elevation_list.append(
+            _extract_float64_or_raise(group["elevation"], expected_dimensions)
+        )
+        range_list.append(
+            _extract_int64_or_raise(group["range"], (expected_dimensions[1],))
+        )
+
+    return WindCubeFixed(
+        time=np.concatenate(time_list),
+        radial_distance=np.concatenate(range_list),
+        azimuth=np.concatenate(azimuth_list),
+        elevation=np.concatenate(elevation_list),
+        radial_velocity=np.concatenate(radial_wind_speed_list),
+        radial_velocity_confidence=np.concatenate(radial_wind_speed_confidence_list),
+        cnr=np.concatenate(cnr_list),
+        relative_beta=np.concatenate(relative_beta_list),
+        system_id=nc.instrument_name,
+    )
+
+
 def _from_vad_or_dbs_src(nc: Dataset) -> WindCube:
     scan_index_list = []
     time_list = []
@@ -157,6 +289,7 @@ def _from_vad_or_dbs_src(nc: Dataset) -> WindCube:
         nc["time_reference"][:] if "time_reference" in nc.variables else None
     )
 
+    expected_dimensions = ("time", "gate_index")
     for i, group in enumerate(
         nc[group] for group in (nc.variables["sweep_group_name"][:])
     ):
@@ -166,16 +299,24 @@ def _from_vad_or_dbs_src(nc: Dataset) -> WindCube:
 
         time_list.append(_extract_datetime64_or_raise(group["time"], time_reference_))
         radial_wind_speed_list.append(
-            _extract_float64_or_raise(group["radial_wind_speed"])
+            _extract_float64_or_raise(group["radial_wind_speed"], expected_dimensions)
         )
-        cnr_list.append(_extract_float64_or_raise(group["cnr"]))
+        cnr_list.append(_extract_float64_or_raise(group["cnr"], expected_dimensions))
         radial_wind_speed_confidence_list.append(
-            _extract_float64_or_raise(group["radial_wind_speed_ci"])
+            _extract_float64_or_raise(
+                group["radial_wind_speed_ci"], expected_dimensions
+            )
         )
-        azimuth_list.append(_extract_float64_or_raise(group["azimuth"]))
-        elevation_list.append(_extract_float64_or_raise(group["elevation"]))
-        range_list.append(_extract_int64_or_raise(group["range"]))
-        height_list.append(_extract_int64_or_raise(group["measurement_height"]))
+        azimuth_list.append(
+            _extract_float64_or_raise(group["azimuth"], expected_dimensions)
+        )
+        elevation_list.append(
+            _extract_float64_or_raise(group["elevation"], expected_dimensions)
+        )
+        range_list.append(_extract_int64_or_raise(group["range"], expected_dimensions))
+        height_list.append(
+            _extract_int64_or_raise(group["measurement_height"], expected_dimensions)
+        )
         scan_index_list.append(np.full(group["time"][:].shape, i, dtype=np.int64))
 
     return WindCube(
@@ -211,18 +352,28 @@ def _extract_datetime64_or_raise(
             raise ValueError(f"Unexpected variable name {nc.name}")
 
 
-def _extract_float64_or_raise(nc: Dataset) -> npt.NDArray[np.float64]:
+def _extract_float64_or_raise(
+    nc: Dataset, expected_dimensions: tuple[str, str]
+) -> npt.NDArray[np.float64]:
     match nc.name:
         case "cnr":
-            if nc.dimensions != ("time", "gate_index"):
+            if nc.dimensions != expected_dimensions:
                 raise ValueError(f"Unexpected dimensions for {nc.name}")
             if nc.units != "dB":
                 raise ValueError(f"Unexpected units for {nc.name}")
             if nc[:].mask is not np.bool_(False):
                 pass  # ignore that array contains masked values
             return np.array(nc[:].data, dtype=np.float64)
+        case "relative_beta":
+            if nc.dimensions != expected_dimensions:
+                raise ValueError(f"Unexpected dimensions for {nc.name}")
+            if nc.units != "m-1 sr-1":
+                raise ValueError(f"Unexpected units for {nc.name}")
+            if nc[:].mask is not np.bool_(False):
+                raise ValueError
+            return np.array(nc[:].data, dtype=np.float64)
         case "radial_wind_speed":
-            if nc.dimensions != ("time", "gate_index"):
+            if nc.dimensions != expected_dimensions:
                 raise ValueError(f"Unexpected dimensions for {nc.name}")
             if nc.units != "m s-1":
                 raise ValueError(f"Unexpected units for {nc.name}")
@@ -230,7 +381,7 @@ def _extract_float64_or_raise(nc: Dataset) -> npt.NDArray[np.float64]:
                 pass  # ignore that array contains masked values
             return np.array(nc[:].data, dtype=np.float64)
         case "radial_wind_speed_ci":
-            if nc.dimensions != ("time", "gate_index"):
+            if nc.dimensions != expected_dimensions:
                 raise ValueError(f"Unexpected dimensions for {nc.name}")
             if nc.units != "percent":
                 raise ValueError(f"Unexpected units for {nc.name}")
@@ -238,7 +389,7 @@ def _extract_float64_or_raise(nc: Dataset) -> npt.NDArray[np.float64]:
                 pass  # ignore that array contains masked values
             return np.array(nc[:].data, dtype=np.float64)
         case "azimuth" | "elevation":
-            if nc.dimensions != ("time",):
+            if nc.dimensions != (expected_dimensions[0],):
                 raise ValueError(f"Unexpected dimensions for {nc.name}")
             if nc.units != "degrees":
                 raise ValueError(f"Unexpected units for {nc.name}")
@@ -249,10 +400,12 @@ def _extract_float64_or_raise(nc: Dataset) -> npt.NDArray[np.float64]:
             raise ValueError(f"Unexpected variable name {nc.name}")
 
 
-def _extract_int64_or_raise(nc: Dataset) -> npt.NDArray[np.int64]:
+def _extract_int64_or_raise(
+    nc: Dataset, expected_dimensions: tuple[str, str]
+) -> npt.NDArray[np.int64]:
     match nc.name:
         case "range" | "measurement_height":
-            if nc.dimensions != ("time", "gate_index"):
+            if nc.dimensions != expected_dimensions:
                 raise ValueError(f"Unexpected dimensions for {nc.name}")
             if nc.units != "m":
                 raise ValueError(f"Unexpected units for {nc.name}")
