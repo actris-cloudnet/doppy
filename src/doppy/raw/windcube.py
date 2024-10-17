@@ -10,7 +10,7 @@ import numpy.typing as npt
 from netCDF4 import Dataset, num2date
 from numpy import datetime64
 
-from doppy.utils import merge_all_equal
+from doppy.utils import merge_all_close, merge_all_equal
 
 # Fixed file variables (in sweep groups)
 # ['scan_file',
@@ -52,7 +52,10 @@ class WindCubeFixed:
     cnr: npt.NDArray[np.float64]  # dim: (time, radial_distance)
     relative_beta: npt.NDArray[np.float64]  # dim: (time, radial_distance)
     radial_velocity: npt.NDArray[np.float64]  # dim: (time, radial_distance)
+    doppler_spectrum_width: npt.NDArray[np.float64]  # dim: (time, radial_distance)
     radial_velocity_confidence: npt.NDArray[np.float64]  # dim: (time, radial_distance)
+    ray_accumulation_time: npt.NDArray[np.float64]  # dim: ()
+
     system_id: str
 
     @classmethod
@@ -75,7 +78,9 @@ class WindCubeFixed:
     def merge(cls, raws: list[WindCubeFixed]) -> WindCubeFixed:
         return WindCubeFixed(
             time=np.concatenate([r.time for r in raws]),
-            radial_distance=np.concatenate([r.radial_distance for r in raws]),
+            radial_distance=_merge_radial_distance_for_fixed(
+                [r.radial_distance for r in raws]
+            ),
             azimuth=np.concatenate([r.azimuth for r in raws]),
             elevation=np.concatenate([r.elevation for r in raws]),
             radial_velocity=np.concatenate([r.radial_velocity for r in raws]),
@@ -84,6 +89,12 @@ class WindCubeFixed:
             ),
             cnr=np.concatenate([r.cnr for r in raws]),
             relative_beta=np.concatenate([r.relative_beta for r in raws]),
+            doppler_spectrum_width=np.concatenate(
+                [r.doppler_spectrum_width for r in raws]
+            ),
+            ray_accumulation_time=merge_all_close(
+                "ray_accumulation_time", [r.ray_accumulation_time for r in raws]
+            ),
             system_id=merge_all_equal("system_id", [r.system_id for r in raws]),
         )
 
@@ -203,6 +214,18 @@ def _merge_scan_index(index_list: list[npt.NDArray[np.int64]]) -> npt.NDArray[np
     return np.concatenate(new_index_list)
 
 
+def _merge_radial_distance_for_fixed(
+    radial_distance_list: list[npt.NDArray[np.int64]],
+) -> npt.NDArray[np.int64]:
+    if len(radial_distance_list) == 0:
+        raise ValueError("cannot merge empty list")
+    if not all(
+        np.allclose(arr, radial_distance_list[0]) for arr in radial_distance_list
+    ):
+        raise ValueError("Cannot merge radial distances")
+    return radial_distance_list[0]
+
+
 def _src_to_bytes(data: str | Path | bytes | BufferedIOBase) -> bytes:
     if isinstance(data, str):
         path = Path(data)
@@ -227,6 +250,8 @@ def _from_fixed_src(nc: Dataset) -> WindCube:
     azimuth_list = []
     elevation_list = []
     range_list = []
+    doppler_spectrum_width_list = []
+    ray_accumulation_time_list = []
     time_reference = (
         nc["time_reference"][:] if "time_reference" in nc.variables else None
     )
@@ -261,6 +286,16 @@ def _from_fixed_src(nc: Dataset) -> WindCube:
         range_list.append(
             _extract_int64_or_raise(group["range"], (expected_dimensions[1],))
         )
+        doppler_spectrum_width_list.append(
+            _extract_float64_or_raise(
+                group["doppler_spectrum_width"], expected_dimensions
+            )
+        )
+        ray_accumulation_time_list.append(
+            _extract_float64_or_raise(
+                group["ray_accumulation_time"], expected_dimensions
+            )
+        )
 
     return WindCubeFixed(
         time=np.concatenate(time_list),
@@ -271,6 +306,8 @@ def _from_fixed_src(nc: Dataset) -> WindCube:
         radial_velocity_confidence=np.concatenate(radial_wind_speed_confidence_list),
         cnr=np.concatenate(cnr_list),
         relative_beta=np.concatenate(relative_beta_list),
+        doppler_spectrum_width=np.concatenate(doppler_spectrum_width_list),
+        ray_accumulation_time=np.array(ray_accumulation_time_list, dtype=np.float64),
         system_id=nc.instrument_name,
     )
 
@@ -392,6 +429,22 @@ def _extract_float64_or_raise(
             if nc.dimensions != (expected_dimensions[0],):
                 raise ValueError(f"Unexpected dimensions for {nc.name}")
             if nc.units != "degrees":
+                raise ValueError(f"Unexpected units for {nc.name}")
+            if nc[:].mask is not np.bool_(False):
+                raise ValueError
+            return np.array(nc[:].data, dtype=np.float64)
+        case "doppler_spectrum_width":
+            if nc.dimensions != expected_dimensions:
+                raise ValueError(f"Unexpected dimensions for {nc.name}")
+            if nc.units != "m s-1":
+                raise ValueError(f"Unexpected units for {nc.name}")
+            if nc[:].mask is not np.bool_(False):
+                raise ValueError
+            return np.array(nc[:].data, dtype=np.float64)
+        case "ray_accumulation_time":
+            if nc.dimensions != ():
+                raise ValueError(f"Unexpected dimensions for {nc.name}")
+            if nc.units != "ms":
                 raise ValueError(f"Unexpected units for {nc.name}")
             if nc[:].mask is not np.bool_(False):
                 raise ValueError
