@@ -6,6 +6,7 @@ from io import BufferedIOBase
 from pathlib import Path
 from typing import Sequence, Tuple, TypeAlias
 
+import devboard as db
 import numpy as np
 import numpy.typing as npt
 import polars as pl
@@ -60,7 +61,6 @@ class Stare:
         | Sequence[bytes]
         | Sequence[BufferedIOBase],
     ) -> Stare:
-        import devboard as db
 
         raws = doppy.raw.WindCubeFixed.from_srcs(data)
         raw = doppy.raw.WindCubeFixed.merge(raws)
@@ -243,6 +243,35 @@ def _compute_sliding_var_over_time(velocity, time):
     return var
 
 
+def _compute_sliding_mean_over_radial_distance(
+    velocity, radial_distance, window_distance
+):
+    # window_distance in meters
+    median_diff = np.median(np.diff(radial_distance))
+    window_size = max(3, int(np.ceil(window_distance / median_diff)))
+    df = pl.from_numpy(velocity.T)
+    df_mean = df.with_columns(
+        pl.exclude("dt").rolling_mean(
+            window_size=window_size,
+            min_periods=1,
+        ),
+    )
+    mean = df_mean.to_numpy().T
+    # fig, ax = db.plt.subplots()
+
+    # ax.imshow(
+    #    mean.T,
+    #    origin="lower",
+    #    aspect="auto",
+    #    interpolation="none",
+    #    cmap="RdBu_r",
+    #    vmin=-10,
+    #    vmax=10,
+    # )
+    # db.add_fig(fig)
+    return mean
+
+
 def _compute_sliding_var_over_radial_distance(
     velocity, radial_distance, window_distance
 ):
@@ -271,7 +300,6 @@ def _filt(arr):
 
 
 def _compute_mask_for_windcube(raw: WindCubeFixed):
-    import devboard as db
     import scipy
 
     # print(db.describe(raw.cnr))
@@ -282,19 +310,35 @@ def _compute_mask_for_windcube(raw: WindCubeFixed):
     var_over_radial_distance = _compute_sliding_var_over_radial_distance(
         raw.radial_velocity, raw.radial_distance, 400
     )
-    med_over_window = scipy.ndimage.median_filter(raw.radial_velocity, size=3)
+    mean_over_radial_distance = _compute_sliding_mean_over_radial_distance(
+        raw.radial_velocity, raw.radial_distance, 1000
+    )
+    med_over_window = scipy.ndimage.median_filter(raw.radial_velocity, size=5)
     med_absdiff = np.abs(raw.radial_velocity - med_over_window)
     denominator = np.maximum(np.abs(med_over_window), np.finfo(np.float64).eps)
     med_rel = med_absdiff / denominator
 
-    #mask_var_t = var_over_time > 225
+    # mask_var_t = var_over_time > 225
     mask_var_t = var_over_time > 200
-    #mask_var_r = var_over_radial_distance > 50
+    # mask_var_r = var_over_radial_distance > 50
     mask_med = med_absdiff > 10
     mask_med_rel = med_rel > 100
 
     print(db.describe(med_rel))
-    mask = mask_cnr | mask_var_t | mask_med #| mask_med_rel
+    mask = mask_cnr | mask_var_t | mask_med  # | mask_med_rel
+
+    # remove specles
+    v = raw.radial_velocity.copy()
+    v[mask] = mean_over_radial_distance[mask]
+    zeros = np.zeros_like(v[:, 0])[:, np.newaxis]
+    vdiff = np.concat((zeros, np.diff(np.diff(v, axis=1), axis=1), zeros), axis=1)
+    vdiff_mask = np.abs(vdiff) > 5
+
+
+    mask = mask | vdiff_mask
+
+    # Dont mask if signal is strong enough
+    mask = mask & (raw.cnr < -24)
 
     nplots = 12
     width = 10
@@ -336,6 +380,14 @@ def _compute_mask_for_windcube(raw: WindCubeFixed):
 
     x = raw.radial_velocity.copy()
     x[mask] = np.nan
+    v = raw.radial_velocity.copy()
+    v[mask] = mean_over_radial_distance[mask]
+    #
+    vdiff = np.concat(
+        (np.zeros_like(v[:, :2]), np.diff(np.diff(v, axis=1), axis=1)), axis=1
+    )
+    # ax[3].hist(np.abs(vdiff).flatten(),bins=1000)
+    vdiff_mask = np.abs(vdiff) > 20
     ax[3].imshow(
         x.T,
         origin="lower",
@@ -400,7 +452,10 @@ def _compute_mask_for_windcube(raw: WindCubeFixed):
     )
 
     ax[11].imshow(
-        med_rel.T, origin="lower", aspect="auto", interpolation="none",
+        med_rel.T,
+        origin="lower",
+        aspect="auto",
+        interpolation="none",
         norm=db.mpl.colors.LogNorm(vmin=1e-1, vmax=1e3),
     )
 
