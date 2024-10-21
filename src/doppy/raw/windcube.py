@@ -55,7 +55,6 @@ class WindCubeFixed:
     doppler_spectrum_width: npt.NDArray[np.float64]  # dim: (time, radial_distance)
     radial_velocity_confidence: npt.NDArray[np.float64]  # dim: (time, radial_distance)
     ray_accumulation_time: npt.NDArray[np.float64]  # dim: ()
-
     system_id: str
 
     @classmethod
@@ -97,6 +96,35 @@ class WindCubeFixed:
             ),
             system_id=merge_all_equal("system_id", [r.system_id for r in raws]),
         )
+
+    def __getitem__(
+        self,
+        index: int
+        | slice
+        | list[int]
+        | npt.NDArray[np.int64]
+        | npt.NDArray[np.bool_]
+        | tuple[slice, slice],
+    ) -> WindCubeFixed:
+        if isinstance(index, (int, slice, list, np.ndarray)):
+            return WindCubeFixed(
+                time=self.time[index],
+                radial_distance=self.radial_distance,
+                azimuth=self.azimuth[index],
+                elevation=self.elevation[index],
+                radial_velocity=self.radial_velocity[index],
+                radial_velocity_confidence=self.radial_velocity_confidence[index],
+                cnr=self.cnr[index],
+                relative_beta=self.relative_beta[index],
+                doppler_spectrum_width=self.doppler_spectrum_width[index],
+                ray_accumulation_time=self.ray_accumulation_time,
+                system_id=self.system_id,
+            )
+        raise TypeError
+
+    def sorted_by_time(self) -> WindCubeFixed:
+        sort_indices = np.argsort(self.time)
+        return self[sort_indices]
 
 
 @dataclass
