@@ -62,6 +62,7 @@ class Stare:
     ) -> Stare:
         raws = doppy.raw.WindCubeFixed.from_srcs(data)
         raw = doppy.raw.WindCubeFixed.merge(raws).sorted_by_time()
+        raw = raw[::]
         mask = compute_mask_for_windcube(raw)
 
     @classmethod

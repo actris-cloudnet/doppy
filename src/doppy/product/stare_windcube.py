@@ -1,16 +1,72 @@
 import devboard as db
 import numpy as np
 import polars as pl
+import scipy
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
 from doppy.raw.windcube import WindCubeFixed
 
 
+def plot_results(X, Y_, means, covariances, index, title):
+    import itertools
+
+    from scipy import linalg
+
+    color_iter = itertools.cycle(["navy", "c", "cornflowerblue", "gold", "darkorange"])
+    fig, ax = db.plt.subplots(1, figsize=(25, 6))
+    for i, (mean, covar, color) in enumerate(zip(means, covariances, color_iter)):
+        v, w = linalg.eigh(covar)
+        v = 2.0 * np.sqrt(2.0) * np.sqrt(v)
+        u = w[0] / linalg.norm(w[0])
+        # as the DP will not use every component it has access to
+        # unless it needs it, we shouldn't plot the redundant
+        # components.
+        if not np.any(Y_ == i):
+            continue
+        ax.scatter(X[Y_ == i, 0], X[Y_ == i, 1], 0.8, color=color)
+
+        # Plot an ellipse to show the Gaussian component
+        angle = np.arctan(u[1] / u[0])
+        angle = 180.0 * angle / np.pi  # convert to degrees
+        ell = db.mpl.patches.Ellipse(mean, v[0], v[1], angle=180.0 + angle, color=color)
+        ell.set_clip_box(ax.bbox)
+        ell.set_alpha(0.5)
+        ax.add_artist(ell)
+
+    ax.set_xlim(-9.0, 5.0)
+    ax.set_ylim(-3.0, 6.0)
+    ax.set_xticks(())
+    ax.set_yticks(())
+    ax.set_title(title)
+    db.add_fig(fig)
+
+
+def test_model(X, y):
+    from sklearn.naive_bayes import GaussianNB
+
+    n = 2
+    fig, ax = db.plt.subplots(n, figsize=(25, n * 6))
+    i = 0
+
+    # Gaussian
+    model = GaussianNB()
+    model.fit(X, y)
+    y_hat = model.predict(X)
+    y_prob = model.predict_proba(X)
+    cax = ax[i].scatter(X[::100, 0], X[::100, 1], s=1, alpha=1, c=y_hat[::100])
+    fig.colorbar(cax, ax=ax[i])
+    i += 1
+
+    db.add_fig(fig)
+    return y_prob[:, 0]
+
+
 def compute_pca(raw: WindCubeFixed, targets):
     var_of_velocity_over_time = _computute_var_over_time(
         raw.radial_velocity, raw.time, window_size=4 * 60
     )
+    med_over_window = scipy.ndimage.median_filter(raw.radial_velocity, size=5)
 
     X = np.concatenate(
         (
@@ -18,6 +74,7 @@ def compute_pca(raw: WindCubeFixed, targets):
             raw.radial_velocity.reshape(-1, 1),
             raw.doppler_spectrum_width.reshape(-1, 1),
             var_of_velocity_over_time.reshape(-1, 1),
+            med_over_window.reshape(-1, 1),
         ),
         axis=1,
     )
@@ -26,6 +83,24 @@ def compute_pca(raw: WindCubeFixed, targets):
 
     pca = PCA(n_components=2)
     X_pca = pca.fit_transform(X_scaled)
+
+    model_prob = test_model(X_pca, targets.flatten())
+
+    # gmm = mixture.GaussianMixture(n_components=4, covariance_type="full").fit(X_pca)
+    # plot_results(
+    #    X_pca, gmm.predict(X_pca), gmm.means_, gmm.covariances_, 0, "Gaussian Mixture"
+    # )
+    # dpgmm = mixture.BayesianGaussianMixture(n_components=3, covariance_type="full").fit(
+    #    X_pca
+    # )
+    # plot_results(
+    #    X_pca,
+    #    dpgmm.predict(X_pca),
+    #    dpgmm.means_,
+    #    dpgmm.covariances_,
+    #    1,
+    #    "Bayesian Gaussian Mixture with a Dirichlet process prior",
+    # )
 
     # Cluster 0
     x0 = -2.5
@@ -44,15 +119,20 @@ def compute_pca(raw: WindCubeFixed, targets):
     c = 2
     dist2 = (a * X_pca[:, 0] + b * X_pca[:, 1] + c) / np.sqrt(a**2 + b**2)
 
-    n = 1
-    fig, ax = db.plt.subplots(n, figsize=(25, n * 6))
-    # cax = ax[0].scatter(X_pca[:, 0], X_pca[:, 1], s=1, alpha=0.1, c=targets.flatten())
-    # fig.colorbar(cax, ax=ax[0])
-    # x = np.linspace(0, 1, 10)
-    # y = 6 * x - 2
-    # ax[0].plot(x, y)
+    # GMM predictions
+    # gmm_predictions = gmm.predict(X_pca).reshape(raw.cnr.shape).astype(np.float64)
 
-    ax.hexbin(X_pca[:, 0], X_pca[:, 1])
+    n = 2
+    fig, ax = db.plt.subplots(n, figsize=(25, n * 6))
+    cax = ax[0].scatter(
+        X_pca[::100, 0], X_pca[::100, 1], s=1, alpha=0.1, c=targets.flatten()[::100]
+    )
+    fig.colorbar(cax, ax=ax[0])
+    x = np.linspace(0, 1, 10)
+    y = 6 * x - 2
+    ax[0].plot(x, y)
+
+    ax[1].hexbin(X_pca[:, 0], X_pca[:, 1])
 
     db.add_fig(fig)
     db.plt.close("all")
@@ -60,6 +140,7 @@ def compute_pca(raw: WindCubeFixed, targets):
         dist0.reshape(raw.cnr.shape),
         dist1.reshape(raw.cnr.shape),
         dist2.reshape(raw.cnr.shape),
+        model_prob.reshape(raw.cnr.shape),
     )
 
 
@@ -81,11 +162,11 @@ def compute_mask(raw: WindCubeFixed):
     mask_cnr_var_vel_time = ((raw.cnr - (-32.5)) ** 2 / 5**2) + (
         (var_velocity_time - 350) ** 2 / 50**2
     )
-    mask_pca_0, mask_pca_1, mask_pca_2 = compute_pca(
+    mask_pca_0, mask_pca_1, mask_pca_2, mask_model = compute_pca(
         raw, mask_var_velocity_over_time.astype(np.float64)
     )
 
-    n = 6
+    n = 7
     fig, ax = db.plt.subplots(n, figsize=(25, n * 5))
     i = 0
     # CNR
@@ -328,11 +409,21 @@ def compute_mask(raw: WindCubeFixed):
     fig.colorbar(cax, ax=ax[i])
     ax[i].set_title("mask_pca_2")
 
+    # mask gmm
+    i += 1
+    cax = ax[i].imshow(
+        mask_model.T > 0.9,
+        origin="lower",
+        aspect="auto",
+        interpolation="none",
+        cmap="turbo",
+    )
+    fig.colorbar(cax, ax=ax[i])
+    ax[i].set_title("mask_model")
+
     db.plotutils.pretty_fig(fig)
     db.add_fig(fig)
     db.plt.close("all")
-    breakpoint()
-    pass
 
 
 def _compute_cnr_mask(cnr, th):
