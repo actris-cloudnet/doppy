@@ -2,10 +2,9 @@ import devboard as db
 import numpy as np
 import polars as pl
 import scipy
+from doppy.raw.windcube import WindCubeFixed
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-
-from doppy.raw.windcube import WindCubeFixed
 
 
 def plot_results(X, Y_, means, covariances, index, title):
@@ -45,28 +44,28 @@ def plot_results(X, Y_, means, covariances, index, title):
 def test_model(X, y):
     from sklearn.naive_bayes import GaussianNB
 
-    n = 2
-    fig, ax = db.plt.subplots(n, figsize=(25, n * 6))
-    i = 0
+    # n = 2
+    # fig, ax = db.plt.subplots(n, figsize=(25, n * 6))
+    # i = 0
 
     # Gaussian
     model = GaussianNB()
     model.fit(X, y)
     y_hat = model.predict(X)
     y_prob = model.predict_proba(X)
-    cax = ax[i].scatter(X[::100, 0], X[::100, 1], s=1, alpha=1, c=y_hat[::100])
-    fig.colorbar(cax, ax=ax[i])
-    i += 1
+    # cax = ax[i].scatter(X[::100, 0], X[::100, 1], s=1, alpha=1, c=y_hat[::100])
+    # fig.colorbar(cax, ax=ax[i])
+    # i += 1
 
-    db.add_fig(fig)
+    # db.add_fig(fig)
     return y_prob[:, 0]
 
 
 def compute_pca(raw: WindCubeFixed, targets):
     var_of_velocity_over_time = _computute_var_over_time(
-        raw.radial_velocity, raw.time, window_size=4 * 60
+        raw.radial_velocity, raw.time, window_size=1 * 60
     )
-    med_over_window = scipy.ndimage.median_filter(raw.radial_velocity, size=5)
+    med_over_window = scipy.ndimage.median_filter(raw.radial_velocity, size=3)
 
     X = np.concatenate(
         (
@@ -122,20 +121,20 @@ def compute_pca(raw: WindCubeFixed, targets):
     # GMM predictions
     # gmm_predictions = gmm.predict(X_pca).reshape(raw.cnr.shape).astype(np.float64)
 
-    n = 2
-    fig, ax = db.plt.subplots(n, figsize=(25, n * 6))
-    cax = ax[0].scatter(
-        X_pca[::100, 0], X_pca[::100, 1], s=1, alpha=0.1, c=targets.flatten()[::100]
-    )
-    fig.colorbar(cax, ax=ax[0])
-    x = np.linspace(0, 1, 10)
-    y = 6 * x - 2
-    ax[0].plot(x, y)
+    # n = 2
+    # fig, ax = db.plt.subplots(n, figsize=(25, n * 6))
+    # cax = ax[0].scatter(
+    #    X_pca[::100, 0], X_pca[::100, 1], s=1, alpha=0.1, c=targets.flatten()[::100]
+    # )
+    # fig.colorbar(cax, ax=ax[0])
+    # x = np.linspace(0, 1, 10)
+    # y = 6 * x - 2
+    # ax[0].plot(x, y)
 
-    ax[1].hexbin(X_pca[:, 0], X_pca[:, 1])
+    # ax[1].hexbin(X_pca[:, 0], X_pca[:, 1])
 
-    db.add_fig(fig)
-    db.plt.close("all")
+    # db.add_fig(fig)
+    # db.plt.close("all")
     return (
         dist0.reshape(raw.cnr.shape),
         dist1.reshape(raw.cnr.shape),
@@ -163,10 +162,10 @@ def compute_mask(raw: WindCubeFixed):
         (var_velocity_time - 350) ** 2 / 50**2
     )
     mask_pca_0, mask_pca_1, mask_pca_2, mask_model = compute_pca(
-        raw, mask_var_velocity_over_time.astype(np.float64)
+        raw, (raw.cnr < -27).astype(np.float64)
     )
 
-    n = 7
+    n = 11
     fig, ax = db.plt.subplots(n, figsize=(25, n * 5))
     i = 0
     # CNR
@@ -373,53 +372,177 @@ def compute_mask(raw: WindCubeFixed):
     # fig.colorbar(cax, ax=ax[i])
     # ax[i].set_title("mask_cnr_var_vel_time")
 
-    # PCA mask 0
-    i += 1
-    cax = ax[i].imshow(
-        mask_pca_0.T,
-        origin="lower",
-        aspect="auto",
-        interpolation="none",
-        cmap="binary_r",
-    )
-    fig.colorbar(cax, ax=ax[i])
-    ax[i].set_title("mask_pca_0")
+    ## PCA mask 0
+    # i += 1
+    # cax = ax[i].imshow(
+    #    mask_pca_0.T,
+    #    origin="lower",
+    #    aspect="auto",
+    #    interpolation="none",
+    #    cmap="binary_r",
+    # )
+    # fig.colorbar(cax, ax=ax[i])
+    # ax[i].set_title("mask_pca_0")
 
-    # PCA mask 1
-    i += 1
-    cax = ax[i].imshow(
-        mask_pca_1.T,
-        origin="lower",
-        aspect="auto",
-        interpolation="none",
-        cmap="binary_r",
-    )
-    fig.colorbar(cax, ax=ax[i])
-    ax[i].set_title("mask_pca_1")
+    ## PCA mask 1
+    # i += 1
+    # cax = ax[i].imshow(
+    #    mask_pca_1.T,
+    #    origin="lower",
+    #    aspect="auto",
+    #    interpolation="none",
+    #    cmap="binary_r",
+    # )
+    # fig.colorbar(cax, ax=ax[i])
+    # ax[i].set_title("mask_pca_1")
 
-    # PCA mask 2
-    i += 1
-    cax = ax[i].imshow(
-        mask_pca_2.T,
-        origin="lower",
-        aspect="auto",
-        interpolation="none",
-        cmap="binary_r",
-    )
-    fig.colorbar(cax, ax=ax[i])
-    ax[i].set_title("mask_pca_2")
+    ## PCA mask 2
+    # i += 1
+    # cax = ax[i].imshow(
+    #    mask_pca_2.T,
+    #    origin="lower",
+    #    aspect="auto",
+    #    interpolation="none",
+    #    cmap="binary_r",
+    # )
+    # fig.colorbar(cax, ax=ax[i])
+    # ax[i].set_title("mask_pca_2")
 
-    # mask gmm
+    ## mask model
+    # i += 1
+    # cax = ax[i].imshow(
+    #    mask_model.T > 0.5,
+    #    origin="lower",
+    #    aspect="auto",
+    #    interpolation="none",
+    #    cmap="turbo",
+    # )
+    # fig.colorbar(cax, ax=ax[i])
+    # ax[i].set_title("mask_model")
+
+    # mask cnr with model
+    x = raw.cnr.copy()
+    prob = 0.5
+    x[mask_model < prob] = np.nan
     i += 1
     cax = ax[i].imshow(
-        mask_model.T > 0.9,
+        x.T,
         origin="lower",
         aspect="auto",
         interpolation="none",
-        cmap="turbo",
     )
     fig.colorbar(cax, ax=ax[i])
-    ax[i].set_title("mask_model")
+    ax[i].set_title(f"cnr masked with model with prob {prob}")
+
+    # mask cnr with model
+    x = raw.cnr.copy()
+    prob = 0.9
+    x[mask_model < prob] = np.nan
+    i += 1
+    cax = ax[i].imshow(
+        x.T,
+        origin="lower",
+        aspect="auto",
+        interpolation="none",
+    )
+    fig.colorbar(cax, ax=ax[i])
+    ax[i].set_title(f"cnr masked with model with prob {prob}")
+
+    # mask cnr with model
+    x = raw.cnr.copy()
+    prob = 0.9999
+    x[mask_model < prob] = np.nan
+    i += 1
+    cax = ax[i].imshow(
+        x.T,
+        origin="lower",
+        aspect="auto",
+        interpolation="none",
+    )
+    fig.colorbar(cax, ax=ax[i])
+    ax[i].set_title(f"cnr masked with model with prob {prob}")
+
+    # mask velocity with model
+    x = raw.radial_velocity.copy()
+    prob = 0.5
+    x[mask_model < prob] = np.nan
+    i += 1
+    cax = ax[i].imshow(
+        x.T,
+        origin="lower",
+        aspect="auto",
+        interpolation="none",
+        cmap="RdBu_r",
+        vmin=-10,
+        vmax=10,
+    )
+    fig.colorbar(cax, ax=ax[i])
+    ax[i].set_title(f"velocity masked with model with prob {prob}")
+    # mask velocity with model
+    x = raw.radial_velocity.copy()
+    prob = 0.9
+    x[mask_model < prob] = np.nan
+    i += 1
+    cax = ax[i].imshow(
+        x.T,
+        origin="lower",
+        aspect="auto",
+        interpolation="none",
+        cmap="RdBu_r",
+        vmin=-10,
+        vmax=10,
+    )
+    fig.colorbar(cax, ax=ax[i])
+    ax[i].set_title(f"velocity masked with model with prob {prob}")
+    # mask velocity with model
+    x = raw.radial_velocity.copy()
+    prob = 0.99
+    x[mask_model < prob] = np.nan
+    i += 1
+    cax = ax[i].imshow(
+        x.T,
+        origin="lower",
+        aspect="auto",
+        interpolation="none",
+        cmap="RdBu_r",
+        vmin=-10,
+        vmax=10,
+    )
+    fig.colorbar(cax, ax=ax[i])
+    ax[i].set_title(f"velocity masked with model with prob {prob}")
+
+    # cnr based mask
+    x = raw.radial_velocity.copy()
+    th = -27
+    x[raw.cnr < th] = np.nan
+    i += 1
+    cax = ax[i].imshow(
+        x.T,
+        origin="lower",
+        aspect="auto",
+        interpolation="none",
+        cmap="RdBu_r",
+        vmin=-10,
+        vmax=10,
+    )
+    fig.colorbar(cax, ax=ax[i])
+    ax[i].set_title(f"velocity masked with cnr th {th}")
+    # cnr based mask
+    x = raw.radial_velocity.copy()
+    th = -29
+    x[raw.cnr < th] = np.nan
+    i += 1
+    cax = ax[i].imshow(
+        x.T,
+        origin="lower",
+        aspect="auto",
+        interpolation="none",
+        cmap="RdBu_r",
+        vmin=-10,
+        vmax=10,
+    )
+    fig.colorbar(cax, ax=ax[i])
+    ax[i].set_title(f"velocity masked with cnr th {th}")
 
     db.plotutils.pretty_fig(fig)
     db.add_fig(fig)

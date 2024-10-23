@@ -61,7 +61,7 @@ def test_stare(site, date, reason):
     "site,date,reason",
     [
         ("cabauw", "2023-08-26", ""),
-        ("payerne", "2024-09-22", ""),
+        ("payerne", "2024-09-23", ""),
     ],
 )
 def test_stare_windcube(site, date, reason):

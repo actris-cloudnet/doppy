@@ -14,7 +14,6 @@ from sklearn.cluster import KMeans
 
 import doppy
 from doppy import defaults, options
-from doppy.product.stare_windcube import compute_mask as compute_mask_for_windcube
 
 SelectionGroupKeyType: TypeAlias = tuple[int,]
 
@@ -62,8 +61,17 @@ class Stare:
     ) -> Stare:
         raws = doppy.raw.WindCubeFixed.from_srcs(data)
         raw = doppy.raw.WindCubeFixed.merge(raws).sorted_by_time()
-        raw = raw[::]
-        mask = compute_mask_for_windcube(raw)
+        mask = _compute_noise_mask_for_windcube(raw)
+        return cls(
+            time=raw.time,
+            radial_distance=raw.radial_distance,
+            elevation=raw.elevation,
+            beta=raw.relative_beta,
+            radial_velocity=raw.radial_velocity,
+            mask=mask,
+            wavelength=defaults.WindCube.wavelength,
+            system_id=raw.system_id,
+        )
 
     @classmethod
     def from_halo_data(
@@ -118,7 +126,7 @@ class Stare:
         mask = _compute_noise_mask(
             intensity_noise_bias_corrected, raw.radial_velocity, raw.radial_distance
         )
-        return Stare(
+        return cls(
             time=raw.time,
             radial_distance=raw.radial_distance,
             elevation=raw.elevation,
@@ -189,6 +197,11 @@ class Stare:
             )
             nc.add_attribute("serial_number", self.system_id)
             nc.add_attribute("doppy_version", doppy.__version__)
+
+
+def _compute_noise_mask_for_windcube(raw: doppy.raw.WindCubeFixed):
+    cnr_threshhold = -28
+    return raw.cnr < cnr_threshhold
 
 
 def _compute_noise_mask(
