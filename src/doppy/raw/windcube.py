@@ -435,7 +435,7 @@ def _extract_float64_or_raise(
             if nc.units != "m-1 sr-1":
                 raise ValueError(f"Unexpected units for {nc.name}")
             if nc[:].mask is not np.bool_(False):
-                raise ValueError
+                pass  # ignore that array contains masked values
             return np.array(nc[:].data, dtype=np.float64)
         case "radial_wind_speed":
             if nc.dimensions != expected_dimensions:
@@ -467,7 +467,7 @@ def _extract_float64_or_raise(
             if nc.units != "m s-1":
                 raise ValueError(f"Unexpected units for {nc.name}")
             if nc[:].mask is not np.bool_(False):
-                raise ValueError
+                pass  # ignore that array contains masked values
             return np.array(nc[:].data, dtype=np.float64)
         case "ray_accumulation_time":
             if nc.dimensions != ():
@@ -475,7 +475,7 @@ def _extract_float64_or_raise(
             if nc.units != "ms":
                 raise ValueError(f"Unexpected units for {nc.name}")
             if nc[:].mask is not np.bool_(False):
-                raise ValueError
+                raise ValueError(f"Variable {nc.name} contains masked values")
             return np.array(nc[:].data, dtype=np.float64)
         case _:
             raise ValueError(f"Unexpected variable name {nc.name}")
