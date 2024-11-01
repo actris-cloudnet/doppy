@@ -44,10 +44,10 @@ class TurbulentKineticEnergy:
             integration_time,
             beam_divergence,
         )
-        # var, sampling_time = _compute_variance(stare, time_period=int(5 * 60))
-        var, sampling_time = _compute_variance2(
-            stare.time, stare.radial_velocity, stare.mask, int(1800)
-        )
+        var, sampling_time = _compute_variance(stare, time_period=int(10*60))
+        #var, sampling_time = _compute_variance2(
+        #    stare.time, stare.radial_velocity, stare.mask, int(1800)
+        #)
 
         length_scale_sampling = horizontal_wind_speed * sampling_time
         with np.errstate(invalid="ignore"):
