@@ -4,7 +4,6 @@ import pathlib
 import pickle
 
 import devboard as db
-
 import doppy
 from doppy.data.api import Api
 
@@ -14,11 +13,11 @@ def main(args):
     stare = _get_stare(args, api)
     wind = _get_wind(args, api)
     tke = _get_tke(args, stare, wind)
-    _plot_tke(tke)
+    _plot_tke(tke, args)
 
 
-def _plot_tke(tke):
-    #db.mpl.rcParams["font.family"] = "IBM Plex Mono"
+def _plot_tke(tke, args):
+    # db.mpl.rcParams["font.family"] = "IBM Plex Mono"
     db.mpl.rcParams["font.family"] = "Metropolis"
     db.mpl.rcParams["font.size"] = 16
     aspect = 10 / 3
@@ -33,6 +32,7 @@ def _plot_tke(tke):
         norm=db.mpl.colors.LogNorm(vmin=1e-7, vmax=1e-1),
         cmap="inferno",
         extent=[tke.time[0], tke.time[-1], tke.height[hm][0], tke.height[hm][-1]],
+        zorder=1,
     )
     ax.set_ylabel("Height (m)", rotation=0, horizontalalignment="right")
     ax.yaxis.set_label_coords(0, 1.04)
@@ -43,17 +43,27 @@ def _plot_tke(tke):
     ax.spines["right"].set_visible(False)
     ax.spines["bottom"].set_visible(False)
     ax.spines["left"].set_visible(False)
-    # ax.yaxis.grid(True, color="white")
-    # ax.xaxis.grid(True, color="white")
     ax.set_axisbelow(True)
-    ax.set_facecolor("#f5f5f5")
+    # ax.yaxis.grid(True, color="white")
+    # ax.xaxis.grid(True, color="white", linewidth=4)
+    grid_color = "#dedede"
+    # ax.xaxis.grid(True, color=grid_color, linewidth=2)
+    # ax.yaxis.grid(True, color=grid_color, linewidth=2)
+    # ax.set_facecolor("#f5f5f5")
+    # ax.set_facecolor("#f0f0f0")
+    ax.set_facecolor("#ffffff")
     ax.xaxis_date()
     ax.xaxis.set_major_locator(db.mpl.dates.AutoDateLocator())
     ax.xaxis.set_major_formatter(
         db.mpl.dates.ConciseDateFormatter(db.mpl.dates.AutoDateLocator())
     )
+    site = args.site.capitalize()
+    ax.set_title(f"Turbulent kinetic energy dissipation rate, {site}")
 
     db.add_fig(fig)
+
+    output_path = "tke_plot.png"
+    fig.savefig(output_path, dpi=400, bbox_inches="tight", format="png")
 
 
 def _compute_hash(args):
