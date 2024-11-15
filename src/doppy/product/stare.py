@@ -64,7 +64,9 @@ class Stare:
         | Sequence[BufferedIOBase],
     ) -> Stare:
         raws = doppy.raw.WindCubeFixed.from_srcs(data)
-        raw = doppy.raw.WindCubeFixed.merge(raws).sorted_by_time()
+        raw = (
+            doppy.raw.WindCubeFixed.merge(raws).sorted_by_time().nan_profiles_removed()
+        )
         mask = _compute_noise_mask_for_windcube(raw)
         return cls(
             time=raw.time,
@@ -204,105 +206,13 @@ class Stare:
 
 
 def _compute_noise_mask_for_windcube(raw: doppy.raw.WindCubeFixed):
-    import devboard as db
+    if np.any(np.isnan(raw.cnr)) or np.any(np.isnan(raw.radial_velocity)):
+        raise ValueError("Unexpected nans in crn or radial_velocity")
 
-    n = 9
-    fig, ax = db.plt.subplots(n, figsize=(25, n * 6))
-
-    cnr_mean = uniform_filter(_standard_scaler(raw.cnr), size=(21, 3))
     v_abs_mean = uniform_filter(
         _standard_scaler(np.abs(raw.radial_velocity)), size=(21, 3)
     )
-    print(db.describe(cnr_mean))
-
-    i = 0
-    cax = ax[i].imshow(
-        cnr_mean.T,
-        origin="lower",
-        aspect="auto",
-        interpolation="none",
-    )
-    fig.colorbar(cax, ax=ax[i])
-    i += 1
-
-    cax = ax[i].imshow(
-        v_abs_mean.T,
-        origin="lower",
-        aspect="auto",
-        interpolation="none",
-    )
-    fig.colorbar(cax, ax=ax[i])
-    i += 1
-
-    x = cnr_mean
-    y = v_abs_mean
-    a = -0.5
-    b = 1
-    c = 1
-
-    dist = (a * x + b * y + c) / np.sqrt(a**2 + b**2)
-
-    cax = ax[i].imshow(dist.T, origin="lower", aspect="auto", interpolation="none")
-    fig.colorbar(cax, ax=ax[i])
-    i += 1
-
-    cax = ax[i].imshow(
-        dist.T < 0,
-        origin="lower",
-        aspect="auto",
-        interpolation="none",
-    )
-    fig.colorbar(cax, ax=ax[i])
-    i += 1
-    print(db.describe(x))
-
-    cax = ax[i].hexbin(cnr_mean.flatten(), v_abs_mean.flatten())
-    i += 1
-
-    ds = 10000
-    ind = np.random.choice(len(cnr_mean.flatten()), size=ds, replace=False)
-    x = cnr_mean.flatten()[ind]
-    y = v_abs_mean.flatten()[ind]
-    c = raw.cnr.flatten()[ind] < -28
-    cax = ax[i].scatter(x, y, alpha=0.2, c=c)
-    fig.colorbar(cax, ax=ax[i])
-    i += 1
-    cax = ax[i].scatter(x, y, c=dist.flatten()[ind], vmin=-4, vmax=4, cmap="RdBu_r")
-    fig.colorbar(cax, ax=ax[i])
-    i += 1
-
-    mask = dist > 0
-
-    x = raw.cnr.copy()
-    x[mask] = np.nan
-    cax = ax[i].imshow(
-        x.T,
-        origin="lower",
-        aspect="auto",
-        interpolation="none",
-    )
-    fig.colorbar(cax, ax=ax[i])
-    i += 1
-
-    x = raw.radial_velocity.copy()
-    x[mask] = np.nan
-    cax = ax[i].imshow(
-        x.T,
-        origin="lower",
-        aspect="auto",
-        interpolation="none",
-        cmap="RdBu_r",
-        vmin=-4,
-        vmax=4,
-    )
-    fig.colorbar(cax, ax=ax[i])
-    i += 1
-
-    db.plotutils.pretty_fig(fig)
-    db.add_fig(fig)
-
-    cnr_threshhold = -28
-    return raw.cnr < cnr_threshhold
+    return (v_abs_mean > -1.1) | (raw.cnr < -33.2)
 
 
 def _standard_scaler(x: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
