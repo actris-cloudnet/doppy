@@ -3,6 +3,7 @@ import re
 from io import BytesIO
 
 import devboard as db
+import doppy
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
@@ -10,15 +11,13 @@ import numpy.typing as npt
 import requests
 import scipy
 import xarray as xr
-
-import doppy
 from doppy.data.api import Api
 
 
 def main():
     api = Api(cache=True)
     args = _get_args()
-    stare, raw = _get_stare(args, api)
+    # stare, raw = _get_stare(args, api)
     # ref_lidar = _get_lidar(args, api)
     # db.utils.cache_save(stare, raw, ref_lidar)
     stare, raw, ref_lidar = db.utils.cache_load()
@@ -40,15 +39,88 @@ def _calibrate_telescope(
 
     cnr = raw.cnr[~mask]
     target_beta = beta_ref_aligned[~mask]
-    radial_distance = np.broadcast_to(raw.radial_distance,mask.shape)[~mask]
+    radial_distance = np.broadcast_to(raw.radial_distance, mask.shape)[~mask]
     wavelength = doppy.defaults.WindCube.wavelength
-    effective_diameter_of_gaussian_beam_init = 25e-3
-    def beta_func(focus,diam):
-        _compute_beta(cnr,radial_distance,focus, wavelength, diam)
+    effective_diameter_of_gaussian_beam_init = 25e-3  # 0.09308979591836734
+    focus_init = 500  # 5741.939393939394
+
+    def beta_func(focus, diam):
+        return _compute_beta(cnr, radial_distance, focus, wavelength, diam)
+
+    d_guess = np.linspace(0.09308, 0.0931, 2)
+    f_guess = np.linspace(5740, 5744, 2)
+
+    # d_guess = np.linspace(0.01, 0.2, 200)
+    # f_guess = np.linspace(5740, 5744, 3)
+
+    D, F = np.meshgrid(d_guess, f_guess, indexing="ij")
+
+    def _beta_wrap(i, j):
+        beta_hat = beta_func(F[i, j], D[i, j])
+        return np.sqrt(((target_beta - beta_hat) ** 2).mean())
+
+    RMSE = np.fromfunction(np.vectorize(_beta_wrap), D.shape, dtype=int)
+
+    res = np.unravel_index(RMSE.argmin(), RMSE.shape)
+
+    d_min = D[res]
+    f_min = F[res]
+    rmse_min = RMSE[res]
+
+    fig, ax = plt.subplots(figsize=(15, 10))
+    cbar_opts = {
+        "orientation": "horizontal",
+        "pad": 0.05,
+        "aspect": 70,
+        "fraction": 0.05,
+    }
+
+    cax = ax.pcolormesh(D, F, RMSE, shading="auto", cmap="viridis")
+    ax.scatter(d_min, f_min, s=20, c="red")
+    ax.set_xlabel("diameter")
+    ax.set_ylabel("focus")
+
+    print(f"diameter: {d_min}, focus: {f_min}, rmse: {rmse_min}")
+
+    fig.colorbar(cax, ax=ax, **cbar_opts)
+
+    db.add_fig(fig)
+
+    def _beta_rmse_func(x):
+        focus, diam = x
+        beta_hat = beta_func(focus, diam)
+        return np.sqrt(((target_beta - beta_hat) ** 2).mean())
+
+    x0 = [100, 0.01]
+    res = scipy.optimize.minimize(_beta_rmse_func, x0, tol=1e-8)
+    focus_min, diam_min = res.x
+
+    beta_hat = beta_func(focus_min, diam_min)
+
+    fig, ax = plt.subplots(figsize=(15, 10))
+
+    rind = np.random.choice(len(beta_hat), size=1000)
+    ax.scatter(target_beta[rind], beta_hat[rind], alpha=0.1)
+    ax.set_xscale("log")
+    ax.set_yscale("log")
+
+    db.add_fig(fig)
+
+    fig, ax = plt.subplots(2, figsize=(15, 10))
+
+    ax[0].hist(target_beta)
+    ax[1].hist(beta_hat)
+
+    db.add_fig(fig)
+
+    breakpoint()
+    pass
+
+    print(res)
 
 
 def _compute_beta(
-    intensity: npt.NDArray[np.float64],
+    cnr: npt.NDArray[np.float64],
     radial_distance: npt.NDArray[np.float64],
     focus: float,
     wavelength: float,
@@ -88,7 +160,8 @@ def _compute_beta(
         doi: https://doi.org/10.5194/amt-13-2849-2020
     """
 
-    snr = intensity - 1
+    # snr = intensity - 1
+    snr = cnr  # as
     h = scipy.constants.Planck
     c = scipy.constants.speed_of_light
     eta = 1

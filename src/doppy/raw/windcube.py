@@ -291,12 +291,6 @@ def _from_fixed_src(nc: Dataset) -> WindCube:
     for i, group in enumerate(
         nc[group] for group in (nc.variables["sweep_group_name"][:])
     ):
-        for v in group.variables:
-            print()
-            print(f"**{v}**")
-            print(group[v])
-        breakpoint()
-        pass
         time_reference_ = time_reference
         if time_reference is None and "time_reference" in group.variables:
             time_reference_ = group["time_reference"][:]

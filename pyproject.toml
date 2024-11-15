@@ -41,7 +41,7 @@ dev = [
   "maturin==1.4",
   "release-version",
   "pre-commit",
-  "xarray[io]"
+  "xarray[io]",
 ]
 
 [project.scripts]
