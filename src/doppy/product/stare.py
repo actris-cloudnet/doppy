@@ -67,15 +67,27 @@ class Stare:
         raw = (
             doppy.raw.WindCubeFixed.merge(raws).sorted_by_time().nan_profiles_removed()
         )
+
+        wavelength = defaults.WindCube.wavelength
+        beta = _compute_beta(
+            snr=raw.cnr,
+            radial_distance=raw.radial_distance,
+            wavelength=wavelength,
+            beam_energy=defaults.WindCube.beam_energy,
+            receiver_bandwidth=defaults.WindCube.receiver_bandwidth,
+            focus=np.inf,
+            effective_diameter=defaults.WindCube.effective_diameter,
+        )
+
         mask = _compute_noise_mask_for_windcube(raw)
         return cls(
             time=raw.time,
             radial_distance=raw.radial_distance,
             elevation=raw.elevation,
-            beta=raw.relative_beta,
+            beta=beta,
             radial_velocity=raw.radial_velocity,
             mask=mask,
-            wavelength=defaults.WindCube.wavelength,
+            wavelength=wavelength,
             system_id=raw.system_id,
         )
 
@@ -123,12 +135,17 @@ class Stare:
             raw, intensity_bg_corrected
         )
         wavelength = defaults.Halo.wavelength
+
         beta = _compute_beta(
-            intensity_noise_bias_corrected,
-            raw.radial_distance,
-            raw.header.focus_range,
-            wavelength,
+            snr=intensity_noise_bias_corrected - 1,
+            radial_distance=raw.radial_distance,
+            wavelength=wavelength,
+            beam_energy=defaults.Halo.beam_energy,
+            receiver_bandwidth=defaults.Halo.receiver_bandwidth,
+            focus=raw.header.focus_range,
+            effective_diameter=defaults.Halo.effective_diameter,
         )
+
         mask = _compute_noise_mask(
             intensity_noise_bias_corrected, raw.radial_velocity, raw.radial_distance
         )
@@ -205,18 +222,20 @@ class Stare:
             nc.add_attribute("doppy_version", doppy.__version__)
 
 
-def _compute_noise_mask_for_windcube(raw: doppy.raw.WindCubeFixed):
+def _compute_noise_mask_for_windcube(
+    raw: doppy.raw.WindCubeFixed,
+) -> npt.NDArray[np.bool_]:
     if np.any(np.isnan(raw.cnr)) or np.any(np.isnan(raw.radial_velocity)):
         raise ValueError("Unexpected nans in crn or radial_velocity")
 
     v_abs_mean = uniform_filter(
         _standard_scaler(np.abs(raw.radial_velocity)), size=(21, 3)
     )
-    return (v_abs_mean > -1.1) | (raw.cnr < -33.2)
+    return np.array((v_abs_mean > -1.1) | (raw.cnr < -33.2), dtype=np.bool_)
 
 
 def _standard_scaler(x: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
-    return (x - x.mean()) / x.std()
+    return np.array((x - x.mean()) / x.std(), dtype=np.float64)
 
 
 def _compute_noise_mask(
@@ -239,14 +258,19 @@ def _compute_noise_mask(
 
 
 def _compute_beta(
-    intensity: npt.NDArray[np.float64],
+    snr: npt.NDArray[np.float64],
     radial_distance: npt.NDArray[np.float64],
-    focus: float,
     wavelength: float,
+    beam_energy: float,
+    receiver_bandwidth: float,
+    focus: float,
+    effective_diameter: float,
 ) -> npt.NDArray[np.float64]:
     """
     Parameters
     ----------
+    snr
+        for halo: intensity - 1
     radial_distance
         distance from the instrument
     focus
@@ -278,22 +302,24 @@ def _compute_beta(
         doi: https://doi.org/10.5194/amt-13-2849-2020
     """
 
-    snr = intensity - 1
     h = scipy.constants.Planck
     c = scipy.constants.speed_of_light
     eta = 1
-    E = 1e-5
-    B = 5e7
+    E = beam_energy
+    B = receiver_bandwidth
     nu = c / wavelength
-    A_e = _compute_effective_receiver_energy(radial_distance, focus, wavelength)
+    A_e = _compute_effective_receiver_energy(
+        radial_distance, wavelength, focus, effective_diameter
+    )
     beta = 2 * h * nu * B * radial_distance**2 * snr / (eta * c * E * A_e)
     return np.array(beta, dtype=np.float64)
 
 
 def _compute_effective_receiver_energy(
     radial_distance: npt.NDArray[np.float64],
-    focus: float,
     wavelength: float,
+    focus: float,
+    effective_diameter: float,
 ) -> npt.NDArray[np.float64]:
     """
     NOTE
@@ -310,7 +336,7 @@ def _compute_effective_receiver_energy(
     wavelength
         laser wavelength
     """
-    D = 25e-3  # effective_diameter_of_gaussian_beam
+    D = effective_diameter
     return np.array(
         np.pi
         * D**2

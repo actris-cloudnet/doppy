@@ -10,43 +10,13 @@ import numpy.typing as npt
 from netCDF4 import Dataset, num2date
 from numpy import datetime64
 
-from doppy.utils import merge_all_close, merge_all_equal
-
-# Fixed file variables (in sweep groups)
-# ['scan_file',
-# 'settings_file',
-# 'res_file',
-# 'ray_angle_resolution',
-# 'range_gate_length',
-# 'ray_accumulation_time',
-# 'time_reference',
-# 'sweep_mode',
-# 'sweep_index',
-# 'time',
-# 'range',
-# 'timestamp',
-# 'ray_index',
-# 'azimuth',
-# 'elevation',
-# 'cnr',
-# 'gate_index',
-# 'radial_wind_speed',
-# 'radial_wind_speed_ci',
-# 'radial_wind_speed_status',
-# 'doppler_spectrum_width',
-# 'doppler_spectrum_mean_error',
-# 'relative_beta',
-# 'instrumental_function_x_max',
-# 'instrumental_function_y_average',
-# 'instrumental_function_amplitude',
-# 'instrumental_function_half_height_width',
-# 'instrumental_function_status']
+from doppy.utils import merge_all_equal
 
 
 @dataclass
 class WindCubeFixed:
     time: npt.NDArray[datetime64]  # dim: (time, )
-    radial_distance: npt.NDArray[np.int64]  # dim: (radial_distance,)
+    radial_distance: npt.NDArray[np.float64]  # dim: (radial_distance,)
     azimuth: npt.NDArray[np.float64]  # dim: (time, )
     elevation: npt.NDArray[np.float64]  # dim: (time, )
     cnr: npt.NDArray[np.float64]  # dim: (time, radial_distance)
@@ -54,7 +24,7 @@ class WindCubeFixed:
     radial_velocity: npt.NDArray[np.float64]  # dim: (time, radial_distance)
     doppler_spectrum_width: npt.NDArray[np.float64]  # dim: (time, radial_distance)
     radial_velocity_confidence: npt.NDArray[np.float64]  # dim: (time, radial_distance)
-    ray_accumulation_time: npt.NDArray[np.float64]  # dim: ()
+    ray_accumulation_time: np.float64  # dim: ()
     system_id: str
 
     @classmethod
@@ -64,7 +34,7 @@ class WindCubeFixed:
         | Sequence[Path]
         | Sequence[bytes]
         | Sequence[BufferedIOBase],
-    ) -> list[WindCube]:
+    ) -> list[WindCubeFixed]:
         return [WindCubeFixed.from_fixed_src(src) for src in data]
 
     @classmethod
@@ -91,7 +61,7 @@ class WindCubeFixed:
             doppler_spectrum_width=np.concatenate(
                 [r.doppler_spectrum_width for r in raws]
             ),
-            ray_accumulation_time=merge_all_close(
+            ray_accumulation_time=merge_all_equal(
                 "ray_accumulation_time", [r.ray_accumulation_time for r in raws]
             ),
             system_id=merge_all_equal("system_id", [r.system_id for r in raws]),
@@ -133,8 +103,8 @@ class WindCubeFixed:
 @dataclass
 class WindCube:
     time: npt.NDArray[datetime64]  # dim: (time, )
-    radial_distance: npt.NDArray[np.int64]  # dim: (time, radial_distance)
-    height: npt.NDArray[np.int64]  # dim: (time,radial_distance)
+    radial_distance: npt.NDArray[np.float64]  # dim: (time, radial_distance)
+    height: npt.NDArray[np.float64]  # dim: (time,radial_distance)
     azimuth: npt.NDArray[np.float64]  # dim: (time, )
     elevation: npt.NDArray[np.float64]  # dim: (time, )
     cnr: npt.NDArray[np.float64]  # dim: (time, radial_distance)
@@ -246,8 +216,8 @@ def _merge_scan_index(index_list: list[npt.NDArray[np.int64]]) -> npt.NDArray[np
 
 
 def _merge_radial_distance_for_fixed(
-    radial_distance_list: list[npt.NDArray[np.int64]],
-) -> npt.NDArray[np.int64]:
+    radial_distance_list: list[npt.NDArray[np.float64]],
+) -> npt.NDArray[np.float64]:
     if len(radial_distance_list) == 0:
         raise ValueError("cannot merge empty list")
     if not all(
@@ -272,7 +242,7 @@ def _src_to_bytes(data: str | Path | bytes | BufferedIOBase) -> bytes:
     raise TypeError("Unsupported data type")
 
 
-def _from_fixed_src(nc: Dataset) -> WindCube:
+def _from_fixed_src(nc: Dataset) -> WindCubeFixed:
     time_list = []
     cnr_list = []
     relative_beta_list = []
@@ -315,7 +285,7 @@ def _from_fixed_src(nc: Dataset) -> WindCube:
             _extract_float64_or_raise(group["elevation"], expected_dimensions)
         )
         range_list.append(
-            _extract_int64_or_raise(group["range"], (expected_dimensions[1],))
+            _extract_float64_or_raise(group["range"], (expected_dimensions[1],))
         )
         doppler_spectrum_width_list.append(
             _extract_float64_or_raise(
@@ -338,7 +308,10 @@ def _from_fixed_src(nc: Dataset) -> WindCube:
         cnr=np.concatenate(cnr_list),
         relative_beta=np.concatenate(relative_beta_list),
         doppler_spectrum_width=np.concatenate(doppler_spectrum_width_list),
-        ray_accumulation_time=np.array(ray_accumulation_time_list, dtype=np.float64),
+        ray_accumulation_time=merge_all_equal(
+            "ray_accumulation_time",
+            np.array(ray_accumulation_time_list, dtype=np.float64).tolist(),
+        ),
         system_id=nc.instrument_name,
     )
 
@@ -381,9 +354,11 @@ def _from_vad_or_dbs_src(nc: Dataset) -> WindCube:
         elevation_list.append(
             _extract_float64_or_raise(group["elevation"], expected_dimensions)
         )
-        range_list.append(_extract_int64_or_raise(group["range"], expected_dimensions))
+        range_list.append(
+            _extract_float64_or_raise(group["range"], expected_dimensions)
+        )
         height_list.append(
-            _extract_int64_or_raise(group["measurement_height"], expected_dimensions)
+            _extract_float64_or_raise(group["measurement_height"], expected_dimensions)
         )
         scan_index_list.append(np.full(group["time"][:].shape, i, dtype=np.int64))
 
@@ -420,10 +395,22 @@ def _extract_datetime64_or_raise(
             raise ValueError(f"Unexpected variable name {nc.name}")
 
 
+def _dB_to_ratio(decibels: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
+    return 10 ** (0.1 * decibels)
+
+
 def _extract_float64_or_raise(
-    nc: Dataset, expected_dimensions: tuple[str, str]
+    nc: Dataset, expected_dimensions: tuple[str, ...]
 ) -> npt.NDArray[np.float64]:
     match nc.name:
+        case "range" | "measurement_height":
+            if nc.dimensions != expected_dimensions:
+                raise ValueError(f"Unexpected dimensions for {nc.name}")
+            if nc.units != "m":
+                raise ValueError(f"Unexpected units for {nc.name}")
+            if nc[:].mask is not np.bool_(False):
+                raise ValueError
+            return np.array(nc[:].data, dtype=np.float64)
         case "cnr":
             if nc.dimensions != expected_dimensions:
                 raise ValueError(f"Unexpected dimensions for {nc.name}")
@@ -431,7 +418,7 @@ def _extract_float64_or_raise(
                 raise ValueError(f"Unexpected units for {nc.name}")
             if nc[:].mask is not np.bool_(False):
                 pass  # ignore that array contains masked values
-            return np.array(nc[:].data, dtype=np.float64)
+            return _dB_to_ratio(np.array(nc[:].data, dtype=np.float64))
         case "relative_beta":
             if nc.dimensions != expected_dimensions:
                 raise ValueError(f"Unexpected dimensions for {nc.name}")
@@ -480,21 +467,5 @@ def _extract_float64_or_raise(
             if nc[:].mask is not np.bool_(False):
                 raise ValueError(f"Variable {nc.name} contains masked values")
             return np.array(nc[:].data, dtype=np.float64)
-        case _:
-            raise ValueError(f"Unexpected variable name {nc.name}")
-
-
-def _extract_int64_or_raise(
-    nc: Dataset, expected_dimensions: tuple[str, str]
-) -> npt.NDArray[np.int64]:
-    match nc.name:
-        case "range" | "measurement_height":
-            if nc.dimensions != expected_dimensions:
-                raise ValueError(f"Unexpected dimensions for {nc.name}")
-            if nc.units != "m":
-                raise ValueError(f"Unexpected units for {nc.name}")
-            if nc[:].mask is not np.bool_(False):
-                raise ValueError
-            return np.array(nc[:].data, dtype=np.int64)
         case _:
             raise ValueError(f"Unexpected variable name {nc.name}")

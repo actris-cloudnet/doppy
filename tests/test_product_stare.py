@@ -65,36 +65,13 @@ def test_stare(site, date, reason):
     ],
 )
 def test_stare_windcube(site, date, reason):
-    import devboard as db
-
     api = Api(cache=CACHE)
     records = api.get_raw_records(site, date)
     r = re.compile(r".*fixed.*", re.IGNORECASE)
     records_fixed = [rec for rec in records if r.match(rec["filename"])]
-    records_bg = [rec for rec in records if rec["filename"].startswith("Background")]
-    stare = product.Stare.from_windcube_data(
+    _stare = product.Stare.from_windcube_data(
         data=[api.get_record_content(r) for r in records_fixed],
     )
-    return
-
-    fig, ax = db.plt.subplots(figsize=(35, 10))
-    x = stare.beta.copy()
-    m = stare.mask
-    x[stare.mask] = db.np.nan
-    # vmin = np.median(x[~m]) - 3*np.std(x[~m])
-    # vmax = np.median(x[~m]) + 3*np.std(x[~m])
-    vmin = x[~m].min()
-    vmax = x[~m].max()
-    cax = ax.imshow(
-        x.T,
-        origin="lower",
-        aspect="auto",
-        interpolation="none",
-        norm=db.mpl.colors.LogNorm(vmin=vmin, vmax=vmax),
-    )
-    fig.colorbar(cax, ax=ax)
-    db.add_fig(fig)
-    db.plt.close("all")
 
 
 @pytest.mark.slow

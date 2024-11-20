@@ -18,7 +18,6 @@
 | `settings_file`     | N/A           | N/A               | N/A                 | (settings_file_dim) | Binary content of settings file.                                                                                               |
 | `sweep_group_name`  | N/A           | N/A               | N/A                 | (sweep)             | Array of names of each sweep group in file.                                                                                    |
 
-
 # Scan group variables
 
 | **Name**                                  | **Units**                          | **Standard Name**                                        | **Long Name**                             | **Dimensions** | **Comments**                                                                                                                                                                       |
