@@ -14,4 +14,5 @@ class WindCube:
     wavelength = 1.54e-6  # [m]
     receiver_bandwidth = 55e6  # [Hz]
     beam_energy = DEFAULT_BEAM_ENERGY
-    effective_diameter = DEFAULT_EFFECTIVE_DIAMETER
+    effective_diameter = 50e-3  # [m]
+    focus = 1e3  # [m]

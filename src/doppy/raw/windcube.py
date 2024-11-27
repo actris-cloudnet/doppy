@@ -221,6 +221,11 @@ def _merge_radial_distance_for_fixed(
     if len(radial_distance_list) == 0:
         raise ValueError("cannot merge empty list")
     if not all(
+        np.allclose(arr.shape, radial_distance_list[0].shape)
+        for arr in radial_distance_list
+    ):
+        raise ValueError("Cannot merge radial distances with different shapes")
+    if not all(
         np.allclose(arr, radial_distance_list[0]) for arr in radial_distance_list
     ):
         raise ValueError("Cannot merge radial distances")
