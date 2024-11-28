@@ -4,7 +4,6 @@ import re
 import tempfile
 from collections import defaultdict
 
-import numpy as np
 import pytest
 from doppy import exceptions, options, product
 from doppy.data.api import Api
@@ -97,51 +96,6 @@ def test_stare_windcube(site, date, reason):
         _stare = product.Stare.from_windcube_data(
             data=[api.get_record_content(r) for r in records_group],
         )
-        plot_stare(_stare, site, date, group)
-
-
-def plot_stare(s, site, date, group):
-    import devboard as db
-    import matplotlib as mpl
-    import matplotlib.pyplot as plt
-
-    fig, ax = plt.subplots(7, figsize=(20, 3 * 10))
-
-    opts_base = {"origin": "lower", "aspect": "auto"}
-    opts_beta = opts_base.copy()
-    opts_beta.update({"norm": mpl.colors.LogNorm(vmin=1e-7, vmax=1e-4)})
-    opts_vel = opts_base.copy()
-    opts_vel.update({"cmap": "coolwarm", "vmin": -10, "vmax": 10})
-
-    opts_snr = opts_base.copy()
-    opts_snr.update({"norm": mpl.colors.LogNorm(vmin=1e-6, vmax=1)})
-
-    ax[0].imshow(s.beta.T, **opts_beta)
-    ax[1].imshow(np.ma.masked_where(s.mask, s.beta).T, **opts_beta)
-
-    ax[2].imshow(s.radial_velocity.T, **opts_vel)
-    ax[3].imshow(np.ma.masked_where(s.mask, s.radial_velocity).T, **opts_vel)
-
-    ax[4].imshow(s.snr.T, **opts_snr)
-    low_snr = s.snr[np.log(s.snr) < -5.5]
-    ax[5].hist(low_snr, bins=1000)
-    ax[6].hist(np.log(low_snr), bins=1000)
-
-    # Fit normalA
-    # snr_log = np.log(low_snr)
-    # raw_ub = np.percentile(snr_log, 90)
-    # snr_log_fit = snr_log[snr_log<raw_ub]
-
-    # mean, std_dev = norm.fit(snr_log_fit)
-    # x = np.linspace(snr_log.min(),snr_log.max(),1000)
-    # pdf = norm.pdf(x,mean,std_dev)
-    # ax_pdf = ax[6].twinx()
-    # ax_pdf.plot(x,pdf)
-
-    fig.suptitle(f"{site} {date} {group}")
-    plt.close("all")
-
-    db.add_fig(fig)
 
 
 @pytest.mark.slow

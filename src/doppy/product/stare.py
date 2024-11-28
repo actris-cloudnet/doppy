@@ -9,7 +9,7 @@ from typing import Sequence, Tuple, TypeAlias
 import numpy as np
 import numpy.typing as npt
 import scipy
-from scipy.ndimage import uniform_filter
+from scipy.ndimage import median_filter, uniform_filter
 from sklearn.cluster import KMeans
 
 import doppy
@@ -231,17 +231,27 @@ def _compute_noise_mask_for_windcube(
         raise ValueError("Unexpected nans in crn or radial_velocity")
 
     mask = _mask_with_cnr_norm_dist(raw.cnr) | (np.abs(raw.radial_velocity) > 30)
+
+    cnr = raw.cnr.copy()
+    cnr[mask] = np.finfo(float).eps
+    cnr_filt = median_filter(cnr, size=(3, 3))
+    rel_diff = np.abs(cnr - cnr_filt) / np.abs(cnr)
+    diff_mask = rel_diff > 0.25
+
+    mask = mask | diff_mask
+
     return np.array(mask, dtype=np.bool_)
 
 
 def _mask_with_cnr_norm_dist(cnr: npt.NDArray[np.float64]) -> npt.NDArray[np.bool_]:
     th_trunc = -5.5
+    std_factor = 2
     log_cnr = np.log(cnr)
     log_cnr_trunc = log_cnr[log_cnr < th_trunc]
     th_trunc_fit = np.percentile(log_cnr_trunc, 90)
     log_cnr_for_fit = log_cnr_trunc[log_cnr_trunc < th_trunc_fit]
     mean, std = scipy.stats.norm.fit(log_cnr_for_fit)
-    return np.array(np.log(cnr) < mean + 0.75 * std, dtype=np.bool_)
+    return np.array(np.log(cnr) < (mean + std_factor * std), dtype=np.bool_)
 
 
 def _compute_noise_mask(
