@@ -28,7 +28,6 @@ class Stare:
     mask: npt.NDArray[np.bool_]
     wavelength: float
     system_id: str
-    snr: npt.NDArray[np.float64] | None = None
 
     def __getitem__(
         self,
@@ -90,7 +89,6 @@ class Stare:
             mask=mask,
             wavelength=wavelength,
             system_id=raw.system_id,
-            snr=raw.cnr,  # DEBUG
         )
 
     @classmethod

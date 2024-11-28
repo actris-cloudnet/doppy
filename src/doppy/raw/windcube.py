@@ -7,7 +7,7 @@ from typing import Sequence
 
 import numpy as np
 import numpy.typing as npt
-from netCDF4 import Dataset, num2date
+from netCDF4 import Dataset, Variable, num2date
 from numpy import datetime64
 
 from doppy.utils import merge_all_equal
@@ -244,7 +244,6 @@ def _src_to_bytes(data: str | Path | bytes | BufferedIOBase) -> bytes:
         return data
     elif isinstance(data, BufferedIOBase):
         return data.read()
-    raise TypeError("Unsupported data type")
 
 
 def _from_fixed_src(nc: Dataset) -> WindCubeFixed:
@@ -263,7 +262,7 @@ def _from_fixed_src(nc: Dataset) -> WindCubeFixed:
     )
 
     expected_dimensions = ("time", "range")
-    for i, group in enumerate(
+    for _, group in enumerate(
         nc[group] for group in (nc.variables["sweep_group_name"][:])
     ):
         time_reference_ = time_reference
@@ -322,15 +321,16 @@ def _from_fixed_src(nc: Dataset) -> WindCubeFixed:
 
 
 def _from_vad_or_dbs_src(nc: Dataset) -> WindCube:
-    scan_index_list = []
-    time_list = []
-    cnr_list = []
-    radial_wind_speed_list = []
-    radial_wind_speed_confidence_list = []
-    azimuth_list = []
-    elevation_list = []
-    range_list = []
-    height_list = []
+    scan_index_list: list[npt.NDArray[np.int64]] = []
+    time_list: list[npt.NDArray[np.datetime64]] = []
+    cnr_list: list[npt.NDArray[np.float64]] = []
+    radial_wind_speed_list: list[npt.NDArray[np.float64]] = []
+    radial_wind_speed_confidence_list: list[npt.NDArray[np.float64]] = []
+    azimuth_list: list[npt.NDArray[np.float64]] = []
+    elevation_list: list[npt.NDArray[np.float64]] = []
+    range_list: list[npt.NDArray[np.float64]] = []
+    height_list: list[npt.NDArray[np.float64]] = []
+
     time_reference = (
         nc["time_reference"][:] if "time_reference" in nc.variables else None
     )
@@ -382,7 +382,7 @@ def _from_vad_or_dbs_src(nc: Dataset) -> WindCube:
 
 
 def _extract_datetime64_or_raise(
-    nc: Dataset, time_reference: str | None
+    nc: Variable[npt.NDArray[np.float64]], time_reference: str | None
 ) -> npt.NDArray[np.datetime64]:
     match nc.name:
         case "time":
@@ -405,7 +405,7 @@ def _dB_to_ratio(decibels: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
 
 
 def _extract_float64_or_raise(
-    nc: Dataset, expected_dimensions: tuple[str, ...]
+    nc: Variable[npt.NDArray[np.float64]], expected_dimensions: tuple[str, ...]
 ) -> npt.NDArray[np.float64]:
     match nc.name:
         case "range" | "measurement_height":
