@@ -1,6 +1,8 @@
 import os
 import pathlib
+import re
 import tempfile
+from collections import defaultdict
 
 import pytest
 from doppy import exceptions, options, product
@@ -53,6 +55,47 @@ def test_stare(site, date, reason):
         data_bg=[(api.get_record_content(r), r["filename"]) for r in records_bg],
         bg_correction_method=options.BgCorrectionMethod.FIT,
     )
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize(
+    "site,date,reason",
+    [
+        ("cabauw", "2023-08-26", ""),
+        ("cabauw", "2021-07-29", "first"),
+        ("cabauw", "2021-11-09", ""),
+        ("cabauw", "2022-02-12", ""),
+        ("cabauw", "2022-03-04", ""),
+        ("cabauw", "2022-04-12", ""),
+        ("cabauw", "2022-10-13", ""),
+        ("cabauw", "2024-09-10", "last"),
+        ("payerne", "2024-09-23", "Some weird stripes"),
+        ("payerne", "2021-07-01", "first"),
+        ("payerne", "2021-07-29", "radial distance shape changes"),
+        ("payerne", "2022-02-03", ""),
+        ("payerne", "2022-05-25", ""),
+        ("payerne", "2022-09-30", ""),
+        ("payerne", "2023-12-07", ""),
+        ("payerne", "2024-11-27", "last"),
+    ],
+)
+def test_stare_windcube(site, date, reason):
+    api = Api(cache=CACHE)
+    records = api.get_raw_records(site, date)
+    r = re.compile(r".*fixed.*", re.IGNORECASE)
+    records_fixed = [rec for rec in records if r.match(rec["filename"])]
+
+    groups = defaultdict(list)
+    group_pattern = re.compile(r".+_fixed_(.+)\.nc(?:\..+)?")
+    for r in records_fixed:
+        if match := group_pattern.match(r["filename"]):
+            group = match.group(1)
+            groups[group].append(r)
+
+    for group, records_group in groups.items():
+        _stare = product.Stare.from_windcube_data(
+            data=[api.get_record_content(r) for r in records_group],
+        )
 
 
 @pytest.mark.slow

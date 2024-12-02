@@ -6,16 +6,17 @@ build-backend = "maturin"
 name = "doppy"
 summary = "Doppler lidar processing"
 dynamic = ["version"]
-authors = [{name = "Niko Leskinen", email = "niko.leskinen@fmi.fi"}]
+authors = [{ name = "Niko Leskinen", email = "niko.leskinen@fmi.fi" }]
 requires-python = ">=3.10"
 readme = "README.md"
-license = {file = "LICENSE"}
+license = { file = "LICENSE" }
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "License :: OSI Approved :: MIT License",
   "Intended Audience :: Science/Research",
   "Operating System :: OS Independent"
@@ -28,11 +29,21 @@ dependencies = [
   "typer",
   "matplotlib",
   "scikit-learn",
-  "scipy"
+  "scipy",
 ]
 
 [project.optional-dependencies]
-dev = ["mypy", "ruff", "pytest", "types-requests", "py-spy", "maturin==1.4", "release-version", "pre-commit"]
+dev = [
+  "mypy",
+  "ruff",
+  "pytest",
+  "types-requests",
+  "py-spy",
+  "maturin==1.4",
+  "release-version",
+  "pre-commit",
+  "xarray[io]",
+]
 
 [project.scripts]
 doppy = "doppy.__main__:app"

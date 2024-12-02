@@ -9,7 +9,7 @@ from typing import Sequence, Tuple, TypeAlias
 import numpy as np
 import numpy.typing as npt
 import scipy
-from scipy.ndimage import uniform_filter
+from scipy.ndimage import median_filter, uniform_filter
 from sklearn.cluster import KMeans
 
 import doppy
@@ -50,6 +50,46 @@ class Stare:
                 system_id=self.system_id,
             )
         raise TypeError
+
+    @classmethod
+    def mask_nan(cls, x: npt.NDArray[np.float64]) -> npt.NDArray[np.bool_]:
+        return np.isnan(x)
+
+    @classmethod
+    def from_windcube_data(
+        cls,
+        data: Sequence[str]
+        | Sequence[Path]
+        | Sequence[bytes]
+        | Sequence[BufferedIOBase],
+    ) -> Stare:
+        raws = doppy.raw.WindCubeFixed.from_srcs(data)
+        raw = (
+            doppy.raw.WindCubeFixed.merge(raws).sorted_by_time().nan_profiles_removed()
+        )
+
+        wavelength = defaults.WindCube.wavelength
+        beta = _compute_beta(
+            snr=raw.cnr,
+            radial_distance=raw.radial_distance,
+            wavelength=wavelength,
+            beam_energy=defaults.WindCube.beam_energy,
+            receiver_bandwidth=defaults.WindCube.receiver_bandwidth,
+            focus=defaults.WindCube.focus,
+            effective_diameter=defaults.WindCube.effective_diameter,
+        )
+
+        mask = _compute_noise_mask_for_windcube(raw)
+        return cls(
+            time=raw.time,
+            radial_distance=raw.radial_distance,
+            elevation=raw.elevation,
+            beta=beta,
+            radial_velocity=raw.radial_velocity,
+            mask=mask,
+            wavelength=wavelength,
+            system_id=raw.system_id,
+        )
 
     @classmethod
     def from_halo_data(
@@ -95,16 +135,21 @@ class Stare:
             raw, intensity_bg_corrected
         )
         wavelength = defaults.Halo.wavelength
+
         beta = _compute_beta(
-            intensity_noise_bias_corrected,
-            raw.radial_distance,
-            raw.header.focus_range,
-            wavelength,
+            snr=intensity_noise_bias_corrected - 1,
+            radial_distance=raw.radial_distance,
+            wavelength=wavelength,
+            beam_energy=defaults.Halo.beam_energy,
+            receiver_bandwidth=defaults.Halo.receiver_bandwidth,
+            focus=raw.header.focus_range,
+            effective_diameter=defaults.Halo.effective_diameter,
         )
+
         mask = _compute_noise_mask(
             intensity_noise_bias_corrected, raw.radial_velocity, raw.radial_distance
         )
-        return Stare(
+        return cls(
             time=raw.time,
             radial_distance=raw.radial_distance,
             elevation=raw.elevation,
@@ -177,6 +222,36 @@ class Stare:
             nc.add_attribute("doppy_version", doppy.__version__)
 
 
+def _compute_noise_mask_for_windcube(
+    raw: doppy.raw.WindCubeFixed,
+) -> npt.NDArray[np.bool_]:
+    if np.any(np.isnan(raw.cnr)) or np.any(np.isnan(raw.radial_velocity)):
+        raise ValueError("Unexpected nans in crn or radial_velocity")
+
+    mask = _mask_with_cnr_norm_dist(raw.cnr) | (np.abs(raw.radial_velocity) > 30)
+
+    cnr = raw.cnr.copy()
+    cnr[mask] = np.finfo(float).eps
+    cnr_filt = median_filter(cnr, size=(3, 3))
+    rel_diff = np.abs(cnr - cnr_filt) / np.abs(cnr)
+    diff_mask = rel_diff > 0.25
+
+    mask = mask | diff_mask
+
+    return np.array(mask, dtype=np.bool_)
+
+
+def _mask_with_cnr_norm_dist(cnr: npt.NDArray[np.float64]) -> npt.NDArray[np.bool_]:
+    th_trunc = -5.5
+    std_factor = 2
+    log_cnr = np.log(cnr)
+    log_cnr_trunc = log_cnr[log_cnr < th_trunc]
+    th_trunc_fit = np.percentile(log_cnr_trunc, 90)
+    log_cnr_for_fit = log_cnr_trunc[log_cnr_trunc < th_trunc_fit]
+    mean, std = scipy.stats.norm.fit(log_cnr_for_fit)
+    return np.array(np.log(cnr) < (mean + std_factor * std), dtype=np.bool_)
+
+
 def _compute_noise_mask(
     intensity: npt.NDArray[np.float64],
     radial_velocity: npt.NDArray[np.float64],
@@ -197,14 +272,19 @@ def _compute_noise_mask(
 
 
 def _compute_beta(
-    intensity: npt.NDArray[np.float64],
+    snr: npt.NDArray[np.float64],
     radial_distance: npt.NDArray[np.float64],
-    focus: float,
     wavelength: float,
+    beam_energy: float,
+    receiver_bandwidth: float,
+    focus: float,
+    effective_diameter: float,
 ) -> npt.NDArray[np.float64]:
     """
     Parameters
     ----------
+    snr
+        for halo: intensity - 1
     radial_distance
         distance from the instrument
     focus
@@ -236,22 +316,24 @@ def _compute_beta(
         doi: https://doi.org/10.5194/amt-13-2849-2020
     """
 
-    snr = intensity - 1
     h = scipy.constants.Planck
     c = scipy.constants.speed_of_light
     eta = 1
-    E = 1e-5
-    B = 5e7
+    E = beam_energy
+    B = receiver_bandwidth
     nu = c / wavelength
-    A_e = _compute_effective_receiver_energy(radial_distance, focus, wavelength)
+    A_e = _compute_effective_receiver_energy(
+        radial_distance, wavelength, focus, effective_diameter
+    )
     beta = 2 * h * nu * B * radial_distance**2 * snr / (eta * c * E * A_e)
     return np.array(beta, dtype=np.float64)
 
 
 def _compute_effective_receiver_energy(
     radial_distance: npt.NDArray[np.float64],
-    focus: float,
     wavelength: float,
+    focus: float,
+    effective_diameter: float,
 ) -> npt.NDArray[np.float64]:
     """
     NOTE
@@ -268,7 +350,7 @@ def _compute_effective_receiver_energy(
     wavelength
         laser wavelength
     """
-    D = 25e-3  # effective_diameter_of_gaussian_beam
+    D = effective_diameter
     return np.array(
         np.pi
         * D**2

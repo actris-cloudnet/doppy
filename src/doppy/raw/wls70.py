@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from io import BufferedIOBase
 from pathlib import Path
 from typing import Any, Sequence
@@ -166,7 +166,12 @@ def _raw_rs_to_wls70(
     cnr_threshold = float(info["cnr_threshold"])
     data = data.reshape(-1, len(cols))
     time_ts = data[:, 0]
-    time = np.array([datetime64(datetime.utcfromtimestamp(ts)) for ts in time_ts])
+    time = np.array(
+        [
+            datetime64(datetime.fromtimestamp(ts, timezone.utc).replace(tzinfo=None))
+            for ts in time_ts
+        ]
+    )
 
     position = data[:, 1]
     temperature = data[:, 2]
