@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0 – 2024-12-02
+
+- Add windcube stare product
+
 ## 0.3.7 – 2024-10-14
 
 - Fix cabauw dbs time reference
