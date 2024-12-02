@@ -75,7 +75,7 @@ class Stare:
             wavelength=wavelength,
             beam_energy=defaults.WindCube.beam_energy,
             receiver_bandwidth=defaults.WindCube.receiver_bandwidth,
-            focus=np.inf,
+            focus=defaults.WindCube.focus,
             effective_diameter=defaults.WindCube.effective_diameter,
         )
 
