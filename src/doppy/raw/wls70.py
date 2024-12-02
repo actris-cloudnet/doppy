@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from io import BufferedIOBase
 from pathlib import Path
 from typing import Any, Sequence
@@ -168,7 +168,7 @@ def _raw_rs_to_wls70(
     time_ts = data[:, 0]
     time = np.array(
         [
-            datetime64(datetime.fromtimestamp(ts, UTC).replace(tzinfo=None))
+            datetime64(datetime.fromtimestamp(ts, timezone.utc).replace(tzinfo=None))
             for ts in time_ts
         ]
     )

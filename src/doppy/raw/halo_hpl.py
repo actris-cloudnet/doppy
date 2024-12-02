@@ -4,7 +4,7 @@ import functools
 import io
 import re
 from dataclasses import dataclass
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from io import BufferedIOBase
 from os.path import commonprefix
 from pathlib import Path
@@ -310,7 +310,9 @@ def _raw_tuple2halo_hpl(
         scan_type=str(header_dict["scan_type"]),
         focus_range=int(header_dict["focus_range"]),
         start_time=datetime64(
-            datetime.fromtimestamp(header_dict["start_time"], UTC).replace(tzinfo=None)
+            datetime.fromtimestamp(header_dict["start_time"], timezone.utc).replace(
+                tzinfo=None
+            )
         ),
         system_id=str(header_dict["system_id"]),
         instrument_spectral_width=float(header_dict["instrument_spectral_width"])
