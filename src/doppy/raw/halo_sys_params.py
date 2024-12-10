@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import io
+import re
 from dataclasses import dataclass
 from datetime import datetime
 from io import BufferedIOBase
@@ -75,10 +76,40 @@ class HaloSysParams:
         return self[is_increasing]
 
 
+def _correct_concatenated_rows(rows: list[bytes]) -> list[bytes]:
+    concat_pattern = re.compile(rb".*(\t[-+0-9]*\.[-+0-9]*\.[-+0-9]*\t).*")
+
+    matches = [concat_pattern.fullmatch(row) for row in rows]
+
+    if not any(matches):
+        return rows
+    elif not all(matches):
+        raise ValueError("Cannot correct the concatenated rows")
+
+    zero_column_pattern = re.compile(rb".*\t0\t.*")
+    if not all(zero_column_pattern.fullmatch(row) for row in rows):
+        raise ValueError(r"Concatenated rows are expected to have \t0\t pattern")
+    rows = [row.replace(b"\t0\t", b"\t") for row in rows]
+
+    new_rows = []
+    pattern = re.compile(rb"(.*\t[-+]?[0-9]+\.[0-9]+)([-+][0-9]+\.[0-9]+\t.*)")
+    pattern_nan = re.compile(rb"(.*\t)[-+]?[0-9]+\.[0-9]+\.[0-9]+(\t.*)")
+    for row in rows:
+        m = pattern.fullmatch(row)
+        if m:
+            new_rows.append(m.group(1) + b"\t" + m.group(2))
+        elif m_nan := pattern_nan.fullmatch(row):
+            new_rows.append(m_nan.group(1) + b"nan\tnan" + m_nan.group(2))
+        else:
+            raise ValueError("Cannot separate concatenated floats")
+    return new_rows
+
+
 def _from_src(data: BufferedIOBase) -> HaloSysParams:
     data_bytes = data.read().strip().replace(b",", b".").replace(b"\x00", b"")
     a = data_bytes.strip().split(b"\r\n")
-    b = [r.split(b"\t") for r in a]
+    a = _correct_concatenated_rows(a)
+    b = [r.strip().split(b"\t") for r in a]
     arr = np.array(b)
     if arr.shape[1] != 7:
         raise ValueError("Unexpected data format")
