@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1 – 2024-12-10
+
+- Fix sys params files that have concatenated values
+
 ## 0.4.0 – 2024-12-02
 
 - Add windcube stare product
