@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.2 – 2024-12-11
+
+- Rename sys params names to follow cf conventions
+
 ## 0.4.1 – 2024-12-10
 
 - Fix sys params files that have concatenated values
