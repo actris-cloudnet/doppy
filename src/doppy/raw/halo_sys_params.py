@@ -20,8 +20,8 @@ class HaloSysParams:
     internal_relative_humidity: npt.NDArray[np.float64]  # dim: (time, )
     supply_voltage: npt.NDArray[np.float64]  # dim: (time, )
     acquisition_card_temperature: npt.NDArray[np.float64]  # dim: (time, )
-    pitch: npt.NDArray[np.float64]  # dim: (time, )
-    roll: npt.NDArray[np.float64]  # dim: (time, )
+    platform_pitch_angle: npt.NDArray[np.float64]  # dim: (time, ), unit: degrees
+    platform_roll_angle: npt.NDArray[np.float64]  # dim: (time, ), unit: degrees
 
     @classmethod
     def from_src(cls, data: str | Path | bytes | BufferedIOBase) -> HaloSysParams:
@@ -47,8 +47,8 @@ class HaloSysParams:
             np.concatenate(tuple(r.internal_relative_humidity for r in raws)),
             np.concatenate(tuple(r.supply_voltage for r in raws)),
             np.concatenate(tuple(r.acquisition_card_temperature for r in raws)),
-            np.concatenate(tuple(r.pitch for r in raws)),
-            np.concatenate(tuple(r.roll for r in raws)),
+            np.concatenate(tuple(r.platform_pitch_angle for r in raws)),
+            np.concatenate(tuple(r.platform_roll_angle for r in raws)),
         )
 
     def __getitem__(
@@ -62,8 +62,8 @@ class HaloSysParams:
                 self.internal_relative_humidity[index],
                 self.supply_voltage[index],
                 self.acquisition_card_temperature[index],
-                self.pitch[index],
-                self.roll[index],
+                self.platform_pitch_angle[index],
+                self.platform_roll_angle[index],
             )
         raise TypeError
 
