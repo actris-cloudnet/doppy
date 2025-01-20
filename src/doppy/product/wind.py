@@ -364,13 +364,13 @@ def _compute_mask(
     rmse (time,range)
     """
 
-    def neighbour_diff(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
+    def neighbour_diff(X: npt.NDArray[np.float64]) -> np.float64:
         mdiff = np.max(np.abs(X - X[len(X) // 2]))
-        return np.array(mdiff, dtype=np.float64)
+        return np.float64(mdiff)
 
     WIND_NEIGHBOUR_DIFFERENCE = 20
     neighbour_mask = np.any(
-        generic_filter(wind, neighbour_diff, size=(1, 3, 1))
+        generic_filter(wind, neighbour_diff, size=(1, 3, 1))  # type: ignore
         > WIND_NEIGHBOUR_DIFFERENCE,
         axis=2,
     )

@@ -95,7 +95,7 @@ pub fn from_bytes_src(content: &[u8]) -> Result<Wls70, RawParseError> {
         Ok((data, ncols)) => {
             let header_str: String = header.iter().map(|&c| c as char).collect();
             let cols: Vec<_> = header_str
-                .split(|c| c == '\t')
+                .split('\t')
                 .map(|s| s.trim().to_string())
                 .filter(|s| !s.is_empty())
                 .collect();

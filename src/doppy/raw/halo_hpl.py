@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import functools
-import io
 import re
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -16,6 +15,7 @@ from numpy import datetime64, timedelta64
 
 import doppy
 from doppy import exceptions
+from doppy.raw.utils import bytes_from_src
 from doppy.utils import merge_all_equal
 
 
@@ -35,30 +35,9 @@ class HaloHpl:
 
     @classmethod
     def from_srcs(
-        cls,
-        data: Sequence[str]
-        | Sequence[Path]
-        | Sequence[bytes]
-        | Sequence[BufferedIOBase],
+        cls, data: Sequence[str | bytes | Path | BufferedIOBase]
     ) -> list[HaloHpl]:
-        if not isinstance(data, (list, tuple)):
-            raise TypeError("data should be list or tuple")
-        if all(isinstance(src, bytes) for src in data):
-            data_bytes = data
-        elif all(isinstance(src, str) for src in data):
-            data_bytes = []
-            for src in data:
-                with Path(src).open("rb") as f:
-                    data_bytes.append(f.read())
-        elif all(isinstance(src, Path) for src in data):
-            data_bytes = []
-            for src in data:
-                with src.open("rb") as f:
-                    data_bytes.append(f.read())
-        elif all(isinstance(src, BufferedIOBase) for src in data):
-            data_bytes = [src.read() for src in data]
-        else:
-            raise TypeError("Unexpected types in data")
+        data_bytes = [bytes_from_src(src) for src in data]
         raw_dicts = doppy.rs.raw.halo_hpl.from_bytes_srcs(data_bytes)
         try:
             return [_raw_tuple2halo_hpl(r) for r in raw_dicts]
@@ -67,39 +46,11 @@ class HaloHpl:
 
     @classmethod
     def from_src(cls, data: str | Path | bytes | BufferedIOBase) -> HaloHpl:
-        if isinstance(data, str):
-            path = Path(data)
-            with path.open("rb") as f:
-                data_bytes = f.read()
-        elif isinstance(data, Path):
-            with data.open("rb") as f:
-                data_bytes = f.read()
-        elif isinstance(data, bytes):
-            data_bytes = data
-        elif isinstance(data, BufferedIOBase):
-            data_bytes = data.read()
-        else:
-            raise TypeError("Unsupported data type")
+        data_bytes = bytes_from_src(data)
         try:
             return _raw_tuple2halo_hpl(doppy.rs.raw.halo_hpl.from_bytes_src(data_bytes))
         except RuntimeError as err:
             raise exceptions.RawParsingError(err) from err
-
-    @classmethod
-    def _py_from_src(cls, data: str | Path | bytes | BufferedIOBase) -> HaloHpl:
-        if isinstance(data, str):
-            path = Path(data)
-            with path.open("rb") as f:
-                return _from_src(f)
-        elif isinstance(data, Path):
-            with data.open("rb") as f:
-                return _from_src(f)
-        elif isinstance(data, bytes):
-            return _from_src(io.BytesIO(data))
-        elif isinstance(data, BufferedIOBase):
-            return _from_src(data)
-        else:
-            raise TypeError("Unsupported data type")
 
     def __getitem__(
         self,
@@ -187,7 +138,7 @@ class HaloHpl:
         return self[mask]
 
     def nans_removed(self) -> HaloHpl:
-        is_ok = ~np.isnan(self.intensity).any(axis=1)
+        is_ok = np.array(~np.isnan(self.intensity).any(axis=1), dtype=np.bool_)
         return self[is_ok]
 
 
@@ -381,7 +332,7 @@ def _convert_time(
     decimal_time: hours since beginning of the day of start_time
     """
     HOURS_TO_MICROSECONDS = 3600000000.0
-    start_of_day = datetime64(start_time, "D").astype("datetime64[us]")
+    start_of_day = start_time.astype("datetime64[D]").astype("datetime64[us]")
     delta_hours = (decimal_time * HOURS_TO_MICROSECONDS).astype("timedelta64[us]")
     return np.array(start_of_day + delta_hours, dtype=datetime64)
 

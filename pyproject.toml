@@ -35,14 +35,16 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
   "mypy",
+  "pyright",
   "ruff",
   "pytest",
   "types-requests",
   "py-spy",
-  "maturin==1.4",
+  "maturin==1.8",
   "release-version",
   "pre-commit",
   "xarray[io]",
+  "scipy-stubs",
 ]
 
 [project.scripts]
@@ -59,6 +61,13 @@ features = ["pyo3/extension-module"]
 module-name = "doppy.rs"
 manifest-path = "crates/doppy_rs/Cargo.toml"
 python-source = "src/"
+
+[tool.pyright]
+include = ["src"]
+exclude = ["**/__pycache__"]
+reportAttributeAccessIssue = false
+venvPath = "."
+venv = "env"
 
 [tool.mypy]
 strict = true

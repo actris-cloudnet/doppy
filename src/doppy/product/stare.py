@@ -232,7 +232,7 @@ def _compute_noise_mask_for_windcube(
 
     cnr = raw.cnr.copy()
     cnr[mask] = np.finfo(float).eps
-    cnr_filt = median_filter(cnr, size=(3, 3))
+    cnr_filt = np.array(median_filter(cnr, size=(3, 3)), dtype=np.float64)
     rel_diff = np.abs(cnr - cnr_filt) / np.abs(cnr)
     diff_mask = rel_diff > 0.25
 
@@ -547,13 +547,13 @@ def _infer_fit_type(
     method = "Nelder-Mead"
     res_lin = scipy.optimize.minimize(
         lin_func_rss, [1e-5, 1], method=method, options={"maxiter": 2 * 600}
-    )
+    )  # type: ignore
     res_exp = scipy.optimize.minimize(
         exp_func_rss, [1, -1, -1], method=method, options={"maxiter": 3 * 600}
-    )
+    )  # type: ignore
     res_explin = scipy.optimize.minimize(
         explin_func_rss, [1, -1, -1, 0, 0], method=method, options={"maxiter": 5 * 600}
-    )
+    )  # type: ignore
 
     fit_lin = _lin_func(res_lin.x, rdist)
     fit_exp = _exp_func(res_exp.x, rdist)
@@ -643,7 +643,7 @@ def _exponential_fit(
 
     result = scipy.optimize.minimize(
         exp_func_rss, [1, -1, -1], method="Nelder-Mead", options={"maxiter": 3 * 600}
-    )
+    )  # type: ignore
     fit = _exp_func(result.x, radial_distance)[np.newaxis, :]
     return np.array(fit * scale, dtype=np.float64)
 
@@ -666,7 +666,7 @@ def _exponential_linear_fit(
         [1, -1, -1, 0, 0],
         method="Nelder-Mead",
         options={"maxiter": 5 * 600},
-    )
+    )  # type: ignore
     fit = _explin_func(result.x, radial_distance)[np.newaxis, :]
     return np.array(fit * scale, dtype=np.float64)
 

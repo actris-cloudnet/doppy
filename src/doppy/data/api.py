@@ -20,7 +20,7 @@ class Api:
         self.api_endpoint = "https://cloudnet.fmi.fi/api"
         self.cache = cache
 
-    def get(self, path: str, params: dict[str, str]) -> list:
+    def get(self, path: str, params: dict[str, str | list[str]]) -> list:
         res = self.session.get(
             f"{self.api_endpoint}/{path}", params=params, timeout=1800
         )

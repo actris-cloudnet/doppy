@@ -97,7 +97,7 @@ class WindCubeFixed:
         return self[sort_indices]
 
     def nan_profiles_removed(self) -> WindCubeFixed:
-        return self[~np.all(np.isnan(self.cnr), axis=1)]
+        return self[np.array(~np.all(np.isnan(self.cnr), axis=1), dtype=np.bool)]
 
 
 @dataclass
@@ -314,7 +314,7 @@ def _from_fixed_src(nc: Dataset) -> WindCubeFixed:
         doppler_spectrum_width=np.concatenate(doppler_spectrum_width_list),
         ray_accumulation_time=merge_all_equal(
             "ray_accumulation_time",
-            np.array(ray_accumulation_time_list, dtype=np.float64).tolist(),
+            list(np.array(ray_accumulation_time_list, dtype=np.float64)),
         ),
         system_id=nc.instrument_name,
     )
