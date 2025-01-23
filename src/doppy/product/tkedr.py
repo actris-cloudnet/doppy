@@ -10,6 +10,7 @@ import numpy as np
 import numpy.typing as npt
 import scipy
 
+from doppy.product.model import ModelWind
 from doppy.product.stare import Stare
 from doppy.product.wind import Wind
 
@@ -17,12 +18,20 @@ from doppy.product.wind import Wind
 @dataclass
 class Tkedr:
     @classmethod
-    def from_stare_and_wind(cls, stare: Stare, wind: Wind) -> None:
-        integration_time = 1
+    def from_stare_and_wind(
+        cls, stare: Stare, wind: Wind, model_wind: ModelWind
+    ) -> None:
         beam_divergence = 33e-6
         kolmogorov_constant = 0.55
+        pulses_per_ray = 10_000
+        pulse_repetition_rate = 15e3  # 1/s
+        integration_time = pulses_per_ray / pulse_repetition_rate
+        beam_divergence = 33e-6  # radians
 
-        wspeed = _interpolate_wind_speed(stare, wind)
+        wspeed, mask = _interpolate_wind_speed(stare, wind)
+        wspeed_model = _interpolate_wind_speed_from_model(stare, model_wind)
+        wspeed[mask] = wspeed_model[mask]
+
         var_res = _compute_variance(stare)
         sampling_time = (var_res.window_stop - var_res.window_start).astype(
             np.float64
@@ -42,6 +51,7 @@ class Tkedr:
             ** (-3 / 2)
         )
 
+        _plot_interpolaterd_wind(stare, wind, wspeed)
         _plot_dr(stare, dissipation_rate)
 
 
@@ -82,9 +92,14 @@ def _compute_length_scale_lower(
     return np.array(from_wind + from_beam[np.newaxis, :], dtype=np.float64)
 
 
-def plot_interpolaterd_wind(stare, wind, iwind):
-    fig, ax = plt.subplots()
-    ax.pcolormesh(stare.time, stare.radial_distance, iwind.T)
+def _plot_interpolaterd_wind(stare, wind, iwind):
+    fig, ax = plt.subplots(3)
+    wspeed = np.sqrt(wind.zonal_wind**2 + wind.meridional_wind**2)
+    ax[0].pcolormesh(wind.time, wind.height, wspeed.T)
+    ax[1].pcolormesh(wind.time, wind.height, wind.mask.T)
+
+    ax[2].pcolormesh(stare.time, stare.radial_distance, iwind.T)
+
     devb.add_fig(fig)
 
 
@@ -146,7 +161,9 @@ def plot_var(var, stare):
     devb.add_fig(fig)
 
 
-def _interpolate_wind_speed(stare: Stare, wind: Wind) -> npt.NDArray[np.float64]:
+def _interpolate_wind_speed(
+    stare: Stare, wind: Wind
+) -> tuple[npt.NDArray[np.float64], npt.NDArray[np.bool_]]:
     """
     Interpolates horizontal wind speed from wind (time, height) dimensions
     into stare (time, range) dimensions.
@@ -171,4 +188,62 @@ def _interpolate_wind_speed(stare: Stare, wind: Wind) -> npt.NDArray[np.float64]
     interpolated_wind_speed_nearest = interpolator_nearest((time, height))
     isnan = np.isnan(interpolated_wind_speed_linear)
     interpolated_wind_speed_linear[isnan] = interpolated_wind_speed_nearest[isnan]
+
+    # Mask
+    mask = wind.mask.astype(np.float64)
+    interpolator_linear_for_mask = scipy.interpolate.RegularGridInterpolator(
+        (wind.time, wind.height),
+        mask,
+        bounds_error=False,
+        method="linear",
+    )
+    interpolated_mask_float = interpolator_linear_for_mask((time, height))
+
+    interpolated_mask_bool = np.full(interpolated_mask_float.shape, False)
+    interpolated_mask_bool[
+        np.isnan(interpolated_mask_float)
+        | (interpolated_mask_float > np.finfo(np.float64).eps)
+    ] = True
+
+    return np.array(interpolated_wind_speed_linear, dtype=np.float64), np.array(
+        interpolated_mask_bool, dtype=np.bool_
+    )
+
+
+def _interpolate_wind_speed_from_model(
+    stare: Stare, wind: ModelWind
+) -> npt.NDArray[np.float64]:
+    """
+    Interpolates horizontal wind speed from wind (time, height) dimensions
+    into stare (time, range) dimensions.
+    Points that are not in wind dimension bounds are extrapolated using nearest points
+    """
+    horizontal_wind_speed = np.sqrt(wind.zonal_wind**2 + wind.meridional_wind**2)
+    interpolator_nearest = scipy.interpolate.RegularGridInterpolator(
+        (wind.time, wind.height),
+        horizontal_wind_speed,
+        method="nearest",
+        bounds_error=False,
+        fill_value=None,
+    )
+    interpolator_linear = scipy.interpolate.RegularGridInterpolator(
+        (wind.time, wind.height),
+        horizontal_wind_speed,
+        bounds_error=False,
+        method="linear",
+    )
+    time, height = np.meshgrid(stare.time, stare.radial_distance, indexing="ij")
+    interpolated_wind_speed_linear = interpolator_linear((time, height))
+    interpolated_wind_speed_nearest = interpolator_nearest((time, height))
+    isnan = np.isnan(interpolated_wind_speed_linear)
+    interpolated_wind_speed_linear[isnan] = interpolated_wind_speed_nearest[isnan]
+
     return np.array(interpolated_wind_speed_linear, dtype=np.float64)
+
+
+def _plot_interpolated_mask(stare, wind, mask):
+    fig, ax = plt.subplots()
+    pmesh = ax.pcolormesh(stare.time, stare.radial_distance, mask.T)
+    ax.set_title("mask")
+
+    devb.add_fig(fig)

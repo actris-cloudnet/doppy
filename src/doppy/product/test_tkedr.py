@@ -1,28 +1,69 @@
 import pathlib
 import pickle
 
+from netCDF4 import Dataset, num2date
+import numpy as np
+
 from doppy.data.api import Api
 from doppy.options import BgCorrectionMethod
+from doppy.product.model import ModelWind
 from doppy.product.stare import Stare
 from doppy.product.tkedr import Tkedr
 from doppy.product.wind import Wind
 
 
 def test(site, date):
-    stare, wind = _get_stare_and_wind(site, date)
-    pulses_per_ray = 10_000
-    pulse_repetition_rate = 15e3  # 1/s
-    integration_time = pulses_per_ray / pulse_repetition_rate
-    beam_divergence = 33e-6  # radians
-    Tkedr.from_stare_and_wind(stare, wind)
+    api = Api(cache=True)
+    model_wind = _get_model(api, site, date)
+    stare, wind = _get_stare_and_wind(api, site, date)
+    Tkedr.from_stare_and_wind(stare, wind,model_wind)
 
 
-def _get_stare_and_wind(site, date):
+def _get_model(api, site, date):
+    res = api.get("model-files", params={"site": site, "date": date})
+    res = [r for r in res if r["modelId"] == "ecmwf"]
+    if len(res) != 1:
+        raise ValueError("unexpected models")
+    content = api.get_record_content(res[0])
+    nc = Dataset("inmemory.nc", mode="r", memory=content.read())
+
+    uwind = nc["uwind"]  # Zonal wind
+    vwind = nc["vwind"]  # Meridional wind
+    height = nc["height"]
+    time = nc["time"]
+    time_np = num2date(time[:].data, time.units).astype("datetime64[us]")
+    if (
+        uwind[:].mask != False
+        or vwind[:].mask != False
+        or height[:].mask != False
+        or time[:].mask != False
+    ):
+        raise ValueError
+
+    h = height[:].data
+    h_med = np.median(h,axis=0)
+    range_mask = h_med < 20e3 # ignore the gates above 20km
+
+    time_ = time_np
+    uwind_ = np.array(uwind[:].data[:,range_mask],dtype=np.float64)
+    vwind_ = np.array(vwind[:].data[:,range_mask],dtype=np.float64)
+    height_ = np.array(h_med[range_mask],dtype=np.float64)
+
+
+
+    return ModelWind(
+        time=time_,
+        height=height_,
+        zonal_wind=uwind_,
+        meridional_wind=vwind_,
+    )
+
+
+def _get_stare_and_wind(api, site, date):
     path = pathlib.Path("cache", "test_cache.pkl")
     if path.is_file():
         with path.open("rb") as f:
             return pickle.load(f)
-    api = Api(cache=True)
     records = api.get_raw_records(site, date)
     records_hpl_stare = [
         rec
