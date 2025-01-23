@@ -1,8 +1,8 @@
 import pathlib
 import pickle
 
-from netCDF4 import Dataset, num2date
 import numpy as np
+from netCDF4 import Dataset, num2date
 
 from doppy.data.api import Api
 from doppy.options import BgCorrectionMethod
@@ -16,7 +16,7 @@ def test(site, date):
     api = Api(cache=True)
     model_wind = _get_model(api, site, date)
     stare, wind = _get_stare_and_wind(api, site, date)
-    Tkedr.from_stare_and_wind(stare, wind,model_wind)
+    Tkedr.from_stare_and_wind(stare, wind, model_wind)
 
 
 def _get_model(api, site, date):
@@ -41,15 +41,13 @@ def _get_model(api, site, date):
         raise ValueError
 
     h = height[:].data
-    h_med = np.median(h,axis=0)
-    range_mask = h_med < 20e3 # ignore the gates above 20km
+    h_med = np.median(h, axis=0)
+    range_mask = h_med < 20e3  # ignore the gates above 20km
 
     time_ = time_np
-    uwind_ = np.array(uwind[:].data[:,range_mask],dtype=np.float64)
-    vwind_ = np.array(vwind[:].data[:,range_mask],dtype=np.float64)
-    height_ = np.array(h_med[range_mask],dtype=np.float64)
-
-
+    uwind_ = np.array(uwind[:].data[:, range_mask], dtype=np.float64)
+    vwind_ = np.array(vwind[:].data[:, range_mask], dtype=np.float64)
+    height_ = np.array(h_med[range_mask], dtype=np.float64)
 
     return ModelWind(
         time=time_,

@@ -111,13 +111,64 @@ class VarResult:
     nsamples: npt.NDArray[np.int64]
 
 
+def _next_valid_from_mask(mask):
+    """
+    mask[t,v] (time,value)
+
+    returns N[t,v] = i where i = min { j | j >= t and mask[j,v] == False}
+    if the set is non empty and N[t,v] = len(mask) otherwise
+    """
+    n = len(mask)
+    N = np.full(mask.shape, n)
+    if mask.size == 0:
+        return N
+    N[-1][~mask[-1]] = n - 1
+
+    for t in reversed(range(n - 1)):
+        N[t][~mask[t]] = t
+        N[t][mask[t]] = N[t + 1][mask[t]]
+    return N
+
+
+def _prev_valid_from_mask(mask):
+    """
+    mask[t,v] (time,value)
+
+    returns N[t,v] = i where i = max { j | j <= t and mask[j,v] == False}
+    if the set is non empty and N[t,v] = -1 otherwise
+    """
+    n = len(mask)
+    N = np.full(mask.shape, -1)
+    if mask.size == 0:
+        return N
+    N[0][~mask[0]] = 0
+    for t in range(1, n):
+        N[t][~mask[t]] = t
+        N[t][mask[t]] = N[t - 1][mask[t]]
+    return N
+
+
+def _plot_next_valid(N):
+    fig, ax = plt.subplots()
+    ax.plot(N)
+    devb.add_fig(fig)
+
+
 def _compute_variance(stare: Stare) -> VarResult:
     # NOTE: numerically unstable
     window = 30 * 60  # in seconds
+
+    next_valid = _next_valid_from_mask(stare.mask)
+    prev_valid = _prev_valid_from_mask(stare.mask)
+
     X = stare.radial_velocity
     X2 = X**2
     X_cumsum = stare.radial_velocity.cumsum(axis=0)
     X2_cumsum = (stare.radial_velocity**2).cumsum(axis=0)
+
+    N_cumsum = (~stare.mask).cumsum(axis=0)
+    breakpoint()
+    pass
 
     def S(i, j):
         return X_cumsum[j] - X_cumsum[i] + X[i]
