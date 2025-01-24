@@ -21,6 +21,7 @@ class Tkedr:
     def from_stare_and_wind(
         cls, stare: Stare, wind: Wind, model_wind: ModelWind
     ) -> None:
+        window = 30 * 60  # in seconds
         beam_divergence = 33e-6
         kolmogorov_constant = 0.55
         pulses_per_ray = 10_000
@@ -32,7 +33,7 @@ class Tkedr:
         wspeed_model = _interpolate_wind_speed_from_model(stare, model_wind)
         wspeed[mask] = wspeed_model[mask]
 
-        var_res = _compute_variance(stare)
+        var_res = _compute_variance(stare, window)
         sampling_time = (var_res.window_stop - var_res.window_start).astype(
             np.float64
         ) * 1e-6
@@ -53,6 +54,21 @@ class Tkedr:
 
         _plot_interpolaterd_wind(stare, wind, wspeed)
         _plot_dr(stare, dissipation_rate)
+
+
+def _plot_var_res(r: VarResult, stare: Stare):
+    fig, ax = plt.subplots()
+
+    window = (r.window_stop - r.window_start).astype(float) * 1e-6 / 60
+    mesh = ax.pcolormesh(
+        stare.time,
+        stare.radial_distance,
+        window.T,
+        norm=matplotlib.colors.LogNorm(vmin=1 / 60, vmax=window.max()),
+    )
+    fig.colorbar(mesh, ax=ax)
+
+    devb.add_fig(fig)
 
 
 def _plot_dr(stare, dr):
@@ -154,21 +170,23 @@ def _plot_next_valid(N):
     devb.add_fig(fig)
 
 
-def _compute_variance(stare: Stare) -> VarResult:
+def _compute_variance(stare: Stare, window: float) -> VarResult:
     # NOTE: numerically unstable
-    window = 30 * 60  # in seconds
 
     next_valid = _next_valid_from_mask(stare.mask)
     prev_valid = _prev_valid_from_mask(stare.mask)
 
-    X = stare.radial_velocity
+    X = stare.radial_velocity.copy()
+    X[stare.mask] = 0
     X2 = X**2
-    X_cumsum = stare.radial_velocity.cumsum(axis=0)
-    X2_cumsum = (stare.radial_velocity**2).cumsum(axis=0)
+    X_cumsum = X.cumsum(axis=0)
+    X2_cumsum = X2.cumsum(axis=0)
 
-    N_cumsum = (~stare.mask).cumsum(axis=0)
-    breakpoint()
-    pass
+    N_i = (~stare.mask).astype(int)
+    N_cumsum = N_i.cumsum(axis=0)
+
+    def N_func(i, j):
+        return N_cumsum[j] - N_cumsum[i] + N_i[i]
 
     def S(i, j):
         return X_cumsum[j] - X_cumsum[i] + X[i]
@@ -177,7 +195,7 @@ def _compute_variance(stare: Stare) -> VarResult:
         return X2_cumsum[j] - X2_cumsum[i] + X2[i]
 
     def var_ij(i, j):
-        N = j - i + 1
+        N = N_func(i, j)
         return (S2(i, j) - S(i, j) ** 2 / N) / N
 
     half_window = np.timedelta64(int(1e6 * window / 2), "us")
@@ -193,10 +211,14 @@ def _compute_variance(stare: Stare) -> VarResult:
             i += 1
         while j + 1 < n and stare.time[j] - t < half_window:
             j += 1
-        window_start[k] = stare.time[i]
-        window_stop[k] = stare.time[j]
+        i_valid = next_valid[i]
+        i_inbound = (0 <= i_valid) & (i_valid < n)
+        j_valid = prev_valid[j]
+        j_inbound = (0 <= j_valid) & (j_valid < n)
+        window_start[k][i_inbound] = stare.time[i_valid[i_inbound]]
+        window_stop[k][j_inbound] = stare.time[j_valid[j_inbound]]
         var[k] = var_ij(i, j)
-        nsamples[k] = j - i + 1
+        nsamples[k] = N_func(i, j)
     return VarResult(
         variance=var,
         window_start=window_start,
