@@ -19,7 +19,7 @@ from doppy.product.wind import Wind
 class Tkedr:
     @classmethod
     def from_stare_and_wind(
-        cls, stare: Stare, wind: Wind, model_wind: ModelWind
+        cls, stare: Stare, wind: Wind, model_wind: ModelWind, title: str
     ) -> None:
         window = 30 * 60  # in seconds
         beam_divergence = 33e-6
@@ -43,17 +43,19 @@ class Tkedr:
         )
         var = var_res.variance
 
-        dissipation_rate = (
-            2
-            * np.pi
-            * (2 / (3 * kolmogorov_constant)) ** (3 / 2)
-            * var ** (3 / 2)
-            * (length_scale_upper ** (2 / 3) - length_scale_lower ** (2 / 3))
-            ** (-3 / 2)
-        )
+        with np.errstate(invalid="ignore"):
+            dissipation_rate = (
+                2
+                * np.pi
+                * (2 / (3 * kolmogorov_constant)) ** (3 / 2)
+                * var ** (3 / 2)
+                * (length_scale_upper ** (2 / 3) - length_scale_lower ** (2 / 3))
+                ** (-3 / 2)
+            )
+        sample_th = max(3, np.median(var_res.nsamples[var_res.nsamples > 2]) * 4 / 5)
 
-        _plot_interpolaterd_wind(stare, wind, wspeed)
-        _plot_dr(stare, dissipation_rate)
+        dissipation_rate[var_res.nsamples < sample_th] = np.nan
+        _plot_dr(stare, dissipation_rate, title)
 
 
 def _plot_var_res(r: VarResult, stare: Stare):
@@ -71,11 +73,11 @@ def _plot_var_res(r: VarResult, stare: Stare):
     devb.add_fig(fig)
 
 
-def _plot_dr(stare, dr):
-    fig, ax = plt.subplots()
+def _plot_dr(stare, dr, title):
+    fig, ax = plt.subplots(2)
     range_mask = stare.radial_distance < 4000
 
-    mesh = ax.pcolormesh(
+    mesh = ax[0].pcolormesh(
         stare.time,
         stare.radial_distance[range_mask],
         dr[:, range_mask].T,
@@ -83,17 +85,34 @@ def _plot_dr(stare, dr):
         cmap="plasma",
     )
     fig.colorbar(
-        mesh, ax=ax, orientation="horizontal", shrink=0.5, pad=0.1
-    ).outline.set_visible(False)
+        mesh, ax=ax[0], orientation="horizontal", shrink=0.5, pad=0.1
+    ).outline.set_visible(False)  # type: ignore
+
+    mesh = ax[1].pcolormesh(
+        stare.time,
+        stare.radial_distance[range_mask],
+        stare.radial_velocity[:, range_mask].T,
+        cmap="coolwarm",
+        vmin=-4,
+        vmax=4,
+    )
+
+    fig.colorbar(
+        mesh, ax=ax[1], orientation="horizontal", shrink=0.5, pad=0.1
+    ).outline.set_visible(False)  # type: ignore
+
     locator = matplotlib.dates.AutoDateLocator()
 
-    ax.xaxis.set_major_locator(locator)
-    ax.xaxis.set_major_formatter(matplotlib.dates.ConciseDateFormatter(locator))
-    fig.set_size_inches(18, 12)
-    ax.spines["left"].set_visible(False)
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
-    ax.spines["bottom"].set_visible(False)
+    ax[0].set_title(title)
+    for i in range(len(ax)):
+        ax[i].xaxis.set_major_locator(locator)
+        ax[i].xaxis.set_major_formatter(matplotlib.dates.ConciseDateFormatter(locator))
+        ax[i].spines["left"].set_visible(False)
+        ax[i].spines["top"].set_visible(False)
+        ax[i].spines["right"].set_visible(False)
+        ax[i].spines["bottom"].set_visible(False)
+
+    fig.set_size_inches(22, 16)
     devb.add_fig(fig)
 
 
@@ -196,7 +215,8 @@ def _compute_variance(stare: Stare, window: float) -> VarResult:
 
     def var_ij(i, j):
         N = N_func(i, j)
-        return (S2(i, j) - S(i, j) ** 2 / N) / N
+        with np.errstate(invalid="ignore"):
+            return (S2(i, j) - S(i, j) ** 2 / N) / N
 
     half_window = np.timedelta64(int(1e6 * window / 2), "us")
     window_start = np.full(stare.radial_velocity.shape, np.datetime64("NaT", "us"))
