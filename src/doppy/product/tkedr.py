@@ -1,17 +1,18 @@
+# type: ignore
 from __future__ import annotations
 
 from dataclasses import dataclass
 
-import devboard as devb
-import matplotlib.colors
-import matplotlib.dates
-import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
+import polars as pl
 import scipy
 
 from doppy.product.model import ModelWind
+from doppy.product.noise import detect_noise
 from doppy.product.stare import Stare
+from doppy.product.tkedr_plots import *
+from doppy.product.utils import VarResult
 from doppy.product.wind import Wind
 
 
@@ -21,99 +22,101 @@ class Tkedr:
     def from_stare_and_wind(
         cls, stare: Stare, wind: Wind, model_wind: ModelWind, title: str
     ) -> None:
-        window = 30 * 60  # in seconds
+        window = 10 * 60  # in seconds
         beam_divergence = 33e-6
-        kolmogorov_constant = 0.55
         pulses_per_ray = 10_000
         pulse_repetition_rate = 15e3  # 1/s
         integration_time = pulses_per_ray / pulse_repetition_rate
         beam_divergence = 33e-6  # radians
 
+        stare.mask = detect_noise(stare)
+
         wspeed, mask = _interpolate_wind_speed(stare, wind)
         wspeed_model = _interpolate_wind_speed_from_model(stare, model_wind)
         wspeed[mask] = wspeed_model[mask]
+        # wspeed = wspeed_model  # use only model wind
+        wspeed = _average_wind_speed(stare.time, wspeed, window)
 
         var_res = _compute_variance(stare, window)
+        var_raw = _compute_variance_raw_polars(stare, window)
         sampling_time = (var_res.window_stop - var_res.window_start).astype(
             np.float64
         ) * 1e-6
         length_scale_upper = wspeed * sampling_time
+        sampling_time_raw = np.full(sampling_time.shape, window)
+        length_scale_upper_raw = wspeed * sampling_time_raw
         length_scale_lower = _compute_length_scale_lower(
             wspeed, stare.radial_distance, integration_time, beam_divergence
         )
-        var = var_res.variance
 
-        with np.errstate(invalid="ignore"):
-            dissipation_rate = (
-                2
-                * np.pi
-                * (2 / (3 * kolmogorov_constant)) ** (3 / 2)
-                * var ** (3 / 2)
-                * (length_scale_upper ** (2 / 3) - length_scale_lower ** (2 / 3))
-                ** (-3 / 2)
-            )
-        sample_th = max(3, np.median(var_res.nsamples[var_res.nsamples > 2]) * 4 / 5)
+        dissipation_rate = _compute_dissipation_rate(
+            var_res.variance, length_scale_lower, length_scale_upper
+        )
+        dissipation_rate_raw = _compute_dissipation_rate(
+            var_raw, length_scale_lower, length_scale_upper_raw
+        )
+
+        sample_th = max(3, np.median(var_res.nsamples[var_res.nsamples > 2]) * 0.55)
 
         dissipation_rate[var_res.nsamples < sample_th] = np.nan
-        _plot_dr(stare, dissipation_rate, title)
+        plot_dr(stare, dissipation_rate, title)
+        # plot_dr(stare, dissipation_rate_raw, f"raw-{title}")
 
 
-def _plot_var_res(r: VarResult, stare: Stare):
-    fig, ax = plt.subplots()
+def _average_wind_speed(
+    time: npt.NDArray[np.datetime64], wspeed: npt.NDArray[np.float64], window: float
+) -> npt.NDArray[np.float64]:
+    if time.shape[0] != wspeed.shape[0]:
+        raise ValueError
+    if time.dtype != np.dtype("datetime64[us]"):
+        raise TypeError(f"Invalid type: {time.dtype}")
+    if np.isnan(wspeed).any():
+        raise ValueError
 
-    window = (r.window_stop - r.window_start).astype(float) * 1e-6 / 60
-    mesh = ax.pcolormesh(
-        stare.time,
-        stare.radial_distance,
-        window.T,
-        norm=matplotlib.colors.LogNorm(vmin=1 / 60, vmax=window.max()),
-    )
-    fig.colorbar(mesh, ax=ax)
+    ws_avg = np.full(wspeed.shape, np.nan, dtype=np.float64)
+    X = wspeed
+    S = wspeed.cumsum(axis=0)
 
-    devb.add_fig(fig)
+    def mean_func(i, j):
+        return (S[j] - S[i] + X[i]) / (j - i + 1)
+
+    half_window = np.timedelta64(int(1e6 * window / 2), "us")
+
+    i = 0
+    j = 0
+    n = len(time)
+    for k, t in enumerate(time):
+        while i + 1 < n and t - time[i + 1] >= half_window:
+            i += 1
+        while j + 1 < n and time[j] - t < half_window:
+            j += 1
+        ws_avg[k] = mean_func(i, j)
+
+    return ws_avg
 
 
-def _plot_dr(stare, dr, title):
-    fig, ax = plt.subplots(2)
-    range_mask = stare.radial_distance < 4000
-
-    mesh = ax[0].pcolormesh(
-        stare.time,
-        stare.radial_distance[range_mask],
-        dr[:, range_mask].T,
-        norm=matplotlib.colors.LogNorm(vmin=1e-6, vmax=5 * 1e-3),
-        cmap="plasma",
-    )
-    fig.colorbar(
-        mesh, ax=ax[0], orientation="horizontal", shrink=0.5, pad=0.1
-    ).outline.set_visible(False)  # type: ignore
-
-    mesh = ax[1].pcolormesh(
-        stare.time,
-        stare.radial_distance[range_mask],
-        stare.radial_velocity[:, range_mask].T,
-        cmap="coolwarm",
-        vmin=-4,
-        vmax=4,
-    )
-
-    fig.colorbar(
-        mesh, ax=ax[1], orientation="horizontal", shrink=0.5, pad=0.1
-    ).outline.set_visible(False)  # type: ignore
-
-    locator = matplotlib.dates.AutoDateLocator()
-
-    ax[0].set_title(title)
-    for i in range(len(ax)):
-        ax[i].xaxis.set_major_locator(locator)
-        ax[i].xaxis.set_major_formatter(matplotlib.dates.ConciseDateFormatter(locator))
-        ax[i].spines["left"].set_visible(False)
-        ax[i].spines["top"].set_visible(False)
-        ax[i].spines["right"].set_visible(False)
-        ax[i].spines["bottom"].set_visible(False)
-
-    fig.set_size_inches(22, 16)
-    devb.add_fig(fig)
+def _compute_dissipation_rate(
+    variance: npt.NDArray[np.float64],
+    length_scale_lower: npt.NDArray[np.float64],
+    length_scale_upper: npt.NDArray[np.float64],
+):
+    """
+    Parameters
+    ----------
+    variance, length_scale_lower, and length_scale_upper
+        dimensions: (time,range)
+    """
+    kolmogorov_constant = 0.55
+    with np.errstate(invalid="ignore"):
+        dr = (
+            2
+            * np.pi
+            * (2 / (3 * kolmogorov_constant)) ** (3 / 2)
+            * variance ** (3 / 2)
+            * (length_scale_upper ** (2 / 3) - length_scale_lower ** (2 / 3))
+            ** (-3 / 2)
+        )
+    return dr
 
 
 def _compute_length_scale_lower(
@@ -125,25 +128,6 @@ def _compute_length_scale_lower(
     from_beam = 2 * height * np.sin(beam_divergence / 2)
     from_wind = horizontal_wind_speed * integration_time
     return np.array(from_wind + from_beam[np.newaxis, :], dtype=np.float64)
-
-
-def _plot_interpolaterd_wind(stare, wind, iwind):
-    fig, ax = plt.subplots(3)
-    wspeed = np.sqrt(wind.zonal_wind**2 + wind.meridional_wind**2)
-    ax[0].pcolormesh(wind.time, wind.height, wspeed.T)
-    ax[1].pcolormesh(wind.time, wind.height, wind.mask.T)
-
-    ax[2].pcolormesh(stare.time, stare.radial_distance, iwind.T)
-
-    devb.add_fig(fig)
-
-
-@dataclass
-class VarResult:
-    variance: npt.NDArray[np.float64]
-    window_start: npt.NDArray[np.datetime64]
-    window_stop: npt.NDArray[np.datetime64]
-    nsamples: npt.NDArray[np.int64]
 
 
 def _next_valid_from_mask(mask):
@@ -183,15 +167,25 @@ def _prev_valid_from_mask(mask):
     return N
 
 
-def _plot_next_valid(N):
-    fig, ax = plt.subplots()
-    ax.plot(N)
-    devb.add_fig(fig)
+def _compute_variance_raw_polars(stare: Stare, window: float):
+    df = pl.from_numpy(stare.radial_velocity)
+    df = df.with_columns(pl.Series("dt", stare.time))
+    df_var = df.with_columns(
+        pl.exclude("dt").rolling_var_by(
+            "dt",
+            window_size=f"{window}s",
+            closed="both",
+            ddof=0,
+        ),
+    )
+    var = df_var.select(pl.exclude("dt")).to_numpy()
+    return var
 
 
 def _compute_variance(stare: Stare, window: float) -> VarResult:
     # NOTE: numerically unstable
 
+    # To compute actual time window
     next_valid = _next_valid_from_mask(stare.mask)
     prev_valid = _prev_valid_from_mask(stare.mask)
 
@@ -245,13 +239,6 @@ def _compute_variance(stare: Stare, window: float) -> VarResult:
         window_stop=window_stop,
         nsamples=nsamples,
     )
-
-
-def plot_var(var, stare):
-    fig, ax = plt.subplots()
-
-    ax.pcolormesh(stare.time, stare.radial_distance, var.T)
-    devb.add_fig(fig)
 
 
 def _interpolate_wind_speed(
@@ -332,11 +319,3 @@ def _interpolate_wind_speed_from_model(
     interpolated_wind_speed_linear[isnan] = interpolated_wind_speed_nearest[isnan]
 
     return np.array(interpolated_wind_speed_linear, dtype=np.float64)
-
-
-def _plot_interpolated_mask(stare, wind, mask):
-    fig, ax = plt.subplots()
-    pmesh = ax.pcolormesh(stare.time, stare.radial_distance, mask.T)
-    ax.set_title("mask")
-
-    devb.add_fig(fig)

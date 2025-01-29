@@ -24,6 +24,7 @@ class Stare:
     radial_distance: npt.NDArray[np.float64]
     elevation: npt.NDArray[np.float64]
     beta: npt.NDArray[np.float64]
+    snr: npt.NDArray[np.float64]
     radial_velocity: npt.NDArray[np.float64]
     mask: npt.NDArray[np.bool_]
     wavelength: float
@@ -44,6 +45,7 @@ class Stare:
                 radial_distance=self.radial_distance,
                 elevation=self.elevation[index],
                 beta=self.beta[index],
+                snr=self.snr[index],
                 radial_velocity=self.radial_velocity[index],
                 mask=self.mask[index],
                 wavelength=self.wavelength,
@@ -80,11 +82,13 @@ class Stare:
         )
 
         mask = _compute_noise_mask_for_windcube(raw)
+
         return cls(
             time=raw.time,
             radial_distance=raw.radial_distance,
             elevation=raw.elevation,
             beta=beta,
+            snr=raw.cnr,
             radial_velocity=raw.radial_velocity,
             mask=mask,
             wavelength=wavelength,
@@ -154,6 +158,7 @@ class Stare:
             radial_distance=raw.radial_distance,
             elevation=raw.elevation,
             beta=beta,
+            snr=intensity_noise_bias_corrected - 1,
             radial_velocity=raw.radial_velocity,
             mask=mask,
             wavelength=wavelength,
@@ -547,13 +552,13 @@ def _infer_fit_type(
     method = "Nelder-Mead"
     res_lin = scipy.optimize.minimize(
         lin_func_rss, [1e-5, 1], method=method, options={"maxiter": 2 * 600}
-    )  # type: ignore
+    )
     res_exp = scipy.optimize.minimize(
         exp_func_rss, [1, -1, -1], method=method, options={"maxiter": 3 * 600}
-    )  # type: ignore
+    )
     res_explin = scipy.optimize.minimize(
         explin_func_rss, [1, -1, -1, 0, 0], method=method, options={"maxiter": 5 * 600}
-    )  # type: ignore
+    )
 
     fit_lin = _lin_func(res_lin.x, rdist)
     fit_exp = _exp_func(res_exp.x, rdist)
@@ -643,7 +648,7 @@ def _exponential_fit(
 
     result = scipy.optimize.minimize(
         exp_func_rss, [1, -1, -1], method="Nelder-Mead", options={"maxiter": 3 * 600}
-    )  # type: ignore
+    )
     fit = _exp_func(result.x, radial_distance)[np.newaxis, :]
     return np.array(fit * scale, dtype=np.float64)
 
@@ -666,7 +671,7 @@ def _exponential_linear_fit(
         [1, -1, -1, 0, 0],
         method="Nelder-Mead",
         options={"maxiter": 5 * 600},
-    )  # type: ignore
+    )
     fit = _explin_func(result.x, radial_distance)[np.newaxis, :]
     return np.array(fit * scale, dtype=np.float64)
 

@@ -370,7 +370,7 @@ def _compute_mask(
 
     WIND_NEIGHBOUR_DIFFERENCE = 20
     neighbour_mask = np.any(
-        generic_filter(wind, neighbour_diff, size=(1, 3, 1))  # type: ignore
+        generic_filter(wind, neighbour_diff, size=(1, 3, 1))
         > WIND_NEIGHBOUR_DIFFERENCE,
         axis=2,
     )

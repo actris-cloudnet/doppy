@@ -27,12 +27,6 @@ repos:
         types: [python]
         require_serial: true
         exclude: ^tests/
-  - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.392.post0
-    hooks:
-      - id: pyright
-        exclude: ^tests/
-
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v4.0.0-alpha.8
     hooks:
