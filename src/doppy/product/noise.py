@@ -1,5 +1,6 @@
 # type: ignore
 import random
+import warnings
 
 import devboard as devb
 import matplotlib
@@ -14,6 +15,7 @@ from doppy.product.stare import Stare
 
 
 def detect_noise(stare: Stare):
+    warnings.simplefilter("ignore", RuntimeWarning)
     v = rolling_median_over_range(
         stare.radial_distance,
         stare.radial_velocity,

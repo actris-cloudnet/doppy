@@ -28,7 +28,54 @@ def plot_var_res(r: VarResult, stare: Stare):
     devb.add_fig(fig)
 
 
-def plot_dr(stare, dr, title):
+def plot_dr(vert, dr):
+    fig, ax = plt.subplots(2)
+    range_mask = vert.height < 4000
+
+    mesh = ax[0].pcolormesh(
+        vert.time,
+        vert.height[range_mask],
+        dr[:, range_mask].T,
+        norm=matplotlib.colors.LogNorm(vmin=1e-6, vmax=1e-1),
+        cmap="plasma",
+    )
+    fig.colorbar(
+        mesh, ax=ax[0], orientation="horizontal", shrink=0.5, pad=0.1
+    ).outline.set_visible(False)  # type: ignore
+
+    mesh = ax[1].pcolormesh(
+        vert.time,
+        vert.height[range_mask],
+        vert.w[:, range_mask].T,
+        cmap="coolwarm",
+        vmin=-4,
+        vmax=4,
+    )
+
+    fig.colorbar(
+        mesh, ax=ax[1], orientation="horizontal", shrink=0.5, pad=0.1
+    ).outline.set_visible(False)  # type: ignore
+
+    locator = matplotlib.dates.AutoDateLocator()
+
+    for i in range(len(ax)):
+        ax[i].xaxis.set_major_locator(locator)
+        ax[i].xaxis.set_major_formatter(matplotlib.dates.ConciseDateFormatter(locator))
+        ax[i].spines["left"].set_visible(False)
+        ax[i].spines["top"].set_visible(False)
+        ax[i].spines["right"].set_visible(False)
+        ax[i].spines["bottom"].set_visible(False)
+
+    fig.set_size_inches(22, 16)
+    fig.tight_layout()
+
+    # _rasterize(ax)
+    # fig.savefig(f"plots/noise/{title}.pdf")
+    devb.add_fig(fig)
+    plt.close("all")
+
+
+def plot_dr_old(stare, dr, title):
     fig, ax = plt.subplots(2)
     range_mask = stare.radial_distance < 4000
 

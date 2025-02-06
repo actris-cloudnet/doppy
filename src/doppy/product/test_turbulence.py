@@ -11,7 +11,7 @@ from doppy.options import BgCorrectionMethod
 from doppy.product.model import ModelWind
 from doppy.product.noise import detect_noise
 from doppy.product.stare import Stare
-from doppy.product.tkedr import Tkedr
+from doppy.product.turbulence import HorizontalWind, Turbulence, VerticalWind
 from doppy.product.wind import Wind
 
 
@@ -19,7 +19,23 @@ def test(site, date, test_cache=False):
     api = Api(cache=True)
     model_wind = _get_model(api, site, date)
     stare, wind = _get_stare_and_wind(api, site, date, test_cache)
-    Tkedr.from_stare_and_wind(stare, wind, model_wind, title=f"{site}_{date}")
+    wind_mask = detect_noise(stare)
+
+    Turbulence.from_winds(
+        VerticalWind(
+            time=stare.time,
+            height=stare.radial_distance,
+            w=stare.radial_velocity,
+            mask=wind_mask,
+        ),
+        HorizontalWind(
+            time=wind.time,
+            height=wind.height,
+            V=np.sqrt(wind.zonal_wind**2 + wind.meridional_wind**2),
+        ),
+    )
+
+    # Turbulence.from_stare_and_wind(stare, wind, model_wind, title=f"{site}_{date}")
 
 
 def test_noise(site, date, test_cache=False):
@@ -193,5 +209,5 @@ def test_many():
 
 
 if __name__ == "__main__":
-    # test_single(test_cache = True)
+    # test_single(test_cache=True)
     test_many()
