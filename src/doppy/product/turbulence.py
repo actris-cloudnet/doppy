@@ -25,9 +25,8 @@ class VerticalWind:
 
 @dataclass
 class Options:
-    period: float = 600  # period for computing the variance
-    pulses_per_ray: float = 10_000
-    pulse_repetition_rate: float = 15e3  # 1/s
+    ray_accumulation_time: float  # in seconds
+    period: float = 600  # period for computing the variance in seconds
     beam_divergence: float = 33e-6  # radians
 
 
@@ -40,10 +39,8 @@ class Turbulence:
 
     @classmethod
     def from_winds(
-        cls, vert: VerticalWind, hori: HorizontalWind, options: Options | None = None
+        cls, vert: VerticalWind, hori: HorizontalWind, options: Options
     ) -> Turbulence:
-        if options is None:
-            options = Options()
         V = _preprocess_horiontal_wind(vert, hori, options)
         ls_low = _length_scale_low(V, vert.height, options)
         res = _compute_variance(vert, options.period)
@@ -142,7 +139,8 @@ def _compute_variance(vert: VerticalWind, period: float) -> VarResult:
 def _length_scale_low(
     V: npt.NDArray[np.float64], height: npt.NDArray[np.float64], opts: Options
 ) -> npt.NDArray[np.float64]:
-    integration_time = opts.pulses_per_ray / opts.pulse_repetition_rate
+    # TODO: Is this correct?
+    integration_time = opts.ray_accumulation_time
     from_beam = 2 * height * np.sin(opts.beam_divergence / 2)
     from_wind = V * integration_time
     return np.array(from_wind + from_beam[np.newaxis, :], dtype=np.float64)

@@ -326,6 +326,13 @@ def _compute_wind(
 
     rmse (range,):
         Root-mean-square error of radial velocity fit for each range gate.
+
+    References
+    ----------
+    An assessment of the performance of a 1.5 µm Doppler lidar for
+    operational vertical wind profiling based on a 1-year trial
+        authors: E. Päschke, R. Leinweber, and V. Lehmann
+        doi: 10.5194/amt-8-2251-2015
     """
     elevation = np.deg2rad(raw.elevation)
     azimuth = np.deg2rad(raw.azimuth)

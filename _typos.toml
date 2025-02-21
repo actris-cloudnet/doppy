@@ -1,2 +1,4 @@
 [default]
 extend-ignore-identifiers-re = ["explin", "EXPLIN", "add_atribute"]
+[files]
+extend-exclude = ["docs/*.md"]

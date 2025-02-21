@@ -18,7 +18,18 @@ from doppy import defaults, options
 SelectionGroupKeyType: TypeAlias = tuple[int,]
 
 
-@dataclass
+@dataclass(slots=True)
+class RayAccumulationTime:
+    # in seconds
+    value: float
+
+
+@dataclass(slots=True)
+class PulsesPerRay:
+    value: int
+
+
+@dataclass(slots=True)
 class Stare:
     time: npt.NDArray[np.datetime64]
     radial_distance: npt.NDArray[np.float64]
@@ -29,6 +40,7 @@ class Stare:
     mask: npt.NDArray[np.bool_]
     wavelength: float
     system_id: str
+    ray_info: RayAccumulationTime | PulsesPerRay
 
     def __getitem__(
         self,
@@ -50,6 +62,7 @@ class Stare:
                 mask=self.mask[index],
                 wavelength=self.wavelength,
                 system_id=self.system_id,
+                ray_info=self.ray_info,
             )
         raise TypeError
 
@@ -93,6 +106,7 @@ class Stare:
             mask=mask,
             wavelength=wavelength,
             system_id=raw.system_id,
+            ray_info=RayAccumulationTime(raw.ray_accumulation_time),
         )
 
     @classmethod
@@ -163,6 +177,7 @@ class Stare:
             mask=mask,
             wavelength=wavelength,
             system_id=raw.header.system_id,
+            ray_info=PulsesPerRay(raw.header.pulses_per_ray),
         )
 
     def write_to_netcdf(self, filename: str | Path) -> None:
@@ -223,6 +238,24 @@ class Stare:
                 data=self.wavelength,
                 dtype="f4",
             )
+            match self.ray_info:
+                case RayAccumulationTime(value):
+                    nc.add_scalar_variable(
+                        name="ray_accumulation_time",
+                        units="s",
+                        long_name="ray accumulation time",
+                        data=value,
+                        dtype="f4",
+                    )
+                case PulsesPerRay(value):
+                    nc.add_scalar_variable(
+                        name="pulses_per_ray",
+                        units="1",
+                        long_name="pulses per ray",
+                        data=value,
+                        dtype="u4",
+                    )
+
             nc.add_attribute("serial_number", self.system_id)
             nc.add_attribute("doppy_version", doppy.__version__)
 
