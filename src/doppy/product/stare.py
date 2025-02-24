@@ -14,20 +14,35 @@ from sklearn.cluster import KMeans
 
 import doppy
 from doppy import defaults, options
+from doppy.product.noise_utils import detect_wind_noise
 
 SelectionGroupKeyType: TypeAlias = tuple[int,]
 
 
-@dataclass
+@dataclass(slots=True)
+class RayAccumulationTime:
+    # in seconds
+    value: float
+
+
+@dataclass(slots=True)
+class PulsesPerRay:
+    value: int
+
+
+@dataclass(slots=True)
 class Stare:
     time: npt.NDArray[np.datetime64]
     radial_distance: npt.NDArray[np.float64]
     elevation: npt.NDArray[np.float64]
     beta: npt.NDArray[np.float64]
+    snr: npt.NDArray[np.float64]
     radial_velocity: npt.NDArray[np.float64]
-    mask: npt.NDArray[np.bool_]
+    mask_beta: npt.NDArray[np.bool_]
+    mask_radial_velocity: npt.NDArray[np.bool_]
     wavelength: float
     system_id: str
+    ray_info: RayAccumulationTime | PulsesPerRay
 
     def __getitem__(
         self,
@@ -44,10 +59,13 @@ class Stare:
                 radial_distance=self.radial_distance,
                 elevation=self.elevation[index],
                 beta=self.beta[index],
+                snr=self.snr[index],
                 radial_velocity=self.radial_velocity[index],
-                mask=self.mask[index],
+                mask_beta=self.mask_beta[index],
+                mask_radial_velocity=self.mask_radial_velocity[index],
                 wavelength=self.wavelength,
                 system_id=self.system_id,
+                ray_info=self.ray_info,
             )
         raise TypeError
 
@@ -79,16 +97,23 @@ class Stare:
             effective_diameter=defaults.WindCube.effective_diameter,
         )
 
-        mask = _compute_noise_mask_for_windcube(raw)
+        mask_beta = _compute_noise_mask_for_windcube(raw)
+        mask_radial_velocity = detect_wind_noise(
+            raw.radial_velocity, raw.radial_distance, mask_beta
+        )
+
         return cls(
             time=raw.time,
             radial_distance=raw.radial_distance,
             elevation=raw.elevation,
             beta=beta,
+            snr=raw.cnr,
             radial_velocity=raw.radial_velocity,
-            mask=mask,
+            mask_beta=mask_beta,
+            mask_radial_velocity=mask_radial_velocity,
             wavelength=wavelength,
             system_id=raw.system_id,
+            ray_info=RayAccumulationTime(raw.ray_accumulation_time),
         )
 
     @classmethod
@@ -146,18 +171,25 @@ class Stare:
             effective_diameter=defaults.Halo.effective_diameter,
         )
 
-        mask = _compute_noise_mask(
+        mask_beta = _compute_noise_mask(
             intensity_noise_bias_corrected, raw.radial_velocity, raw.radial_distance
         )
+        mask_radial_velocity = detect_wind_noise(
+            raw.radial_velocity, raw.radial_distance, mask_beta
+        )
+
         return cls(
             time=raw.time,
             radial_distance=raw.radial_distance,
             elevation=raw.elevation,
             beta=beta,
+            snr=intensity_noise_bias_corrected - 1,
             radial_velocity=raw.radial_velocity,
-            mask=mask,
+            mask_beta=mask_beta,
+            mask_radial_velocity=mask_radial_velocity,
             wavelength=wavelength,
             system_id=raw.header.system_id,
+            ray_info=PulsesPerRay(raw.header.pulses_per_ray),
         )
 
     def write_to_netcdf(self, filename: str | Path) -> None:
@@ -200,7 +232,7 @@ class Stare:
                 units="sr-1 m-1",
                 data=self.beta,
                 dtype="f4",
-                mask=self.mask,
+                mask=self.mask_beta,
             )
             nc.add_variable(
                 name="v",
@@ -209,7 +241,7 @@ class Stare:
                 long_name="Doppler velocity",
                 data=self.radial_velocity,
                 dtype="f4",
-                mask=self.mask,
+                mask=self.mask_radial_velocity,
             )
             nc.add_scalar_variable(
                 name="wavelength",
@@ -218,6 +250,24 @@ class Stare:
                 data=self.wavelength,
                 dtype="f4",
             )
+            match self.ray_info:
+                case RayAccumulationTime(value):
+                    nc.add_scalar_variable(
+                        name="ray_accumulation_time",
+                        units="s",
+                        long_name="ray accumulation time",
+                        data=value,
+                        dtype="f4",
+                    )
+                case PulsesPerRay(value):
+                    nc.add_scalar_variable(
+                        name="pulses_per_ray",
+                        units="1",
+                        long_name="pulses per ray",
+                        data=value,
+                        dtype="u4",
+                    )
+
             nc.add_attribute("serial_number", self.system_id)
             nc.add_attribute("doppy_version", doppy.__version__)
 
@@ -547,13 +597,13 @@ def _infer_fit_type(
     method = "Nelder-Mead"
     res_lin = scipy.optimize.minimize(
         lin_func_rss, [1e-5, 1], method=method, options={"maxiter": 2 * 600}
-    )  # type: ignore
+    )
     res_exp = scipy.optimize.minimize(
         exp_func_rss, [1, -1, -1], method=method, options={"maxiter": 3 * 600}
-    )  # type: ignore
+    )
     res_explin = scipy.optimize.minimize(
         explin_func_rss, [1, -1, -1, 0, 0], method=method, options={"maxiter": 5 * 600}
-    )  # type: ignore
+    )
 
     fit_lin = _lin_func(res_lin.x, rdist)
     fit_exp = _exp_func(res_exp.x, rdist)
@@ -643,7 +693,7 @@ def _exponential_fit(
 
     result = scipy.optimize.minimize(
         exp_func_rss, [1, -1, -1], method="Nelder-Mead", options={"maxiter": 3 * 600}
-    )  # type: ignore
+    )
     fit = _exp_func(result.x, radial_distance)[np.newaxis, :]
     return np.array(fit * scale, dtype=np.float64)
 
@@ -666,7 +716,7 @@ def _exponential_linear_fit(
         [1, -1, -1, 0, 0],
         method="Nelder-Mead",
         options={"maxiter": 5 * 600},
-    )  # type: ignore
+    )
     fit = _explin_func(result.x, radial_distance)[np.newaxis, :]
     return np.array(fit * scale, dtype=np.float64)
 

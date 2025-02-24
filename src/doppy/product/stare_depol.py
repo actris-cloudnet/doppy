@@ -10,7 +10,7 @@ import numpy.typing as npt
 
 import doppy
 from doppy import options
-from doppy.product.stare import Stare
+from doppy.product.stare import PulsesPerRay, RayAccumulationTime, Stare
 
 
 @dataclass
@@ -36,7 +36,9 @@ class StareDepol:
         sr-1 m-1.
     radial_velocity
         An array of radial velocities of the co-polarised signal, in m s-1.
-    mask
+    mask_beta
+        A boolean array indicating signal (True) or noise (False) data points.
+    mask_radial_velocity
         A boolean array indicating signal (True) or noise (False) data points.
     depolarisation
         An array of depolarisation ratios calculated as the ratio of
@@ -69,11 +71,13 @@ class StareDepol:
     beta: npt.NDArray[np.float64]
     beta_cross: npt.NDArray[np.float64]
     radial_velocity: npt.NDArray[np.float64]
-    mask: npt.NDArray[np.bool_]
+    mask_beta: npt.NDArray[np.bool_]
+    mask_radial_velocity: npt.NDArray[np.bool_]
     depolarisation: npt.NDArray[np.float64]
     polariser_bleed_through: float
     wavelength: float
     system_id: str
+    ray_info: RayAccumulationTime | PulsesPerRay
 
     def __init__(
         self,
@@ -138,11 +142,13 @@ class StareDepol:
         self.beta = co.beta
         self.beta_cross = cross_beta
         self.radial_velocity = co.radial_velocity
-        self.mask = co.mask
+        self.mask_beta = co.mask_beta
+        self.mask_radial_velocity = co.mask_radial_velocity
         self.depolarisation = depolarisation
         self.polariser_bleed_through = polariser_bleed_through
         self.wavelength = co.wavelength
         self.system_id = co.system_id
+        self.ray_info = co.ray_info
 
     @property
     def mask_depolarisation(self) -> npt.NDArray[np.bool_]:
@@ -224,7 +230,7 @@ class StareDepol:
                 units="sr-1 m-1",
                 data=self.beta,
                 dtype="f4",
-                mask=self.mask,
+                mask=self.mask_beta,
             )
             nc.add_variable(
                 name="v",
@@ -233,7 +239,7 @@ class StareDepol:
                 long_name="Doppler velocity",
                 data=self.radial_velocity,
                 dtype="f4",
-                mask=self.mask,
+                mask=self.mask_radial_velocity,
             )
             nc.add_scalar_variable(
                 name="wavelength",
@@ -256,7 +262,7 @@ class StareDepol:
                 units="1",
                 data=self.depolarisation,
                 dtype="f4",
-                mask=self.mask | self.mask_depolarisation,
+                mask=self.mask_beta | self.mask_depolarisation,
             )
             nc.add_variable(
                 name="beta_cross_raw",
@@ -271,7 +277,7 @@ class StareDepol:
                 dimensions=("time", "range"),
                 units="sr-1 m-1",
                 data=self.beta_cross,
-                mask=self.mask | self.mask_beta_cross,
+                mask=self.mask_beta | self.mask_beta_cross,
                 dtype="f4",
             )
             nc.add_scalar_variable(
@@ -281,5 +287,22 @@ class StareDepol:
                 data=self.polariser_bleed_through,
                 dtype="f4",
             )
+            match self.ray_info:
+                case RayAccumulationTime(value):
+                    nc.add_scalar_variable(
+                        name="ray_accumulation_time",
+                        units="s",
+                        long_name="ray accumulation time",
+                        data=value,
+                        dtype="f4",
+                    )
+                case PulsesPerRay(value):
+                    nc.add_scalar_variable(
+                        name="pulses_per_ray",
+                        units="1",
+                        long_name="pulses per ray",
+                        data=value,
+                        dtype="u4",
+                    )
             nc.add_attribute("serial_number", self.system_id)
             nc.add_attribute("doppy_version", doppy.__version__)

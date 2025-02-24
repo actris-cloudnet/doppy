@@ -24,7 +24,7 @@ class WindCubeFixed:
     radial_velocity: npt.NDArray[np.float64]  # dim: (time, radial_distance)
     doppler_spectrum_width: npt.NDArray[np.float64]  # dim: (time, radial_distance)
     radial_velocity_confidence: npt.NDArray[np.float64]  # dim: (time, radial_distance)
-    ray_accumulation_time: np.float64  # dim: ()
+    ray_accumulation_time: np.float64  # dim: (), unit: seconds
     system_id: str
 
     @classmethod
@@ -300,6 +300,7 @@ def _from_fixed_src(nc: Dataset) -> WindCubeFixed:
             _extract_float64_or_raise(
                 group["ray_accumulation_time"], expected_dimensions
             )
+            * 1e-3  # convert ms to s
         )
 
     return WindCubeFixed(
