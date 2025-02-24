@@ -1,4 +1,3 @@
-# type: ignore
 import warnings
 
 import numpy as np
@@ -99,9 +98,9 @@ def _rolling_median_over_range(
 
     if stride != 1 and fill_gaps:
         ind = list(range(0, n, stride))
-        f = scipy.interpolate.interp1d(
+        f_interp = scipy.interpolate.interp1d(
             range_[ind], med[ind], axis=0, fill_value="extrapolate"
         )
-        med_all = f(range_)
-        return med_all.T.copy()
+        med_all = f_interp(range_)
+        return np.array(med_all.T.copy(), dtype=np.float64)
     return np.array(med.T.copy(), dtype=np.float64)

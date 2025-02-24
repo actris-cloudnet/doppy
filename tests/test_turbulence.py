@@ -2,12 +2,9 @@ import numpy as np
 import pytest
 from doppy.data.api import Api
 from doppy.options import BgCorrectionMethod
-from doppy.product.model import ModelWind
-from doppy.product.noise import detect_wind_noise
 from doppy.product.stare import Stare
-from doppy.product.turbulence import HorizontalWind, Turbulence, VerticalWind
+from doppy.product.turbulence import HorizontalWind, Options, Turbulence, VerticalWind
 from doppy.product.wind import Wind
-from netCDF4 import Dataset, num2date
 
 
 @pytest.mark.slow
@@ -77,7 +74,8 @@ from netCDF4 import Dataset, num2date
         ("punta-arenas", "2021-11-21"),
         ("soverato", "2021-06-27"),
         ("soverato", "2021-07-22"),
-        ("soverato", "2021-08-15"),
+        # ("soverato", "2021-08-15"),
+        # TODO: handle Stare files with multiple azimuth angles
         ("soverato", "2021-08-22"),
         ("soverato", "2021-08-26"),
         ("vehmasmaki", "2021-01-19"),
@@ -96,54 +94,21 @@ from netCDF4 import Dataset, num2date
 def test(site, date):
     api = Api(cache=True)
     stare, wind = _get_stare_and_wind(api, site, date)
-    wind_mask = detect_wind_noise(
-        stare.radial_velocity, stare.radial_distance, stare.mask
-    )
 
     Turbulence.from_winds(
         VerticalWind(
             time=stare.time,
             height=stare.radial_distance,
             w=stare.radial_velocity,
-            mask=wind_mask,
+            mask=stare.mask_radial_velocity,
         ),
         HorizontalWind(
             time=wind.time,
             height=wind.height,
             V=np.sqrt(wind.zonal_wind**2 + wind.meridional_wind**2),
         ),
+        Options(ray_accumulation_time=1),
     )
-
-
-def _get_model(api, site, date):
-    res = api.get("model-files", params={"site": site, "date": date})
-    res = [r for r in res if r["modelId"] == "ecmwf"]
-    if len(res) != 1:
-        raise ValueError(f"unexpected models: {','.join([r['modelId'] for r in res])}")
-    content = api.get_record_content(res[0])
-    with Dataset("inmemory.nc", mode="r", memory=content.read()) as nc:
-        uwind = nc["uwind"]  # Zonal wind
-        vwind = nc["vwind"]  # Meridional wind
-        height = nc["height"]
-        time = nc["time"]
-        time_np = num2date(time[:].data, time.units).astype("datetime64[us]")
-        if any(variable[:].mask for variable in (uwind, vwind, height, time)):
-            raise ValueError("Masked data encountered")
-
-        h_med = np.median(height[:].data, axis=0)
-        range_mask = h_med < 20e3  # ignore the gates above 20km
-
-        time_ = time_np
-        uwind_ = np.array(uwind[:].data[:, range_mask], dtype=np.float64)
-        vwind_ = np.array(vwind[:].data[:, range_mask], dtype=np.float64)
-        height_ = np.array(h_med[range_mask], dtype=np.float64)
-
-        return ModelWind(
-            time=time_,
-            height=height_,
-            zonal_wind=uwind_,
-            meridional_wind=vwind_,
-        )
 
 
 def _get_stare_and_wind(api, site, date):

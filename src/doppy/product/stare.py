@@ -14,6 +14,7 @@ from sklearn.cluster import KMeans
 
 import doppy
 from doppy import defaults, options
+from doppy.product.noise_utils import detect_wind_noise
 
 SelectionGroupKeyType: TypeAlias = tuple[int,]
 
@@ -37,7 +38,8 @@ class Stare:
     beta: npt.NDArray[np.float64]
     snr: npt.NDArray[np.float64]
     radial_velocity: npt.NDArray[np.float64]
-    mask: npt.NDArray[np.bool_]
+    mask_beta: npt.NDArray[np.bool_]
+    mask_radial_velocity: npt.NDArray[np.bool_]
     wavelength: float
     system_id: str
     ray_info: RayAccumulationTime | PulsesPerRay
@@ -59,7 +61,8 @@ class Stare:
                 beta=self.beta[index],
                 snr=self.snr[index],
                 radial_velocity=self.radial_velocity[index],
-                mask=self.mask[index],
+                mask_beta=self.mask_beta[index],
+                mask_radial_velocity=self.mask_radial_velocity[index],
                 wavelength=self.wavelength,
                 system_id=self.system_id,
                 ray_info=self.ray_info,
@@ -94,7 +97,10 @@ class Stare:
             effective_diameter=defaults.WindCube.effective_diameter,
         )
 
-        mask = _compute_noise_mask_for_windcube(raw)
+        mask_beta = _compute_noise_mask_for_windcube(raw)
+        mask_radial_velocity = detect_wind_noise(
+            raw.radial_velocity, raw.radial_distance, mask_beta
+        )
 
         return cls(
             time=raw.time,
@@ -103,7 +109,8 @@ class Stare:
             beta=beta,
             snr=raw.cnr,
             radial_velocity=raw.radial_velocity,
-            mask=mask,
+            mask_beta=mask_beta,
+            mask_radial_velocity=mask_radial_velocity,
             wavelength=wavelength,
             system_id=raw.system_id,
             ray_info=RayAccumulationTime(raw.ray_accumulation_time),
@@ -164,9 +171,13 @@ class Stare:
             effective_diameter=defaults.Halo.effective_diameter,
         )
 
-        mask = _compute_noise_mask(
+        mask_beta = _compute_noise_mask(
             intensity_noise_bias_corrected, raw.radial_velocity, raw.radial_distance
         )
+        mask_radial_velocity = detect_wind_noise(
+            raw.radial_velocity, raw.radial_distance, mask_beta
+        )
+
         return cls(
             time=raw.time,
             radial_distance=raw.radial_distance,
@@ -174,7 +185,8 @@ class Stare:
             beta=beta,
             snr=intensity_noise_bias_corrected - 1,
             radial_velocity=raw.radial_velocity,
-            mask=mask,
+            mask_beta=mask_beta,
+            mask_radial_velocity=mask_radial_velocity,
             wavelength=wavelength,
             system_id=raw.header.system_id,
             ray_info=PulsesPerRay(raw.header.pulses_per_ray),
@@ -220,7 +232,7 @@ class Stare:
                 units="sr-1 m-1",
                 data=self.beta,
                 dtype="f4",
-                mask=self.mask,
+                mask=self.mask_beta,
             )
             nc.add_variable(
                 name="v",
@@ -229,7 +241,7 @@ class Stare:
                 long_name="Doppler velocity",
                 data=self.radial_velocity,
                 dtype="f4",
-                mask=self.mask,
+                mask=self.mask_radial_velocity,
             )
             nc.add_scalar_variable(
                 name="wavelength",

@@ -139,7 +139,6 @@ def _compute_variance(vert: VerticalWind, period: float) -> VarResult:
 def _length_scale_low(
     V: npt.NDArray[np.float64], height: npt.NDArray[np.float64], opts: Options
 ) -> npt.NDArray[np.float64]:
-    # TODO: Is this correct?
     integration_time = opts.ray_accumulation_time
     from_beam = 2 * height * np.sin(opts.beam_divergence / 2)
     from_wind = V * integration_time
