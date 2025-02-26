@@ -1,7 +1,11 @@
 use csv::Reader;
+use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::Deserialize;
-use std::{collections::HashSet, fs::File};
+use std::{
+    collections::{HashMap, HashSet},
+    fs::File,
+};
 
 #[allow(dead_code)]
 #[derive(Debug, Deserialize)]
@@ -23,7 +27,7 @@ struct RawRecord {
     instrument_info_uuid: String,
 }
 
-#[derive(Hash, Eq, PartialEq)]
+#[derive(Hash, Eq, PartialEq, Clone, Debug)]
 enum HaloFileType {
     Stare,
     Vad,
@@ -39,22 +43,34 @@ enum HaloFileType {
     User4,
     User5,
 }
-#[derive(Hash, Eq, PartialEq)]
-enum WindCubeFileType {
+#[derive(Hash, Eq, PartialEq, Clone, Debug)]
+enum WindCube200FileType {
     Dbs,
     Fixed,
     Ppi,
     Vad,
+    Rhi,
+    Volume,
     SpectrumDbs,
     SpectrumPpi,
     SpectrumFixed,
-    Other,
+    SpectrumVad,
+    SpectrumRhi,
+    SpectrumVolume,
+    Environmental,
 }
 
-#[derive(Hash, Eq, PartialEq)]
+#[derive(Hash, Eq, PartialEq, Clone, Debug)]
+enum WindCube70FileType {
+    WindLz1R10s,
+    WindLz1Lb87R10s,
+}
+
+#[derive(Hash, Eq, PartialEq, Clone, Debug)]
 enum FileType {
     Halo(HaloFileType),
-    WindCube(WindCubeFileType),
+    WindCube200(WindCube200FileType),
+    WindCube70(WindCube70FileType),
 }
 
 pub fn sample() {
@@ -63,9 +79,10 @@ pub fn sample() {
 
     let mut file_groups = HashSet::new();
 
-    for row in rdr.deserialize::<RawRecord>().take(400000) {
+    for row in rdr.deserialize::<RawRecord>().take(10000000) {
         let row = row.unwrap();
-        file_groups.insert(filetype_from_record(&row));
+        let ft = filetype_from_record(&row);
+        file_groups.insert(ft);
     }
 }
 
@@ -78,79 +95,128 @@ fn filetype_from_record(record: &RawRecord) -> FileType {
     }
 }
 
+static PREFIX_MAP: Lazy<HashMap<&'static str, HaloFileType>> = Lazy::new(|| {
+    use HaloFileType::*;
+
+    HashMap::from([
+        ("Background", Background),
+        ("Stare", Stare),
+        ("VAD", Vad),
+        ("RHI", Rhi),
+        ("Wind_Profile", WindProfile),
+        ("Processed_Wind_Profile", ProcessedWindProfile),
+        ("system_parameters", SystemParameters),
+        ("Time_Sync", TimeSync),
+        ("User1", User1),
+        ("User2", User2),
+        ("User3", User3),
+        ("User4", User4),
+        ("User5", User5),
+    ])
+});
+
 fn filetype_from_halo(filename: &str) -> FileType {
-    if filename.starts_with("Background") {
-        FileType::Halo(HaloFileType::Background)
-    } else if filename.starts_with("Stare") {
-        FileType::Halo(HaloFileType::Stare)
-    } else if filename.starts_with("VAD") {
-        FileType::Halo(HaloFileType::Vad)
-    } else if filename.starts_with("RHI") {
-        FileType::Halo(HaloFileType::Rhi)
-    } else if filename.starts_with("Wind_Profile") {
-        FileType::Halo(HaloFileType::WindProfile)
-    } else if filename.starts_with("Processed_Wind_Profile") {
-        FileType::Halo(HaloFileType::ProcessedWindProfile)
-    } else if filename.starts_with("system_parameters") {
-        FileType::Halo(HaloFileType::SystemParameters)
-    } else if filename.starts_with("Time_Sync") {
-        FileType::Halo(HaloFileType::TimeSync)
-    } else if filename.starts_with("User1") {
-        FileType::Halo(HaloFileType::User1)
-    } else if filename.starts_with("User2") {
-        FileType::Halo(HaloFileType::User2)
-    } else if filename.starts_with("User3") {
-        FileType::Halo(HaloFileType::User3)
-    } else if filename.starts_with("User4") {
-        FileType::Halo(HaloFileType::User4)
-    } else if filename.starts_with("User5") {
-        FileType::Halo(HaloFileType::User5)
-    } else {
-        todo!("{filename}")
-    }
+    PREFIX_MAP
+        .iter()
+        .find_map(|(prefix, file_type)| {
+            filename
+                .strip_prefix(prefix)
+                .map(|_| FileType::Halo(file_type.clone()))
+        })
+        .unwrap_or_else(|| panic!("Unknown filename pattern: {}", filename))
 }
 
-fn filetype_from_wls200s(filename: &str) -> FileType {
-    let pattern =
-        Regex::new(r"^WLS[0-9a-zA-Z]*-\d+_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}_([a-zA-Z0-9]+)_.*")
-            .unwrap();
+static WLS200_PATTERN: Lazy<Regex> = Lazy::new(|| {
+    Regex::new(r"^WLS[0-9a-zA-Z]*-\d+_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}_([a-zA-Z0-9]+)_.*")
+        .unwrap()
+});
 
-    let pattern_spectrum = Regex::new(
+static WLS200_PATTERN_SPECTRUM: Lazy<Regex> = Lazy::new(|| {
+    Regex::new(
         r"^WLS[0-9a-zA-Z]*-\d+_Spectrum_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}_([a-zA-Z0-9]+)_.*",
     )
-    .unwrap();
+    .unwrap()
+});
 
-    let pattern_environmental = Regex::new(
-        r"^WLS[0-9a-zA-Z]*-\d+_environmental_data_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}.*",
-    )
-    .unwrap();
+static WLS200_PATTERN_ENVIRONMENTAL: Lazy<Regex> = Lazy::new(|| {
+    Regex::new(r"^WLS[0-9a-zA-Z]*-\d+_environmental_data_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}.*")
+        .unwrap()
+});
 
-    println!("{filename}");
+static WLS200_MAP: Lazy<HashMap<&'static str, WindCube200FileType>> = Lazy::new(|| {
+    use WindCube200FileType::*;
+    HashMap::from([
+        ("dbs", Dbs),
+        ("fixed", Fixed),
+        ("ppi", Ppi),
+        ("vad", Vad),
+        ("rhi", Rhi),
+        ("volume", Volume),
+    ])
+});
 
-    match pattern
-        .captures(filename)
-        .and_then(|cap| cap.get(1).map(|m| m.as_str()))
-    {
-        Some("dbs") => FileType::WindCube(WindCubeFileType::Dbs),
-        Some("fixed") => FileType::WindCube(WindCubeFileType::Fixed),
-        Some("ppi") => FileType::WindCube(WindCubeFileType::Ppi),
-        Some("vad") => FileType::WindCube(WindCubeFileType::Vad),
-        Some(val) => todo!("Handle unexpected file type: {val}"),
-        None => {
-            match pattern_spectrum
-                .captures(filename)
-                .and_then(|cap| cap.get(1).map(|m| m.as_str()))
-            {
-                Some("DBS") => FileType::WindCube(WindCubeFileType::SpectrumDbs),
-                Some("PPI") => FileType::WindCube(WindCubeFileType::SpectrumPpi),
-                Some("FIXED") => FileType::WindCube(WindCubeFileType::SpectrumFixed),
-                Some(val) => todo!("Handle unexpected spectrum match {val}"),
-                None => todo!("Invalid filename format: {filename}"),
-            }
+// Mapping for spectrum file types
+static WLS200_SPECTRUM_MAP: Lazy<HashMap<&'static str, WindCube200FileType>> = Lazy::new(|| {
+    use WindCube200FileType::*;
+    HashMap::from([
+        ("DBS", SpectrumDbs),
+        ("PPI", SpectrumPpi),
+        ("FIXED", SpectrumFixed),
+        ("VAD", SpectrumVad),
+        ("RHI", SpectrumRhi),
+        ("VOLUME", SpectrumVolume),
+    ])
+});
+
+fn filetype_from_wls200s(filename: &str) -> FileType {
+    if let Some(cap) = WLS200_PATTERN.captures(filename) {
+        if let Some(file_type) = cap
+            .get(1)
+            .map(|m| m.as_str())
+            .and_then(|f| WLS200_MAP.get(f))
+        {
+            return FileType::WindCube200(file_type.clone());
         }
     }
+
+    if let Some(cap) = WLS200_PATTERN_SPECTRUM.captures(filename) {
+        if let Some(file_type) = cap
+            .get(1)
+            .map(|m| m.as_str())
+            .and_then(|f| WLS200_SPECTRUM_MAP.get(f))
+        {
+            return FileType::WindCube200(file_type.clone());
+        }
+    }
+
+    if WLS200_PATTERN_ENVIRONMENTAL.is_match(filename) {
+        return FileType::WindCube200(WindCube200FileType::Environmental);
+    }
+
+    panic!("Invalid filename format: {}", filename)
 }
 
+static WLS70_PATTERN: Lazy<Regex> =
+    Lazy::new(|| Regex::new(r"^wlscerea_0a_(.*)-HR_v01_\d{8}_\d{6}.rtd").unwrap());
+
+static WLS70_MAP: Lazy<HashMap<&'static str, WindCube70FileType>> = Lazy::new(|| {
+    use WindCube70FileType::*;
+    HashMap::from([
+        ("windLz1R10s", WindLz1R10s),
+        ("windLz1Lb87R10s", WindLz1Lb87R10s),
+    ])
+});
+
 fn filetype_from_wls70(filename: &str) -> FileType {
-    FileType::WindCube(WindCubeFileType::Other)
+    if let Some(cap) = WLS70_PATTERN.captures(filename) {
+        if let Some(file_type) = cap
+            .get(1)
+            .map(|m| m.as_str())
+            .and_then(|f| WLS70_MAP.get(f))
+        {
+            return FileType::WindCube70(file_type.clone());
+        }
+    }
+
+    panic!("Invalid filename format: {}", filename)
 }
