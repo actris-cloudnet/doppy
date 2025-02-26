@@ -13,8 +13,12 @@ NetCDFDataType: TypeAlias = Literal["f4", "f8", "i4", "i8", "u4", "u8"]
 
 
 class Dataset:
-    def __init__(self, filename: str | pathlib.Path) -> None:
-        self.nc = netCDF4.Dataset(filename, mode="w")
+    def __init__(
+        self,
+        filename: str | pathlib.Path,
+        format: Literal["NETCDF4", "NETCDF4_CLASSIC"] = "NETCDF4",
+    ) -> None:
+        self.nc = netCDF4.Dataset(filename, mode="w", format=format)
 
     def __enter__(self) -> Dataset:
         return self
@@ -27,8 +31,8 @@ class Dataset:
     ) -> None:
         self.close()
 
-    def add_dimension(self, dim: str) -> Dataset:
-        self.nc.createDimension(dim, None)
+    def add_dimension(self, dim: str, size: int | None = None) -> Dataset:
+        self.nc.createDimension(dim, size)
         return self
 
     def add_attribute(self, key: str, val: str) -> Dataset:
