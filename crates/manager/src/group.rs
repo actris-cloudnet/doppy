@@ -24,7 +24,7 @@ pub struct RawRecord {
     pub instrument_info_uuid: String,
 }
 
-#[derive(Hash, Eq, PartialEq,PartialOrd,Ord, Clone, Debug)]
+#[derive(Hash, Eq, PartialEq, PartialOrd, Ord, Clone, Debug)]
 pub enum HaloFileType {
     Stare,
     Vad,
@@ -40,7 +40,7 @@ pub enum HaloFileType {
     User4,
     User5,
 }
-#[derive(Hash, Eq, PartialEq,PartialOrd,Ord, Clone, Debug)]
+#[derive(Hash, Eq, PartialEq, PartialOrd, Ord, Clone, Debug)]
 pub enum WindCube200FileType {
     Dbs,
     Fixed,
@@ -57,42 +57,42 @@ pub enum WindCube200FileType {
     Environmental,
 }
 
-#[derive(Hash, Eq, PartialEq,PartialOrd,Ord, Clone, Debug)]
+#[derive(Hash, Eq, PartialEq, PartialOrd, Ord, Clone, Debug)]
 pub enum WindCube70FileType {
     WindLz1R10s,
     WindLz1Lb87R10s,
 }
 
-#[derive(Hash, Eq, PartialEq,PartialOrd, Ord, Clone, Debug)]
+#[derive(Hash, Eq, PartialEq, PartialOrd, Ord, Clone, Debug)]
 pub enum FileType {
     Halo(HaloFileType),
     WindCube200(WindCube200FileType),
     WindCube70(WindCube70FileType),
 }
 
-#[derive(Hash, Eq, PartialEq,PartialOrd, Ord,Clone, Debug)]
-pub struct Group {
+#[derive(Hash, Eq, PartialEq, PartialOrd, Ord, Clone, Debug)]
+pub struct InstrumentGroup {
     pub site: String,
     pub pid: String,
     pub uuid: String,
-    pub filetype: FileType,
 }
 
-pub fn group() -> HashMap<Group, Vec<RawRecord>> {
+pub fn group() -> HashMap<InstrumentGroup, HashMap<FileType, Vec<RawRecord>>> {
     let file = File::open("records.csv").unwrap();
     let mut rdr = Reader::from_reader(file);
 
-    let mut groups: HashMap<Group, Vec<RawRecord>> = HashMap::new();
+    let mut groups: HashMap<InstrumentGroup, HashMap<FileType, Vec<RawRecord>>> = HashMap::new();
 
-    for row in rdr.deserialize::<RawRecord>().take(10000) {
+    for row in rdr.deserialize::<RawRecord>().take(100000000) {
         let row = row.unwrap();
         groups
-            .entry(Group {
+            .entry(InstrumentGroup {
                 site: row.site_id.clone(),
                 pid: row.instrument_pid.clone(),
                 uuid: row.instrument_info_uuid.clone(),
-                filetype: filetype_from_record(&row),
             })
+            .or_default()
+            .entry(filetype_from_record(&row))
             .or_default()
             .push(row.clone())
     }
