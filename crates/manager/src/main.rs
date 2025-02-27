@@ -1,5 +1,6 @@
 use clap::{Parser, Subcommand};
 pub mod generate_samples;
+pub mod group;
 
 #[derive(Parser)]
 struct Args {
