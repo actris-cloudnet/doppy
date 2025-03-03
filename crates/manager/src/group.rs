@@ -1,8 +1,10 @@
 use csv::Reader;
 use once_cell::sync::Lazy;
 use regex::Regex;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::{collections::HashMap, fs::File};
+
+type FileTypeMap = HashMap<FileType, Vec<RawRecord>>;
 
 #[allow(dead_code)]
 #[derive(Debug, Deserialize, Clone)]
@@ -24,7 +26,7 @@ pub struct RawRecord {
     pub instrument_info_uuid: String,
 }
 
-#[derive(Hash, Eq, PartialEq, PartialOrd, Ord, Clone, Debug)]
+#[derive(Serialize, Deserialize, Hash, Eq, PartialEq, PartialOrd, Ord, Clone, Debug)]
 pub enum HaloFileType {
     Stare,
     Vad,
@@ -40,7 +42,7 @@ pub enum HaloFileType {
     User4,
     User5,
 }
-#[derive(Hash, Eq, PartialEq, PartialOrd, Ord, Clone, Debug)]
+#[derive(Serialize, Deserialize, Hash, Eq, PartialEq, PartialOrd, Ord, Clone, Debug)]
 pub enum WindCube200FileType {
     Dbs,
     Fixed,
@@ -57,13 +59,13 @@ pub enum WindCube200FileType {
     Environmental,
 }
 
-#[derive(Hash, Eq, PartialEq, PartialOrd, Ord, Clone, Debug)]
+#[derive(Serialize, Deserialize, Hash, Eq, PartialEq, PartialOrd, Ord, Clone, Debug)]
 pub enum WindCube70FileType {
     WindLz1R10s,
     WindLz1Lb87R10s,
 }
 
-#[derive(Hash, Eq, PartialEq, PartialOrd, Ord, Clone, Debug)]
+#[derive(Serialize, Deserialize, Hash, Eq, PartialEq, PartialOrd, Ord, Clone, Debug)]
 pub enum FileType {
     Halo(HaloFileType),
     WindCube200(WindCube200FileType),
@@ -77,13 +79,13 @@ pub struct InstrumentGroup {
     pub uuid: String,
 }
 
-pub fn group() -> HashMap<InstrumentGroup, HashMap<FileType, Vec<RawRecord>>> {
+pub fn group() -> HashMap<InstrumentGroup, FileTypeMap> {
     let file = File::open("records.csv").unwrap();
     let mut rdr = Reader::from_reader(file);
 
-    let mut groups: HashMap<InstrumentGroup, HashMap<FileType, Vec<RawRecord>>> = HashMap::new();
+    let mut groups: HashMap<InstrumentGroup, FileTypeMap> = HashMap::new();
 
-    for row in rdr.deserialize::<RawRecord>().take(100000000) {
+    for row in rdr.deserialize::<RawRecord>() {
         let row = row.unwrap();
         groups
             .entry(InstrumentGroup {
@@ -109,22 +111,22 @@ fn filetype_from_record(record: &RawRecord) -> FileType {
 }
 
 static PREFIX_MAP: Lazy<HashMap<&'static str, HaloFileType>> = Lazy::new(|| {
-    use HaloFileType::*;
+    use HaloFileType as H;
 
     HashMap::from([
-        ("Background", Background),
-        ("Stare", Stare),
-        ("VAD", Vad),
-        ("RHI", Rhi),
-        ("Wind_Profile", WindProfile),
-        ("Processed_Wind_Profile", ProcessedWindProfile),
-        ("system_parameters", SystemParameters),
-        ("Time_Sync", TimeSync),
-        ("User1", User1),
-        ("User2", User2),
-        ("User3", User3),
-        ("User4", User4),
-        ("User5", User5),
+        ("Background", H::Background),
+        ("Stare", H::Stare),
+        ("VAD", H::Vad),
+        ("RHI", H::Rhi),
+        ("Wind_Profile", H::WindProfile),
+        ("Processed_Wind_Profile", H::ProcessedWindProfile),
+        ("system_parameters", H::SystemParameters),
+        ("Time_Sync", H::TimeSync),
+        ("User1", H::User1),
+        ("User2", H::User2),
+        ("User3", H::User3),
+        ("User4", H::User4),
+        ("User5", H::User5),
     ])
 });
 
@@ -157,27 +159,27 @@ static WLS200_PATTERN_ENVIRONMENTAL: Lazy<Regex> = Lazy::new(|| {
 });
 
 static WLS200_MAP: Lazy<HashMap<&'static str, WindCube200FileType>> = Lazy::new(|| {
-    use WindCube200FileType::*;
+    use WindCube200FileType as W;
     HashMap::from([
-        ("dbs", Dbs),
-        ("fixed", Fixed),
-        ("ppi", Ppi),
-        ("vad", Vad),
-        ("rhi", Rhi),
-        ("volume", Volume),
+        ("dbs", W::Dbs),
+        ("fixed", W::Fixed),
+        ("ppi", W::Ppi),
+        ("vad", W::Vad),
+        ("rhi", W::Rhi),
+        ("volume", W::Volume),
     ])
 });
 
 // Mapping for spectrum file types
 static WLS200_SPECTRUM_MAP: Lazy<HashMap<&'static str, WindCube200FileType>> = Lazy::new(|| {
-    use WindCube200FileType::*;
+    use WindCube200FileType as W;
     HashMap::from([
-        ("DBS", SpectrumDbs),
-        ("PPI", SpectrumPpi),
-        ("FIXED", SpectrumFixed),
-        ("VAD", SpectrumVad),
-        ("RHI", SpectrumRhi),
-        ("VOLUME", SpectrumVolume),
+        ("DBS", W::SpectrumDbs),
+        ("PPI", W::SpectrumPpi),
+        ("FIXED", W::SpectrumFixed),
+        ("VAD", W::SpectrumVad),
+        ("RHI", W::SpectrumRhi),
+        ("VOLUME", W::SpectrumVolume),
     ])
 });
 

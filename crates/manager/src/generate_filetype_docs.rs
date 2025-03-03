@@ -6,7 +6,7 @@ use reqwest;
 
 use crate::group;
 
-pub fn sample() {
+pub fn generate_filetype_docs() {
     let mut file = File::create("filetypes.md").unwrap();
 
     writeln!(file, "# Filetypes\n").unwrap();
