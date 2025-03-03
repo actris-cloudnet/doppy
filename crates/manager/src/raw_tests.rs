@@ -3,6 +3,7 @@ use reqwest::{self, Client};
 use serde::{Deserialize, Serialize};
 use serde_json;
 use std::sync::Arc;
+use std::thread::sleep;
 use std::time::Duration;
 use std::{
     collections::HashMap,
@@ -71,11 +72,11 @@ pub async fn download_raw_tests() {
         .iter()
         .map(|(_, files)| files.len())
         .sum::<usize>();
-    let semaphore = Arc::new(Semaphore::new(20));
+    let semaphore = Arc::new(Semaphore::new(8));
     let mut tasks = Vec::new();
     let client = Arc::new(
         Client::builder()
-            .timeout(std::time::Duration::from_secs(240))
+            .timeout(std::time::Duration::from_secs(2400))
             .build()
             .unwrap(),
     );
@@ -135,14 +136,22 @@ async fn download_raw_test_file(client: &Client, g: &TestGroup, file: &RawTestFi
         file.uuid, file.filename
     );
 
-    let resp = client
-        .get(&url)
-        .send()
-        .await
-        .unwrap_or_else(|_| panic!("Cannot download: {}", &url));
-    if !resp.status().is_success() {
-        panic!("Response status not success with: {}", &url);
-    }
+    let max_retries = 10;
+    let mut attempts = 0;
+
+    let resp = loop {
+        if let Ok(resp) = client.get(&url).send().await {
+            if resp.status().is_success() {
+                break resp;
+            }
+        };
+        if attempts >= max_retries {
+            panic!("Failed to donwload {} after {} retries", &url, attempts)
+        }
+        attempts += 1;
+        sleep(Duration::from_secs(10))
+    };
+
     let mut file = File::create(path).unwrap();
     let content = resp.bytes().await.unwrap();
     file.write_all(&content).unwrap();
