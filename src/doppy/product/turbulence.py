@@ -47,7 +47,7 @@ class Turbulence:
         sampling_time = _sampling_time_in_seconds(res)
         ls_up = V * sampling_time
         dissipation_rate = _compute_dissipation_rate(res.variance, ls_low, ls_up)
-        mask = np.isnan(dissipation_rate)
+        mask = np.isnan(dissipation_rate) | vert.mask
         return cls(
             time=vert.time.copy(),
             height=vert.height.copy(),
