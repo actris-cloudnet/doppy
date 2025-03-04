@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0 – 2025-03-04
+
+- Add turbulence product
+- Add netcdf4 classic support
+- Improved velocity mask
+
 ## 0.4.2 – 2024-12-11
 
 - Rename sys params names to follow cf conventions
