@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1 – 2025-03-05
+
+- Add netcdf time axis attribute
+
 ## 0.5.0 – 2025-03-04
 
 - Add turbulence product
