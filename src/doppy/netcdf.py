@@ -56,6 +56,7 @@ class Dataset:
         var = self.nc.createVariable(name, dtype, dimensions, compression="zlib")
         var.units = units
         var.calendar = calendar
+        var.axis = "T"
         var[:] = time
         if standard_name is not None:
             var.standard_name = standard_name
