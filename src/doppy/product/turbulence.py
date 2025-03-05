@@ -1,4 +1,3 @@
-# type: ignore
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -94,18 +93,18 @@ def _compute_variance(vert: VerticalWind, period: float) -> VarResult:
     N_cumsum = N_i.cumsum(axis=0)
 
     def N_func(i: int, j: int) -> npt.NDArray[np.float64]:
-        return N_cumsum[j] - N_cumsum[i] + N_i[i]
+        return np.array(N_cumsum[j] - N_cumsum[i] + N_i[i], dtype=np.float64)
 
     def S(i: int, j: int) -> npt.NDArray[np.float64]:
-        return X_cumsum[j] - X_cumsum[i] + X[i]
+        return np.array(X_cumsum[j] - X_cumsum[i] + X[i], dtype=np.float64)
 
     def S2(i: int, j: int) -> npt.NDArray[np.float64]:
-        return X2_cumsum[j] - X2_cumsum[i] + X2[i]
+        return np.array(X2_cumsum[j] - X2_cumsum[i] + X2[i], dtype=np.float64)
 
     def var_ij(i: int, j: int) -> npt.NDArray[np.float64]:
         N = N_func(i, j)
         with np.errstate(invalid="ignore"):
-            return (S2(i, j) - S(i, j) ** 2 / N) / N
+            return np.array((S2(i, j) - S(i, j) ** 2 / N) / N, dtype=np.float64)
 
     half_period = np.timedelta64(int(1e6 * period / 2), "us")
     period_start = np.full(vert.w.shape, np.datetime64("NaT", "us"))
@@ -147,7 +146,7 @@ def _length_scale_low(
 
 def _preprocess_horiontal_wind(
     vert: VerticalWind, hori: HorizontalWind, options: Options
-):
+) -> npt.NDArray[np.float64]:
     if np.isnan(hori.V).any():
         raise ValueError("horizontal wind speed cannot contains NaNs")
     trg_points = np.meshgrid(vert.time, vert.height, indexing="ij")
@@ -186,8 +185,8 @@ def _rolling_mean_over_time(
 
     S = arr.cumsum(axis=0)
 
-    def rolling_mean(i: int, j: int) -> npt.NDArray[np.flaat64]:
-        return (S[j] - S[i] + arr[i]) / (j - i + 1)
+    def rolling_mean(i: int, j: int) -> npt.NDArray[np.float64]:
+        return np.array((S[j] - S[i] + arr[i]) / (j - i + 1), dtype=np.float64)
 
     half_period = np.timedelta64(int(period * 0.5e6), "us")
     rol_mean = np.full(arr.shape, np.nan, dtype=np.float64)
@@ -208,7 +207,7 @@ def _compute_dissipation_rate(
     variance: npt.NDArray[np.float64],
     length_scale_lower: npt.NDArray[np.float64],
     length_scale_upper: npt.NDArray[np.float64],
-):
+) -> npt.NDArray[np.float64]:
     """
     Parameters
     ----------
@@ -225,10 +224,10 @@ def _compute_dissipation_rate(
             * (length_scale_upper ** (2 / 3) - length_scale_lower ** (2 / 3))
             ** (-3 / 2)
         )
-    return dr
+    return np.array(dr, dtype=np.float64)
 
 
-def _next_valid_from_mask(mask):
+def _next_valid_from_mask(mask: npt.NDArray[np.bool_]) -> npt.NDArray[np.int64]:
     """
     mask[t,v] (time,value)
 
@@ -244,10 +243,10 @@ def _next_valid_from_mask(mask):
     for t in reversed(range(n - 1)):
         N[t][~mask[t]] = t
         N[t][mask[t]] = N[t + 1][mask[t]]
-    return N
+    return np.array(N, dtype=np.int64)
 
 
-def _prev_valid_from_mask(mask):
+def _prev_valid_from_mask(mask: npt.NDArray[np.bool_]) -> npt.NDArray[np.int64]:
     """
     mask[t,v] (time,value)
 
@@ -262,4 +261,4 @@ def _prev_valid_from_mask(mask):
     for t in range(1, n):
         N[t][~mask[t]] = t
         N[t][mask[t]] = N[t - 1][mask[t]]
-    return N
+    return np.array(N, dtype=np.int64)
