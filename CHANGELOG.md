@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.2 – 2025-03-05
+
+- Fix typehints
+
 ## 0.5.1 – 2025-03-05
 
 - Add netcdf time axis attribute
