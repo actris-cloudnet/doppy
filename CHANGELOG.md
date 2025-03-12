@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.3 – 2025-03-12
+
+- Add a range formula
+
 ## 0.5.2 – 2025-03-05
 
 - Fix typehints
