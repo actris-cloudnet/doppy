@@ -1,3 +1,8 @@
+records.csv
+test-samples-raw.json
+tests/data/
+
+
 __pycache__/
 .Python
 build/

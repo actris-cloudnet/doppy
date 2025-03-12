@@ -29,6 +29,22 @@ pub struct Info {
     pub start_time: i64, // Unix-timestamp
     pub system_id: String,
     pub instrument_spectral_width: Option<f64>,
+    range_formula: Option<RangeFormula>,
+}
+
+#[derive(Debug, Clone)]
+enum RangeFormula {
+    Common,      //(range gate + 0.5) * Gate length
+    Overlapping, //Gate length / 2 + (range gate x 3)
+}
+
+impl RangeFormula {
+    fn compute_distance(&self, gate_index: f64, range_gate_length: f64) -> f64 {
+        match self {
+            RangeFormula::Common => (gate_index + 0.5) * range_gate_length,
+            RangeFormula::Overlapping => range_gate_length / 2.0 + gate_index * 3.0,
+        }
+    }
 }
 
 #[derive(Debug, Default, Clone)]
@@ -97,7 +113,11 @@ pub fn from_bytes_src(content: &[u8]) -> Result<HaloHpl, RawParseError> {
         }
     }
     let info = parse_header(&buf_header)?;
-    let data = parse_data(&mut cur, info.ngates, info.range_gate_length)?;
+    let range_formula = info
+        .range_formula
+        .as_ref()
+        .ok_or("Cannot find range formula")?;
+    let data = parse_data(&mut cur, info.ngates, info.range_gate_length, range_formula)?;
     Ok(HaloHpl { info, data })
 }
 
@@ -105,6 +125,7 @@ fn parse_data(
     cur: &mut Cursor<&[u8]>,
     ngates: u64,
     range_gate_length: f64,
+    range_formula: &RangeFormula,
 ) -> Result<Data, RawParseError> {
     let (n1d, n2d) = infer_data_shape(cur)?;
     if ngates < 1 || n1d < 3 || n2d < 4 {
@@ -161,7 +182,7 @@ fn parse_data(
         time: data_1d[0].clone(),
         radial_distance: gate
             .iter()
-            .map(|&x| (x + 0.5) * range_gate_length)
+            .map(|&x| range_formula.compute_distance(x, range_gate_length))
             .collect(),
         azimuth: data_1d[1].clone(),
         elevation: data_1d[2].clone(),
@@ -249,8 +270,13 @@ fn parse_header(header_bytes: &[u8]) -> Result<Info, RawParseError> {
                 info.instrument_spectral_width = Some(captures[1].parse()?);
             } else {
                 match line.as_str() {
-                    "Altitude of measurement (center of gate) = (range gate + 0.5) * Gate length" => (),
-                    "Range of measurement (center of gate) = (range gate + 0.5) * Gate length" => (),
+                    "Altitude of measurement (center of gate) = (range gate + 0.5) * Gate length" |
+                    "Range of measurement (center of gate) = (range gate + 0.5) * Gate length" => {
+                        info.range_formula = Some(RangeFormula::Common)
+                    },
+                    "Range of measurement (center of gate) = Gate length / 2 + (range gate x 3)" => {
+                        info.range_formula = Some(RangeFormula::Overlapping)
+                    },
                     "Data line 1: Decimal time (hours)  Azimuth (degrees)  Elevation (degrees) Pitch (degrees) Roll (degrees)" => (),
                     "Data line 1: Decimal time (hours)  Azimuth (degrees)  Elevation (degrees)" => (),
                     "f9.6,1x,f6.2,1x,f6.2" => (),
