@@ -81,6 +81,11 @@ class Dataset:
                 "https://cloudnet.fmi.fi/api/raw-files",
                 params={"site": site, "date": date},
             ) as resp:
+                if resp.status != 200:
+                    error_text = await resp.text()
+                    raise RuntimeError(
+                        f"API request failed with status {resp.status}: {error_text}"
+                    )
                 return await resp.json()
 
     async def download_file(self, session: aiohttp.ClientSession, record: Record):

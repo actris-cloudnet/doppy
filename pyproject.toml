@@ -44,6 +44,7 @@ dev = [
   "release-version",
   "pre-commit",
   "xarray[io]",
+  "seaborn",
 ]
 
 [project.scripts]
