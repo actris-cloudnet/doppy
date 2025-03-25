@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.4 – 2025-03-25
+
+- Add wls77 raw parser
+
 ## 0.5.3 – 2025-03-12
 
 - Add a range formula
