@@ -1,13 +1,34 @@
 use crate::raw::error::RawParseError;
 use chrono::{DateTime, NaiveDateTime, ParseError, Utc};
+use ndarray::{s, Array, Array1, Array2};
+use rayon::prelude::*;
 use std::fs::File;
 use std::io::{BufRead, Cursor, Read};
 
 #[derive(Debug, Default, Clone)]
-pub struct Wls77 {
+pub struct Wls77Old {
     pub info: Info,
     pub data_columns: Vec<String>,
     pub data: Vec<f64>,
+}
+
+#[derive(Debug, Default, Clone)]
+pub struct Wls77 {
+    pub time: Array1<f64>,
+    pub altitude: Array1<f64>,
+    pub position: Array1<f64>,
+    pub temperature: Array1<f64>,
+    pub wiper_count: Array1<f64>,
+    pub cnr: Array2<f64>,
+    pub radial_velocity: Array2<f64>,
+    pub radial_velocity_deviation: Array2<f64>,
+    pub wind_speed: Array2<f64>,
+    pub wind_direction: Array2<f64>,
+    pub zonal_wind: Array2<f64>,
+    pub meridional_wind: Array2<f64>,
+    pub vertical_wind: Array2<f64>,
+    pub cnr_threshold: f64,
+    pub system_id: String,
 }
 
 #[derive(Debug, Default, Clone)]
@@ -21,6 +42,35 @@ pub fn from_file_src(mut file: &File) -> Result<Wls77, RawParseError> {
     let mut content = vec![];
     file.read_to_end(&mut content)?;
     from_bytes_src(&content)
+}
+
+pub fn from_filename_src(filename: String) -> Result<Wls77, RawParseError> {
+    let file = File::open(filename)?;
+    from_file_src(&file)
+}
+
+pub fn from_filename_srcs(filenames: Vec<String>) -> Vec<Wls77> {
+    let results = filenames
+        .par_iter()
+        .filter_map(|filename| from_filename_src(filename.to_string()).ok())
+        .collect();
+    results
+}
+
+pub fn from_file_srcs(files: Vec<&File>) -> Vec<Wls77> {
+    let results = files
+        .par_iter()
+        .filter_map(|file| from_file_src(file).ok())
+        .collect();
+    results
+}
+
+pub fn from_bytes_srcs(contents: Vec<&[u8]>) -> Vec<Wls77> {
+    let results = contents
+        .par_iter()
+        .filter_map(|content| from_bytes_src(content).ok())
+        .collect();
+    results
 }
 
 enum Phase {
@@ -73,10 +123,54 @@ pub fn from_bytes_src(content: &[u8]) -> Result<Wls77, RawParseError> {
                         .to_string(),
                 });
             }
+
+            let data: Array1<_> = Array::from_vec(data.clone());
+            let n = (data.len() as i64 / ncols)
+                .try_into()
+                .map_err(|e| RawParseError {
+                    message: format!("Failed to convert rows count: {}", e),
+                })?;
+            let m = ncols.try_into().map_err(|e| RawParseError {
+                message: format!("Failed to convert columns count: {}", e),
+            })?;
+            let shape: [usize; 2] = [n, m];
+
+            let data = data
+                .into_shape_with_order(shape)
+                .map_err(|e| RawParseError {
+                    message: format!("Cannot reshape data array: {}", e),
+                })?;
+            let altitude = Array::from_vec(info.altitude);
+
+            let time = data.slice(s![.., 0]).to_owned();
+            let position = data.slice(s![.., 1]).to_owned();
+            let temperature = data.slice(s![.., 2]).to_owned();
+            let wiper_count = data.slice(s![.., 2]).to_owned();
+            let cnr = data.slice(s![..,4..;8]).to_owned();
+            let radial_velocity = data.slice(s![..,5..;8]).to_owned();
+            let radial_velocity_deviation = data.slice(s![..,6..;8]).to_owned();
+            let wind_speed = data.slice(s![..,7..;8]).to_owned();
+            let wind_direction = data.slice(s![..,8..;8]).to_owned();
+            let zonal_wind = data.slice(s![..,9..;8]).to_owned();
+            let meridional_wind = data.slice(s![..,10..;8]).to_owned();
+            let vertical_wind = data.slice(s![..,11..;8]).to_owned();
+
             Ok(Wls77 {
-                info,
-                data_columns: cols,
-                data,
+                time,
+                altitude,
+                position,
+                temperature,
+                wiper_count,
+                cnr,
+                radial_velocity,
+                radial_velocity_deviation,
+                wind_speed,
+                wind_direction,
+                zonal_wind,
+                meridional_wind,
+                vertical_wind,
+                system_id: info.system_id,
+                cnr_threshold: info.cnr_threshold,
             })
         }
         Err(e) => Err(e),

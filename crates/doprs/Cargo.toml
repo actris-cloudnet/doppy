@@ -2,6 +2,7 @@
 chrono = "0.4"
 regex = "1.10"
 rayon = "1.8"
+ndarray = {workspace=true}
 
 [package]
 name = "doprs"

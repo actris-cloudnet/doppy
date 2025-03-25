@@ -7,3 +7,8 @@ edition = "2021"
 version = "0.5.3"
 authors = ["Niko Leskinen <niko.leskinen@fmi.fi>"]
 license-file = "LICENSE"
+
+
+[workspace.dependencies]
+ndarray = "0.16"
+numpy = {version = "0.20", fatures = ["ndarray"]}
