@@ -1,6 +1,7 @@
 [dependencies]
-numpy = "0.20"
 doprs = {path = "../doprs"}
+ndarray = {workspace=true}
+numpy = {workspace=true}
 
 [dependencies.pyo3]
 version = "0.20.0"
