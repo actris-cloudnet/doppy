@@ -34,15 +34,21 @@ pub struct Info {
 
 #[derive(Debug, Clone)]
 enum RangeFormula {
-    Common,      //(range gate + 0.5) * Gate length
-    Overlapping, //Gate length / 2 + (range gate x 3)
+    Common, //(range gate + 0.5) * Gate length
+    Overlapping {
+        gate_length_div: f64,
+        gate_index_mul: f64,
+    }, //Gate length / gate_length_div + (range gate x gate_index_mul)
 }
 
 impl RangeFormula {
     fn compute_distance(&self, gate_index: f64, range_gate_length: f64) -> f64 {
         match self {
             RangeFormula::Common => (gate_index + 0.5) * range_gate_length,
-            RangeFormula::Overlapping => range_gate_length / 2.0 + gate_index * 3.0,
+            RangeFormula::Overlapping {
+                gate_length_div,
+                gate_index_mul,
+            } => range_gate_length / gate_length_div + gate_index * gate_index_mul,
         }
     }
 }
@@ -231,7 +237,11 @@ fn infer_data_shape(cur: &mut Cursor<&[u8]>) -> Result<(u64, u64), RawParseError
 
 fn parse_header(header_bytes: &[u8]) -> Result<Info, RawParseError> {
     let mut info = Info::default();
-    let re = regex::Regex::new(r"^**** Instrument spectral width = (\d+(\.\d+)?)$")?;
+    let re_spectral = regex::Regex::new(r"^**** Instrument spectral width = (\d+(?:\.\d+)?)$")?;
+    let re_overlapping = regex::Regex::new(
+        r"^Range of measurement \(center of gate\) = Gate length / (\d+(?:\.\d+)?) \+ \(range gate x (\d+(?:\.\d+)?)\)$",
+    )?;
+
     for line in header_bytes
         .split(|&b| b == b'\n')
         .filter(|line| !line.is_empty())
@@ -266,8 +276,18 @@ fn parse_header(header_bytes: &[u8]) -> Result<Info, RawParseError> {
             }
         } else {
             let line = std::str::from_utf8(line)?.trim().to_string();
-            if let Some(captures) = re.captures(&line) {
+            if let Some(captures) = re_spectral.captures(&line) {
                 info.instrument_spectral_width = Some(captures[1].parse()?);
+            } else if let Some(captures) = re_overlapping.captures(&line) {
+                let divisor = captures[1].parse()?;
+                let multiplier = captures[2].parse()?;
+                if !(divisor > 0.0 && divisor < 10.0 && multiplier > 0.0 && multiplier < 10.0) {
+                    return Err(format!("Suspicious range formula: {}", line).into());
+                }
+                info.range_formula = Some(RangeFormula::Overlapping {
+                    gate_length_div: divisor,
+                    gate_index_mul: multiplier,
+                });
             } else {
                 match line.as_str() {
                     "Altitude of measurement (center of gate) = (range gate + 0.5) * Gate length" |
@@ -275,7 +295,7 @@ fn parse_header(header_bytes: &[u8]) -> Result<Info, RawParseError> {
                         info.range_formula = Some(RangeFormula::Common)
                     },
                     "Range of measurement (center of gate) = Gate length / 2 + (range gate x 3)" => {
-                        info.range_formula = Some(RangeFormula::Overlapping)
+                        info.range_formula = Some(RangeFormula::Overlapping{gate_length_div: 2.0, gate_index_mul: 3.0})
                     },
                     "Data line 1: Decimal time (hours)  Azimuth (degrees)  Elevation (degrees) Pitch (degrees) Roll (degrees)" => (),
                     "Data line 1: Decimal time (hours)  Azimuth (degrees)  Elevation (degrees)" => (),
