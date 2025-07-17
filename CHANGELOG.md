@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.5 – 2025-07-17
+
+- Read range measurement formula dynamically for overlapping scan
+
 ## 0.5.4 – 2025-03-25
 
 - Add wls77 raw parser

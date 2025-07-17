@@ -4,7 +4,7 @@ resolver = "2"
 
 [workspace.package]
 edition = "2021"
-version = "0.5.4"
+version = "0.5.5"
 authors = ["Niko Leskinen <niko.leskinen@fmi.fi>"]
 license-file = "LICENSE"
 
