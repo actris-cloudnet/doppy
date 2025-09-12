@@ -128,17 +128,17 @@ pub fn from_bytes_src(content: &[u8]) -> Result<Wls77, RawParseError> {
             let n = (data.len() as i64 / ncols)
                 .try_into()
                 .map_err(|e| RawParseError {
-                    message: format!("Failed to convert rows count: {}", e),
+                    message: format!("Failed to convert rows count: {e}"),
                 })?;
             let m = ncols.try_into().map_err(|e| RawParseError {
-                message: format!("Failed to convert columns count: {}", e),
+                message: format!("Failed to convert columns count: {e}"),
             })?;
             let shape: [usize; 2] = [n, m];
 
             let data = data
                 .into_shape_with_order(shape)
                 .map_err(|e| RawParseError {
-                    message: format!("Cannot reshape data array: {}", e),
+                    message: format!("Cannot reshape data array: {e}"),
                 })?;
             let altitude = Array::from_vec(info.altitude);
 

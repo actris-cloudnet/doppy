@@ -45,6 +45,7 @@ dev = [
   "pre-commit",
   "xarray[io]",
   "seaborn",
+  "tomli"
 ]
 
 [project.scripts]

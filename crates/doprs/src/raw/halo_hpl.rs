@@ -270,7 +270,7 @@ fn parse_header(header_bytes: &[u8]) -> Result<Info, RawParseError> {
                 "Resolution (m/s):" => info.resolution = val.parse()?,
                 _ => {
                     return Err(
-                        format!("Unexpected (key,val) pair in header: ({},{})", key, val).into(),
+                        format!("Unexpected (key,val) pair in header: ({key},{val})").into(),
                     )
                 }
             }
@@ -282,7 +282,7 @@ fn parse_header(header_bytes: &[u8]) -> Result<Info, RawParseError> {
                 let divisor = captures[1].parse()?;
                 let multiplier = captures[2].parse()?;
                 if !(divisor > 0.0 && divisor < 10.0 && multiplier > 0.0 && multiplier < 10.0) {
-                    return Err(format!("Suspicious range formula: {}", line).into());
+                    return Err(format!("Suspicious range formula: {line}").into());
                 }
                 info.range_formula = Some(RangeFormula::Overlapping {
                     gate_length_div: divisor,
@@ -305,7 +305,7 @@ fn parse_header(header_bytes: &[u8]) -> Result<Info, RawParseError> {
                     "i3,1x,f6.4,1x,f8.6,1x,e12.6 - repeat for no. gates" => (),
                     "i3,1x,f6.4,1x,f8.6,1x,e12.6,1x,f6.4 - repeat for no. gates" => (),
                     "****" => (),
-                    _ => return Err(format!("Unexpected header line: {}", line).into()),
+                    _ => return Err(format!("Unexpected header line: {line}").into()),
                 };
             };
         };

@@ -1,0 +1,722 @@
+[[testcase]]
+type = "Wind"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-010013.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "14e7f215-7ce2-4d47-938c-67f267e4b654"
+checksum = "f4fddc9714e85d5effaa9bd009ebeb3f"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/14e7f215-7ce2-4d47-938c-67f267e4b654/Background_020925-010013.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-020014.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "361a4ede-6eb1-4a72-9580-45c1b19c4d78"
+checksum = "3ac6c28e4defa463f4470a5395410673"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/361a4ede-6eb1-4a72-9580-45c1b19c4d78/Background_020925-020014.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-030013.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "b42b16b1-c37f-410d-8394-4aec8f3a84cb"
+checksum = "7f5c55f259415384c2c5d54421b29ab6"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/b42b16b1-c37f-410d-8394-4aec8f3a84cb/Background_020925-030013.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-040013.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "be505687-4541-48ad-b189-c152054ae9de"
+checksum = "35d8a046d8a6987a02febd733dd38c8c"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/be505687-4541-48ad-b189-c152054ae9de/Background_020925-040013.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-050014.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "1922b693-8308-4740-abff-c746d0650260"
+checksum = "13b10f17f110f88a0ab20a548564111b"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/1922b693-8308-4740-abff-c746d0650260/Background_020925-050014.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-060014.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "533f3dc6-b72d-4608-b802-33a5ed749918"
+checksum = "9090131621cf6ddaf3ba6a38ec2b7d77"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/533f3dc6-b72d-4608-b802-33a5ed749918/Background_020925-060014.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-070014.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "3acde543-6e89-42c5-a0cf-b7ea4314b24c"
+checksum = "a943e686ebce394c4d9d17a01148679d"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/3acde543-6e89-42c5-a0cf-b7ea4314b24c/Background_020925-070014.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-080013.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "44fdaf6f-4e23-4fc5-9c1f-c6c083bc777d"
+checksum = "4a03ff05ac1dcd9ee8ce6378ae25fa6d"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/44fdaf6f-4e23-4fc5-9c1f-c6c083bc777d/Background_020925-080013.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-090013.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "2049aa00-358a-4f8f-974e-8b5ea8ab371c"
+checksum = "1baffc36fcf164ec8ba005b77a247324"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/2049aa00-358a-4f8f-974e-8b5ea8ab371c/Background_020925-090013.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-100013.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "7a0aaa16-4062-47df-a5de-87c8493e5b73"
+checksum = "7f0ed45a5124330b07d76f2541a6802d"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/7a0aaa16-4062-47df-a5de-87c8493e5b73/Background_020925-100013.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-110013.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "cbfd9df1-0ef5-42fe-801f-aa912f8d8b5d"
+checksum = "05857768f7a971cc1bed84d1f135a6e2"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/cbfd9df1-0ef5-42fe-801f-aa912f8d8b5d/Background_020925-110013.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-120013.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "fd3a9023-7009-4f22-96f0-9f05c3456366"
+checksum = "25fa2b4e994b3ad5d9eb575f65501d8d"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/fd3a9023-7009-4f22-96f0-9f05c3456366/Background_020925-120013.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-130013.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "99d7f094-53dd-4d6e-841b-449cc8e81ecd"
+checksum = "a5774fa8fbe141074288b08666a4b626"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/99d7f094-53dd-4d6e-841b-449cc8e81ecd/Background_020925-130013.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-140014.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "b8a234e4-0b1d-4435-96cf-9c647e31d01d"
+checksum = "31ad99a8c302bddae80c4c6cf219f295"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/b8a234e4-0b1d-4435-96cf-9c647e31d01d/Background_020925-140014.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-150014.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "e8997270-4253-4108-b88f-518d17b98ee2"
+checksum = "58de960f16c6d010e8f3ac6fa52a4647"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/e8997270-4253-4108-b88f-518d17b98ee2/Background_020925-150014.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-160014.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "64dbefdc-f87a-464c-a4b0-075f4025d5d5"
+checksum = "7e1bad6b9e3483585d8c34270bf37d7e"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/64dbefdc-f87a-464c-a4b0-075f4025d5d5/Background_020925-160014.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-170013.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "657ade81-0d4b-4b63-9880-5c6186587408"
+checksum = "5e3cf418b8554cf7f2e2b752118da0dd"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/657ade81-0d4b-4b63-9880-5c6186587408/Background_020925-170013.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-180014.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "07df8ae0-9414-4406-a5c4-2bbddc5c1b71"
+checksum = "303c18c8444a22dde5f4e796a847b391"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/07df8ae0-9414-4406-a5c4-2bbddc5c1b71/Background_020925-180014.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-190013.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "ec5a4e37-55ff-4a7a-bc2d-8369f2f5c9be"
+checksum = "c0151a4e771da032fe55876f58451abd"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/ec5a4e37-55ff-4a7a-bc2d-8369f2f5c9be/Background_020925-190013.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-200014.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "da9cc3a0-e39d-4e82-8cf5-8d8ba9d15c90"
+checksum = "64ec7da22ae31eb547b4d26ab6b7483b"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/da9cc3a0-e39d-4e82-8cf5-8d8ba9d15c90/Background_020925-200014.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-210013.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "a75731cd-027e-42ad-ba48-67bebdb2f447"
+checksum = "7fb1514791164db5fe3b952eb49aa171"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/a75731cd-027e-42ad-ba48-67bebdb2f447/Background_020925-210013.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-220013.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "267f42c9-d6a0-4c22-ad38-d12bdc8e091b"
+checksum = "0482d77c722fc8956240ba0616ba3aab"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/267f42c9-d6a0-4c22-ad38-d12bdc8e091b/Background_020925-220013.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "Background_020925-230014.txt"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "c5ad3e06-efbe-4e8b-8b3d-51ec6d9ef378"
+checksum = "ad4cdf676fb0e35087374f8b1a538e1a"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/c5ad3e06-efbe-4e8b-8b3d-51ec6d9ef378/Background_020925-230014.txt"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_000000.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "477724d9-9ae8-4909-9cef-9bd8919f5fdd"
+checksum = "9b6b6106e0329d1c0f547f7c32fc5df5"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/477724d9-9ae8-4909-9cef-9bd8919f5fdd/User5_194_20250902_000000.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_000501.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "ca95e998-a850-4e16-b37a-e71923dcaef3"
+checksum = "7022a3f679f089c3f1557c94f7b69a0c"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/ca95e998-a850-4e16-b37a-e71923dcaef3/User5_194_20250902_000501.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_003501.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "9173db7f-84c1-45ae-bf73-4b9b2cc164b4"
+checksum = "4b4820070057daa0a5837ab480f6db93"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/9173db7f-84c1-45ae-bf73-4b9b2cc164b4/User5_194_20250902_003501.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_010500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "b4a49d3c-5efd-4a7a-8eb6-246a58e639ab"
+checksum = "74f0555ed556481c12f91394823132a3"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/b4a49d3c-5efd-4a7a-8eb6-246a58e639ab/User5_194_20250902_010500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_013500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "c04f1391-06c7-408c-bb7d-c384b8eebc16"
+checksum = "730655bf8099b7168b84d62b447ac7fe"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/c04f1391-06c7-408c-bb7d-c384b8eebc16/User5_194_20250902_013500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_020500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "67e4728d-3d91-4be5-87eb-ba15d27d8233"
+checksum = "b6dbbb86315a449c861ebe23600c61cd"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/67e4728d-3d91-4be5-87eb-ba15d27d8233/User5_194_20250902_020500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_023500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "cc76f3d5-38aa-401d-a59e-0e68794a46b7"
+checksum = "c2820b9ba44634b6741067e33fde9a5b"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/cc76f3d5-38aa-401d-a59e-0e68794a46b7/User5_194_20250902_023500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_030500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "8186602a-2c12-4d95-a764-7f4b4faae917"
+checksum = "9d5abc082db9f26357387989fc02e08f"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/8186602a-2c12-4d95-a764-7f4b4faae917/User5_194_20250902_030500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_033500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "1b6cf989-34ab-4f29-9951-754fdeb4584e"
+checksum = "d3cd2a29790fd4248b695f7b7423728f"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/1b6cf989-34ab-4f29-9951-754fdeb4584e/User5_194_20250902_033500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_040500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "ebf35c18-3862-488c-8a23-e3144812e120"
+checksum = "fdd619a0fdd5e9ed95110c7bc6581063"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/ebf35c18-3862-488c-8a23-e3144812e120/User5_194_20250902_040500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_043500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "69eebb0d-cee1-4e38-995c-9c1dd04f3856"
+checksum = "2c1a56c0e43d334ecbc778bbad73747b"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/69eebb0d-cee1-4e38-995c-9c1dd04f3856/User5_194_20250902_043500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_050501.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "645229d0-b0be-41b1-9854-8ebf59bf576b"
+checksum = "4c8ae942b3f5f16508817fd81514eca1"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/645229d0-b0be-41b1-9854-8ebf59bf576b/User5_194_20250902_050501.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_053500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "394e16cc-1951-46c9-aaab-2fbfb54fdb70"
+checksum = "b9f7bb08648b6f8d1b05c77fb3045cc7"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/394e16cc-1951-46c9-aaab-2fbfb54fdb70/User5_194_20250902_053500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_060500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "4ca85c8d-4722-4d8d-845d-86389a870eda"
+checksum = "5918589be29e9ba026e54e47cdd46330"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/4ca85c8d-4722-4d8d-845d-86389a870eda/User5_194_20250902_060500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_063500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "f24af393-d100-447d-9feb-198232ab0928"
+checksum = "d999fb3973438a92b9f12126be4e61ec"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/f24af393-d100-447d-9feb-198232ab0928/User5_194_20250902_063500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_070501.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "1252fe84-7358-4deb-9bb2-fbe3d1b46375"
+checksum = "0e678d6bfaeeb15884c0f8b0028136c9"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/1252fe84-7358-4deb-9bb2-fbe3d1b46375/User5_194_20250902_070501.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_073500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "0c8fe690-46bf-4093-b33c-586b286e8219"
+checksum = "a02962e86631235f247198b53020a102"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/0c8fe690-46bf-4093-b33c-586b286e8219/User5_194_20250902_073500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_080500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "7ad5c33c-44a4-4886-991c-6d30ed31ab53"
+checksum = "d48a450ac5860ea4bce51becf6f794ea"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/7ad5c33c-44a4-4886-991c-6d30ed31ab53/User5_194_20250902_080500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_083500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "b2fc4130-f502-483b-979e-76e78dab2aa9"
+checksum = "31b66fa701fbceb1edc713f30939c524"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/b2fc4130-f502-483b-979e-76e78dab2aa9/User5_194_20250902_083500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_090500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "e2d9001b-5514-473c-92ae-f81d1509b06d"
+checksum = "c918fb045a4ea31a2cc107580ddaaad3"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/e2d9001b-5514-473c-92ae-f81d1509b06d/User5_194_20250902_090500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_093500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "5cd1b3ad-10f9-41e2-9263-562e92f7ad52"
+checksum = "28a8686f52252189601d2df91159c48f"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/5cd1b3ad-10f9-41e2-9263-562e92f7ad52/User5_194_20250902_093500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_100501.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "25681fca-3325-4c36-8400-24ef18ee4bb3"
+checksum = "e1c064ccd58315502efcf7b7f0ac2b76"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/25681fca-3325-4c36-8400-24ef18ee4bb3/User5_194_20250902_100501.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_103500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "c17c239b-9577-436d-abb5-e436f6bb53a6"
+checksum = "617d59afbf661b8824fcd62b056b87af"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/c17c239b-9577-436d-abb5-e436f6bb53a6/User5_194_20250902_103500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_110500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "8dd1388c-e661-40a0-b632-4cf19a0d1a0b"
+checksum = "3cf81211f29a39d67f12a97ae9057b5e"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/8dd1388c-e661-40a0-b632-4cf19a0d1a0b/User5_194_20250902_110500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_113501.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "95deafef-5a36-437a-b8f2-5adec53e549b"
+checksum = "7a910d3acbcccaced86eef3f0f444a13"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/95deafef-5a36-437a-b8f2-5adec53e549b/User5_194_20250902_113501.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_120500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "f8feed50-72df-4f33-95cf-484a2d55ec62"
+checksum = "4e519c3fac94eecaaa884c852afa0995"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/f8feed50-72df-4f33-95cf-484a2d55ec62/User5_194_20250902_120500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_123500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "6f3a16e7-f7f7-4a97-a3e2-d5e335d04aad"
+checksum = "82c3724b36c6c609458b3181043d40c7"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/6f3a16e7-f7f7-4a97-a3e2-d5e335d04aad/User5_194_20250902_123500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_130501.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "ee963dc0-af31-4575-a427-0e4d88ff5cc4"
+checksum = "37771230227fe2acda75458e6de4807c"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/ee963dc0-af31-4575-a427-0e4d88ff5cc4/User5_194_20250902_130501.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_133500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "bd5c684f-512c-46e8-95d1-c8a8eaad0870"
+checksum = "21443ceca2d8f3546b52306ab760bc2d"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/bd5c684f-512c-46e8-95d1-c8a8eaad0870/User5_194_20250902_133500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_140500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "f2892a77-7ea6-4966-9323-d67f3d55f369"
+checksum = "907459b05a9834fa8279532d1d989ab2"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/f2892a77-7ea6-4966-9323-d67f3d55f369/User5_194_20250902_140500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_143500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "d2833204-be74-42a0-a5f6-b60d8ac410bb"
+checksum = "452ada29ebdf8781e113106e3e42fdf4"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/d2833204-be74-42a0-a5f6-b60d8ac410bb/User5_194_20250902_143500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_150500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "2317598e-a3ed-442f-9755-9a82046ab989"
+checksum = "cba7ccaff3cb5c679845770f649a2a07"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/2317598e-a3ed-442f-9755-9a82046ab989/User5_194_20250902_150500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_153500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "a9f9e27b-76b0-42e1-a25a-45bf40923ff5"
+checksum = "c0166a9dd8c44f71b477f9f01add912a"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/a9f9e27b-76b0-42e1-a25a-45bf40923ff5/User5_194_20250902_153500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_160500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "43d0860d-dcfe-451d-8eb9-63a6474626fa"
+checksum = "32decdd5313548909bd5fcedc22a9925"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/43d0860d-dcfe-451d-8eb9-63a6474626fa/User5_194_20250902_160500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_163500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "728e331f-3b26-4a91-a0cd-94b8f3b260d3"
+checksum = "f19cd2344c7a571a28afb98bb6f8080c"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/728e331f-3b26-4a91-a0cd-94b8f3b260d3/User5_194_20250902_163500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_170500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "ab6df59a-9c74-4d34-9ea1-abb4f275e4e3"
+checksum = "78cbf4963e7b140434f683f07b7ce642"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/ab6df59a-9c74-4d34-9ea1-abb4f275e4e3/User5_194_20250902_170500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_173500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "ecac44c7-f3f5-426e-9e31-1a510db5b6fb"
+checksum = "d6e43d35a201cc8f63bbded5fb4c27ff"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/ecac44c7-f3f5-426e-9e31-1a510db5b6fb/User5_194_20250902_173500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_180500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "d62e42cf-0758-45e6-bb77-8d4323bec94f"
+checksum = "101a42520b393c63415c1d701278b004"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/d62e42cf-0758-45e6-bb77-8d4323bec94f/User5_194_20250902_180500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_183500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "c28316f5-9646-4ba5-ad0d-9df27b579477"
+checksum = "fe35d244de22555b77d75e13b0ddc1a0"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/c28316f5-9646-4ba5-ad0d-9df27b579477/User5_194_20250902_183500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_190500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "0e936e82-89d0-46dd-af35-efca3c79867d"
+checksum = "39e1d5d750493c449d3e7d7bde959730"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/0e936e82-89d0-46dd-af35-efca3c79867d/User5_194_20250902_190500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_193500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "2f5ce72a-1dc5-41a9-b6a8-315596dea0bc"
+checksum = "832557b413375446e36b15a15a7ac1bb"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/2f5ce72a-1dc5-41a9-b6a8-315596dea0bc/User5_194_20250902_193500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_200500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "4123c363-c02a-4af9-bd16-57cee822a3f2"
+checksum = "19f41a463197607d5a08de1d85d7a0f2"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/4123c363-c02a-4af9-bd16-57cee822a3f2/User5_194_20250902_200500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_203500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "bfd6239d-7bf3-480b-8e1d-92b9da4b0d3a"
+checksum = "409de4cdc816bbb073b5f4b9672d9d19"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/bfd6239d-7bf3-480b-8e1d-92b9da4b0d3a/User5_194_20250902_203500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_210500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "4d5836c6-2bdc-4d6c-a8da-5ae68f76fc81"
+checksum = "4da542eefc5f387fa775fcddb7b6d14a"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/4d5836c6-2bdc-4d6c-a8da-5ae68f76fc81/User5_194_20250902_210500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_213500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "085eb76d-4ba9-4086-9c5d-adfb336ba539"
+checksum = "0bd6834b53c6b44473a4dc17bb0829c0"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/085eb76d-4ba9-4086-9c5d-adfb336ba539/User5_194_20250902_213500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_220501.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "d88d28b0-06d7-4bfc-8736-f8a821816ca5"
+checksum = "624eac496ae2a5ce75614006d760ef92"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/d88d28b0-06d7-4bfc-8736-f8a821816ca5/User5_194_20250902_220501.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_223500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "96a9deb1-efe7-4505-8dee-299aa6a16ad1"
+checksum = "2abd1a34488e62df83befe2cabc2e066"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/96a9deb1-efe7-4505-8dee-299aa6a16ad1/User5_194_20250902_223500.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_230501.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "98f92359-96f6-457d-9f35-2d5364773b7e"
+checksum = "6c6b8f7aeacee38fe672623df1538a80"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/98f92359-96f6-457d-9f35-2d5364773b7e/User5_194_20250902_230501.hpl"
+
+[[testcase.files]]
+site_id = "potenza"
+filename = "User5_194_20250902_233500.hpl"
+measurement_date = "2025-09-02"
+instrument_id = "halo-doppler-lidar"
+uuid = "6317baf4-9b36-4d7d-a7ea-f1851e20d785"
+checksum = "529117d99d3adf768bcffef484dad908"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+download_url = "https://cloudnet.fmi.fi/api/download/raw/6317baf4-9b36-4d7d-a7ea-f1851e20d785/User5_194_20250902_233500.hpl"
