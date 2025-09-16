@@ -438,7 +438,7 @@ def _select_raws_for_wind(
     # Else select angle closes to 75 from angles
     # that have count larger than mean_count/2
     mean_count = counter.total() / len(counter)
-    _, _, hash = sorted(
+    elevation, _, hash = sorted(
         [
             (el, abs(el - 75), hash)
             for (hash, el), count in counter.items()
@@ -446,7 +446,13 @@ def _select_raws_for_wind(
         ],
         key=lambda x: x[1],
     )[0]
-    raws = [raw for raw in filtered_raws if raw.header.mergeable_hash() == hash]
+    elevation_set = {elevation}
+    raws = [
+        raw
+        for raw in filtered_raws
+        if raw.header.mergeable_hash() == hash
+        and arr_to_rounded_set(raw.elevation) == elevation_set
+    ]
     return raws
 
 
