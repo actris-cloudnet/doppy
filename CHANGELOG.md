@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.7 – 2025-09-16
+
+- Patch wind scan selection
+
 ## 0.5.6 – 2025-09-16
 
 - Fix wind product raw selection such that scans with multiple elevation angles is allowed but only one angle is used
