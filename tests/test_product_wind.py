@@ -81,7 +81,8 @@ def test_wind_wls70(site, date, reason):
     records_wls70 = [
         rec
         for rec in records
-        if rec["instrumentId"] == "wls70" and rec["filename"].endswith(".rtd")
+        if rec["instrument"]["instrumentId"] == "wls70"
+        and rec["filename"].endswith(".rtd")
     ]
     _wind = product.Wind.from_wls70_data(
         data=[api.get_record_content(r) for r in records_wls70],
@@ -228,7 +229,8 @@ def test_wls70_system_id():
     records_wls70 = [
         rec
         for rec in records
-        if rec["instrumentId"] == "wls70" and rec["filename"].endswith(".rtd")
+        if rec["instrument"]["instrumentId"] == "wls70"
+        and rec["filename"].endswith(".rtd")
     ]
     wind = product.Wind.from_wls70_data(
         data=[api.get_record_content(r) for r in records_wls70],

@@ -113,7 +113,7 @@ class Stare:
             mask_radial_velocity=mask_radial_velocity,
             wavelength=wavelength,
             system_id=raw.system_id,
-            ray_info=RayAccumulationTime(raw.ray_accumulation_time),
+            ray_info=RayAccumulationTime(raw.ray_accumulation_time.astype(float)),
         )
 
     @classmethod

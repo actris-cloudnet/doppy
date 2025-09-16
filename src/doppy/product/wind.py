@@ -1,21 +1,18 @@
 from __future__ import annotations
 
 import functools
-from collections import defaultdict
+from collections import Counter
 from dataclasses import dataclass
 from io import BufferedIOBase
 from pathlib import Path
-from typing import Sequence, TypeAlias
+from typing import Sequence
 
 import numpy as np
 import numpy.typing as npt
 from scipy.ndimage import generic_filter
-from sklearn.cluster import KMeans
 
 import doppy
-
-# ngates, gate points, elevation angle, tuple of sorted azimuth angles
-SelectionGroupKeyType: TypeAlias = tuple[int, int, tuple[int, ...]]
+from doppy.product.utils import arr_to_rounded_set
 
 
 @dataclass
@@ -413,99 +410,45 @@ def _wrap_and_round_angle(a: np.float64) -> int:
     return int(np.round(a)) % 360
 
 
-def _group_scans(raw: doppy.raw.HaloHpl) -> npt.NDArray[np.int64]:
-    if len(raw.time) < 4:
-        raise ValueError("Expected at least 4 profiles to compute wind profile")
-    if raw.time.dtype != "<M8[us]":
-        raise TypeError("time expected to be in numpy datetime[us]")
-    time = raw.time.astype(np.float64) * 1e-6
-    timediff_in_seconds = np.diff(time)
-    kmeans = KMeans(n_clusters=2, n_init="auto").fit(timediff_in_seconds.reshape(-1, 1))
-    centers = kmeans.cluster_centers_.flatten()
-    scanstep_timediff = centers[np.argmin(centers)]
-
-    if scanstep_timediff < 0.1 or scanstep_timediff > 30:
-        raise ValueError(
-            "Time difference between profiles in one scan "
-            "expected to be between 0.1 and 30 seconds"
-        )
-    scanstep_timediff_upperbound = 2 * scanstep_timediff
-    groups_by_time = -1 * np.ones_like(time, dtype=np.int64)
-    groups_by_time[0] = 0
-    scan_index = 0
-    for i, (t_prev, t) in enumerate(zip(time[:-1], time[1:]), start=1):
-        if t - t_prev > scanstep_timediff_upperbound:
-            scan_index += 1
-        groups_by_time[i] = scan_index
-
-    return _subgroup_scans(raw, groups_by_time)
-
-
-def _subgroup_scans(
-    raw: doppy.raw.HaloHpl, time_groups: npt.NDArray[np.int64]
-) -> npt.NDArray[np.int64]:
-    """
-    Groups scans further based on the azimuth angles
-    """
-    group = -1 * np.ones_like(raw.time, dtype=np.int64)
-    i = -1
-    for time_group in set(time_groups):
-        i += 1
-        (pick,) = np.where(time_group == time_groups)
-        raw_group = raw[pick]
-        first_azimuth_angle = int(np.round(raw_group.azimuth[0])) % 360
-        group[pick[0]] = i
-        for j, azi in enumerate(
-            (int(np.round(azi)) % 360 for azi in raw_group.azimuth[1:]), start=1
-        ):
-            if azi == first_azimuth_angle:
-                i += 1
-            group[pick[j]] = i
-    return group
-
-
 def _select_raws_for_wind(
     raws: Sequence[doppy.raw.HaloHpl],
 ) -> Sequence[doppy.raw.HaloHpl]:
-    if len(raws) == 0:
+    counter: Counter[tuple[int, int]] = Counter()
+    filtered_raws = []
+    for raw in raws:
+        select = (1 < raw.elevation) & (raw.elevation < 85)
+        for el in arr_to_rounded_set(raw.elevation[select]):
+            select_el = raw.elevation.round().astype(int) == el
+            select_and = select & select_el
+
+            if _get_nrounded_angles(raw.azimuth[select_and]) > 3:
+                filtered_raws.append(raw[select_and])
+                counter.update(
+                    Counter(
+                        (raw.header.mergeable_hash(), el)
+                        for el in raw.elevation[select_and].round().astype(int)
+                    )
+                )
+    if len(counter) == 0:
         raise doppy.exceptions.NoDataError(
-            "Cannot select raws for wind from empty list"
+            "No scans with 1 < elevation angle < 85 and more than 3 azimuth angles"
         )
-    raws_wind = [
-        raw
-        for raw in raws
-        if len(raw.elevation_angles) == 1
-        and (el := next(iter(raw.elevation_angles))) < 80
-        and el > 25
-        and len(raw.azimuth_angles) > 3
-    ]
-    if len(raws_wind) == 0:
-        raise doppy.exceptions.NoDataError(
-            "No data suitable for winds: "
-            "Multiple elevation angles or "
-            "elevation angle >= 80 or "
-            "elevation angle <= 25 or "
-            "no more than 3 azimuth angles"
-        )
-
-    groups: dict[SelectionGroupKeyType, int] = defaultdict(int)
-
-    for raw in raws_wind:
-        groups[_selection_key(raw)] += len(raw.time)
-
-    def key_func(key: SelectionGroupKeyType) -> int:
-        return groups[key]
-
-    select_tuple = max(groups, key=key_func)
-
-    return [raw for raw in raws_wind if _selection_key(raw) == select_tuple]
+    if len(counter) == 1:
+        return filtered_raws
+    # Else select angle closes to 75 from angles
+    # that have count larger than mean_count/2
+    mean_count = counter.total() / len(counter)
+    _, _, hash = sorted(
+        [
+            (el, abs(el - 75), hash)
+            for (hash, el), count in counter.items()
+            if count > mean_count / 2
+        ],
+        key=lambda x: x[1],
+    )[0]
+    raws = [raw for raw in filtered_raws if raw.header.mergeable_hash() == hash]
+    return raws
 
 
-def _selection_key(raw: doppy.raw.HaloHpl) -> SelectionGroupKeyType:
-    if len(raw.elevation_angles) != 1:
-        raise ValueError("Expected only one elevation angle")
-    return (
-        raw.header.mergeable_hash(),
-        next(iter(raw.elevation_angles)),
-        tuple(sorted(raw.azimuth_angles)),
-    )
+def _get_nrounded_angles(arr: npt.NDArray[np.float64]) -> int:
+    return len(set((x + 360) % 360 for x in arr_to_rounded_set(arr)))
