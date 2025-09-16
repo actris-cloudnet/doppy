@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.6 – 2025-09-16
+
+- Fix wind product raw selection such that scans with multiple elevation angles is allowed but only one angle is used
+
 ## 0.5.5 – 2025-07-17
 
 - Read range measurement formula dynamically for overlapping scan
