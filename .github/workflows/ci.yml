@@ -42,10 +42,12 @@ jobs:
           name: wheels-linux-${{ matrix.target }}
           path: dist
       - name: pytest
+        if: ${{ matrix.target == 'x86_64' }}
         shell: bash
         run: |
           set -e
-          python -m pip install "pip<20"
+          python3 -m venv .venv
+          source .venv/bin/activate
           pip install doppy --find-links dist --force-reinstall
           pip install pytest
           pytest
