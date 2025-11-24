@@ -13,7 +13,6 @@ class Record:
     uuid: str
     checksum: str
     filename: str
-    s3key: str
     measurement_date: str
     size: int
     status: str
@@ -33,18 +32,17 @@ class Record:
             uuid=data["uuid"],
             checksum=data["checksum"],
             filename=data["filename"],
-            s3key=data["s3key"],
             measurement_date=data["measurementDate"],
             size=int(data.get("size", 0)),
             status=data["status"],
             created_at=data["createdAt"],
             updated_at=data["updatedAt"],
-            instrument_pid=data["instrumentPid"],
+            instrument_pid=data["instrument"]["pid"],
             tags=data.get("tags", []),
             site_id=data.get("siteId", ""),
-            instrument_id=data.get("instrumentId", ""),
+            instrument_id=data.get("instrument", {}).get("instrumentId", ""),
             instrument_type=data.get("instrument", {}).get("type", ""),
-            instrument_info_uuid=data.get("instrumentInfoUuid", ""),
+            instrument_info_uuid=data.get("instrument", {}).get("uuid", ""),
             download_url=data.get("downloadUrl", ""),
         )
 

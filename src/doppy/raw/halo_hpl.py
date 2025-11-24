@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import functools
+import logging
 import re
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -39,10 +40,13 @@ class HaloHpl:
     ) -> list[HaloHpl]:
         data_bytes = [bytes_from_src(src) for src in data]
         raw_dicts = doppy.rs.raw.halo_hpl.from_bytes_srcs(data_bytes)
-        try:
-            return [_raw_tuple2halo_hpl(r) for r in raw_dicts]
-        except RuntimeError as err:
-            raise exceptions.RawParsingError(err) from err
+        raws = []
+        for r in raw_dicts:
+            try:
+                raws.append(_raw_tuple2halo_hpl(r))
+            except exceptions.RawParsingError as err:
+                logging.warning("Skipping %s: %s", r[0].get("filename"), err)
+        return raws
 
     @classmethod
     def from_src(cls, data: str | Path | bytes | BufferedIOBase) -> HaloHpl:
