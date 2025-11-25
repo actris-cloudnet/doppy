@@ -95,7 +95,7 @@ def test_all_sys_params():
     groups = defaultdict(list)
 
     for r in records:
-        groups[r["siteId"]].append(r)
+        groups[r["site"]["id"]].append(r)
 
     for group, group_records in groups.items():
         print(group)

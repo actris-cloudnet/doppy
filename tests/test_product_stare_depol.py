@@ -15,6 +15,7 @@ CACHE = "GITHUB_ACTIONS" not in os.environ
     [
         ("vehmasmaki", "2021-01-02", ""),
         ("vehmasmaki", "2021-06-30", ""),
+        ("hyytiala", "2022-12-26", "Should ignore the bad files"),
     ],
 )
 def test_stare_depol(site, date, reason):
@@ -25,28 +26,17 @@ def test_stare_depol(site, date, reason):
         for rec in records
         if rec["filename"].endswith(".hpl") and "cross" not in set(rec["tags"])
     ]
-    records_bg_co = [
-        rec
-        for rec in records
-        if rec["filename"].startswith("Background") and "cross" not in set(rec["tags"])
-    ]
+    records_bg = [rec for rec in records if rec["filename"].startswith("Background")]
     records_hpl_cross = [
         rec
         for rec in records
         if rec["filename"].endswith(".hpl") and "cross" in set(rec["tags"])
     ]
-    records_bg_cross = [
-        rec
-        for rec in records
-        if rec["filename"].startswith("Background") and "cross" in set(rec["tags"])
-    ]
     stare_depol = product.StareDepol.from_halo_data(
         co_data=[api.get_record_content(r) for r in records_hpl_co],
-        co_data_bg=[(api.get_record_content(r), r["filename"]) for r in records_bg_co],
+        co_data_bg=[(api.get_record_content(r), r["filename"]) for r in records_bg],
         cross_data=[api.get_record_content(r) for r in records_hpl_cross],
-        cross_data_bg=[
-            (api.get_record_content(r), r["filename"]) for r in records_bg_cross
-        ],
+        cross_data_bg=[(api.get_record_content(r), r["filename"]) for r in records_bg],
         bg_correction_method=options.BgCorrectionMethod.FIT,
         polariser_bleed_through=0,
     )
@@ -64,12 +54,6 @@ def test_stare_depol(site, date, reason):
             "2024-06-13",
             exceptions.ShapeError,
             "operands could not be broadcast together with shapes (320,) (160,)",
-        ),
-        (
-            "hyytiala",
-            "2022-12-26",
-            exceptions.RawParsingError,
-            "Incoherent range gates: Number of gates in the middle of the file",
         ),
     ],
 )
