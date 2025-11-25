@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.8 – 2025-11-25
+
+- Ignore problematic raw files
+
 ## 0.5.7 – 2025-09-16
 
 - Patch wind scan selection
