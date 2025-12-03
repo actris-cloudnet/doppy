@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.9 – 2025-12-03
+
+- Fix stare raw selection
+
 ## 0.5.8 – 2025-11-25
 
 - Ignore problematic raw files
