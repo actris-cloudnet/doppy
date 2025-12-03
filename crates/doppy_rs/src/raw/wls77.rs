@@ -33,7 +33,7 @@ pub fn from_bytes_src<'a>(py: Python<'a>, content: &'a [u8]) -> PyResult<&'a PyD
 }
 
 #[pyfunction]
-pub fn from_filename_srcs(py: Python, filenames: Vec<String>) -> PyResult<Vec<&PyDict>> {
+pub fn from_filename_srcs(py: Python<'_>, filenames: Vec<String>) -> PyResult<Vec<&PyDict>> {
     let raws = doprs::raw::wls77::from_filename_srcs(filenames);
     let mut result = Vec::new();
     for raw in raws {
@@ -43,7 +43,7 @@ pub fn from_filename_srcs(py: Python, filenames: Vec<String>) -> PyResult<Vec<&P
 }
 
 #[pyfunction]
-pub fn from_filename_src(py: Python, filename: String) -> PyResult<&PyDict> {
+pub fn from_filename_src(py: Python<'_>, filename: String) -> PyResult<&PyDict> {
     let raw = match doprs::raw::wls77::from_filename_src(filename) {
         Ok(raw) => raw,
         Err(e) => {
@@ -55,7 +55,7 @@ pub fn from_filename_src(py: Python, filename: String) -> PyResult<&PyDict> {
     convert_to_python(py, raw)
 }
 
-fn convert_to_python(py: Python, raw: doprs::raw::wls77::Wls77) -> PyResult<&PyDict> {
+fn convert_to_python(py: Python<'_>, raw: doprs::raw::wls77::Wls77) -> PyResult<&PyDict> {
     let d = PyDict::new(py);
 
     let fields = [

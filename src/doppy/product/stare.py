@@ -4,7 +4,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from io import BufferedIOBase
 from pathlib import Path
-from typing import Sequence, Tuple, TypeAlias
+from typing import DefaultDict, Sequence, Tuple, TypeAlias
 
 import numpy as np
 import numpy.typing as npt
@@ -724,58 +724,36 @@ def _exponential_linear_fit(
 def _select_raws_for_stare(
     raws: Sequence[doppy.raw.HaloHpl],
 ) -> Sequence[doppy.raw.HaloHpl]:
-    groups: dict[SelectionGroupKeyType, int] = defaultdict(int)
-
     if len(raws) == 0:
-        raise doppy.exceptions.NoDataError("No data to select from")
+        raise doppy.exceptions.NoDataError("Expected at least one raw file")
+    counter_dd: DefaultDict[tuple[int, int, int], int] = defaultdict(int)
+    for raw in raws:
+        els, counts = np.unique(np.rint(raw.elevation).astype(int), return_counts=True)
+        ngates = len(raw.radial_distance)
+        for el, count in zip(els, counts):
+            counter_dd[(ngates, el, raw.header.mergeable_hash())] += count
+    counter = dict(counter_dd)
+    elevation_angle_lb = 75
+    elevation_angle_ub = 90
+    counter_allowed = {
+        (ngates, el, mhash): count
+        for (ngates, el, mhash), count in counter.items()
+        if (elevation_angle_lb <= el) and (el <= elevation_angle_ub)
+    }
+    if not counter_allowed:
+        raise doppy.exceptions.NoDataError("No raw data suitable for stare product")
 
-    # Select files that stare
-    raws_stare = [raw for raw in raws if len(raw.azimuth_angles) == 1]
-    if len(raws_stare) == 0:
-        raise doppy.exceptions.NoDataError(
-            "No data suitable for stare product. Data is probably from scans"
-        )
-    raws_stare = [raw for raw in raws if len(raw.elevation_angles) == 1]
-    if len(raws_stare) == 0:
-        raise doppy.exceptions.NoDataError(
-            "No data suitable for stare product. "
-            "Elevation angle does not remain constant"
-        )
-    elevation_angles = []
-    for raw in raws_stare:
-        elevation_angles += list(raw.elevation_angles)
-    max_elevation_angle = max(elevation_angles)
-
-    ELEVATION_ANGLE_FLUCTUATION_THRESHOLD = 2
-    ELEVATION_ANGLE_VERTICAL_OFFSET_THRESHOLD = 15
-
-    raws_stare = [
-        raw
-        for raw in raws
-        if abs(next(iter(raw.elevation_angles)) - max_elevation_angle)
-        < ELEVATION_ANGLE_FLUCTUATION_THRESHOLD
-        and abs(next(iter(raw.elevation_angles)) - 90)
-        < ELEVATION_ANGLE_VERTICAL_OFFSET_THRESHOLD
-    ]
-
-    if len(raws_stare) == 0:
-        raise doppy.exceptions.NoDataError("No data suitable for stare product")
-
-    # count the number of profiles each (scan_type,ngates) group has
-    for raw in raws_stare:
-        groups[_selection_key(raw)] += len(raw.time)
-
-    def key_func(key: SelectionGroupKeyType) -> int:
-        return groups[key]
-
-    # (scan_type,ngates, gate_points) group with the most profiles
-    select_tuple = max(groups, key=key_func)
-
-    return [raw for raw in raws_stare if _selection_key(raw) == select_tuple]
-
-
-def _selection_key(raw: doppy.raw.HaloHpl) -> SelectionGroupKeyType:
-    return (raw.header.mergeable_hash(),)
+    (ngates, elevation, mhash), count = max(counter_allowed.items(), key=lambda x: x[1])
+    raws_selected = []
+    for raw in raws:
+        if len(raw.radial_distance) == ngates and (
+            raw.header.mergeable_hash() == mhash
+        ):
+            select_profiles = np.isclose(raw.elevation, elevation, atol=1)
+            raw_selected = raw[select_profiles]
+            if raw_selected.time.size != 0:
+                raws_selected.append(raw_selected)
+    return raws_selected
 
 
 def _time2bg_time(

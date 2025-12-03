@@ -26,7 +26,6 @@ dependencies = [
   "urllib3",
   "numpy",
   "netCDF4",
-  "typer",
   "matplotlib",
   "scikit-learn",
   "scipy",
@@ -45,7 +44,9 @@ dev = [
   "pre-commit",
   "xarray[io]",
   "seaborn",
-  "tomli"
+  "tomli",
+  "aiohttp",
+  "tqdm"
 ]
 
 [project.scripts]
@@ -72,7 +73,6 @@ venv = "env"
 
 [tool.mypy]
 strict = true
-plugins = "numpy.typing.mypy_plugin"
 exclude = 'tests/'
 
 [[tool.mypy.overrides]]

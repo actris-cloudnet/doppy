@@ -265,7 +265,7 @@ dependencies = [
 
 [[package]]
 name = "doppy_rs"
-version = "0.5.7"
+version = "0.5.8"
 dependencies = [
  "doprs",
  "ndarray 0.16.1",
@@ -275,7 +275,7 @@ dependencies = [
 
 [[package]]
 name = "doprs"
-version = "0.5.7"
+version = "0.5.8"
 dependencies = [
  "chrono",
  "ndarray 0.16.1",
@@ -1100,7 +1100,7 @@ dependencies = [
 
 [[package]]
 name = "provare"
-version = "0.5.7"
+version = "0.5.8"
 dependencies = [
  "chrono",
  "clap",
