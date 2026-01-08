@@ -64,7 +64,7 @@ pub fn from_filename_src(py: Python<'_>, filename: String) -> PyResult<Bound<'_,
 }
 
 fn convert_to_python(py: Python<'_>, raw: doprs::raw::wls77::Wls77) -> PyResult<Bound<'_, PyDict>> {
-    let d = PyDict::new_bound(py);
+    let d = PyDict::new(py);
 
     let fields = [
         ("time", raw.time.as_slice()),
@@ -86,7 +86,7 @@ fn convert_to_python(py: Python<'_>, raw: doprs::raw::wls77::Wls77) -> PyResult<
     ];
 
     for (key, value) in fields {
-        d.set_item(key, PyArray1::from_slice_bound(py, value.unwrap()))?;
+        d.set_item(key, PyArray1::from_slice(py, value.unwrap()))?;
     }
 
     d.set_item("cnr_threshold", raw.cnr_threshold)?;

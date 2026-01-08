@@ -79,8 +79,8 @@ fn convert_to_pydicts(
 ) -> PyResult<(Bound<'_, PyDict>, Bound<'_, PyDict>)> {
     let info = raw.info;
     let data = raw.data;
-    let info_dict = PyDict::new_bound(py);
-    let data_dict = PyDict::new_bound(py);
+    let info_dict = PyDict::new(py);
+    let data_dict = PyDict::new(py);
     info_dict.set_item("filename", info.filename)?;
     info_dict.set_item("gate_points", info.gate_points)?;
     info_dict.set_item("nrays", info.nrays)?;
@@ -95,19 +95,17 @@ fn convert_to_pydicts(
     info_dict.set_item("system_id", info.system_id)?;
     info_dict.set_item("instrument_spectral_width", info.instrument_spectral_width)?;
 
-    let time = data.time.as_slice().to_pyarray_bound(py);
-    let radial_distance = data.radial_distance.as_slice().to_pyarray_bound(py);
-    let azimuth = data.azimuth.as_slice().to_pyarray_bound(py);
-    let elevation = data.elevation.as_slice().to_pyarray_bound(py);
-    let pitch: Option<_> = data.pitch.map(|v| v.as_slice().to_pyarray_bound(py));
-    let roll: Option<_> = data.roll.map(|v| v.as_slice().to_pyarray_bound(py));
-    let range = data.range.as_slice().to_pyarray_bound(py);
-    let radial_velocity = data.radial_velocity.as_slice().to_pyarray_bound(py);
-    let intensity = data.intensity.as_slice().to_pyarray_bound(py);
-    let beta = data.beta.as_slice().to_pyarray_bound(py);
-    let spectral_width: Option<_> = data
-        .spectral_width
-        .map(|v| v.as_slice().to_pyarray_bound(py));
+    let time = data.time.as_slice().to_pyarray(py);
+    let radial_distance = data.radial_distance.as_slice().to_pyarray(py);
+    let azimuth = data.azimuth.as_slice().to_pyarray(py);
+    let elevation = data.elevation.as_slice().to_pyarray(py);
+    let pitch: Option<_> = data.pitch.map(|v| v.as_slice().to_pyarray(py));
+    let roll: Option<_> = data.roll.map(|v| v.as_slice().to_pyarray(py));
+    let range = data.range.as_slice().to_pyarray(py);
+    let radial_velocity = data.radial_velocity.as_slice().to_pyarray(py);
+    let intensity = data.intensity.as_slice().to_pyarray(py);
+    let beta = data.beta.as_slice().to_pyarray(py);
+    let spectral_width: Option<_> = data.spectral_width.map(|v| v.as_slice().to_pyarray(py));
     data_dict.set_item("time", time)?;
     data_dict.set_item("radial_distance", radial_distance)?;
     data_dict.set_item("azimuth", azimuth)?;

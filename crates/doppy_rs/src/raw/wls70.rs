@@ -70,16 +70,13 @@ pub fn from_filename_src(py: Python, filename: String) -> PyResult<PyReturnType>
 }
 
 fn convert_to_python(py: Python, raw: doprs::raw::wls70::Wls70) -> PyResult<PyReturnType> {
-    let info_dict = PyDict::new_bound(py);
-    info_dict.set_item(
-        "altitude",
-        raw.info.altitude.as_slice().to_pyarray_bound(py),
-    )?;
+    let info_dict = PyDict::new(py);
+    info_dict.set_item("altitude", raw.info.altitude.as_slice().to_pyarray(py))?;
     info_dict.set_item("system_id", raw.info.system_id)?;
     info_dict.set_item("cnr_threshold", raw.info.cnr_threshold)?;
     Ok((
         info_dict,
-        PyList::new_bound(py, raw.data_columns),
-        raw.data.as_slice().to_pyarray_bound(py),
+        PyList::new(py, raw.data_columns)?,
+        raw.data.as_slice().to_pyarray(py),
     ))
 }

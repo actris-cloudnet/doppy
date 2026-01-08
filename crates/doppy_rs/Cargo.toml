@@ -4,7 +4,7 @@ ndarray = {workspace=true}
 numpy = {workspace=true}
 
 [dependencies.pyo3]
-version = "0.21"
+version = "0.23"
 features = ["abi3-py310"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
