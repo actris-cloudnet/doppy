@@ -3,7 +3,7 @@ members = ["crates/*"]
 resolver = "2"
 
 [workspace.package]
-edition = "2021"
+edition = "2024"
 version = "0.5.9"
 authors = ["Niko Leskinen <niko.leskinen@fmi.fi>"]
 license-file = "LICENSE"

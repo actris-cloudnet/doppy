@@ -77,11 +77,10 @@ pub fn from_filename_src(filename: String) -> Result<HaloHpl, RawParseError> {
 }
 
 pub fn from_filename_srcs(filenames: Vec<String>) -> Vec<HaloHpl> {
-    let results = filenames
+    filenames
         .par_iter()
         .filter_map(|filename| from_filename_src(filename.to_string()).ok())
-        .collect();
-    results
+        .collect()
 }
 
 pub fn from_file_src(mut file: &File) -> Result<HaloHpl, RawParseError> {
@@ -91,19 +90,17 @@ pub fn from_file_src(mut file: &File) -> Result<HaloHpl, RawParseError> {
 }
 
 pub fn from_file_srcs(files: Vec<&File>) -> Vec<HaloHpl> {
-    let results = files
+    files
         .par_iter()
         .filter_map(|file| from_file_src(file).ok())
-        .collect();
-    results
+        .collect()
 }
 
 pub fn from_bytes_srcs(contents: Vec<&[u8]>) -> Vec<HaloHpl> {
-    let results = contents
+    contents
         .par_iter()
         .filter_map(|content| from_bytes_src(content).ok())
-        .collect();
-    results
+        .collect()
 }
 
 pub fn from_bytes_src(content: &[u8]) -> Result<HaloHpl, RawParseError> {
@@ -271,7 +268,7 @@ fn parse_header(header_bytes: &[u8]) -> Result<Info, RawParseError> {
                 _ => {
                     return Err(
                         format!("Unexpected (key,val) pair in header: ({key},{val})").into(),
-                    )
+                    );
                 }
             }
         } else {
@@ -290,18 +287,25 @@ fn parse_header(header_bytes: &[u8]) -> Result<Info, RawParseError> {
                 });
             } else {
                 match line.as_str() {
-                    "Altitude of measurement (center of gate) = (range gate + 0.5) * Gate length" |
-                    "Range of measurement (center of gate) = (range gate + 0.5) * Gate length" => {
+                    "Altitude of measurement (center of gate) = (range gate + 0.5) * Gate length"
+                    | "Range of measurement (center of gate) = (range gate + 0.5) * Gate length" => {
                         info.range_formula = Some(RangeFormula::Common)
-                    },
+                    }
                     "Range of measurement (center of gate) = Gate length / 2 + (range gate x 3)" => {
-                        info.range_formula = Some(RangeFormula::Overlapping{gate_length_div: 2.0, gate_index_mul: 3.0})
-                    },
-                    "Data line 1: Decimal time (hours)  Azimuth (degrees)  Elevation (degrees) Pitch (degrees) Roll (degrees)" => (),
-                    "Data line 1: Decimal time (hours)  Azimuth (degrees)  Elevation (degrees)" => (),
+                        info.range_formula = Some(RangeFormula::Overlapping {
+                            gate_length_div: 2.0,
+                            gate_index_mul: 3.0,
+                        })
+                    }
+                    "Data line 1: Decimal time (hours)  Azimuth (degrees)  Elevation (degrees) Pitch (degrees) Roll (degrees)" =>
+                        {}
+                    "Data line 1: Decimal time (hours)  Azimuth (degrees)  Elevation (degrees)" => {
+                    }
                     "f9.6,1x,f6.2,1x,f6.2" => (),
-                    "Data line 2: Range Gate  Doppler (m/s)  Intensity (SNR + 1)  Beta (m-1 sr-1)" => (),
-                    "Data line 2: Range Gate  Doppler (m/s)  Intensity (SNR + 1)  Beta (m-1 sr-1) Spectral Width" => (),
+                    "Data line 2: Range Gate  Doppler (m/s)  Intensity (SNR + 1)  Beta (m-1 sr-1)" =>
+                        {}
+                    "Data line 2: Range Gate  Doppler (m/s)  Intensity (SNR + 1)  Beta (m-1 sr-1) Spectral Width" =>
+                        {}
                     "i3,1x,f6.4,1x,f8.6,1x,e12.6 - repeat for no. gates" => (),
                     "i3,1x,f6.4,1x,f8.6,1x,e12.6,1x,f6.4 - repeat for no. gates" => (),
                     "****" => (),

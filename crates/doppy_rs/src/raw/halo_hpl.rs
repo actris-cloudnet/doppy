@@ -38,7 +38,7 @@ pub fn from_bytes_src<'a>(
         Err(e) => {
             return Err(PyRuntimeError::new_err(format!(
                 "Failed to read files: {e}"
-            )))
+            )));
         }
     };
     convert_to_pydicts(py, raw)
@@ -67,7 +67,7 @@ pub fn from_filename_src(
         Err(e) => {
             return Err(PyRuntimeError::new_err(format!(
                 "Failed to read files: {e}"
-            )))
+            )));
         }
     };
     convert_to_pydicts(py, raw)

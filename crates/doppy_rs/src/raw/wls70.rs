@@ -40,7 +40,7 @@ pub fn from_bytes_src<'a>(py: Python<'a>, content: &'a [u8]) -> PyResult<PyRetur
         Err(e) => {
             return Err(PyRuntimeError::new_err(format!(
                 "Failed to read files: {e}"
-            )))
+            )));
         }
     };
     convert_to_python(py, raw)
@@ -63,7 +63,7 @@ pub fn from_filename_src(py: Python, filename: String) -> PyResult<PyReturnType>
         Err(e) => {
             return Err(PyRuntimeError::new_err(format!(
                 "Failed to read files: {e}"
-            )))
+            )));
         }
     };
     convert_to_python(py, raw)

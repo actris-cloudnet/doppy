@@ -31,7 +31,7 @@ pub fn from_bytes_src<'a>(py: Python<'a>, content: &'a [u8]) -> PyResult<Bound<'
         Err(e) => {
             return Err(PyRuntimeError::new_err(format!(
                 "Failed to read files: {e}"
-            )))
+            )));
         }
     };
     convert_to_python(py, raw)
@@ -57,7 +57,7 @@ pub fn from_filename_src(py: Python<'_>, filename: String) -> PyResult<Bound<'_,
         Err(e) => {
             return Err(PyRuntimeError::new_err(format!(
                 "Failed to read files: {e}"
-            )))
+            )));
         }
     };
     convert_to_python(py, raw)

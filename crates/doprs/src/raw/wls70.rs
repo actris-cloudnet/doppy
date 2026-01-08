@@ -32,27 +32,24 @@ pub fn from_filename_src(filename: String) -> Result<Wls70, RawParseError> {
 }
 
 pub fn from_filename_srcs(filenames: Vec<String>) -> Vec<Wls70> {
-    let results = filenames
+    filenames
         .par_iter()
         .filter_map(|filename| from_filename_src(filename.to_string()).ok())
-        .collect();
-    results
+        .collect()
 }
 
 pub fn from_file_srcs(files: Vec<&File>) -> Vec<Wls70> {
-    let results = files
+    files
         .par_iter()
         .filter_map(|file| from_file_src(file).ok())
-        .collect();
-    results
+        .collect()
 }
 
 pub fn from_bytes_srcs(contents: Vec<&[u8]>) -> Vec<Wls70> {
-    let results = contents
+    contents
         .par_iter()
         .filter_map(|content| from_bytes_src(content).ok())
-        .collect();
-    results
+        .collect()
 }
 
 enum Phase {
