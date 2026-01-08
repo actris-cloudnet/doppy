@@ -81,7 +81,7 @@ class Dataset:
         )
         var.units = units
         if mask is not None:
-            var[:] = np.ma.masked_array(data, mask)  # type: ignore
+            var[:] = np.ma.masked_array(data, mask)
         else:
             var[:] = data
         if standard_name is not None:
@@ -98,7 +98,6 @@ class Dataset:
         dtype: NetCDFDataType,
         standard_name: str | None = None,
         long_name: str | None = None,
-        mask: npt.NDArray[np.bool_] | None = None,
     ) -> Dataset:
         var = self.nc.createVariable(name, dtype)
         var.units = units

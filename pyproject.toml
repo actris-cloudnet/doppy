@@ -17,16 +17,14 @@ classifiers = [
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "License :: OSI Approved :: MIT License",
   "Intended Audience :: Science/Research",
   "Operating System :: OS Independent"
 ]
 dependencies = [
-  "requests",
-  "urllib3",
   "numpy",
   "netCDF4",
-  "matplotlib",
   "scikit-learn",
   "scipy",
 ]
@@ -38,19 +36,16 @@ dev = [
   "ruff",
   "pytest",
   "types-requests",
-  "py-spy",
   "maturin==1.8",
   "release-version",
   "pre-commit",
-  "xarray[io]",
-  "seaborn",
   "tomli",
   "aiohttp",
-  "tqdm"
+  "tqdm",
+  "requests",
+  "urllib3",
+  "matplotlib"
 ]
-
-[project.scripts]
-doppy = "doppy.__main__:app"
 
 [project.urls]
 Homepage = "https://github.com/actris-cloudnet/doppy"

@@ -2,15 +2,14 @@ import doppy
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
 from dataset import Dataset
 from matplotlib.axes import Axes
 
 
 def quick_dbq() -> None:
-    site = "leipzig"
-    date = "2024-05-24"
-    data = Dataset(site=site, date=date, instrument_type="doppler-lidar")
+    site = "warsaw"
+    date = "2026-01-01"
+    data = Dataset(site=site, date=date, instrument_type="Doppler lidar")
 
     paths = []
     paths_bg = []
@@ -66,7 +65,7 @@ def show(stare: doppy.product.Stare) -> None:
         vmin=-2,
         vmax=2,
         rasterized=True,
-        cmap=sns.color_palette("vlag", as_cmap=True),
+        cmap="coolwarm",
     )
     ax[2, 1].pcolormesh(
         stare.time,
@@ -75,7 +74,7 @@ def show(stare: doppy.product.Stare) -> None:
         vmin=-2,
         vmax=2,
         rasterized=True,
-        cmap=sns.color_palette("vlag", as_cmap=True),
+        cmap="coolwarm",
     )
 
     fig.set_size_inches(18, 10)
