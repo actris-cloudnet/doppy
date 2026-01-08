@@ -10,5 +10,5 @@ license-file = "LICENSE"
 
 
 [workspace.dependencies]
-ndarray = "0.16"
+ndarray = "0.17"
 numpy = {version = "0.21"}

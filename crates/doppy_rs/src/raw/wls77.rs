@@ -1,17 +1,22 @@
 use numpy::PyArray1;
 use pyo3::exceptions::PyRuntimeError;
 use pyo3::prelude::*;
+use pyo3::pybacked::PyBackedBytes;
 use pyo3::types::PyDict;
 
 #[pymodule]
-pub fn wls77(_py: Python, m: &PyModule) -> PyResult<()> {
+pub fn wls77(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(from_bytes_src, m)?)?;
     Ok(())
 }
 
 #[pyfunction]
-pub fn from_bytes_srcs<'a>(py: Python<'a>, contents: Vec<&'a [u8]>) -> PyResult<Vec<&'a PyDict>> {
-    let raws = doprs::raw::wls77::from_bytes_srcs(contents);
+pub fn from_bytes_srcs<'a>(
+    py: Python<'a>,
+    contents: Vec<PyBackedBytes>,
+) -> PyResult<Vec<Bound<'a, PyDict>>> {
+    let contents_refs: Vec<&[u8]> = contents.iter().map(|b| &**b).collect();
+    let raws = doprs::raw::wls77::from_bytes_srcs(contents_refs);
     let mut result = Vec::new();
     for raw in raws {
         result.push(convert_to_python(py, raw)?);
@@ -20,7 +25,7 @@ pub fn from_bytes_srcs<'a>(py: Python<'a>, contents: Vec<&'a [u8]>) -> PyResult<
 }
 
 #[pyfunction]
-pub fn from_bytes_src<'a>(py: Python<'a>, content: &'a [u8]) -> PyResult<&'a PyDict> {
+pub fn from_bytes_src<'a>(py: Python<'a>, content: &'a [u8]) -> PyResult<Bound<'a, PyDict>> {
     let raw = match doprs::raw::wls77::from_bytes_src(content) {
         Ok(raw) => raw,
         Err(e) => {
@@ -33,7 +38,10 @@ pub fn from_bytes_src<'a>(py: Python<'a>, content: &'a [u8]) -> PyResult<&'a PyD
 }
 
 #[pyfunction]
-pub fn from_filename_srcs(py: Python<'_>, filenames: Vec<String>) -> PyResult<Vec<&PyDict>> {
+pub fn from_filename_srcs(
+    py: Python<'_>,
+    filenames: Vec<String>,
+) -> PyResult<Vec<Bound<'_, PyDict>>> {
     let raws = doprs::raw::wls77::from_filename_srcs(filenames);
     let mut result = Vec::new();
     for raw in raws {
@@ -43,7 +51,7 @@ pub fn from_filename_srcs(py: Python<'_>, filenames: Vec<String>) -> PyResult<Ve
 }
 
 #[pyfunction]
-pub fn from_filename_src(py: Python<'_>, filename: String) -> PyResult<&PyDict> {
+pub fn from_filename_src(py: Python<'_>, filename: String) -> PyResult<Bound<'_, PyDict>> {
     let raw = match doprs::raw::wls77::from_filename_src(filename) {
         Ok(raw) => raw,
         Err(e) => {
@@ -55,8 +63,8 @@ pub fn from_filename_src(py: Python<'_>, filename: String) -> PyResult<&PyDict> 
     convert_to_python(py, raw)
 }
 
-fn convert_to_python(py: Python<'_>, raw: doprs::raw::wls77::Wls77) -> PyResult<&PyDict> {
-    let d = PyDict::new(py);
+fn convert_to_python(py: Python<'_>, raw: doprs::raw::wls77::Wls77) -> PyResult<Bound<'_, PyDict>> {
+    let d = PyDict::new_bound(py);
 
     let fields = [
         ("time", raw.time.as_slice()),

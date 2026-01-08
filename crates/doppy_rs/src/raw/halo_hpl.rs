@@ -1,10 +1,11 @@
 use numpy::ToPyArray;
 use pyo3::exceptions::PyRuntimeError;
 use pyo3::prelude::*;
+use pyo3::pybacked::PyBackedBytes;
 use pyo3::types::PyDict;
 
 #[pymodule]
-pub fn halo_hpl(_py: Python, m: &PyModule) -> PyResult<()> {
+pub fn halo_hpl(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(from_filename_srcs, m)?)?;
     m.add_function(wrap_pyfunction!(from_filename_src, m)?)?;
     m.add_function(wrap_pyfunction!(from_bytes_srcs, m)?)?;
@@ -15,9 +16,10 @@ pub fn halo_hpl(_py: Python, m: &PyModule) -> PyResult<()> {
 #[pyfunction]
 pub fn from_bytes_srcs<'a>(
     py: Python<'a>,
-    contents: Vec<&'a [u8]>,
-) -> PyResult<Vec<(&'a PyDict, &'a PyDict)>> {
-    let raws = doprs::raw::halo_hpl::from_bytes_srcs(contents);
+    contents: Vec<PyBackedBytes>,
+) -> PyResult<Vec<(Bound<'a, PyDict>, Bound<'a, PyDict>)>> {
+    let contents_refs: Vec<&[u8]> = contents.iter().map(|b| &**b).collect();
+    let raws = doprs::raw::halo_hpl::from_bytes_srcs(contents_refs);
     let mut result = Vec::new();
     for raw in raws {
         result.push(convert_to_pydicts(py, raw)?);
@@ -26,8 +28,12 @@ pub fn from_bytes_srcs<'a>(
 }
 
 #[pyfunction]
-pub fn from_bytes_src<'a>(py: Python<'a>, content: &'a [u8]) -> PyResult<(&'a PyDict, &'a PyDict)> {
-    let raw = match doprs::raw::halo_hpl::from_bytes_src(content) {
+pub fn from_bytes_src<'a>(
+    py: Python<'a>,
+    content: PyBackedBytes,
+) -> PyResult<(Bound<'a, PyDict>, Bound<'a, PyDict>)> {
+    let content_ref: &[u8] = &content;
+    let raw = match doprs::raw::halo_hpl::from_bytes_src(content_ref) {
         Ok(raw) => raw,
         Err(e) => {
             return Err(PyRuntimeError::new_err(format!(
@@ -42,7 +48,7 @@ pub fn from_bytes_src<'a>(py: Python<'a>, content: &'a [u8]) -> PyResult<(&'a Py
 pub fn from_filename_srcs(
     py: Python<'_>,
     filenames: Vec<String>,
-) -> PyResult<Vec<(&PyDict, &PyDict)>> {
+) -> PyResult<Vec<(Bound<'_, PyDict>, Bound<'_, PyDict>)>> {
     let raws = doprs::raw::halo_hpl::from_filename_srcs(filenames);
     let mut result = Vec::new();
     for raw in raws {
@@ -52,7 +58,10 @@ pub fn from_filename_srcs(
 }
 
 #[pyfunction]
-pub fn from_filename_src(py: Python<'_>, filename: String) -> PyResult<(&PyDict, &PyDict)> {
+pub fn from_filename_src(
+    py: Python<'_>,
+    filename: String,
+) -> PyResult<(Bound<'_, PyDict>, Bound<'_, PyDict>)> {
     let raw = match doprs::raw::halo_hpl::from_filename_src(filename) {
         Ok(raw) => raw,
         Err(e) => {
@@ -67,11 +76,11 @@ pub fn from_filename_src(py: Python<'_>, filename: String) -> PyResult<(&PyDict,
 fn convert_to_pydicts(
     py: Python<'_>,
     raw: doprs::raw::halo_hpl::HaloHpl,
-) -> PyResult<(&PyDict, &PyDict)> {
+) -> PyResult<(Bound<'_, PyDict>, Bound<'_, PyDict>)> {
     let info = raw.info;
     let data = raw.data;
-    let info_dict = PyDict::new(py);
-    let data_dict = PyDict::new(py);
+    let info_dict = PyDict::new_bound(py);
+    let data_dict = PyDict::new_bound(py);
     info_dict.set_item("filename", info.filename)?;
     info_dict.set_item("gate_points", info.gate_points)?;
     info_dict.set_item("nrays", info.nrays)?;

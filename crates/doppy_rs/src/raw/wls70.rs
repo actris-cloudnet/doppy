@@ -1,12 +1,17 @@
 use numpy::{PyArray1, ToPyArray};
 use pyo3::exceptions::PyRuntimeError;
 use pyo3::prelude::*;
+use pyo3::pybacked::PyBackedBytes;
 use pyo3::types::{PyDict, PyList};
 
-type PyReturnType<'a> = (&'a PyDict, &'a PyList, Bound<'a, PyArray1<f64>>);
+type PyReturnType<'a> = (
+    Bound<'a, PyDict>,
+    Bound<'a, PyList>,
+    Bound<'a, PyArray1<f64>>,
+);
 
 #[pymodule]
-pub fn wls70(_py: Python, m: &PyModule) -> PyResult<()> {
+pub fn wls70(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(from_filename_srcs, m)?)?;
     m.add_function(wrap_pyfunction!(from_filename_src, m)?)?;
     m.add_function(wrap_pyfunction!(from_bytes_srcs, m)?)?;
@@ -17,9 +22,10 @@ pub fn wls70(_py: Python, m: &PyModule) -> PyResult<()> {
 #[pyfunction]
 pub fn from_bytes_srcs<'a>(
     py: Python<'a>,
-    contents: Vec<&'a [u8]>,
+    contents: Vec<PyBackedBytes>,
 ) -> PyResult<Vec<PyReturnType<'a>>> {
-    let raws = doprs::raw::wls70::from_bytes_srcs(contents);
+    let contents_refs: Vec<&[u8]> = contents.iter().map(|b| &**b).collect();
+    let raws = doprs::raw::wls70::from_bytes_srcs(contents_refs);
     let mut result = Vec::new();
     for raw in raws {
         result.push(convert_to_python(py, raw)?);
@@ -64,7 +70,7 @@ pub fn from_filename_src(py: Python, filename: String) -> PyResult<PyReturnType>
 }
 
 fn convert_to_python(py: Python, raw: doprs::raw::wls70::Wls70) -> PyResult<PyReturnType> {
-    let info_dict = PyDict::new(py);
+    let info_dict = PyDict::new_bound(py);
     info_dict.set_item(
         "altitude",
         raw.info.altitude.as_slice().to_pyarray_bound(py),
@@ -73,7 +79,7 @@ fn convert_to_python(py: Python, raw: doprs::raw::wls70::Wls70) -> PyResult<PyRe
     info_dict.set_item("cnr_threshold", raw.info.cnr_threshold)?;
     Ok((
         info_dict,
-        PyList::new(py, raw.data_columns),
+        PyList::new_bound(py, raw.data_columns),
         raw.data.as_slice().to_pyarray_bound(py),
     ))
 }
