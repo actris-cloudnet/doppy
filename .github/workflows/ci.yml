@@ -48,8 +48,8 @@ jobs:
           set -e
           python3 -m venv .venv
           source .venv/bin/activate
-          pip install doppy --find-links dist --force-reinstall
-          pip install pytest
+          pip install doppy[dev] --find-links dist --force-reinstall
+          pip install pytest requests urllib3
           pytest
 
   windows:

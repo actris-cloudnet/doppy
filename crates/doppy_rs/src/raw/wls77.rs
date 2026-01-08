@@ -78,7 +78,7 @@ fn convert_to_python(py: Python<'_>, raw: doprs::raw::wls77::Wls77) -> PyResult<
     ];
 
     for (key, value) in fields {
-        d.set_item(key, PyArray1::from_slice(py, value.unwrap()))?;
+        d.set_item(key, PyArray1::from_slice_bound(py, value.unwrap()))?;
     }
 
     d.set_item("cnr_threshold", raw.cnr_threshold)?;

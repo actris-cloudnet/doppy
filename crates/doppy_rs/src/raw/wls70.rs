@@ -3,7 +3,7 @@ use pyo3::exceptions::PyRuntimeError;
 use pyo3::prelude::*;
 use pyo3::types::{PyDict, PyList};
 
-type PyReturnType<'a> = (&'a PyDict, &'a PyList, &'a PyArray1<f64>);
+type PyReturnType<'a> = (&'a PyDict, &'a PyList, Bound<'a, PyArray1<f64>>);
 
 #[pymodule]
 pub fn wls70(_py: Python, m: &PyModule) -> PyResult<()> {
@@ -65,12 +65,15 @@ pub fn from_filename_src(py: Python, filename: String) -> PyResult<PyReturnType>
 
 fn convert_to_python(py: Python, raw: doprs::raw::wls70::Wls70) -> PyResult<PyReturnType> {
     let info_dict = PyDict::new(py);
-    info_dict.set_item("altitude", raw.info.altitude.as_slice().to_pyarray(py))?;
+    info_dict.set_item(
+        "altitude",
+        raw.info.altitude.as_slice().to_pyarray_bound(py),
+    )?;
     info_dict.set_item("system_id", raw.info.system_id)?;
     info_dict.set_item("cnr_threshold", raw.info.cnr_threshold)?;
     Ok((
         info_dict,
         PyList::new(py, raw.data_columns),
-        raw.data.as_slice().to_pyarray(py),
+        raw.data.as_slice().to_pyarray_bound(py),
     ))
 }
