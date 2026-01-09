@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.10 – 2026-01-09
+
+- update pyo3 and rust edition
+
 ## 0.5.9 – 2025-12-03
 
 - Fix stare raw selection
