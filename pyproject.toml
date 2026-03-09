@@ -36,7 +36,7 @@ dev = [
   "ruff",
   "pytest",
   "types-requests",
-  "maturin==1.8",
+  "maturin",
   "release-version",
   "pre-commit",
   "tomli",

@@ -23,6 +23,7 @@ share/python-wheels/
 *.egg
 
 *.so
+*.dSYM/
 target/
 
 cache/
