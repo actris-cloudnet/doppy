@@ -1,0 +1,1332 @@
+# tests-legacy.toml
+# Migrated from pytest test suite. Each [[section]] is one parametrized test case.
+# Handler dispatch is by section name (e.g., "raw.halo_hpl" -> handler).
+
+# ── Raw: HALO HPL ────────────────────────────────────────────────────
+
+[[raw.halo_hpl]]
+id = "g6h9qj"
+site = "bucharest"
+date = "2021-02-04"
+filename = "Stare_158_20210204_05.hpl"
+uuid = "9d246099-6660-45a8-92cf-4ddcc894f386"
+reason = "incomplete profile/file (lines 8840-8869)"
+expect = { len_intensity = 8800 }
+
+[[raw.halo_hpl]]
+id = "1ob793"
+site = "bucharest"
+date = "2021-02-07"
+filename = "Stare_158_20210207_20.hpl"
+uuid = "890e09af-09eb-4217-ac08-ffe98852a860"
+reason = "incomplete profile/line/file (line: 42478, last number is just '-' )"
+expect = { len_intensity = 42000 }
+
+[[raw.halo_hpl]]
+id = "blishz"
+site = "granada"
+date = "2019-05-23"
+filename = "Stare_102_20190523_05.hpl"
+uuid = "02e12e15-fee1-4c41-a97d-255c9fee8293"
+reason = "null characters in file (line 255174)"
+expect = { len_intensity = 692973 }
+
+[[raw.halo_hpl]]
+id = "zeml3z"
+site = "hyytiala"
+date = "2022-01-15"
+filename = "Stare_46_20220115_23.hpl"
+uuid = "f3af0ede-17d4-4d34-86cc-ee7e62986e1a"
+reason = "no pitch and roll"
+expect = { len_intensity = 40640 }
+
+[[raw.halo_hpl]]
+id = "v7irwt"
+site = "leipzig"
+date = "2022-07-17"
+filename = "Stare_91_20220717_19.hpl"
+uuid = "e1859930-9278-48f7-a62b-505e09546023"
+reason = "header with 'No. of rays in file' and incomplete profile (line 241229)"
+expect = { len_intensity = 240250 }
+
+[[raw.halo_hpl]]
+id = "oz36m5"
+site = "potenza"
+date = "2023-10-15"
+filename = "Stare_194_20231015_07.hpl"
+uuid = "fd80e5b4-78fb-4e00-9a0c-34b7806c02e6"
+reason = "header with 'Range of measurement' instead of Altitude. Instrument spectral width on header divider line"
+expect = { len_intensity = 382400 }
+
+[[raw.halo_hpl]]
+id = "er32n3"
+site = "soverato"
+date = "2021-06-29"
+filename = "Stare_194_20210629_03.hpl"
+uuid = "a6524573-605d-481d-8c8b-e3257b0d5b8f"
+reason = "Spectral Width on data line 2"
+expect = { len_intensity = 526000 }
+
+[[raw.halo_hpl]]
+id = "wednve"
+site = "granada"
+date = "2023-04-25"
+filename = "User3_258_20230425_025358.hpl"
+uuid = "1a8ec409-7a2a-4c7f-9e59-9858d1d00b83"
+reason = "header with 'No. of waypoints in file'"
+expect = { len_intensity = 508158 }
+
+[[raw.halo_hpl]]
+id = "69e3x9"
+site = "granada"
+date = "2023-03-18"
+filename = "Stare_258_20230318_09.hpl"
+uuid = "d8c21845-38df-4261-916b-6b8d6a69d6c2"
+reason = "Trailing incomplete profile"
+expect = { len_intensity = 16983 }
+
+[[raw.halo_hpl]]
+id = "01o38u"
+site = "chilbolton"
+date = "2024-02-05"
+filename = "Stare_118_20240205_23.hpl"
+uuid = "8e0eb3ef-0ad2-4a0f-af23-9376a00bb0fa"
+reason = "Timestamp overflow"
+expect = { len_intensity = 116800 }
+
+# ── Raw: HALO HPL Bad ────────────────────────────────────────────────
+
+[[raw.halo_hpl_bad]]
+id = "lbquip"
+site = "warsaw"
+date = "2021-10-04"
+filename = "Stare_213_20211004_08.hpl"
+uuid = "95d17473-a6b4-4c19-b216-73310ba21821"
+reason = "Number of gates changes mid file"
+expect_error = "RawParsingError"
+
+[[raw.halo_hpl_bad]]
+id = "d7to4h"
+site = "bucharest"
+date = "2019-07-16"
+filename = "Stare_158_20190716_14.hpl"
+uuid = "a5023d87-0128-40dc-9f2c-e257e6861e71"
+reason = "Header but no data"
+expect_error = "RawParsingError"
+
+[[raw.halo_hpl_bad]]
+id = "ualzhv"
+site = "hyytiala"
+date = "2022-12-26"
+filename = "Stare_46_20221226_04.hpl"
+uuid = "88780818-bb7b-449a-953c-feff6bba0090"
+reason = "Number of gates changes mid file"
+expect_error = "RawParsingError"
+
+[[raw.halo_hpl_bad]]
+id = "qpuynd"
+site = "hyytiala"
+date = "2022-12-26"
+filename = "Stare_46_20221226_04.hpl"
+uuid = "dc1a6f54-1ed0-4b65-abd6-ebbd90f1679a"
+reason = "No header, incomplete profiles"
+expect_error = "RawParsingError"
+
+# ── Raw: HALO HPL Merge ──────────────────────────────────────────────
+
+[[raw.halo_hpl_merge]]
+id = "ti3uat"
+site = "warsaw"
+date = "2023-11-01"
+prefix = "Stare"
+suffix = ".hpl"
+reason = "Normal Stare files"
+slow = true
+
+[[raw.halo_hpl_merge]]
+id = "aojcyw"
+site = "chilbolton"
+date = "2024-01-27"
+prefix = "Stare"
+suffix = ".hpl"
+reason = "TODO: Check why last hour is missing"
+slow = true
+
+# ── Raw: HALO Background ─────────────────────────────────────────────
+
+[[raw.halo_bg]]
+id = "a5rz7t"
+site = "warsaw"
+date = "2022-12-13"
+filename = "Background_131222-010016.txt"
+reason = "Normal bg file"
+
+[[raw.halo_bg]]
+id = "e5wgyp"
+site = "hyytiala"
+date = "2023-09-22"
+filename = "Background_220923-130016.txt"
+reason = "Bg file without newlines"
+
+# ── Raw: HALO Background Bad ─────────────────────────────────────────
+
+[[raw.halo_bg_bad]]
+id = "ncrepv"
+site = "hyytiala"
+date = "2022-12-26"
+filename = "Background_261222-050029.txt"
+reason = "Measurement data in bg file"
+expect_error = "RawParsingError"
+
+# ── Raw: HALO Background Some Bad ────────────────────────────────────
+
+[[raw.halo_bg_some_bad]]
+id = "0pfn3h"
+site = "hyytiala"
+date = "2022-12-26"
+reason = "Measurement data in bg file"
+
+# ── Raw: HALO System Parameters ──────────────────────────────────────
+
+[[raw.halo_sys_params]]
+id = "c8gf7m"
+site = "warsaw"
+date = "2023-12-30"
+filename = "system_parameters_213_202312.txt"
+uuid = "fc6a3359-75f3-4625-b0e4-4f404e1d6c5d"
+reason = "File with 12H timestamp"
+expect = { len_time = 22227 }
+
+[[raw.halo_sys_params]]
+id = "xmqd9d"
+site = "potenza"
+date = "2023-11-27"
+filename = "system_parameters_194_202311.txt"
+uuid = "dcf5bb20-6ae8-43c7-8937-6a83cebf44be"
+reason = "File with 24H timestamp"
+expect = { len_time = 20873 }
+
+[[raw.halo_sys_params]]
+id = "d899il"
+site = "granada"
+date = "2023-02-01"
+filename = "system_parameters_258_202302.txt"
+uuid = "ef32a9a1-30ec-4142-b805-994f287132f7"
+reason = "File with 12H and 24H timestamp"
+expect = { len_time = 19450 }
+
+[[raw.halo_sys_params]]
+id = "naej2z"
+site = "potenza"
+date = "2023-12-27"
+filename = "system_parameters_194_202312.txt"
+uuid = "f50243e4-63f9-42eb-8e9f-70006c892ddc"
+reason = "File with decimal , and ."
+expect = { len_time = 20019 }
+
+[[raw.halo_sys_params]]
+id = "hciywm"
+site = "granada"
+date = "2023-07-01"
+filename = "system_parameters_258_202307.txt"
+uuid = "4eeb4a8c-8e58-4124-9b3e-57e949afaf63"
+reason = "File null chars"
+expect = { len_time = 6 }
+
+[[raw.halo_sys_params]]
+id = "hz3wgl"
+site = "chilbolton"
+date = "2019-01-01"
+filename = "system_parameters_118_201903.txt"
+uuid = "87211312-0259-4000-826e-a65a54da945b"
+reason = "Trailing tab chars, zero column, concatenated floats"
+expect = { len_time = 22018 }
+
+# ── Raw: HALO System Parameters All ──────────────────────────────────
+
+[[raw.halo_sys_params_all]]
+id = "l5ok5s"
+reason = "Parse all system parameter files from all sites"
+slow = true
+
+# ── Raw: WindCube ─────────────────────────────────────────────────────
+
+[[raw.windcube]]
+id = "wl1bdb"
+site = "payerne"
+date = "2024-02-02"
+ftype = "dbs"
+slow = true
+
+[[raw.windcube]]
+id = "7t3p5q"
+site = "payerne"
+date = "2024-01-01"
+ftype = "ppi"
+slow = true
+
+[[raw.windcube]]
+id = "3dsotw"
+site = "payerne"
+date = "2024-01-01"
+ftype = "vad"
+slow = true
+
+[[raw.windcube]]
+id = "ogdnc1"
+site = "payerne"
+date = "2024-01-01"
+ftype = "fixed"
+slow = true
+
+[[raw.windcube]]
+id = "wsnkrg"
+site = "cabauw"
+date = "2024-03-01"
+ftype = "dbs"
+reason = "time reference in root dataset"
+slow = true
+
+[[raw.windcube]]
+id = "2hgixq"
+site = "cabauw"
+date = "2024-01-01"
+ftype = "dbs"
+reason = "time regerence in sweep group dataset"
+slow = true
+
+# ── Raw: WindCube Bad ─────────────────────────────────────────────────
+
+[[raw.windcube_bad]]
+id = "q1vcio"
+site = "payerne"
+date = "2024-01-01"
+ftype = "dbs"
+expect_error = "EOFError"
+slow = true
+
+# ── Product: Stare ────────────────────────────────────────────────────
+
+[[product.stare]]
+id = "3iatsw"
+site = "bucharest"
+date = "2021-02-18"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "wwf4se"
+site = "bucharest"
+date = "2021-02-17"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "wpwflu"
+site = "bucharest"
+date = "2021-02-16"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "hlrcvd"
+site = "chilbolton"
+date = "2023-11-01"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "4mkzqd"
+site = "eriswil"
+date = "2023-11-30"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "kj3e8x"
+site = "granada"
+date = "2023-07-17"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "6d5eyc"
+site = "hyytiala"
+date = "2023-09-20"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "n2wy45"
+site = "juelich"
+date = "2023-11-01"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "x2kprw"
+site = "kenttarova"
+date = "2023-11-01"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "j79aau"
+site = "leipzig"
+date = "2023-10-12"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "m75bzm"
+site = "lindenberg"
+date = "2024-02-08"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "tkg9ug"
+site = "mindelo"
+date = "2023-11-01"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "rexwgf"
+site = "mindelo"
+date = "2023-11-02"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "muunj5"
+site = "mindelo"
+date = "2023-11-03"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "fh4353"
+site = "potenza"
+date = "2023-10-28"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "haii5y"
+site = "punta-arenas"
+date = "2021-11-29"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "z7ir0e"
+site = "soverato"
+date = "2021-09-06"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "z54www"
+site = "vehmasmaki"
+date = "2022-12-30"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "vhiafc"
+site = "warsaw"
+date = "2023-11-01"
+source = "halo"
+slow = true
+
+[[product.stare]]
+id = "1nchzj"
+site = "hyytiala"
+date = "2024-01-29"
+source = "halo"
+reason = "some files have problems => skip them"
+slow = true
+
+[[product.stare]]
+id = "rhkpil"
+site = "neumayer"
+date = "2024-02-01"
+source = "halo"
+reason = "elevation angle 89"
+slow = true
+
+[[product.stare]]
+id = "pcdh6r"
+site = "potenza"
+date = "2024-02-05"
+source = "halo"
+reason = "k-means error"
+slow = true
+
+[[product.stare]]
+id = "6si945"
+site = "neumayer"
+date = "2024-01-30"
+source = "halo"
+reason = "cannot merge header: Gate length (pts) changes"
+slow = true
+
+[[product.stare]]
+id = "ikcqrg"
+site = "mindelo"
+date = "2024-04-17"
+source = "halo"
+reason = "nans in data"
+slow = true
+
+# Stare from WindCube
+
+[[product.stare]]
+id = "548gve"
+site = "cabauw"
+date = "2023-08-26"
+source = "windcube"
+slow = true
+
+[[product.stare]]
+id = "7rx148"
+site = "cabauw"
+date = "2021-07-29"
+source = "windcube"
+reason = "first"
+slow = true
+
+[[product.stare]]
+id = "w52ob1"
+site = "cabauw"
+date = "2021-11-09"
+source = "windcube"
+slow = true
+
+[[product.stare]]
+id = "ukjn2r"
+site = "cabauw"
+date = "2022-02-12"
+source = "windcube"
+slow = true
+
+[[product.stare]]
+id = "8ke3nn"
+site = "cabauw"
+date = "2022-03-04"
+source = "windcube"
+slow = true
+
+[[product.stare]]
+id = "664nhi"
+site = "cabauw"
+date = "2022-04-12"
+source = "windcube"
+slow = true
+
+[[product.stare]]
+id = "bo6d6w"
+site = "cabauw"
+date = "2022-10-13"
+source = "windcube"
+slow = true
+
+[[product.stare]]
+id = "ppg11d"
+site = "cabauw"
+date = "2024-09-10"
+source = "windcube"
+reason = "last"
+slow = true
+
+[[product.stare]]
+id = "ysm923"
+site = "payerne"
+date = "2024-09-23"
+source = "windcube"
+reason = "Some weird stripes"
+slow = true
+
+[[product.stare]]
+id = "jlyiup"
+site = "payerne"
+date = "2021-07-01"
+source = "windcube"
+reason = "first"
+slow = true
+
+[[product.stare]]
+id = "ceme9n"
+site = "payerne"
+date = "2021-07-29"
+source = "windcube"
+reason = "radial distance shape changes"
+slow = true
+
+[[product.stare]]
+id = "0t0qyh"
+site = "payerne"
+date = "2022-02-03"
+source = "windcube"
+slow = true
+
+[[product.stare]]
+id = "p79bal"
+site = "payerne"
+date = "2022-05-25"
+source = "windcube"
+slow = true
+
+[[product.stare]]
+id = "xkwsjg"
+site = "payerne"
+date = "2022-09-30"
+source = "windcube"
+slow = true
+
+[[product.stare]]
+id = "7p6pwy"
+site = "payerne"
+date = "2023-12-07"
+source = "windcube"
+slow = true
+
+[[product.stare]]
+id = "tw5b5e"
+site = "payerne"
+date = "2024-11-27"
+source = "windcube"
+reason = "last"
+slow = true
+
+# ── Product: Stare Bad ────────────────────────────────────────────────
+
+[[product.stare_bad]]
+id = "xmosl7"
+site = "warsaw"
+date = "2024-02-03"
+expect_error = "NoDataError"
+reason = "Missing bg files"
+slow = true
+
+[[product.stare_bad]]
+id = "du98vc"
+site = "chilbolton"
+date = "2016-12-14"
+expect_error = "NoDataError"
+reason = "No matching data and bg files"
+slow = true
+
+# ── Product: Stare System ID ─────────────────────────────────────────
+
+[[product.stare_system_id]]
+id = "srdpxt"
+site = "chilbolton"
+date = "2024-05-06"
+expect = { system_id = "118" }
+slow = true
+
+# ── Product: Stare NetCDF ────────────────────────────────────────────
+
+[[product.stare_netcdf]]
+id = "fnt7i6"
+site = "warsaw"
+date = "2023-11-01"
+slow = true
+
+# ── Product: Wind ────────────────────────────────────────────────────
+
+[[product.wind]]
+id = "wlmkne"
+site = "lindenberg"
+date = "2024-02-08"
+source = "halo"
+slow = true
+
+[[product.wind]]
+id = "uxuve2"
+site = "warsaw"
+date = "2023-11-02"
+source = "halo"
+reason = "unexpected scan time difference"
+slow = true
+
+[[product.wind]]
+id = "40pg80"
+site = "lindenberg"
+date = "2023-12-13"
+source = "halo"
+reason = "handle header merge"
+slow = true
+
+[[product.wind]]
+id = "0d52tj"
+site = "neumayer"
+date = "2024-01-30"
+source = "halo"
+reason = "handle header merge"
+slow = true
+
+[[product.wind]]
+id = "xi3ndk"
+site = "mindelo"
+date = "2023-10-23"
+source = "halo"
+reason = "unexpected scan time difference"
+slow = true
+
+[[product.wind]]
+id = "drlml7"
+site = "hyytiala"
+date = "2023-12-13"
+source = "halo"
+reason = "unexpected scan time difference"
+slow = true
+
+[[product.wind]]
+id = "s7wcpp"
+site = "warsaw"
+date = "2023-06-15"
+source = "halo"
+reason = "header merge"
+slow = true
+
+[[product.wind]]
+id = "u2b4pj"
+site = "warsaw"
+date = "2023-06-19"
+source = "halo"
+reason = "header merge"
+slow = true
+
+[[product.wind]]
+id = "ummheo"
+site = "neumayer"
+date = "2024-01-16"
+source = "halo"
+reason = "header merge"
+slow = true
+
+[[product.wind]]
+id = "i3bt3t"
+site = "hyytiala"
+date = "2024-01-01"
+source = "halo"
+reason = "ignore scans with small elevation angle"
+slow = true
+
+[[product.wind]]
+id = "92ikg5"
+site = "potenza"
+date = "2023-12-06"
+source = "halo"
+slow = true
+
+# Wind from WLS70
+
+[[product.wind]]
+id = "nsuvvv"
+site = "palaiseau"
+date = "2024-05-01"
+source = "wls70"
+reason = "newer file format"
+slow = true
+
+[[product.wind]]
+id = "3980qj"
+site = "palaiseau"
+date = "2012-01-01"
+source = "wls70"
+reason = "older file format"
+slow = true
+
+# ── Product: Wind With Options ────────────────────────────────────────
+
+[[product.wind_with_options]]
+id = "lod7b7"
+site = "lindenberg"
+date = "2024-02-08"
+source = "halo"
+slow = true
+
+[product.wind_with_options.options]
+azimuth_offset_deg = 30
+
+# ── Product: Wind Bad ────────────────────────────────────────────────
+
+[[product.wind_bad]]
+id = "jufahv"
+site = "kenttarova"
+date = "2023-03-01"
+source = "halo"
+expect_error = "NoDataError"
+reason = "only scans with elevation angle 0"
+slow = true
+
+# ── Product: WindCube Wind ────────────────────────────────────────────
+
+[[product.windcube_wind]]
+id = "9n6e67"
+site = "payerne"
+date = "2024-01-01"
+ftype = "vad"
+slow = true
+
+[[product.windcube_wind]]
+id = "mmctxk"
+site = "payerne"
+date = "2023-06-13"
+ftype = "vad"
+slow = true
+
+[[product.windcube_wind]]
+id = "xwba85"
+site = "payerne"
+date = "2022-01-02"
+ftype = "vad"
+reason = "time_reference in nc time units"
+slow = true
+
+[[product.windcube_wind]]
+id = "hwx24c"
+site = "cabauw"
+date = "2024-10-04"
+ftype = "dbs"
+slow = true
+
+# ── Product: WindCube Wind Mixed ──────────────────────────────────────
+
+[[product.windcube_wind_mixed]]
+id = "eo1pr6"
+site = "cabauw"
+date = "2024-10-10"
+ftype = "dbs"
+reason = "'63_100m', '65_100m' with different time resolutions"
+slow = true
+
+# ── Product: WindCube Wind Mixed Bad ──────────────────────────────────
+
+[[product.windcube_wind_mixed_bad]]
+id = "smpnm6"
+site = "payerne"
+date = "2021-07-07"
+ftype = "dbs"
+expect_error = "ValueError"
+reason = "groups: '264_50m', '270_100m', '280_100m'"
+slow = true
+
+# ── Product: Wind System ID ──────────────────────────────────────────
+
+[[product.wind_system_id]]
+id = "1sy6z3"
+site = "lindenberg"
+date = "2024-02-08"
+source = "halo"
+expect = { system_id = "44" }
+slow = true
+
+[[product.wind_system_id]]
+id = "erofp0"
+site = "payerne"
+date = "2024-01-01"
+source = "windcube"
+expect = { system_id = "WLS200s-197" }
+slow = true
+
+[[product.wind_system_id]]
+id = "sl045c"
+site = "palaiseau"
+date = "2024-05-01"
+source = "wls70"
+expect = { system_id = "WLS70-10" }
+slow = true
+
+# ── Product: StareDepol ───────────────────────────────────────────────
+
+[[product.stare_depol]]
+id = "68b063"
+site = "vehmasmaki"
+date = "2021-01-02"
+slow = true
+
+[[product.stare_depol]]
+id = "4idwu2"
+site = "vehmasmaki"
+date = "2021-06-30"
+slow = true
+
+[[product.stare_depol]]
+id = "75n0gn"
+site = "hyytiala"
+date = "2022-12-26"
+reason = "Should ignore the bad files"
+slow = true
+
+# ── Product: StareDepol Bad ───────────────────────────────────────────
+
+[[product.stare_depol_bad]]
+id = "cpj7m0"
+site = "hyytiala"
+date = "2024-06-13"
+expect_error = "ShapeError"
+reason = "operands could not be broadcast together with shapes (320,) (160,)"
+slow = true
+
+# ── Product: Turbulence ──────────────────────────────────────────────
+
+[[product.turbulence]]
+id = "aiwcgj"
+site = "bucharest"
+date = "2019-11-30"
+slow = true
+
+[[product.turbulence]]
+id = "o3ukk6"
+site = "bucharest"
+date = "2020-10-24"
+slow = true
+
+[[product.turbulence]]
+id = "8og1bx"
+site = "bucharest"
+date = "2024-03-08"
+slow = true
+
+[[product.turbulence]]
+id = "bt7ejb"
+site = "bucharest"
+date = "2024-06-28"
+slow = true
+
+[[product.turbulence]]
+id = "12ett9"
+site = "bucharest"
+date = "2024-10-16"
+slow = true
+
+[[product.turbulence]]
+id = "cn4ut9"
+site = "chilbolton"
+date = "2017-11-29"
+slow = true
+
+[[product.turbulence]]
+id = "8fmmsd"
+site = "chilbolton"
+date = "2019-06-17"
+slow = true
+
+[[product.turbulence]]
+id = "1q218z"
+site = "chilbolton"
+date = "2021-02-07"
+slow = true
+
+[[product.turbulence]]
+id = "mrz6rj"
+site = "chilbolton"
+date = "2022-06-06"
+slow = true
+
+[[product.turbulence]]
+id = "lmdoi1"
+site = "chilbolton"
+date = "2022-06-27"
+slow = true
+
+[[product.turbulence]]
+id = "ag28er"
+site = "eriswil"
+date = "2023-01-07"
+slow = true
+
+[[product.turbulence]]
+id = "yutva8"
+site = "eriswil"
+date = "2023-11-28"
+slow = true
+
+[[product.turbulence]]
+id = "de86lg"
+site = "eriswil"
+date = "2023-12-23"
+slow = true
+
+[[product.turbulence]]
+id = "z1ouu1"
+site = "eriswil"
+date = "2024-01-10"
+slow = true
+
+[[product.turbulence]]
+id = "ln4slg"
+site = "eriswil"
+date = "2024-02-27"
+slow = true
+
+[[product.turbulence]]
+id = "psurib"
+site = "granada"
+date = "2019-05-23"
+slow = true
+
+[[product.turbulence]]
+id = "1x5ya2"
+site = "granada"
+date = "2021-09-10"
+slow = true
+
+[[product.turbulence]]
+id = "v74jz5"
+site = "granada"
+date = "2021-12-09"
+slow = true
+
+[[product.turbulence]]
+id = "eajrxl"
+site = "granada"
+date = "2022-09-10"
+slow = true
+
+[[product.turbulence]]
+id = "ttkcs3"
+site = "granada"
+date = "2023-06-16"
+slow = true
+
+[[product.turbulence]]
+id = "hfv4tb"
+site = "hyytiala"
+date = "2022-11-07"
+slow = true
+
+[[product.turbulence]]
+id = "pn9mt2"
+site = "hyytiala"
+date = "2023-07-06"
+slow = true
+
+[[product.turbulence]]
+id = "80rdby"
+site = "hyytiala"
+date = "2023-09-13"
+slow = true
+
+[[product.turbulence]]
+id = "ky69kl"
+site = "hyytiala"
+date = "2023-12-12"
+slow = true
+
+[[product.turbulence]]
+id = "bjwwoc"
+site = "hyytiala"
+date = "2024-03-26"
+slow = true
+
+[[product.turbulence]]
+id = "8kxjh2"
+site = "juelich"
+date = "2023-05-04"
+slow = true
+
+[[product.turbulence]]
+id = "qalbzz"
+site = "juelich"
+date = "2024-01-16"
+slow = true
+
+[[product.turbulence]]
+id = "4tjgk8"
+site = "juelich"
+date = "2024-04-11"
+slow = true
+
+[[product.turbulence]]
+id = "q93k8p"
+site = "juelich"
+date = "2024-05-10"
+slow = true
+
+[[product.turbulence]]
+id = "xnniok"
+site = "juelich"
+date = "2024-11-26"
+slow = true
+
+[[product.turbulence]]
+id = "yb4cwi"
+site = "kenttarova"
+date = "2023-01-17"
+slow = true
+
+[[product.turbulence]]
+id = "o5qbvb"
+site = "kenttarova"
+date = "2023-05-29"
+slow = true
+
+[[product.turbulence]]
+id = "noxfss"
+site = "kenttarova"
+date = "2023-09-02"
+slow = true
+
+[[product.turbulence]]
+id = "43y8ib"
+site = "kenttarova"
+date = "2023-10-04"
+slow = true
+
+[[product.turbulence]]
+id = "sv0mcn"
+site = "kenttarova"
+date = "2023-12-15"
+slow = true
+
+[[product.turbulence]]
+id = "s6ldjz"
+site = "leipzig"
+date = "2022-04-13"
+slow = true
+
+[[product.turbulence]]
+id = "jpenaq"
+site = "leipzig"
+date = "2022-11-01"
+slow = true
+
+[[product.turbulence]]
+id = "4lf0i2"
+site = "leipzig"
+date = "2022-11-15"
+slow = true
+
+[[product.turbulence]]
+id = "nrwx2d"
+site = "leipzig"
+date = "2023-05-23"
+slow = true
+
+[[product.turbulence]]
+id = "rzjhco"
+site = "leipzig"
+date = "2024-10-27"
+slow = true
+
+[[product.turbulence]]
+id = "49dhul"
+site = "lindenberg"
+date = "2024-05-06"
+slow = true
+
+[[product.turbulence]]
+id = "9jrn9n"
+site = "lindenberg"
+date = "2024-05-26"
+slow = true
+
+[[product.turbulence]]
+id = "l9tp0p"
+site = "lindenberg"
+date = "2024-06-22"
+slow = true
+
+[[product.turbulence]]
+id = "b4hapb"
+site = "lindenberg"
+date = "2024-07-06"
+slow = true
+
+[[product.turbulence]]
+id = "qpi3kh"
+site = "lindenberg"
+date = "2024-11-08"
+slow = true
+
+[[product.turbulence]]
+id = "rln4c8"
+site = "mindelo"
+date = "2023-02-08"
+slow = true
+
+[[product.turbulence]]
+id = "wp5txz"
+site = "mindelo"
+date = "2023-11-05"
+slow = true
+
+[[product.turbulence]]
+id = "huzpd7"
+site = "mindelo"
+date = "2024-05-14"
+slow = true
+
+[[product.turbulence]]
+id = "5abae2"
+site = "mindelo"
+date = "2024-10-10"
+slow = true
+
+[[product.turbulence]]
+id = "ycfnml"
+site = "mindelo"
+date = "2024-10-27"
+slow = true
+
+[[product.turbulence]]
+id = "btvbfn"
+site = "neumayer"
+date = "2024-01-13"
+slow = true
+
+[[product.turbulence]]
+id = "ufrav1"
+site = "neumayer"
+date = "2024-01-28"
+slow = true
+
+[[product.turbulence]]
+id = "rp2rr8"
+site = "neumayer"
+date = "2024-02-15"
+slow = true
+
+[[product.turbulence]]
+id = "llaivl"
+site = "neumayer"
+date = "2024-03-03"
+slow = true
+
+[[product.turbulence]]
+id = "lvqe9s"
+site = "neumayer"
+date = "2024-04-16"
+slow = true
+
+[[product.turbulence]]
+id = "y5i6oc"
+site = "potenza"
+date = "2023-10-13"
+slow = true
+
+[[product.turbulence]]
+id = "05zf0y"
+site = "punta-arenas"
+date = "2019-01-05"
+slow = true
+
+[[product.turbulence]]
+id = "sz46sp"
+site = "punta-arenas"
+date = "2021-01-22"
+slow = true
+
+[[product.turbulence]]
+id = "34s9bt"
+site = "punta-arenas"
+date = "2021-01-30"
+slow = true
+
+[[product.turbulence]]
+id = "7shjz9"
+site = "punta-arenas"
+date = "2021-05-23"
+slow = true
+
+[[product.turbulence]]
+id = "8zn0y5"
+site = "punta-arenas"
+date = "2021-11-21"
+slow = true
+
+[[product.turbulence]]
+id = "qtaui9"
+site = "soverato"
+date = "2021-06-27"
+slow = true
+
+[[product.turbulence]]
+id = "k6ncd5"
+site = "soverato"
+date = "2021-07-22"
+slow = true
+
+[[product.turbulence]]
+id = "s58za8"
+site = "soverato"
+date = "2021-08-22"
+slow = true
+
+[[product.turbulence]]
+id = "n2gx0h"
+site = "soverato"
+date = "2021-08-26"
+slow = true
+
+[[product.turbulence]]
+id = "zojho4"
+site = "vehmasmaki"
+date = "2021-01-19"
+slow = true
+
+[[product.turbulence]]
+id = "01qax4"
+site = "vehmasmaki"
+date = "2022-04-03"
+slow = true
+
+[[product.turbulence]]
+id = "1mz1ht"
+site = "vehmasmaki"
+date = "2023-09-05"
+slow = true
+
+[[product.turbulence]]
+id = "fljeuf"
+site = "vehmasmaki"
+date = "2023-12-24"
+slow = true
+
+[[product.turbulence]]
+id = "swln54"
+site = "vehmasmaki"
+date = "2023-12-26"
+slow = true
+
+[[product.turbulence]]
+id = "02fusj"
+site = "warsaw"
+date = "2022-04-20"
+slow = true
+
+[[product.turbulence]]
+id = "u8qhvh"
+site = "warsaw"
+date = "2022-05-02"
+slow = true
+
+[[product.turbulence]]
+id = "1pg0ga"
+site = "warsaw"
+date = "2022-07-12"
+slow = true
+
+[[product.turbulence]]
+id = "szcp7b"
+site = "warsaw"
+date = "2023-08-13"
+slow = true
+
+[[product.turbulence]]
+id = "ugz01i"
+site = "warsaw"
+date = "2023-10-21"
+slow = true
+
+[[product.turbulence]]
+id = "khy7fv"
+site = "warsaw"
+date = "2024-06-08"
+slow = true

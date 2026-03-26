@@ -29,19 +29,28 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+      - name: Set up sccache
+        uses: mozilla-actions/sccache-action@v0.0.9
       - name: Build wheels
         uses: PyO3/maturin-action@v1
         with:
           target: ${{ matrix.target }}
           args: --release --out dist
-          sccache: "true"
           manylinux: auto
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
           name: wheels-linux-${{ matrix.target }}
           path: dist
-      - name: pytest
+      - name: Install system dependencies
+        if: ${{ matrix.target == 'x86_64' }}
+        run: sudo apt-get update && sudo apt-get install -y libhdf5-dev libnetcdf-dev
+      - name: Build doptest
+        if: ${{ matrix.target == 'x86_64' }}
+        run: cargo build --release -p doptest
+      - name: Run legacy tests
         if: ${{ matrix.target == 'x86_64' }}
         shell: bash
         run: |
@@ -49,8 +58,12 @@ jobs:
           python3 -m venv .venv
           source .venv/bin/activate
           pip install doppy[dev] --find-links dist --force-reinstall
-          pip install pytest requests urllib3
-          pytest
+          ./target/release/doptest legacy run
+      - name: Verify lock consistency
+        if: ${{ matrix.target == 'x86_64' && hashFiles('tests/tests.toml') != '' }}
+        shell: bash
+        run: |
+          ./target/release/doptest check
 
   windows:
     runs-on: windows-latest

@@ -1,4 +1,4 @@
 [default]
 extend-ignore-identifiers-re = ["explin", "EXPLIN", "add_atribute"]
 [files]
-extend-exclude = ["docs/*.md"]
+extend-exclude = ["docs/*.md", "tests/tests-legacy.toml", "tests/tests.toml"]

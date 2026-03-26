@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.11 – 2026-03-26
+
+- Add doptest
+
 ## 0.5.10 – 2026-01-09
 
 - update pyo3 and rust edition

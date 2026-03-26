@@ -1,6 +1,9 @@
 records.csv
 test-samples-raw.json
 tests/data/
+tests/.cache/
+tests/.tests.lock.flock
+bin/
 
 
 __pycache__/

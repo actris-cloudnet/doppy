@@ -34,11 +34,10 @@ dev = [
   "mypy",
   "pyright",
   "ruff",
-  "pytest",
   "types-requests",
   "maturin",
   "release-version",
-  "pre-commit",
+  "prek",
   "tomli",
   "aiohttp",
   "tqdm",
@@ -68,7 +67,7 @@ venv = "env"
 
 [tool.mypy]
 strict = true
-exclude = 'tests/'
+exclude = ['tests/', 'tools/']
 
 [[tool.mypy.overrides]]
 module = "scipy.*"
@@ -93,10 +92,6 @@ ignore_errors = true
 [[tool.mypy.overrides]]
 module = "doppy.bench.*"
 ignore_errors = true
-
-[tool.pytest.ini_options]
-markers = ["slow"]
-addopts = "-k 'not slow'"
 
 [tool.release-version]
 filename = "Cargo.toml"
