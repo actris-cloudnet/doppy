@@ -1,14 +1,15 @@
-use pyo3::prelude::*;
-use pyo3::wrap_pymodule;
+mod halo_hpl;
+mod wls70;
+mod wls77;
 
-pub mod halo_hpl;
-pub mod wls70;
-pub mod wls77;
+#[pyo3::pymodule]
+pub mod raw {
+    #[pymodule_export]
+    use super::halo_hpl::halo_hpl;
 
-#[pymodule]
-pub fn raw(m: &Bound<'_, PyModule>) -> PyResult<()> {
-    m.add_wrapped(wrap_pymodule!(halo_hpl::halo_hpl))?;
-    m.add_wrapped(wrap_pymodule!(wls70::wls70))?;
-    m.add_wrapped(wrap_pymodule!(wls77::wls77))?;
-    Ok(())
+    #[pymodule_export]
+    use super::wls70::wls70;
+
+    #[pymodule_export]
+    use super::wls77::wls77;
 }

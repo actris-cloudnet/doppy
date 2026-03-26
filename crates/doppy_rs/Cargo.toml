@@ -12,6 +12,9 @@ features = ["abi3-py310"]
 name = "doppy_rs"
 crate-type = ["cdylib"]
 
+[lints.clippy]
+pedantic = "warn"
+
 [package]
 name = "doppy_rs"
 version = {workspace = true}

@@ -5,19 +5,23 @@ use pyo3::pybacked::PyBackedBytes;
 use pyo3::types::PyDict;
 
 #[pymodule]
-pub fn halo_hpl(m: &Bound<'_, PyModule>) -> PyResult<()> {
-    m.add_function(wrap_pyfunction!(from_filename_srcs, m)?)?;
-    m.add_function(wrap_pyfunction!(from_filename_src, m)?)?;
-    m.add_function(wrap_pyfunction!(from_bytes_srcs, m)?)?;
-    m.add_function(wrap_pyfunction!(from_bytes_src, m)?)?;
-    Ok(())
+pub mod halo_hpl {
+    #[pymodule_export]
+    use super::from_bytes_src;
+    #[pymodule_export]
+    use super::from_bytes_srcs;
+    #[pymodule_export]
+    use super::from_filename_src;
+    #[pymodule_export]
+    use super::from_filename_srcs;
 }
 
 #[pyfunction]
-pub fn from_bytes_srcs<'a>(
-    py: Python<'a>,
+#[allow(clippy::needless_pass_by_value)]
+fn from_bytes_srcs(
+    py: Python<'_>,
     contents: Vec<PyBackedBytes>,
-) -> PyResult<Vec<(Bound<'a, PyDict>, Bound<'a, PyDict>)>> {
+) -> PyResult<Vec<(Bound<'_, PyDict>, Bound<'_, PyDict>)>> {
     let contents_refs: Vec<&[u8]> = contents.iter().map(|b| &**b).collect();
     let raws = doprs::raw::halo_hpl::from_bytes_srcs(contents_refs);
     let mut result = Vec::new();
@@ -28,24 +32,18 @@ pub fn from_bytes_srcs<'a>(
 }
 
 #[pyfunction]
-pub fn from_bytes_src<'a>(
-    py: Python<'a>,
+#[allow(clippy::needless_pass_by_value)]
+fn from_bytes_src(
+    py: Python<'_>,
     content: PyBackedBytes,
-) -> PyResult<(Bound<'a, PyDict>, Bound<'a, PyDict>)> {
-    let content_ref: &[u8] = &content;
-    let raw = match doprs::raw::halo_hpl::from_bytes_src(content_ref) {
-        Ok(raw) => raw,
-        Err(e) => {
-            return Err(PyRuntimeError::new_err(format!(
-                "Failed to read files: {e}"
-            )));
-        }
-    };
+) -> PyResult<(Bound<'_, PyDict>, Bound<'_, PyDict>)> {
+    let raw = doprs::raw::halo_hpl::from_bytes_src(&content)
+        .map_err(|e| PyRuntimeError::new_err(format!("Failed to read files: {e}")))?;
     convert_to_pydicts(py, raw)
 }
 
 #[pyfunction]
-pub fn from_filename_srcs(
+fn from_filename_srcs(
     py: Python<'_>,
     filenames: Vec<String>,
 ) -> PyResult<Vec<(Bound<'_, PyDict>, Bound<'_, PyDict>)>> {
@@ -58,18 +56,12 @@ pub fn from_filename_srcs(
 }
 
 #[pyfunction]
-pub fn from_filename_src(
+fn from_filename_src(
     py: Python<'_>,
     filename: String,
 ) -> PyResult<(Bound<'_, PyDict>, Bound<'_, PyDict>)> {
-    let raw = match doprs::raw::halo_hpl::from_filename_src(filename) {
-        Ok(raw) => raw,
-        Err(e) => {
-            return Err(PyRuntimeError::new_err(format!(
-                "Failed to read files: {e}"
-            )));
-        }
-    };
+    let raw = doprs::raw::halo_hpl::from_filename_src(filename)
+        .map_err(|e| PyRuntimeError::new_err(format!("Failed to read files: {e}")))?;
     convert_to_pydicts(py, raw)
 }
 

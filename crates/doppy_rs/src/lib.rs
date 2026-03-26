@@ -1,11 +1,16 @@
 use pyo3::prelude::*;
-use pyo3::wrap_pymodule;
 
-pub mod raw;
+mod raw;
 
-#[pymodule]
-fn rs(m: &Bound<'_, PyModule>) -> PyResult<()> {
-    m.add("__version__", env!("CARGO_PKG_VERSION"))?;
-    m.add_wrapped(wrap_pymodule!(raw::raw))?;
-    Ok(())
+#[pymodule(name = "rs")]
+mod rs_mod {
+    use pyo3::prelude::*;
+
+    #[pymodule_export]
+    use super::raw::raw;
+
+    #[pymodule_init]
+    fn init(m: &Bound<'_, PyModule>) -> PyResult<()> {
+        m.add("__version__", env!("CARGO_PKG_VERSION"))
+    }
 }
