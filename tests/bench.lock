@@ -2,11 +2,11 @@
 # DO NOT EDIT.
 
 [meta]
-locked_at = "2026-03-27T19:50:51.169056+00:00"
+locked_at = "2026-03-27T21:09:38.087113+00:00"
 doppy_version = "0.5.11"
 
 [run]
-date = "2026-03-27T19:50:51.169066+00:00"
+date = "2026-03-27T21:09:38.087123+00:00"
 doppy_version = "0.5.11"
 os = "macos"
 arch = "x86_64"
@@ -18,7 +18,7 @@ id = "k3ck3o"
 site = "warsaw"
 date = "2022-04-09"
 instrument_uuid = "c8231fca-052b-4baa-a5e1-4963fb609801"
-elapsed_secs = 2.44088983000006
+elapsed_secs = 2.1265203559996735
 
 [[stare.input.files]]
 filename = "Stare_213_20220409_05.hpl"
@@ -960,7 +960,7 @@ id = "buwucd"
 site = "bucharest"
 date = "2025-04-27"
 instrument_uuid = "db58480f-58ca-49ad-995c-6c3b89e9a0fc"
-elapsed_secs = 8.247784787
+elapsed_secs = 3.5644882840006176
 
 [[stare.input.files]]
 filename = "Stare_158_20250427_11.hpl"
@@ -1687,7 +1687,7 @@ id = "duxr1j"
 site = "cabauw"
 date = "2025-11-10"
 instrument_uuid = "dca88604-798e-4647-a44d-ec61ea412301"
-elapsed_secs = 4.455010491000053
+elapsed_secs = 4.0399734689999605
 
 [[stare.input.files]]
 filename = "WLS200s-218_2025-11-10_15-30-02_fixed_91_75m_200s.nc"
@@ -2414,7 +2414,7 @@ id = "rx2rzf"
 site = "juelich"
 date = "2023-12-07"
 instrument_uuid = "48bd7da0-35b9-4ffd-90d8-7a4de55b8fa6"
-elapsed_secs = 17.848281757999985
+elapsed_secs = 15.228048705999754
 
 [[stare.input.files]]
 filename = "Stare_17_20231207_13.hpl"
@@ -6051,7 +6051,7 @@ id = "ir6mjf"
 site = "leipzig-lim"
 date = "2023-07-31"
 instrument_uuid = "e7570f66-95ea-4afb-9d4d-997520ef4b71"
-elapsed_secs = 18.14709485200001
+elapsed_secs = 15.166330658999868
 
 [[stare.input.files]]
 filename = "Stare_238_20230731_02.hpl"
@@ -7138,7 +7138,7 @@ id = "fe4iag"
 site = "cluj"
 date = "2024-11-11"
 instrument_uuid = "5d15cd3c-e9c5-4139-ba23-9d07e222fb41"
-elapsed_secs = 397.297862646
+elapsed_secs = 369.32993500799967
 
 [[stare.input.files]]
 filename = "Stare_271_20241111_06.hpl"
@@ -7388,7 +7388,7 @@ instrument_uuid = "eadafa59-ffa6-48de-a244-9e54a05b90eb"
 filename = "VAD_102_20170510_110255.hpl"
 file_uuid = "19b520bf-e68e-499d-8760-fa48ea0bc1bb"
 sha256 = "3db2128b133bc7418fc64186750def241a711017c98eb02aa7f38d0b570897fa"
-elapsed_secs = 0.00377995
+elapsed_secs = 0.001671493
 
 [[raw]]
 id = "canwql"
@@ -7398,7 +7398,7 @@ instrument_uuid = "e166bb0b-5e92-46ce-adb8-73ed38ecc459"
 filename = "User5_234_20250919_203500.hpl"
 file_uuid = "17815bf5-5a71-40b9-9b85-180e453348b0"
 sha256 = "d9c7364cba1bc7ae1677002810d1badffcce92efb960d2062a3cf330a5f4a161"
-elapsed_secs = 0.002269167
+elapsed_secs = 0.0010855
 
 [[raw]]
 id = "1xz65s"
@@ -7408,7 +7408,7 @@ instrument_uuid = "1e2e7dde-eda6-41e5-a946-751ce78262dd"
 filename = "VAD_118_20200907_041953.hpl"
 file_uuid = "3f68595a-ac64-48ff-9595-16e66220274e"
 sha256 = "52807ec0e2abd9db46e6c35338867aab6a09d1cdbac7b01bf6f6c7ca5cb8827e"
-elapsed_secs = 0.00388902
+elapsed_secs = 0.001662741
 
 [[raw]]
 id = "virmcw"
@@ -7418,7 +7418,7 @@ instrument_uuid = "421272f2-19be-4f97-ac9d-d4d1479759d4"
 filename = "Stare_46_20220525_23.hpl"
 file_uuid = "2eba6f8b-9f9c-46a2-82d7-fcb17a4e65d4"
 sha256 = "49e6a056bd5d94a208202c6f715a8bbe7266d9b03a96416a2006e7d617bd595e"
-elapsed_secs = 0.016293325
+elapsed_secs = 0.008916014
 
 [[raw]]
 id = "feuqfw"
@@ -7428,7 +7428,7 @@ instrument_uuid = "e7570f66-95ea-4afb-9d4d-997520ef4b71"
 filename = "Stare_238_20230530_16.hpl"
 file_uuid = "ba95004f-80b2-4ed1-872e-6b304a117ead"
 sha256 = "e4b08d27aea368f72c6742195146583d8ba1295e99e5532e26dbb56c29e523b7"
-elapsed_secs = 0.414279474
+elapsed_secs = 0.178236074
 
 [[raw]]
 id = "mubr0l"
@@ -7438,4 +7438,4 @@ instrument_uuid = "db58480f-58ca-49ad-995c-6c3b89e9a0fc"
 filename = "Stare_158_20190617_00.hpl"
 file_uuid = "b6541fc2-d55c-49aa-a7f1-02b0d419be3f"
 sha256 = "e74116878f530bd2b5291be07dc6090b528a8e63ccb08053d12bbf473ba79d41"
-elapsed_secs = 15.431430002
+elapsed_secs = 6.611316561

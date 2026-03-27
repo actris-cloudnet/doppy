@@ -1,5 +1,7 @@
 [dependencies]
 chrono = "0.4"
+fast-float = "0.2"
+memchr = "2"
 regex = "1.10"
 rayon = "1.8"
 ndarray = {workspace=true}

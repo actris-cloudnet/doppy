@@ -4,7 +4,7 @@ use chrono::{DateTime, NaiveDateTime, ParseError, Utc};
 use rayon::prelude::*;
 
 use std::fs::File;
-use std::io::{BufRead, Cursor, Read, Seek, SeekFrom};
+use std::io::{BufRead, Cursor, Read as _, Seek, SeekFrom};
 
 use crate::raw::error::RawParseError;
 
@@ -104,8 +104,18 @@ pub fn from_bytes_srcs(contents: Vec<&[u8]>) -> Vec<HaloHpl> {
 }
 
 pub fn from_bytes_src(content: &[u8]) -> Result<HaloHpl, RawParseError> {
-    let content_without_nulls: Vec<u8> = content.iter().filter(|&&x| x != 0).cloned().collect();
-    let mut cur = Cursor::new(content_without_nulls.as_slice());
+    let owned_content;
+    let content = if memchr::memchr(0, content).is_some() {
+        owned_content = content
+            .iter()
+            .copied()
+            .filter(|&x| x != 0)
+            .collect::<Vec<u8>>();
+        owned_content.as_slice()
+    } else {
+        content
+    };
+    let mut cur = Cursor::new(content);
 
     let mut buf_header = vec![];
 
@@ -135,13 +145,15 @@ fn parse_data(
         return Err("Unexpected data shape".into());
     }
     let numbers_per_profile = n1d + ngates * n2d;
-    let mut data_flat = vec![];
-    'outer: for line in cur.split(b'\n') {
-        for part in line?
-            .split(|&b| b == b' ')
-            .filter(|part| !(part.is_empty() || part == b"\r"))
+    let remaining = &cur.get_ref()[cur.position() as usize..];
+    let estimated_count = remaining.len() / 8;
+    let mut data_flat = Vec::with_capacity(estimated_count);
+    'outer: for line in remaining.split(|&b| b == b'\n') {
+        for part in line
+            .split(|&b| b == b' ' || b == b'\r')
+            .filter(|p| !p.is_empty())
         {
-            match std::str::from_utf8(part)?.trim().parse::<f64>() {
+            match fast_float::parse::<f64, _>(part) {
                 Ok(x) => data_flat.push(x),
                 Err(_) => {
                     break 'outer;

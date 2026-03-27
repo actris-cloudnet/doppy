@@ -464,6 +464,8 @@ name = "doprs"
 version = "0.5.11"
 dependencies = [
  "chrono",
+ "fast-float",
+ "memchr",
  "ndarray",
  "rayon",
  "regex",
@@ -525,6 +527,12 @@ dependencies = [
  "libc",
  "windows-sys 0.61.2",
 ]
+
+[[package]]
+name = "fast-float"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "95765f67b4b18863968b4a1bd5bb576f732b29a4a28c7cd84c09fa3e2875f33c"
 
 [[package]]
 name = "find-msvc-tools"
