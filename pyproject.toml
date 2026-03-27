@@ -23,6 +23,7 @@ classifiers = [
   "Operating System :: OS Independent"
 ]
 dependencies = [
+  "bottleneck",
   "numpy",
   "netCDF4",
   "scikit-learn",
@@ -68,6 +69,10 @@ venv = "env"
 [tool.mypy]
 strict = true
 exclude = ['tests/', 'tools/']
+
+[[tool.mypy.overrides]]
+module = "bottleneck.*"
+ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = "scipy.*"

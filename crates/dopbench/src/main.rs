@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::fs;
 use std::io::Read as _;
 use std::path::{Path, PathBuf};
@@ -1006,6 +1007,7 @@ async fn cmd_run(
         return Err("no stare entries match the given filters in bench.toml".to_string());
     }
 
+    let old_elapsed = read_old_elapsed();
     let total = entries.len();
     let mut lock_entries = Vec::new();
     let mut results = Vec::new();
@@ -1020,7 +1022,10 @@ async fn cmd_run(
             lock_entries.push(build_lock_entry(entry, &records, Some(elapsed))?);
         }
 
-        eprintln!("{}", colored_time(elapsed));
+        match old_elapsed.get(&entry.id) {
+            Some(&old) => eprintln!("{} {}", colored_time(elapsed), format_speedup(old, elapsed)),
+            None => eprintln!("{}", colored_time(elapsed)),
+        }
         results.push((*entry, elapsed));
     }
 
@@ -1035,23 +1040,37 @@ async fn cmd_run(
     }
 
     // Print results table
+    let has_baseline = results.iter().any(|(e, _)| old_elapsed.contains_key(&e.id));
     eprintln!();
     eprintln!("Benchmark results:");
     eprintln!();
-    eprintln!(
-        "  {:<8} {:<6} {:<20} {:<12} {:<10}",
-        "ID", "Pctl", "Site", "Date", "Time"
-    );
-    eprintln!("  {}", "-".repeat(58));
+    if has_baseline {
+        eprintln!(
+            "  {:<8} {:<6} {:<20} {:<12} {:<10} Speedup",
+            "ID", "Pctl", "Site", "Date", "Time"
+        );
+        eprintln!("  {}", "-".repeat(74));
+    } else {
+        eprintln!(
+            "  {:<8} {:<6} {:<20} {:<12} {:<10}",
+            "ID", "Pctl", "Site", "Date", "Time"
+        );
+        eprintln!("  {}", "-".repeat(58));
+    }
     for (entry, elapsed) in &results {
         let pctl = entry.percentile.as_deref().unwrap_or("-");
+        let speedup = old_elapsed
+            .get(&entry.id)
+            .map(|&old| format_speedup(old, *elapsed))
+            .unwrap_or_default();
         eprintln!(
-            "  \x1b[36m{:<8}\x1b[0m {:<6} {:<20} {:<12} {}",
+            "  \x1b[36m{:<8}\x1b[0m {:<6} {:<20} {:<12} {} {}",
             entry.id,
             pctl,
             entry.site,
             entry.date,
             colored_time(*elapsed),
+            speedup,
         );
     }
 
@@ -1069,6 +1088,30 @@ fn colored_time(secs: f64) -> String {
         "\x1b[31m" // red
     };
     format!("{color}{secs:.2}s\x1b[0m")
+}
+
+fn read_old_elapsed() -> HashMap<String, f64> {
+    let path = bench_lock_path();
+    let Ok(text) = fs::read_to_string(path) else {
+        return HashMap::new();
+    };
+    let Ok(lock) = toml::from_str::<BenchLock>(&text) else {
+        return HashMap::new();
+    };
+    lock.stare
+        .into_iter()
+        .filter_map(|e| Some((e.id, e.elapsed_secs?)))
+        .collect()
+}
+
+fn format_speedup(old: f64, new: f64) -> String {
+    let ratio = old / new;
+    if ratio >= 1.0 {
+        format!("\x1b[32m({ratio:.2}x faster)\x1b[0m")
+    } else {
+        let slowdown = 1.0 / ratio;
+        format!("\x1b[31m({slowdown:.2}x slower)\x1b[0m")
+    }
 }
 
 fn is_py_spy_available() -> bool {

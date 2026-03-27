@@ -1,5 +1,6 @@
 import warnings
 
+import bottleneck as bn
 import numpy as np
 import numpy.typing as npt
 import scipy
@@ -94,7 +95,7 @@ def _rolling_median_over_range(
             j += 1
         if i > k or j < k:
             raise ValueError
-        med[k] = np.nanmedian(X[i : j + 1], axis=0)
+        med[k] = bn.nanmedian(X[i : j + 1], axis=0)
 
     if stride != 1 and fill_gaps:
         ind = list(range(0, n, stride))

@@ -2,11 +2,11 @@
 # DO NOT EDIT.
 
 [meta]
-locked_at = "2026-03-27T09:31:04.754165+00:00"
+locked_at = "2026-03-27T15:45:20.524338+00:00"
 doppy_version = "0.5.11"
 
 [run]
-date = "2026-03-27T09:31:04.754178+00:00"
+date = "2026-03-27T15:45:20.524351+00:00"
 doppy_version = "0.5.11"
 os = "macos"
 arch = "x86_64"
@@ -18,7 +18,7 @@ id = "k3ck3o"
 site = "warsaw"
 date = "2022-04-09"
 instrument_uuid = "c8231fca-052b-4baa-a5e1-4963fb609801"
-elapsed_secs = 5.13688073400408
+elapsed_secs = 1.918923586999881
 
 [[stare.input.files]]
 filename = "Stare_213_20220409_05.hpl"
@@ -960,7 +960,7 @@ id = "buwucd"
 site = "bucharest"
 date = "2025-04-27"
 instrument_uuid = "db58480f-58ca-49ad-995c-6c3b89e9a0fc"
-elapsed_secs = 9.958311601993046
+elapsed_secs = 4.811509056999967
 
 [[stare.input.files]]
 filename = "Stare_158_20250427_11.hpl"
@@ -1687,7 +1687,7 @@ id = "duxr1j"
 site = "cabauw"
 date = "2025-11-10"
 instrument_uuid = "dca88604-798e-4647-a44d-ec61ea412301"
-elapsed_secs = 14.210455467997235
+elapsed_secs = 5.062627335999423
 
 [[stare.input.files]]
 filename = "WLS200s-218_2025-11-10_15-30-02_fixed_91_75m_200s.nc"
@@ -2414,7 +2414,7 @@ id = "rx2rzf"
 site = "juelich"
 date = "2023-12-07"
 instrument_uuid = "48bd7da0-35b9-4ffd-90d8-7a4de55b8fa6"
-elapsed_secs = 37.49622763200023
+elapsed_secs = 16.83319375500014
 
 [[stare.input.files]]
 filename = "Stare_17_20231207_13.hpl"
@@ -6051,7 +6051,7 @@ id = "ir6mjf"
 site = "leipzig-lim"
 date = "2023-07-31"
 instrument_uuid = "e7570f66-95ea-4afb-9d4d-997520ef4b71"
-elapsed_secs = 38.735504714000854
+elapsed_secs = 17.035144385999956
 
 [[stare.input.files]]
 filename = "Stare_238_20230731_02.hpl"
@@ -7138,7 +7138,7 @@ id = "fe4iag"
 site = "cluj"
 date = "2024-11-11"
 instrument_uuid = "5d15cd3c-e9c5-4139-ba23-9d07e222fb41"
-elapsed_secs = 1044.1854795399995
+elapsed_secs = 370.36017891100073
 
 [[stare.input.files]]
 filename = "Stare_271_20241111_06.hpl"
