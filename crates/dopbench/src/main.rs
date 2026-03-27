@@ -1,9 +1,11 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
+use std::fmt::Write as _;
 use std::fs;
 use std::io::Read as _;
 use std::path::{Path, PathBuf};
 use std::time::Duration;
 
+use chrono::{NaiveDate, Utc};
 use clap::{Parser, Subcommand};
 use rand::distr::{Alphanumeric, SampleString};
 use reqwest::Client;
@@ -28,6 +30,12 @@ const PERCENTILES: &[(&str, u8)] = &[
 ];
 
 // ── CLI ─────────────────────────────────────────────────────────────
+
+#[derive(Clone, clap::ValueEnum)]
+enum BenchKind {
+    Stare,
+    Raw,
+}
 
 #[derive(Parser)]
 #[command(name = "dopbench", about = "Doppy benchmark tool")]
@@ -68,6 +76,12 @@ enum Command {
         site: Option<String>,
         /// Lock only the entry with this id
         id: Option<String>,
+        /// Run only stare or raw entries
+        #[arg(long, value_enum)]
+        kind: Option<BenchKind>,
+        /// Re-lock all entries from scratch
+        #[arg(long)]
+        update_all: bool,
     },
     /// Run benchmarks
     Run {
@@ -79,6 +93,9 @@ enum Command {
         /// Save results to bench.lock
         #[arg(long)]
         save: bool,
+        /// Run only stare or raw entries
+        #[arg(long, value_enum)]
+        kind: Option<BenchKind>,
     },
     /// Profile stare processing for a bench entry
     Profile {
@@ -158,6 +175,15 @@ enum SampleProduct {
         #[arg(long)]
         add: bool,
     },
+    /// Sample raw halo-doppler-lidar files by size percentile
+    Raw {
+        /// Add selected samples to bench.toml
+        #[arg(long)]
+        add: bool,
+        /// Re-fetch metadata cache
+        #[arg(long)]
+        force: bool,
+    },
 }
 
 // ── API response types ──────────────────────────────────────────────
@@ -176,7 +202,7 @@ struct SiteRef {
     id: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct InstrumentRef {
     uuid: String,
@@ -189,16 +215,47 @@ struct RawRecord {
     filename: String,
     uuid: String,
     download_url: String,
-    instrument: Instrument,
+    instrument: InstrumentRef,
     #[serde(default)]
     tags: Vec<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// API response for `/raw-files` when fetching with date ranges (sampling).
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-struct Instrument {
+struct RawFileRecord {
     uuid: String,
+    filename: String,
+    measurement_date: String,
+    site: SiteRef,
+    size: String,
+    instrument: InstrumentRef,
+}
+
+/// Flattened raw file record for rkyv caching.
+#[derive(Debug, Clone, rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)]
+struct CachedRawRecord {
+    uuid: String,
+    filename: String,
+    measurement_date: String,
+    site_id: String,
     instrument_id: String,
+    instrument_uuid: String,
+    size: u64,
+}
+
+impl From<RawFileRecord> for CachedRawRecord {
+    fn from(r: RawFileRecord) -> Self {
+        Self {
+            uuid: r.uuid,
+            filename: r.filename,
+            measurement_date: r.measurement_date,
+            site_id: r.site.id,
+            instrument_id: r.instrument.instrument_id,
+            instrument_uuid: r.instrument.uuid,
+            size: r.size.parse().unwrap_or(0),
+        }
+    }
 }
 
 // ── TOML types ──────────────────────────────────────────────────────
@@ -207,6 +264,8 @@ struct Instrument {
 struct BenchConfig {
     #[serde(default)]
     stare: Vec<BenchEntry>,
+    #[serde(default)]
+    raw: Vec<RawBenchEntry>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -236,6 +295,35 @@ impl std::fmt::Display for BenchEntry {
     }
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+struct RawBenchEntry {
+    id: String,
+    instrument_id: String,
+    instrument_uuid: String,
+    site: String,
+    date: String,
+    filename: String,
+    file_uuid: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    percentile: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    description: Option<String>,
+}
+
+impl std::fmt::Display for RawBenchEntry {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "[\x1b[36m{}\x1b[0m] raw {} {} {}",
+            self.id, self.site, self.date, self.filename,
+        )?;
+        if let Some(p) = &self.percentile {
+            write!(f, " {p}")?;
+        }
+        Ok(())
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, Default)]
 struct LockMeta {
     locked_at: String,
@@ -252,7 +340,7 @@ struct RunMeta {
     cpu: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 struct BenchLock {
     #[serde(default)]
     meta: LockMeta,
@@ -260,6 +348,18 @@ struct BenchLock {
     run: Option<RunMeta>,
     #[serde(default)]
     stare: Vec<LockEntry>,
+    #[serde(default)]
+    raw: Vec<RawLockEntry>,
+}
+
+impl BenchLock {
+    fn locked_ids(&self) -> HashSet<&str> {
+        self.stare
+            .iter()
+            .map(|e| e.id.as_str())
+            .chain(self.raw.iter().map(|e| e.id.as_str()))
+            .collect()
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -283,6 +383,19 @@ struct InputFile {
     filename: String,
     uuid: String,
     sha256: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct RawLockEntry {
+    id: String,
+    site: String,
+    date: String,
+    instrument_uuid: String,
+    filename: String,
+    file_uuid: String,
+    sha256: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    elapsed_secs: Option<f64>,
 }
 
 // ── HTTP client ─────────────────────────────────────────────────────
@@ -514,17 +627,86 @@ fn read_config() -> Result<BenchConfig, String> {
     toml::from_str(&text).map_err(|e| format!("failed to parse {}: {e}", path.display()))
 }
 
-fn filter_entries<'a>(
-    entries: &'a [BenchEntry],
+trait HasIdAndSite {
+    fn id(&self) -> &str;
+    fn site(&self) -> &str;
+    fn percentile(&self) -> Option<&str>;
+    fn date(&self) -> &str;
+    fn result_label(&self) -> &'static str;
+    fn extra_columns(&self) -> Option<(&str, String)> {
+        None
+    }
+}
+
+impl HasIdAndSite for BenchEntry {
+    fn id(&self) -> &str {
+        &self.id
+    }
+    fn site(&self) -> &str {
+        &self.site
+    }
+    fn percentile(&self) -> Option<&str> {
+        self.percentile.as_deref()
+    }
+    fn date(&self) -> &str {
+        &self.date
+    }
+    fn result_label(&self) -> &'static str {
+        "Stare"
+    }
+}
+
+impl HasIdAndSite for RawBenchEntry {
+    fn id(&self) -> &str {
+        &self.id
+    }
+    fn site(&self) -> &str {
+        &self.site
+    }
+    fn percentile(&self) -> Option<&str> {
+        self.percentile.as_deref()
+    }
+    fn date(&self) -> &str {
+        &self.date
+    }
+    fn result_label(&self) -> &'static str {
+        "Raw"
+    }
+    fn extra_columns(&self) -> Option<(&str, String)> {
+        Some(("Filename", self.filename.clone()))
+    }
+}
+
+fn filter_entries<'a, T: HasIdAndSite>(
+    entries: &'a [T],
     site_filter: Option<&str>,
     id_filter: Option<&str>,
-) -> Vec<&'a BenchEntry> {
+) -> Vec<&'a T> {
     entries
         .iter()
         .filter(|e| {
-            site_filter.is_none_or(|s| e.site == s) && id_filter.is_none_or(|id| e.id == id)
+            site_filter.is_none_or(|s| e.site() == s) && id_filter.is_none_or(|id| e.id() == id)
         })
         .collect()
+}
+
+fn filter_by_kind<'a>(
+    config: &'a BenchConfig,
+    site_filter: Option<&str>,
+    id_filter: Option<&str>,
+    kind: Option<&BenchKind>,
+) -> (Vec<&'a BenchEntry>, Vec<&'a RawBenchEntry>) {
+    let stare = if matches!(kind, Some(BenchKind::Raw)) {
+        vec![]
+    } else {
+        filter_entries(&config.stare, site_filter, id_filter)
+    };
+    let raw = if matches!(kind, Some(BenchKind::Stare)) {
+        vec![]
+    } else {
+        filter_entries(&config.raw, site_filter, id_filter)
+    };
+    (stare, raw)
 }
 
 // ── Instrument resolution ───────────────────────────────────────────
@@ -637,15 +819,20 @@ async fn cmd_add(api: &CloudnetApi, product: AddProduct) -> Result<(), String> {
 
 fn cmd_list(site_filter: Option<&str>, id_filter: Option<&str>) -> Result<(), String> {
     let config = read_config()?;
-    let filtered = filter_entries(&config.stare, site_filter, id_filter);
+    let stare_filtered = filter_entries(&config.stare, site_filter, id_filter);
+    let raw_filtered = filter_entries(&config.raw, site_filter, id_filter);
 
-    if filtered.is_empty() {
+    let total = stare_filtered.len() + raw_filtered.len();
+    if total == 0 {
         println!("No entries match the given filters.");
         return Ok(());
     }
 
-    println!("{} entry(ies):\n", filtered.len());
-    for entry in &filtered {
+    println!("{total} entry(ies):\n");
+    for entry in &stare_filtered {
+        println!("  {entry}");
+    }
+    for entry in &raw_filtered {
         println!("  {entry}");
     }
     Ok(())
@@ -653,13 +840,15 @@ fn cmd_list(site_filter: Option<&str>, id_filter: Option<&str>) -> Result<(), St
 
 fn cmd_remove(id: &str) -> Result<(), String> {
     let config = read_config()?;
-    let entry = config
-        .stare
-        .iter()
-        .find(|e| e.id == id)
-        .ok_or_else(|| format!("no entry found with id '{id}'"))?;
+    let stare_entry = config.stare.iter().find(|e| e.id == id);
+    let raw_entry = config.raw.iter().find(|e| e.id == id);
 
-    println!("  {entry}");
+    match (&stare_entry, &raw_entry) {
+        (None, None) => return Err(format!("no entry found with id '{id}'")),
+        (Some(e), _) => println!("  {e}"),
+        (_, Some(e)) => println!("  {e}"),
+    }
+
     print!("Remove? [y/N] ");
     std::io::Write::flush(&mut std::io::stdout())
         .map_err(|e| format!("failed to flush stdout: {e}"))?;
@@ -681,6 +870,7 @@ fn cmd_remove(id: &str) -> Result<(), String> {
         .map_err(|e| format!("failed to parse {}: {e}", config_path.display()))?;
 
     remove_from_toml_array(&mut doc, "stare", id);
+    remove_from_toml_array(&mut doc, "raw", id);
     fs::write(&config_path, doc.to_string())
         .map_err(|e| format!("failed to write {}: {e}", config_path.display()))?;
 
@@ -692,6 +882,7 @@ fn cmd_remove(id: &str) -> Result<(), String> {
             .parse()
             .map_err(|e| format!("failed to parse {}: {e}", lock_path.display()))?;
         remove_from_toml_array(&mut lock_doc, "stare", id);
+        remove_from_toml_array(&mut lock_doc, "raw", id);
         fs::write(&lock_path, lock_doc.to_string())
             .map_err(|e| format!("failed to write {}: {e}", lock_path.display()))?;
     }
@@ -802,6 +993,228 @@ async fn cmd_sample_stare(api: &CloudnetApi, add: bool) -> Result<(), String> {
     Ok(())
 }
 
+// ── Raw sampling: monthly-batched fetch + rkyv cache ────────────────
+
+fn raw_cache_path() -> PathBuf {
+    cache_dir().join("raw-files.rkyv")
+}
+
+fn weekly_intervals() -> Vec<(NaiveDate, NaiveDate)> {
+    let today = Utc::now().date_naive();
+    let start = NaiveDate::from_ymd_opt(2010, 1, 1).unwrap();
+
+    let mut intervals = Vec::new();
+    let mut cursor = start;
+    while cursor < today {
+        let next = cursor + chrono::Duration::days(7);
+        intervals.push((cursor, next.min(today)));
+        cursor = next;
+    }
+
+    intervals
+}
+
+async fn fetch_raw_files_for_interval(
+    api: &CloudnetApi,
+    instrument: &str,
+    date_from: NaiveDate,
+    date_to: NaiveDate,
+) -> Result<Vec<RawFileRecord>, String> {
+    let from = date_from.to_string();
+    let to = date_to.to_string();
+
+    let url = reqwest::Url::parse_with_params(
+        &format!("{BASE_URL}/raw-files"),
+        &[
+            ("instrument", instrument),
+            ("filenameSuffix", ".hpl"),
+            ("dateFrom", &from),
+            ("dateTo", &to),
+        ],
+    )
+    .map_err(|e| format!("invalid URL params: {e}"))?;
+
+    api.get_json(url.as_str()).await
+}
+
+async fn load_or_fetch_raw_cache(force: bool) -> Result<Vec<CachedRawRecord>, String> {
+    let path = raw_cache_path();
+
+    if !force && path.exists() {
+        let bytes = fs::read(&path).map_err(|e| format!("failed to read cache: {e}"))?;
+        let records: Vec<CachedRawRecord> =
+            rkyv::from_bytes::<Vec<CachedRawRecord>, rkyv::rancor::Error>(&bytes)
+                .map_err(|e| format!("failed to deserialize cache: {e}"))?;
+        eprintln!("{} records loaded from cache.", records.len());
+        return Ok(records);
+    }
+
+    let api = CloudnetApi::new()?;
+    let instrument = "halo-doppler-lidar";
+
+    let intervals = weekly_intervals();
+    let total = intervals.len();
+    let mut all_records: Vec<CachedRawRecord> = Vec::new();
+
+    eprintln!("Fetching {instrument} raw file metadata...");
+    for (i, (from, to)) in intervals.iter().enumerate() {
+        eprint!("\r  [{}/{}] ", i + 1, total);
+        match fetch_raw_files_for_interval(&api, instrument, *from, *to).await {
+            Ok(records) => {
+                all_records.extend(records.into_iter().map(CachedRawRecord::from));
+            }
+            Err(e) => {
+                eprintln!("error: {e}");
+            }
+        }
+    }
+    eprintln!("\r  -> {} records", all_records.len());
+
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent).map_err(|e| format!("failed to create cache dir: {e}"))?;
+    }
+    let bytes = rkyv::to_bytes::<rkyv::rancor::Error>(&all_records)
+        .map_err(|e| format!("failed to serialize: {e}"))?;
+    fs::write(&path, &bytes).map_err(|e| format!("failed to write cache: {e}"))?;
+
+    eprintln!("Cached to {}", path.display());
+    Ok(all_records)
+}
+
+async fn cmd_sample_raw(add: bool, force: bool) -> Result<(), String> {
+    let records = load_or_fetch_raw_cache(force).await?;
+
+    if records.is_empty() {
+        return Err("no halo-doppler-lidar raw records found".to_string());
+    }
+
+    let mut sorted: Vec<&CachedRawRecord> = records.iter().collect();
+    sorted.sort_by_key(|r| r.size);
+    let n = sorted.len();
+
+    let mut entries = Vec::new();
+    eprintln!();
+    eprintln!(
+        "  {:<8} {:<6} {:<20} {:<12} {:<30} {:<12}",
+        "ID", "Pctl", "Site", "Date", "Filename", "Size"
+    );
+    eprintln!("  {}", "-".repeat(90));
+
+    for &(label, p) in PERCENTILES {
+        let idx = (n * usize::from(p) / 100).min(n - 1);
+        let rec = sorted[idx];
+        let id = generate_id();
+
+        eprintln!(
+            "  {:<8} {:<6} {:<20} {:<12} {:<30} {:<12}",
+            id,
+            label,
+            rec.site_id,
+            rec.measurement_date,
+            rec.filename,
+            format_size(rec.size),
+        );
+
+        entries.push(RawBenchEntry {
+            id,
+            instrument_id: rec.instrument_id.clone(),
+            instrument_uuid: rec.instrument_uuid.clone(),
+            site: rec.site_id.clone(),
+            date: rec.measurement_date.clone(),
+            filename: rec.filename.clone(),
+            file_uuid: rec.uuid.clone(),
+            percentile: Some(label.to_string()),
+            description: Some("added by dopbench sample".to_string()),
+        });
+    }
+
+    if add {
+        let path = bench_config_path();
+        let text = fs::read_to_string(&path).unwrap_or_default();
+        let mut doc: DocumentMut = text
+            .parse()
+            .map_err(|e| format!("failed to parse {}: {e}", path.display()))?;
+
+        if doc.get("raw").is_none() {
+            doc.insert("raw", Item::ArrayOfTables(ArrayOfTables::new()));
+        }
+        let arr = doc["raw"]
+            .as_array_of_tables_mut()
+            .ok_or("'raw' is not an array of tables in bench.toml")?;
+
+        for entry in &entries {
+            let mut t = Table::new();
+            t.insert("id", value(&entry.id));
+            t.insert("instrument_id", value(&entry.instrument_id));
+            t.insert("instrument_uuid", value(&entry.instrument_uuid));
+            t.insert("site", value(&entry.site));
+            t.insert("date", value(&entry.date));
+            t.insert("filename", value(&entry.filename));
+            t.insert("file_uuid", value(&entry.file_uuid));
+            if let Some(p) = &entry.percentile {
+                t.insert("percentile", value(p));
+            }
+            if let Some(d) = &entry.description {
+                t.insert("description", value(d));
+            }
+            arr.push(t);
+        }
+
+        fs::write(&path, doc.to_string())
+            .map_err(|e| format!("failed to write {}: {e}", path.display()))?;
+
+        eprintln!();
+        eprintln!("Wrote {}", path.display());
+    }
+    Ok(())
+}
+
+async fn fetch_and_download_single_raw(
+    api: &CloudnetApi,
+    entry: &RawBenchEntry,
+) -> Result<(), String> {
+    if has_cached_file(&entry.file_uuid) {
+        return Ok(());
+    }
+    let url = format!(
+        "{BASE_URL}/download/raw/{}/{}",
+        entry.file_uuid, entry.filename
+    );
+    let bytes = api.download_bytes(&url).await?;
+    let content = decompress_if_gz(&entry.filename, bytes)?;
+    store_cached_file(&entry.file_uuid, &content)?;
+    eprintln!("  downloaded {}", entry.filename);
+    Ok(())
+}
+
+fn build_raw_lock_entry(
+    entry: &RawBenchEntry,
+    elapsed_secs: Option<f64>,
+) -> Result<RawLockEntry, String> {
+    let sha256 = file_sha256(&cache_file_path(&entry.file_uuid))?;
+    Ok(RawLockEntry {
+        id: entry.id.clone(),
+        site: entry.site.clone(),
+        date: entry.date.clone(),
+        instrument_uuid: entry.instrument_uuid.clone(),
+        filename: entry.filename.clone(),
+        file_uuid: entry.file_uuid.clone(),
+        sha256,
+        elapsed_secs,
+    })
+}
+
+fn run_raw_bench(entry: &RawBenchEntry) -> Result<f64, String> {
+    let path = cache_file_path(&entry.file_uuid);
+    let content = fs::read(&path).map_err(|e| format!("failed to read {}: {e}", path.display()))?;
+    let start = std::time::Instant::now();
+    doprs::raw::halo_hpl::from_bytes_src(&content)
+        .map_err(|e| format!("parse failed for {}: {e}", entry.filename))?;
+    Ok(start.elapsed().as_secs_f64())
+}
+
+// ── Fetch & download (stare) ────────────────────────────────────────
+
 async fn fetch_and_download(
     api: &CloudnetApi,
     entry: &BenchEntry,
@@ -890,6 +1303,11 @@ fn build_run_meta() -> RunMeta {
     }
 }
 
+fn read_bench_lock() -> Option<BenchLock> {
+    let text = fs::read_to_string(bench_lock_path()).ok()?;
+    toml::from_str(&text).ok()
+}
+
 fn write_bench_lock(lock: &BenchLock) -> Result<(), String> {
     let lock_str = toml::to_string_pretty(lock).map_err(|e| format!("TOML error: {e}"))?;
     let header = "# bench.lock \u{2014} auto-generated by `dopbench`\n# DO NOT EDIT.\n\n";
@@ -967,28 +1385,64 @@ async fn cmd_lock(
     api: &CloudnetApi,
     site_filter: Option<&str>,
     id_filter: Option<&str>,
+    kind: Option<&BenchKind>,
+    update_all: bool,
 ) -> Result<(), String> {
     let config = read_config()?;
-    let entries = filter_entries(&config.stare, site_filter, id_filter);
+    let has_filter = site_filter.is_some() || id_filter.is_some() || kind.is_some();
 
-    if entries.is_empty() {
-        return Err("no stare entries match the given filters in bench.toml".to_string());
-    }
-
-    let total = entries.len();
-    let mut lock_entries = Vec::new();
-
-    for (i, entry) in entries.iter().enumerate() {
-        eprintln!("[{}/{}] {} ...", i + 1, total, entry);
-        let records = fetch_and_download(api, entry).await?;
-        lock_entries.push(build_lock_entry(entry, &records, None)?);
-    }
-
-    let lock = BenchLock {
-        meta: build_lock_meta(),
-        run: None,
-        stare: lock_entries,
+    let mut lock = if update_all {
+        BenchLock::default()
+    } else {
+        read_bench_lock().unwrap_or_default()
     };
+
+    let (stare_entries, raw_entries) = if update_all || has_filter {
+        filter_by_kind(&config, site_filter, id_filter, kind)
+    } else {
+        let locked = lock.locked_ids();
+        let stare: Vec<_> = config
+            .stare
+            .iter()
+            .filter(|e| !locked.contains(e.id()))
+            .collect();
+        let raw: Vec<_> = config
+            .raw
+            .iter()
+            .filter(|e| !locked.contains(e.id()))
+            .collect();
+        (stare, raw)
+    };
+
+    if stare_entries.is_empty() && raw_entries.is_empty() {
+        if !has_filter && !update_all {
+            eprintln!("All entries already locked. Use --update-all to re-lock everything.");
+        } else {
+            return Err("no entries match the given filters in bench.toml".to_string());
+        }
+        return Ok(());
+    }
+
+    lock.meta = build_lock_meta();
+
+    let total_stare = stare_entries.len();
+    for (i, entry) in stare_entries.iter().enumerate() {
+        eprintln!("[{}/{}] {} ...", i + 1, total_stare, entry);
+        let records = fetch_and_download(api, entry).await?;
+        let lock_entry = build_lock_entry(entry, &records, None)?;
+        lock.stare.retain(|e| e.id != entry.id());
+        lock.stare.push(lock_entry);
+    }
+
+    let total_raw = raw_entries.len();
+    for (i, entry) in raw_entries.iter().enumerate() {
+        eprintln!("[{}/{}] {} ...", i + 1, total_raw, entry);
+        fetch_and_download_single_raw(api, entry).await?;
+        let lock_entry = build_raw_lock_entry(entry, None)?;
+        lock.raw.retain(|e| e.id != entry.id());
+        lock.raw.push(lock_entry);
+    }
+
     write_bench_lock(&lock)?;
 
     Ok(())
@@ -999,82 +1453,118 @@ async fn cmd_run(
     site_filter: Option<&str>,
     id_filter: Option<&str>,
     save: bool,
+    kind: Option<&BenchKind>,
 ) -> Result<(), String> {
     let config = read_config()?;
-    let entries = filter_entries(&config.stare, site_filter, id_filter);
+    let (stare_entries, raw_entries) = filter_by_kind(&config, site_filter, id_filter, kind);
 
-    if entries.is_empty() {
-        return Err("no stare entries match the given filters in bench.toml".to_string());
+    if stare_entries.is_empty() && raw_entries.is_empty() {
+        return Err("no entries match the given filters in bench.toml".to_string());
     }
 
     let old_elapsed = read_old_elapsed();
-    let total = entries.len();
-    let mut lock_entries = Vec::new();
-    let mut results = Vec::new();
+    let total_stare = stare_entries.len();
+    let mut stare_lock_entries = Vec::new();
+    let mut stare_results = Vec::new();
 
-    for (i, entry) in entries.iter().enumerate() {
-        eprint!("[{}/{}] {} ... ", i + 1, total, entry);
+    for (i, entry) in stare_entries.iter().enumerate() {
+        eprint!("[{}/{}] {} ... ", i + 1, total_stare, entry);
 
         let records = fetch_and_download(api, entry).await?;
         let elapsed = run_bench_helper(entry, &records).await?;
 
         if save {
-            lock_entries.push(build_lock_entry(entry, &records, Some(elapsed))?);
+            stare_lock_entries.push(build_lock_entry(entry, &records, Some(elapsed))?);
         }
 
         match old_elapsed.get(&entry.id) {
             Some(&old) => eprintln!("{} {}", colored_time(elapsed), format_speedup(old, elapsed)),
             None => eprintln!("{}", colored_time(elapsed)),
         }
-        results.push((*entry, elapsed));
+        stare_results.push((*entry, elapsed));
+    }
+
+    let total_raw = raw_entries.len();
+    let mut raw_lock_entries = Vec::new();
+    let mut raw_results = Vec::new();
+
+    for (i, entry) in raw_entries.iter().enumerate() {
+        eprint!("[{}/{}] {} ... ", i + 1, total_raw, entry);
+
+        fetch_and_download_single_raw(api, entry).await?;
+        let elapsed = run_raw_bench(entry)?;
+
+        if save {
+            raw_lock_entries.push(build_raw_lock_entry(entry, Some(elapsed))?);
+        }
+
+        match old_elapsed.get(&entry.id) {
+            Some(&old) => eprintln!("{} {}", colored_time(elapsed), format_speedup(old, elapsed)),
+            None => eprintln!("{}", colored_time(elapsed)),
+        }
+        raw_results.push((*entry, elapsed));
     }
 
     if save {
         let lock = BenchLock {
             meta: build_lock_meta(),
             run: Some(build_run_meta()),
-            stare: lock_entries,
+            stare: stare_lock_entries,
+            raw: raw_lock_entries,
         };
         eprintln!();
         write_bench_lock(&lock)?;
     }
 
-    // Print results table
-    let has_baseline = results.iter().any(|(e, _)| old_elapsed.contains_key(&e.id));
-    eprintln!();
-    eprintln!("Benchmark results:");
-    eprintln!();
-    if has_baseline {
-        eprintln!(
-            "  {:<8} {:<6} {:<20} {:<12} {:<10} Speedup",
-            "ID", "Pctl", "Site", "Date", "Time"
-        );
-        eprintln!("  {}", "-".repeat(74));
-    } else {
-        eprintln!(
-            "  {:<8} {:<6} {:<20} {:<12} {:<10}",
-            "ID", "Pctl", "Site", "Date", "Time"
-        );
-        eprintln!("  {}", "-".repeat(58));
-    }
-    for (entry, elapsed) in &results {
-        let pctl = entry.percentile.as_deref().unwrap_or("-");
-        let speedup = old_elapsed
-            .get(&entry.id)
-            .map(|&old| format_speedup(old, *elapsed))
-            .unwrap_or_default();
-        eprintln!(
-            "  \x1b[36m{:<8}\x1b[0m {:<6} {:<20} {:<12} {} {}",
-            entry.id,
-            pctl,
-            entry.site,
-            entry.date,
-            colored_time(*elapsed),
-            speedup,
-        );
-    }
+    print_results(&stare_results, &old_elapsed);
+    print_results(&raw_results, &old_elapsed);
 
     Ok(())
+}
+
+fn print_results<T: HasIdAndSite>(results: &[(&T, f64)], old_elapsed: &HashMap<String, f64>) {
+    if results.is_empty() {
+        return;
+    }
+    let label = results[0].0.result_label();
+    let has_extra = results[0].0.extra_columns().is_some();
+    let has_baseline = results
+        .iter()
+        .any(|(e, _)| old_elapsed.contains_key(e.id()));
+
+    eprintln!();
+    eprintln!("{label} benchmark results:");
+    eprintln!();
+
+    let mut header = format!("  {:<8} {:<6} {:<20} {:<12} ", "ID", "Pctl", "Site", "Date");
+    if has_extra {
+        let _ = write!(header, "{:<30} ", results[0].0.extra_columns().unwrap().0);
+    }
+    let _ = write!(header, "{:<10}", "Time");
+    if has_baseline {
+        header.push_str(" Speedup");
+    }
+    eprintln!("{header}");
+    eprintln!("  {}", "-".repeat(header.len() - 2));
+
+    for (entry, elapsed) in results {
+        let pctl = entry.percentile().unwrap_or("-");
+        let speedup = old_elapsed
+            .get(entry.id())
+            .map(|&old| format_speedup(old, *elapsed))
+            .unwrap_or_default();
+        eprint!(
+            "  \x1b[36m{:<8}\x1b[0m {:<6} {:<20} {:<12} ",
+            entry.id(),
+            pctl,
+            entry.site(),
+            entry.date(),
+        );
+        if let Some((_, val)) = entry.extra_columns() {
+            eprint!("{val:<30} ");
+        }
+        eprintln!("{} {}", colored_time(*elapsed), speedup);
+    }
 }
 
 fn colored_time(secs: f64) -> String {
@@ -1098,10 +1588,17 @@ fn read_old_elapsed() -> HashMap<String, f64> {
     let Ok(lock) = toml::from_str::<BenchLock>(&text) else {
         return HashMap::new();
     };
-    lock.stare
+    let mut map: HashMap<String, f64> = lock
+        .stare
         .into_iter()
         .filter_map(|e| Some((e.id, e.elapsed_secs?)))
-        .collect()
+        .collect();
+    for e in lock.raw {
+        if let Some(elapsed) = e.elapsed_secs {
+            map.insert(e.id, elapsed);
+        }
+    }
+    map
 }
 
 fn format_speedup(old: f64, new: f64) -> String {
@@ -1287,19 +1784,37 @@ async fn run() -> Result<(), String> {
         }
         Command::List { site, id } => cmd_list(site.as_deref(), id.as_deref()),
         Command::Remove { id } => cmd_remove(&id),
-        Command::Sample { product } => {
-            let api = CloudnetApi::new()?;
-            match product {
-                SampleProduct::Stare { add } => cmd_sample_stare(&api, add).await,
+        Command::Sample { product } => match product {
+            SampleProduct::Stare { add } => {
+                let api = CloudnetApi::new()?;
+                cmd_sample_stare(&api, add).await
             }
-        }
-        Command::Lock { site, id } => {
+            SampleProduct::Raw { add, force } => cmd_sample_raw(add, force).await,
+        },
+        Command::Lock {
+            site,
+            id,
+            kind,
+            update_all,
+        } => {
             let api = CloudnetApi::new()?;
-            cmd_lock(&api, site.as_deref(), id.as_deref()).await
+            cmd_lock(
+                &api,
+                site.as_deref(),
+                id.as_deref(),
+                kind.as_ref(),
+                update_all,
+            )
+            .await
         }
-        Command::Run { site, id, save } => {
+        Command::Run {
+            site,
+            id,
+            save,
+            kind,
+        } => {
             let api = CloudnetApi::new()?;
-            cmd_run(&api, site.as_deref(), id.as_deref(), save).await
+            cmd_run(&api, site.as_deref(), id.as_deref(), save, kind.as_ref()).await
         }
         Command::Profile {
             id,

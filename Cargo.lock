@@ -436,9 +436,11 @@ version = "0.5.11"
 dependencies = [
  "chrono",
  "clap",
+ "doprs",
  "flate2",
  "rand 0.10.0",
  "reqwest",
+ "rkyv",
  "serde",
  "serde_json",
  "sha2",
