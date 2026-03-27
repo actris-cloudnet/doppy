@@ -79,6 +79,26 @@ enum Command {
         #[arg(long)]
         save: bool,
     },
+    /// Profile stare processing for a bench entry
+    Profile {
+        /// The entry id to profile
+        id: String,
+        /// Profiler to use
+        #[arg(long, value_enum, default_value_t = Profiler::PySpy)]
+        profiler: Profiler,
+        /// Output format (py-spy only)
+        #[arg(long, short, value_enum, default_value_t = ProfileFormat::Flamegraph)]
+        format: ProfileFormat,
+        /// Output file path (auto-generated if omitted)
+        #[arg(long, short)]
+        output: Option<String>,
+        /// Include native (Rust/C) frames (py-spy only)
+        #[arg(long)]
+        native: bool,
+        /// Open the output file after profiling
+        #[arg(long)]
+        open: bool,
+    },
 }
 
 #[derive(Subcommand)]
@@ -93,6 +113,40 @@ enum AddProduct {
         #[arg(long)]
         description: Option<String>,
     },
+}
+
+#[derive(Clone, clap::ValueEnum)]
+enum Profiler {
+    PySpy,
+    Cprofile,
+}
+
+#[derive(Clone, clap::ValueEnum)]
+enum ProfileFormat {
+    Flamegraph,
+    Raw,
+    Speedscope,
+    Chrometrace,
+}
+
+impl ProfileFormat {
+    const fn py_spy_flag(&self) -> &str {
+        match self {
+            Self::Flamegraph => "flamegraph",
+            Self::Raw => "raw",
+            Self::Speedscope => "speedscope",
+            Self::Chrometrace => "chrometrace",
+        }
+    }
+
+    const fn extension(&self) -> &str {
+        match self {
+            Self::Flamegraph => "svg",
+            Self::Raw => "txt",
+            Self::Speedscope => "speedscope.json",
+            Self::Chrometrace => "json",
+        }
+    }
 }
 
 #[derive(Subcommand)]
@@ -340,6 +394,10 @@ fn cache_records_path(id: &str) -> PathBuf {
     cache_dir().join("records").join(format!("{id}.json"))
 }
 
+fn profiles_dir() -> PathBuf {
+    cache_dir().join("profiles")
+}
+
 fn has_cached_file(uuid: &str) -> bool {
     cache_file_path(uuid).exists()
 }
@@ -367,6 +425,16 @@ fn load_cached_records(id: &str) -> Option<Vec<RawRecord>> {
 }
 
 // ── Helpers ─────────────────────────────────────────────────────────
+
+fn python_path() -> String {
+    if let Ok(venv) = std::env::var("VIRTUAL_ENV") {
+        let bin = PathBuf::from(venv).join("bin").join("python");
+        if bin.exists() {
+            return bin.to_string_lossy().to_string();
+        }
+    }
+    "python".to_string()
+}
 
 fn generate_id() -> String {
     Alphanumeric
@@ -858,7 +926,7 @@ fn build_lock_entry(
     })
 }
 
-async fn run_bench_helper(entry: &BenchEntry, records: &[RawRecord]) -> Result<f64, String> {
+fn build_bench_payload(entry: &BenchEntry, records: &[RawRecord]) -> Result<String, String> {
     let local_records = build_local_records(records)?;
     let payload = serde_json::json!({
         "product": "stare",
@@ -868,13 +936,18 @@ async fn run_bench_helper(entry: &BenchEntry, records: &[RawRecord]) -> Result<f
         "instrument_uuid": entry.instrument_uuid,
         "records": local_records,
     });
-    let json_str = serde_json::to_string(&payload).map_err(|e| format!("serialize error: {e}"))?;
+    serde_json::to_string(&payload).map_err(|e| format!("serialize error: {e}"))
+}
 
-    let output = tokio::process::Command::new("python")
+async fn run_bench_helper(entry: &BenchEntry, records: &[RawRecord]) -> Result<f64, String> {
+    let json_str = build_bench_payload(entry, records)?;
+
+    let python = python_path();
+    let output = tokio::process::Command::new(&python)
         .args(["-m", "tests.helpers.bench_helper", &json_str])
         .output()
         .await
-        .map_err(|e| format!("failed to spawn python: {e}"))?;
+        .map_err(|e| format!("failed to spawn {python}: {e}"))?;
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
@@ -998,6 +1071,159 @@ fn colored_time(secs: f64) -> String {
     format!("{color}{secs:.2}s\x1b[0m")
 }
 
+fn is_py_spy_available() -> bool {
+    std::process::Command::new("py-spy")
+        .arg("--version")
+        .stdout(std::process::Stdio::null())
+        .stderr(std::process::Stdio::null())
+        .status()
+        .is_ok_and(|s| s.success())
+}
+
+fn open_file(path: &Path) -> Result<(), String> {
+    let cmd = if cfg!(target_os = "macos") {
+        "open"
+    } else if cfg!(target_os = "windows") {
+        "start"
+    } else {
+        "xdg-open"
+    };
+    std::process::Command::new(cmd)
+        .arg(path)
+        .spawn()
+        .map_err(|e| format!("failed to open {}: {e}", path.display()))?;
+    Ok(())
+}
+
+/// Returns `Ok(true)` on success, `Ok(false)` if py-spy failed with a known
+/// recoverable error (permissions, unsupported Python version).
+async fn run_py_spy(
+    json_str: &str,
+    output_path: &Path,
+    format: &ProfileFormat,
+    native: bool,
+) -> Result<bool, String> {
+    let mut args = vec![
+        "record".to_string(),
+        "-o".to_string(),
+        output_path.to_string_lossy().to_string(),
+        "-f".to_string(),
+        format.py_spy_flag().to_string(),
+    ];
+    if native {
+        args.push("--native".to_string());
+    }
+    args.extend([
+        "--".to_string(),
+        python_path(),
+        "-m".to_string(),
+        "tests.helpers.bench_helper".to_string(),
+        json_str.to_string(),
+    ]);
+
+    let output = tokio::process::Command::new("py-spy")
+        .args(&args)
+        .output()
+        .await
+        .map_err(|e| format!("failed to spawn py-spy: {e}"))?;
+
+    if output.status.success() {
+        return Ok(true);
+    }
+
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    let hint = if stderr.contains("requires root") || stderr.contains("elevated permissions") {
+        "py-spy requires root on macOS"
+    } else if stderr.contains("python version") {
+        "py-spy doesn't support this Python version"
+    } else {
+        return Err(format!("py-spy failed: {stderr}"));
+    };
+    eprintln!("{hint}, falling back to cProfile");
+    Ok(false)
+}
+
+async fn run_cprofile(json_str: &str, output_path: &Path) -> Result<(), String> {
+    let python = python_path();
+    let output_str = output_path.to_string_lossy().to_string();
+    let output = tokio::process::Command::new(&python)
+        .args(["-m", "tests.helpers.profile_helper", json_str, &output_str])
+        .output()
+        .await
+        .map_err(|e| format!("failed to spawn {python}: {e}"))?;
+
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        return Err(format!("profile_helper failed: {stderr}"));
+    }
+    Ok(())
+}
+
+async fn cmd_profile(
+    api: &CloudnetApi,
+    id: &str,
+    profiler: Profiler,
+    format: ProfileFormat,
+    output: Option<String>,
+    native: bool,
+    open: bool,
+) -> Result<(), String> {
+    let config = read_config()?;
+    let entries = filter_entries(&config.stare, None, Some(id));
+    let entry = entries
+        .into_iter()
+        .next()
+        .ok_or_else(|| format!("no entry found with id '{id}'"))?;
+
+    eprintln!("Profiling {entry} ...");
+
+    let records = fetch_and_download(api, entry).await?;
+    let json_str = build_bench_payload(entry, &records)?;
+
+    let actual_profiler = match profiler {
+        Profiler::PySpy if !is_py_spy_available() => {
+            eprintln!("py-spy not found, falling back to cProfile");
+            Profiler::Cprofile
+        }
+        other => other,
+    };
+
+    let prof_dir = profiles_dir();
+    fs::create_dir_all(&prof_dir).map_err(|e| format!("failed to create profiles dir: {e}"))?;
+
+    let output_path = match (&actual_profiler, &output) {
+        (_, Some(custom)) => PathBuf::from(custom),
+        (Profiler::PySpy, None) => prof_dir.join(format!("{id}.{}", format.extension())),
+        (Profiler::Cprofile, None) => prof_dir.join(format!("{id}.prof")),
+    };
+
+    match actual_profiler {
+        Profiler::PySpy => {
+            if !run_py_spy(&json_str, &output_path, &format, native).await? {
+                let fallback_path =
+                    output.map_or_else(|| prof_dir.join(format!("{id}.prof")), PathBuf::from);
+                run_cprofile(&json_str, &fallback_path).await?;
+                eprintln!("Profile saved to {}", fallback_path.display());
+                if open {
+                    open_file(&fallback_path)?;
+                }
+                return Ok(());
+            }
+        }
+        Profiler::Cprofile => {
+            run_cprofile(&json_str, &output_path).await?;
+        }
+    }
+
+    eprintln!("Profile saved to {}", output_path.display());
+
+    if open {
+        open_file(&output_path)?;
+    }
+
+    Ok(())
+}
+
 // ── Main ────────────────────────────────────────────────────────────
 
 #[tokio::main]
@@ -1031,6 +1257,17 @@ async fn run() -> Result<(), String> {
         Command::Run { site, id, save } => {
             let api = CloudnetApi::new()?;
             cmd_run(&api, site.as_deref(), id.as_deref(), save).await
+        }
+        Command::Profile {
+            id,
+            profiler,
+            format,
+            output,
+            native,
+            open,
+        } => {
+            let api = CloudnetApi::new()?;
+            cmd_profile(&api, &id, profiler, format, output, native, open).await
         }
     }
 }
