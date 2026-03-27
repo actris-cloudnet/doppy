@@ -98,6 +98,12 @@ enum Command {
         /// Filter by product type
         #[arg(long)]
         product: Option<String>,
+        /// Filter by kind (same as product)
+        #[arg(long)]
+        kind: Option<String>,
+        /// Exclude tests from these sites
+        #[arg(long)]
+        exclude_site: Vec<String>,
         /// Run only the test with this id
         id: Option<String>,
     },
@@ -331,6 +337,7 @@ fn filter_entries(
     product_filter: Option<&str>,
     site_filter: Option<&str>,
     id_filter: Option<&str>,
+    exclude_sites: &[String],
 ) -> Vec<types::TestEntry> {
     entries
         .into_iter()
@@ -338,6 +345,7 @@ fn filter_entries(
             product_filter.is_none_or(|p| e.product() == p)
                 && site_filter.is_none_or(|s| e.site() == s)
                 && id_filter.is_none_or(|id| e.id() == id)
+                && !exclude_sites.iter().any(|s| e.site() == s)
         })
         .collect()
 }
@@ -645,7 +653,13 @@ fn cmd_list(
     id_filter: Option<&str>,
 ) -> Result<(), String> {
     let config = read_config()?;
-    let filtered = filter_entries(config.entries(), product_filter, site_filter, id_filter);
+    let filtered = filter_entries(
+        config.entries(),
+        product_filter,
+        site_filter,
+        id_filter,
+        &[],
+    );
 
     if filtered.is_empty() {
         println!("No tests match the given filters.");
@@ -761,7 +775,13 @@ async fn cmd_download(
     force: bool,
 ) -> Result<(), String> {
     let config = read_config()?;
-    let filtered = filter_entries(config.entries(), product_filter, site_filter, id_filter);
+    let filtered = filter_entries(
+        config.entries(),
+        product_filter,
+        site_filter,
+        id_filter,
+        &[],
+    );
 
     if filtered.is_empty() {
         println!("No tests match the given filters.");
@@ -807,11 +827,11 @@ async fn cmd_lock(
     let entry_order: Vec<String> = entries.iter().map(|e| e.id().to_string()).collect();
 
     let (mut lock, filtered) = if update_all {
-        let filtered = filter_entries(entries, product_filter, site_filter, id_filter);
+        let filtered = filter_entries(entries, product_filter, site_filter, id_filter, &[]);
         (TestsLock::default(), filtered)
     } else if has_filter {
         let lock = read_lock().unwrap_or_default();
-        let filtered = filter_entries(entries, product_filter, site_filter, id_filter);
+        let filtered = filter_entries(entries, product_filter, site_filter, id_filter, &[]);
         (lock, filtered)
     } else {
         let lock = read_lock().unwrap_or_default();
@@ -883,10 +903,17 @@ async fn cmd_run(
     site_filter: Option<&str>,
     product_filter: Option<&str>,
     id_filter: Option<&str>,
+    exclude_sites: &[String],
 ) -> Result<(), String> {
     let config = read_config()?;
     let lock = read_lock()?;
-    let filtered = filter_entries(config.entries(), product_filter, site_filter, id_filter);
+    let filtered = filter_entries(
+        config.entries(),
+        product_filter,
+        site_filter,
+        id_filter,
+        exclude_sites,
+    );
 
     if filtered.is_empty() {
         println!("No tests match the given filters.");
@@ -996,69 +1023,90 @@ async fn main() {
             )
             .await
         }
-        Command::Sample { action } => match action {
-            SampleAction::Fetch { force } => sample::cmd_sample_fetch(force).await,
-            SampleAction::Stare {
-                n,
-                force,
-                per_cluster,
-                add,
-            } => sample::cmd_sample_stare(n, force, per_cluster, add).await,
-            SampleAction::Wind {
-                n,
-                force,
-                per_cluster,
-                add,
-            } => sample::cmd_sample_wind(n, force, per_cluster, add).await,
-            SampleAction::Turbulence {
-                n,
-                force,
-                per_cluster,
-                add,
-            } => sample::cmd_sample_turbulence(n, force, per_cluster, add).await,
-        },
-        Command::Run { site, product, id } => {
-            cmd_run(site.as_deref(), product.as_deref(), id.as_deref()).await
+        Command::Sample { action } => cmd_sample(action).await,
+        Command::Run {
+            site,
+            product,
+            kind,
+            exclude_site,
+            id,
+        } => {
+            let product_filter = product.as_deref().or(kind.as_deref());
+            cmd_run(
+                site.as_deref(),
+                product_filter,
+                id.as_deref(),
+                &exclude_site,
+            )
+            .await
         }
-        Command::Legacy { action } => match action {
-            LegacyAction::Run {
-                category,
-                product,
-                site,
-                source,
-                id,
-                include_slow,
-            } => {
-                legacy::cmd_legacy_run(
-                    category.as_deref(),
-                    product.as_deref(),
-                    site.as_deref(),
-                    source.as_deref(),
-                    id.as_deref(),
-                    include_slow,
-                )
-                .await
-            }
-            LegacyAction::List {
-                category,
-                product,
-                site,
-                source,
-                id,
-                include_slow,
-            } => legacy::cmd_legacy_list(
+        Command::Legacy { action } => cmd_legacy(action).await,
+    };
+
+    if let Err(e) = result {
+        eprintln!("Error: {e}");
+        std::process::exit(1);
+    }
+}
+
+async fn cmd_sample(action: SampleAction) -> Result<(), String> {
+    match action {
+        SampleAction::Fetch { force } => sample::cmd_sample_fetch(force).await,
+        SampleAction::Stare {
+            n,
+            force,
+            per_cluster,
+            add,
+        } => sample::cmd_sample_stare(n, force, per_cluster, add).await,
+        SampleAction::Wind {
+            n,
+            force,
+            per_cluster,
+            add,
+        } => sample::cmd_sample_wind(n, force, per_cluster, add).await,
+        SampleAction::Turbulence {
+            n,
+            force,
+            per_cluster,
+            add,
+        } => sample::cmd_sample_turbulence(n, force, per_cluster, add).await,
+    }
+}
+
+async fn cmd_legacy(action: LegacyAction) -> Result<(), String> {
+    match action {
+        LegacyAction::Run {
+            category,
+            product,
+            site,
+            source,
+            id,
+            include_slow,
+        } => {
+            legacy::cmd_legacy_run(
                 category.as_deref(),
                 product.as_deref(),
                 site.as_deref(),
                 source.as_deref(),
                 id.as_deref(),
                 include_slow,
-            ),
-        },
-    };
-
-    if let Err(e) = result {
-        eprintln!("Error: {e}");
-        std::process::exit(1);
+            )
+            .await
+        }
+        LegacyAction::List {
+            category,
+            product,
+            site,
+            source,
+            id,
+            include_slow,
+        } => legacy::cmd_legacy_list(
+            category.as_deref(),
+            product.as_deref(),
+            site.as_deref(),
+            source.as_deref(),
+            id.as_deref(),
+            include_slow,
+        ),
     }
 }

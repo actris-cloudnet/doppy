@@ -97,11 +97,11 @@ enum Command {
         #[arg(long, value_enum)]
         kind: Option<BenchKind>,
     },
-    /// Profile stare processing for a bench entry
+    /// Profile a bench entry (stare via py-spy, raw via samply)
     Profile {
         /// The entry id to profile
         id: String,
-        /// Profiler to use
+        /// Profiler to use (stare only)
         #[arg(long, value_enum, default_value_t = Profiler::PySpy)]
         profiler: Profiler,
         /// Output format (py-spy only)
@@ -116,6 +116,18 @@ enum Command {
         /// Open the output file after profiling
         #[arg(long)]
         open: bool,
+        /// Number of parse iterations (raw profiling only)
+        #[arg(long, default_value_t = 10)]
+        iterations: u32,
+    },
+    /// Internal: parse a raw file (used as profiling target)
+    #[command(hide = true)]
+    RawParse {
+        /// Path to the cached raw file
+        path: String,
+        /// Number of iterations
+        #[arg(long, default_value_t = 1)]
+        iterations: u32,
     },
 }
 
@@ -1506,12 +1518,17 @@ async fn cmd_run(
     }
 
     if save {
-        let lock = BenchLock {
-            meta: build_lock_meta(),
-            run: Some(build_run_meta()),
-            stare: stare_lock_entries,
-            raw: raw_lock_entries,
-        };
+        let mut lock = read_bench_lock().unwrap_or_default();
+        lock.meta = build_lock_meta();
+        lock.run = Some(build_run_meta());
+        for entry in stare_lock_entries {
+            lock.stare.retain(|e| e.id != entry.id);
+            lock.stare.push(entry);
+        }
+        for entry in raw_lock_entries {
+            lock.raw.retain(|e| e.id != entry.id);
+            lock.raw.push(entry);
+        }
         eprintln!();
         write_bench_lock(&lock)?;
     }
@@ -1611,8 +1628,8 @@ fn format_speedup(old: f64, new: f64) -> String {
     }
 }
 
-fn is_py_spy_available() -> bool {
-    std::process::Command::new("py-spy")
+fn is_tool_available(name: &str) -> bool {
+    std::process::Command::new(name)
         .arg("--version")
         .stdout(std::process::Stdio::null())
         .stderr(std::process::Stdio::null())
@@ -1721,7 +1738,7 @@ async fn cmd_profile(
     let json_str = build_bench_payload(entry, &records)?;
 
     let actual_profiler = match profiler {
-        Profiler::PySpy if !is_py_spy_available() => {
+        Profiler::PySpy if !is_tool_available("py-spy") => {
             eprintln!("py-spy not found, falling back to cProfile");
             Profiler::Cprofile
         }
@@ -1761,6 +1778,215 @@ async fn cmd_profile(
         open_file(&output_path)?;
     }
 
+    Ok(())
+}
+
+async fn cmd_profile_raw(
+    api: &CloudnetApi,
+    entry: &RawBenchEntry,
+    output: Option<String>,
+    open: bool,
+    iterations: u32,
+) -> Result<(), String> {
+    if !is_tool_available("samply") {
+        return Err("samply not found — install with: cargo install samply".to_string());
+    }
+
+    eprintln!("Profiling {entry} ({iterations} iterations) ...");
+
+    fetch_and_download_single_raw(api, entry).await?;
+    let file_path = cache_file_path(&entry.file_uuid);
+
+    let prof_dir = profiles_dir();
+    fs::create_dir_all(&prof_dir).map_err(|e| format!("failed to create profiles dir: {e}"))?;
+
+    let output_path = output.map_or_else(
+        || prof_dir.join(format!("{}.json", entry.id)),
+        PathBuf::from,
+    );
+
+    let self_exe =
+        std::env::current_exe().map_err(|e| format!("failed to get current exe: {e}"))?;
+
+    let status = tokio::process::Command::new("samply")
+        .args([
+            "record",
+            "--save-only",
+            "--unstable-presymbolicate",
+            "-o",
+            &output_path.to_string_lossy(),
+            "--",
+        ])
+        .arg(&self_exe)
+        .args([
+            "raw-parse",
+            &file_path.to_string_lossy(),
+            "--iterations",
+            &iterations.to_string(),
+        ])
+        .status()
+        .await
+        .map_err(|e| format!("failed to spawn samply: {e}"))?;
+
+    if !status.success() {
+        return Err("samply exited with non-zero status".to_string());
+    }
+
+    let syms_path = output_path.with_extension("syms.json");
+    symbolicate_profile(&output_path, &syms_path)?;
+    let _ = fs::remove_file(&syms_path);
+
+    eprintln!("Profile saved to {}", output_path.display());
+
+    if open {
+        let status = tokio::process::Command::new("samply")
+            .args(["load", &output_path.to_string_lossy()])
+            .status()
+            .await
+            .map_err(|e| format!("failed to spawn samply load: {e}"))?;
+        if !status.success() {
+            return Err("samply load exited with non-zero status".to_string());
+        }
+    }
+
+    Ok(())
+}
+
+/// Merge the `.syms.json` sidecar into the profile, replacing hex address
+/// strings in each thread's `stringArray` with resolved symbol names.
+fn symbolicate_profile(profile_path: &Path, syms_path: &Path) -> Result<(), String> {
+    let profile_bytes =
+        fs::read(profile_path).map_err(|e| format!("failed to read profile: {e}"))?;
+    let mut profile: serde_json::Value =
+        serde_json::from_slice(&profile_bytes).map_err(|e| format!("invalid profile json: {e}"))?;
+
+    let syms_bytes = fs::read(syms_path).map_err(|e| format!("failed to read syms: {e}"))?;
+    let syms: serde_json::Value =
+        serde_json::from_slice(&syms_bytes).map_err(|e| format!("invalid syms json: {e}"))?;
+
+    let sym_strings = syms["string_table"]
+        .as_array()
+        .ok_or("syms: missing string_table")?;
+    let sym_libs = syms["data"].as_array().ok_or("syms: missing data")?;
+
+    // Index syms by debug_name for O(1) lookup
+    let mut sym_lib_by_name: HashMap<&str, &serde_json::Value> = HashMap::new();
+    for sym_lib in sym_libs {
+        if let Some(name) = sym_lib["debug_name"].as_str() {
+            sym_lib_by_name.insert(name, sym_lib);
+        }
+    }
+
+    let libs = profile["libs"].as_array().ok_or("profile: missing libs")?;
+    let mut lib_symbols: Vec<Vec<(u64, u64, &str)>> = Vec::with_capacity(libs.len());
+    for lib in libs {
+        let debug_name = lib["debugName"].as_str().unwrap_or("");
+        let mut symbols = Vec::new();
+        if let Some(sym_lib) = sym_lib_by_name.get(debug_name)
+            && let Some(table) = sym_lib["symbol_table"].as_array()
+        {
+            for entry in table {
+                let rva = entry["rva"].as_u64().unwrap_or(0);
+                let size = entry["size"].as_u64().unwrap_or(0);
+                let name_idx = usize::try_from(entry["symbol"].as_u64().unwrap_or(0)).unwrap_or(0);
+                let name = sym_strings
+                    .get(name_idx)
+                    .and_then(|v| v.as_str())
+                    .unwrap_or("??");
+                symbols.push((rva, size, name));
+            }
+        }
+        symbols.sort_by_key(|&(rva, _, _)| rva);
+        lib_symbols.push(symbols);
+    }
+
+    // Resolve symbols in each thread
+    let threads = profile["threads"]
+        .as_array_mut()
+        .ok_or("profile: missing threads")?;
+    for thread in threads {
+        let resource_table_libs = thread["resourceTable"]["lib"]
+            .as_array()
+            .map(|a| {
+                a.iter()
+                    .map(|v| v.as_i64().unwrap_or(-1))
+                    .collect::<Vec<_>>()
+            })
+            .unwrap_or_default();
+        let func_names: Vec<usize> = thread["funcTable"]["name"]
+            .as_array()
+            .map(|a| {
+                a.iter()
+                    .filter_map(|v| usize::try_from(v.as_u64().unwrap_or(0)).ok())
+                    .collect()
+            })
+            .unwrap_or_default();
+        let func_resources: Vec<i64> = thread["funcTable"]["resource"]
+            .as_array()
+            .map(|a| a.iter().map(|v| v.as_i64().unwrap_or(-1)).collect())
+            .unwrap_or_default();
+
+        let Some(string_array) = thread["stringArray"].as_array_mut() else {
+            continue;
+        };
+
+        for (func_idx, &name_idx) in func_names.iter().enumerate() {
+            let Some(s) = string_array.get(name_idx).and_then(|v| v.as_str()) else {
+                continue;
+            };
+            let Some(addr) = s
+                .strip_prefix("0x")
+                .and_then(|h| u64::from_str_radix(h, 16).ok())
+            else {
+                continue;
+            };
+            let res_idx = func_resources.get(func_idx).copied().unwrap_or(-1);
+            if res_idx < 0 {
+                continue;
+            }
+            let Some(&lib_idx) = resource_table_libs.get(usize::try_from(res_idx).unwrap_or(0))
+            else {
+                continue;
+            };
+            if lib_idx < 0 {
+                continue;
+            }
+            let Some(symbols) = lib_symbols.get(usize::try_from(lib_idx).unwrap_or(0)) else {
+                continue;
+            };
+            if let Some(name) = lookup_symbol(symbols, addr) {
+                string_array[name_idx] = serde_json::Value::String(name.to_string());
+            }
+        }
+    }
+
+    profile["meta"]["symbolicated"] = serde_json::Value::Bool(true);
+
+    let out =
+        serde_json::to_vec(&profile).map_err(|e| format!("failed to serialize profile: {e}"))?;
+    fs::write(profile_path, out).map_err(|e| format!("failed to write profile: {e}"))?;
+
+    Ok(())
+}
+
+/// Binary search for the symbol containing `addr` in a sorted symbol table.
+fn lookup_symbol<'a>(symbols: &[(u64, u64, &'a str)], addr: u64) -> Option<&'a str> {
+    let idx = symbols.partition_point(|&(rva, _, _)| rva <= addr);
+    if idx == 0 {
+        return None;
+    }
+    let (rva, size, name) = symbols[idx - 1];
+    if addr < rva + size { Some(name) } else { None }
+}
+
+fn cmd_raw_parse(path: &str, iterations: u32) -> Result<(), String> {
+    let content = fs::read(path).map_err(|e| format!("failed to read {path}: {e}"))?;
+    for _ in 0..iterations {
+        std::hint::black_box(
+            doprs::raw::halo_hpl::from_bytes_src(&content)
+                .map_err(|e| format!("parse failed: {e}"))?,
+        );
+    }
     Ok(())
 }
 
@@ -1823,9 +2049,17 @@ async fn run() -> Result<(), String> {
             output,
             native,
             open,
+            iterations,
         } => {
             let api = CloudnetApi::new()?;
-            cmd_profile(&api, &id, profiler, format, output, native, open).await
+            let config = read_config()?;
+            let raw_entries = filter_entries(&config.raw, None, Some(&id));
+            if let Some(entry) = raw_entries.into_iter().next() {
+                cmd_profile_raw(&api, entry, output, open, iterations).await
+            } else {
+                cmd_profile(&api, &id, profiler, format, output, native, open).await
+            }
         }
+        Command::RawParse { path, iterations } => cmd_raw_parse(&path, iterations),
     }
 }
