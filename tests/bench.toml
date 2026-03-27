@@ -1,0 +1,53 @@
+[[stare]]
+id = "k3ck3o"
+site = "warsaw"
+date = "2022-04-09"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "c8231fca-052b-4baa-a5e1-4963fb609801"
+percentile = "p25"
+description = "added by dopbench sample"
+
+[[stare]]
+id = "buwucd"
+site = "bucharest"
+date = "2025-04-27"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "db58480f-58ca-49ad-995c-6c3b89e9a0fc"
+percentile = "p50"
+description = "added by dopbench sample"
+
+[[stare]]
+id = "duxr1j"
+site = "cabauw"
+date = "2025-11-10"
+instrument_id = "wls200s"
+instrument_uuid = "dca88604-798e-4647-a44d-ec61ea412301"
+percentile = "p75"
+description = "added by dopbench sample"
+
+[[stare]]
+id = "rx2rzf"
+site = "juelich"
+date = "2023-12-07"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "48bd7da0-35b9-4ffd-90d8-7a4de55b8fa6"
+percentile = "p90"
+description = "added by dopbench sample"
+
+[[stare]]
+id = "ir6mjf"
+site = "leipzig-lim"
+date = "2023-07-31"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "e7570f66-95ea-4afb-9d4d-997520ef4b71"
+percentile = "p99"
+description = "added by dopbench sample"
+
+[[stare]]
+id = "fe4iag"
+site = "cluj"
+date = "2024-11-11"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "5d15cd3c-e9c5-4139-ba23-9d07e222fb41"
+percentile = "p100"
+description = "added by dopbench sample"

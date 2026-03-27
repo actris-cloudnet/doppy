@@ -637,3 +637,91 @@ date = "2026-02-05"
 instrument_id = "wls200s"
 instrument_uuid = "dca88604-798e-4647-a44d-ec61ea412301"
 description = "added by doptest sample"
+
+[[turbulence]]
+id = "2qkxbs"
+site = "invercargill"
+date = "2026-01-08"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "f6f3cee4-a801-4f41-82b3-7a7b6c46400c"
+description = "added by doptest sample"
+
+[[turbulence]]
+id = "wb3xbl"
+site = "potenza"
+date = "2025-07-28"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "31a1d1e9-694f-47bd-b6aa-9bc620673971"
+description = "added by doptest sample"
+
+[[turbulence]]
+id = "0jrcnh"
+site = "payerne"
+date = "2025-07-26"
+instrument_id = "wls200s"
+instrument_uuid = "a3c0f804-d91e-4966-9efb-aef54b9f2cd1"
+description = "added by doptest sample"
+
+[[turbulence]]
+id = "6strbi"
+site = "lindenberg"
+date = "2024-07-05"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "423d89c1-b511-4af7-ae15-7766f2076a66"
+description = "added by doptest sample"
+
+[[turbulence]]
+id = "4skkni"
+site = "leipzig-lim"
+date = "2024-02-29"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "e7570f66-95ea-4afb-9d4d-997520ef4b71"
+description = "added by doptest sample"
+
+[[turbulence]]
+id = "o9ucdl"
+site = "payerne"
+date = "2026-01-31"
+instrument_id = "wls200s"
+instrument_uuid = "a3c0f804-d91e-4966-9efb-aef54b9f2cd1"
+description = "added by doptest sample"
+
+[[turbulence]]
+id = "kmyrm2"
+site = "leipzig"
+date = "2023-03-06"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "be506991-71b2-4e17-a8b6-b157fe7bf80e"
+description = "added by doptest sample"
+
+[[turbulence]]
+id = "16qai8"
+site = "granada"
+date = "2020-12-15"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "eadafa59-ffa6-48de-a244-9e54a05b90eb"
+description = "added by doptest sample"
+
+[[turbulence]]
+id = "zdg3sl"
+site = "lindenberg"
+date = "2024-09-28"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "4b31c245-e3b1-43f0-8584-606cfae58556"
+description = "added by doptest sample"
+
+[[turbulence]]
+id = "8lyhfs"
+site = "warsaw"
+date = "2022-01-06"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "c8231fca-052b-4baa-a5e1-4963fb609801"
+description = "added by doptest sample"
+
+[[turbulence]]
+id = "u4q4mu"
+site = "chennai"
+date = "2025-01-11"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "a93d1483-f107-42ff-951b-f2407544a912"
+description = "added by doptest sample"
