@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.12 – 2026-03-30
+
+- Improve stare perf with bottleneck nanmedian
+
 ## 0.5.11 – 2026-03-26
 
 - Add doptest
