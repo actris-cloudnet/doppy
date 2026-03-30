@@ -1,0 +1,17 @@
+[package]
+name = "rel"
+version = { workspace = true }
+edition = { workspace = true }
+
+[[bin]]
+name = "rel"
+
+[dependencies]
+chrono = "0.4"
+clap = { version = "4.6.0", features = ["derive"] }
+rand = "0.10"
+regex = "1.10"
+toml_edit = "0.25.5"
+
+[lints.clippy]
+pedantic = "warn"
