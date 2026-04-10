@@ -30,7 +30,6 @@ import doppy
 stare = doppy.product.Stare.from_halo_data(
     data=LIST_OF_STARE_FILE_PATHS,
     data_bg=LIST_OF_BACKGROUND_FILE_PATHS,
-    bg_correction_method=doppy.options.BgCorrectionMethod.FIT,
 )
 
 stare.write_to_netcdf(FILENAME)
@@ -46,8 +45,6 @@ stare_depol = doppy.product.StareDepol.from_halo_data(
     co_data_bg=LIST_OF_BACKGROUND_CO_FILE_PATHS,
     cross_data=LIST_OF_STARE_CROSS_FILE_PATHS,
     cross_data_bg=LIST_OF_BACKGROUND_CROSS_FILE_PATHS,
-    bg_correction_method=doppy.options.BgCorrectionMethod.FIT,
-    polariser_bleed_through=0,
 )
 
 stare_depol.write_to_netcdf(FILENAME)

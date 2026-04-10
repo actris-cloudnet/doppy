@@ -177,7 +177,9 @@ class StareDepol:
         | Sequence[Path]
         | Sequence[tuple[bytes, str]]
         | Sequence[tuple[BufferedIOBase, str]],
-        bg_correction_method: options.BgCorrectionMethod,
+        bg_correction_method: options.BgCorrectionMethod = (
+            options.BgCorrectionMethod.FIT
+        ),
         polariser_bleed_through: float = 0,
         noise_mask_method: options.NoiseMaskMethod = (
             options.NoiseMaskMethod.INTENSITY_AND_VELOCITY

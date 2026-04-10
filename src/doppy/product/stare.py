@@ -127,7 +127,9 @@ class Stare:
         | Sequence[Path]
         | Sequence[tuple[bytes, str]]
         | Sequence[tuple[BufferedIOBase, str]],
-        bg_correction_method: options.BgCorrectionMethod,
+        bg_correction_method: options.BgCorrectionMethod = (
+            options.BgCorrectionMethod.FIT
+        ),
         noise_mask_method: options.NoiseMaskMethod = (
             options.NoiseMaskMethod.INTENSITY_AND_VELOCITY
         ),
