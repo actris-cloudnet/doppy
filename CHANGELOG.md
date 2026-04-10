@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.14 – 2026-04-10
+
+- Add intensity only noise mask option for stare
+- Default bg_correction_method to FIT in stare products
+
 ## 0.5.13 – 2026-04-10
 
 - Fix linux wheel abi tag regression
