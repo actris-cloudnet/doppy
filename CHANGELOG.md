@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.13 – 2026-04-10
+
+- Fix linux wheel abi tag regression
+
 ## 0.5.12 – 2026-03-30
 
 - Improve stare perf with bottleneck nanmedian
