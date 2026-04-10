@@ -95,30 +95,6 @@ instrument_uuid = "5d15cd3c-e9c5-4139-ba23-9d07e222fb41"
 description = "added by doptest sample"
 
 [[stare]]
-id = "x5lc0b"
-site = "cluj"
-date = "2024-10-26"
-instrument_id = "halo-doppler-lidar"
-instrument_uuid = "5d15cd3c-e9c5-4139-ba23-9d07e222fb41"
-description = "added by doptest sample"
-
-[[stare]]
-id = "bsa5fl"
-site = "cluj"
-date = "2024-10-23"
-instrument_id = "halo-doppler-lidar"
-instrument_uuid = "5d15cd3c-e9c5-4139-ba23-9d07e222fb41"
-description = "added by doptest sample"
-
-[[stare]]
-id = "v914ob"
-site = "cluj"
-date = "2024-11-03"
-instrument_id = "halo-doppler-lidar"
-instrument_uuid = "5d15cd3c-e9c5-4139-ba23-9d07e222fb41"
-description = "added by doptest sample"
-
-[[stare]]
 id = "gtgtey"
 site = "payerne"
 date = "2022-01-15"
@@ -357,6 +333,17 @@ date = "2026-02-06"
 instrument_id = "wls200s"
 instrument_uuid = "a3c0f804-d91e-4966-9efb-aef54b9f2cd1"
 description = "added by doptest sample"
+
+[[stare]]
+id = "n72vvj"
+site = "neumayer"
+date = "2026-03-30"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "e166bb0b-5e92-46ce-adb8-73ed38ecc459"
+description = "neumayer EMI case — exercises NoiseMaskMethod.INTENSITY_ONLY (Erdmann & Gasch 2026, Appendix D)"
+
+[stare.options]
+noise_mask_method = "intensity_only"
 
 [[wind]]
 id = "e583nj"

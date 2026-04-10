@@ -128,6 +128,9 @@ class Stare:
         | Sequence[tuple[bytes, str]]
         | Sequence[tuple[BufferedIOBase, str]],
         bg_correction_method: options.BgCorrectionMethod,
+        noise_mask_method: options.NoiseMaskMethod = (
+            options.NoiseMaskMethod.INTENSITY_AND_VELOCITY
+        ),
     ) -> Stare:
         raws = doppy.raw.HaloHpl.from_srcs(data)
 
@@ -172,11 +175,18 @@ class Stare:
         )
 
         mask_beta = _compute_noise_mask(
-            intensity_noise_bias_corrected, raw.radial_velocity, raw.radial_distance
+            intensity_noise_bias_corrected,
+            raw.radial_velocity,
+            raw.radial_distance,
+            noise_mask_method,
         )
-        mask_radial_velocity = detect_wind_noise(
-            raw.radial_velocity, raw.radial_distance, mask_beta
-        )
+        match noise_mask_method:
+            case options.NoiseMaskMethod.INTENSITY_AND_VELOCITY:
+                mask_radial_velocity = detect_wind_noise(
+                    raw.radial_velocity, raw.radial_distance, mask_beta
+                )
+            case options.NoiseMaskMethod.INTENSITY_ONLY:
+                mask_radial_velocity = mask_beta.copy()
 
         return cls(
             time=raw.time,
@@ -306,19 +316,23 @@ def _compute_noise_mask(
     intensity: npt.NDArray[np.float64],
     radial_velocity: npt.NDArray[np.float64],
     radial_distance: npt.NDArray[np.float64],
+    method: options.NoiseMaskMethod,
 ) -> npt.NDArray[np.bool_]:
     intensity_mean_mask = uniform_filter(intensity, size=(21, 3)) < 1.0025
-    velocity_abs_mean_mask = uniform_filter(np.abs(radial_velocity), size=(21, 3)) > 2
     THREE_PULSES_LENGTH = 90
     near_instrument_noise_mask = np.zeros_like(intensity, dtype=np.bool_)
     near_instrument_noise_mask[:, radial_distance < THREE_PULSES_LENGTH] = True
     low_intensity_mask = intensity < 1
-    return np.array(
-        (intensity_mean_mask & velocity_abs_mean_mask)
-        | near_instrument_noise_mask
-        | low_intensity_mask,
-        dtype=np.bool_,
-    )
+    base = near_instrument_noise_mask | low_intensity_mask
+    match method:
+        case options.NoiseMaskMethod.INTENSITY_AND_VELOCITY:
+            velocity_abs_mean_mask = (
+                uniform_filter(np.abs(radial_velocity), size=(21, 3)) > 2
+            )
+            intensity_term = intensity_mean_mask & velocity_abs_mean_mask
+        case options.NoiseMaskMethod.INTENSITY_ONLY:
+            intensity_term = intensity_mean_mask
+    return np.asarray(base | intensity_term, dtype=np.bool_)
 
 
 def _compute_beta(

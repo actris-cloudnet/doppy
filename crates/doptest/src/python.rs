@@ -15,7 +15,12 @@ async fn run_python_helper<T: DeserializeOwned>(module: &str, args: &[&str]) -> 
 
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
-        return Err(format!("{module} failed: {stderr}"));
+        let detail: &str = if stderr.trim().is_empty() {
+            "<no stderr>"
+        } else {
+            &stderr
+        };
+        return Err(format!("{module} failed ({}): {detail}", output.status));
     }
 
     let stdout = String::from_utf8_lossy(&output.stdout);

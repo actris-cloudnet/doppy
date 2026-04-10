@@ -130,10 +130,17 @@ def lock_stare(case: dict) -> dict:
             files.append(entry)
             data_bg.append((buf, r["filename"]))
 
+        opts = case.get("options") or {}
+        noise_mask_method_name = opts.get("noise_mask_method")
+        noise_mask_method = options.NoiseMaskMethod.INTENSITY_AND_VELOCITY
+        if noise_mask_method_name is not None:
+            noise_mask_method = options.NoiseMaskMethod(noise_mask_method_name)
+
         stare = product.Stare.from_halo_data(
             data=data_hpl,
             data_bg=data_bg,
             bg_correction_method=options.BgCorrectionMethod.FIT,
+            noise_mask_method=noise_mask_method,
         )
     elif instrument_id in ("wls100s", "wls200s", "wls400s"):
         r_fixed = re.compile(r".*fixed.*", re.IGNORECASE)

@@ -85,7 +85,15 @@ pub struct StareConfig {
     pub instrument_id: String,
     pub instrument_uuid: String,
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub options: Option<StareOptionsConfig>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StareOptionsConfig {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub noise_mask_method: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -161,6 +169,8 @@ pub enum TestEntry {
         date: String,
         instrument_id: String,
         instrument_uuid: String,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        options: Option<StareOptionsConfig>,
     },
     #[serde(rename = "wind")]
     Wind {
@@ -304,6 +314,7 @@ impl TestsConfig {
                 date: e.date.clone(),
                 instrument_id: e.instrument_id.clone(),
                 instrument_uuid: e.instrument_uuid.clone(),
+                options: e.options.clone(),
             });
         }
         for e in &self.wind {

@@ -179,14 +179,21 @@ class StareDepol:
         | Sequence[tuple[BufferedIOBase, str]],
         bg_correction_method: options.BgCorrectionMethod,
         polariser_bleed_through: float = 0,
+        noise_mask_method: options.NoiseMaskMethod = (
+            options.NoiseMaskMethod.INTENSITY_AND_VELOCITY
+        ),
     ) -> StareDepol:
         co = Stare.from_halo_data(
-            data=co_data, data_bg=co_data_bg, bg_correction_method=bg_correction_method
+            data=co_data,
+            data_bg=co_data_bg,
+            bg_correction_method=bg_correction_method,
+            noise_mask_method=noise_mask_method,
         )
         cross = Stare.from_halo_data(
             data=cross_data,
             data_bg=cross_data_bg,
             bg_correction_method=bg_correction_method,
+            noise_mask_method=noise_mask_method,
         )
         return cls(co, cross, polariser_bleed_through)
 
