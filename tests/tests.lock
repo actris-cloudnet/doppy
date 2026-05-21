@@ -2,8 +2,8 @@
 # DO NOT EDIT. Regenerate with: doptest lock
 
 [meta]
-locked_at = "2026-04-10T09:31:01.669866+00:00"
-doppy_version = "0.5.13"
+locked_at = "2026-05-21T09:10:56.894956+00:00"
+doppy_version = "0.5.14"
 
 [[stare]]
 id = "u3aw5w"
@@ -118036,6 +118036,1455 @@ count = 8836
 mean = -0.9610369138929332
 skew = 0.08487784781896118
 var = 64.61890142392241
+
+[[wind]]
+id = "1prfs7"
+site = "uto"
+date = "2026-05-18"
+instrument_uuid = "1f7d5b3d-dc55-483b-8e13-debb13f42bc5"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_181657.hpl"
+uuid = "83f88030-0bb6-433b-a45d-f60971747ebf"
+sha256 = "e2775ed4ff6e9d45ba043bd4190d324496583af71f97b437e29663fafb88c0ed"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_184658.hpl"
+uuid = "c45ee74a-f6e5-45cb-8d4d-c38ae2e4607e"
+sha256 = "916b42e80994d8416c19736d10ea60d65f2fd2239fd34aa7c5bf37137292a498"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_180201.hpl"
+uuid = "42b7d5f1-7c49-4f48-92d4-772ce7b6f56d"
+sha256 = "cdff4f2d04b89166846cdb2e777ee7e1decb68b00e897cb8662d54896b869ce6"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_211656.hpl"
+uuid = "0d8aa636-1f48-477b-af8c-c9746898be08"
+sha256 = "2866ad57f27edc812ce2efa1455eab4e50d68a3be766de70c9a389c505aad3bb"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_194658.hpl"
+uuid = "1d75210b-0cc7-4d64-8446-128f599cb314"
+sha256 = "1f123826014deee8daa178a8b9025d845446b7e70c41c00acc8c5b984a812bae"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_174657.hpl"
+uuid = "edc4eace-c0ac-4c79-9772-4fd9355e3242"
+sha256 = "48953c211ff34402f805c96ecb4eda6e2dc88394602d27b273d4fa209e9838a6"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_170211.hpl"
+uuid = "4774aa68-9b81-4823-8832-e712e1cbdf8a"
+sha256 = "148571cabcaf07741d8056ccf12ec20628d702aa616affeab23dc0ba051a5777"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_171657.hpl"
+uuid = "453e0f0b-16ae-4108-b2fc-764bb71d71b8"
+sha256 = "6272b9ff7c4b93d5bc52ee39ff39312372d9f34f3b206ea138da769c54f6d576"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_173157.hpl"
+uuid = "02c8237d-b41f-420b-9566-1ab0022d0889"
+sha256 = "d8a2d8ec84007b6a5261dbecfc0cff7f76984a7cbfcee900b4c1dd9195e7323d"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_130151.hpl"
+uuid = "3abe515c-dc43-49e8-924d-0bc8245eab73"
+sha256 = "6c3cfd3cc8cdc57f1b3038ba8c2e9e23a5480e4d0492f2ab208554fa02f6b842"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_183158.hpl"
+uuid = "c7ebbc8f-8f86-45f1-9f43-becfdfdb681d"
+sha256 = "8c654d466fe1223000b0e919cc349bcf6e6ced56bd693aa60fc238e0cd37eff0"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_030149.hpl"
+uuid = "1d7ebd84-f6ba-4c7d-acad-3c0c14a3448b"
+sha256 = "fe08313b2426fb65f24a2df8be2b17bd098545aed35cf4e9c6e76fb853bdc838"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_150151.hpl"
+uuid = "79555fb5-cd1c-4b8b-8a14-a36cc95a75c7"
+sha256 = "9507130752e673a230463bfd4fea9db9fdab24ca88af71221feb4fabe37e0671"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_014647.hpl"
+uuid = "e10c5584-752b-4b8f-92c0-aef39a708c5b"
+sha256 = "153a9bba8c7345a8dd3759b91bb4a99d5ab303ef0be79c6444af2d6eed185091"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_193157.hpl"
+uuid = "a023665a-2c27-4c59-9498-9851e20cfb1e"
+sha256 = "872e39e794d03a734c1299f9c4828372c21b123956517c02bda3d3d36f2105d6"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_124646.hpl"
+uuid = "90ba0eed-c8f9-40ac-8ba9-b4dab07ab3c0"
+sha256 = "330ba609f98a245836ef9ad65b25b627b2cd71b126d701d31404c609db8c8c4f"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_154648.hpl"
+uuid = "9246bd8d-a01f-460e-b4c3-40823ea7800f"
+sha256 = "af1ca55a3227cf4e35b8254dcb1ca105d0550af76db6b27d6c16d49d0b85ac19"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_161647.hpl"
+uuid = "c9f2a885-8f51-4b7d-aeed-b1212407cf1c"
+sha256 = "16d2e3abfba5d97db2887ba375fffdafe14b4c7d4cadbb0aa5dc69cbb2d38d3d"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_144646.hpl"
+uuid = "ff732022-cbb3-4a4a-9b9b-3bd3bec10277"
+sha256 = "f1408b8619949800e94de8168ded03690b5fc1ac143121cda9e112f77e6216a7"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_020150.hpl"
+uuid = "29eb6171-0681-4303-8d6f-f5460d5176e7"
+sha256 = "cf8bc842e68e318560754b3140a3705b30ab2baba9cf84064767941dc98f0df0"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_011648.hpl"
+uuid = "271a9d46-1e22-44c6-ae09-da83a90e170c"
+sha256 = "850df86e35c8c611f08abc8b3f85b08c08e58b63d9701469cb65f16523032884"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_221654.hpl"
+uuid = "bbab1b58-ced5-4897-bfce-8ca6e56b3efc"
+sha256 = "564b002c9d9ffbe6eb63c235a2f1e6a20dce1799def0bb1ec55537dd6864755a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_163148.hpl"
+uuid = "c15c4108-ea12-47b8-92c5-fa03c3108934"
+sha256 = "faa4927e950be8ad1a1f3b66e6a227c7106a26dcd61f2657bc1df602de36f18a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_143148.hpl"
+uuid = "e8d978ed-6d01-4eb7-9b88-cbc342eb695a"
+sha256 = "b45051e1b77c1cb74a4bdee3673f7a14329fa96507003d6d1bbb342b6c82ceda"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_203155.hpl"
+uuid = "b8a88183-db88-4a33-affb-7a7603f6ac64"
+sha256 = "ff3b3a63917053078a66c9f116de944f639cca258a63a68966102470df9ddf2a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_190201.hpl"
+uuid = "9e5d9185-cba5-4239-bfca-a031dd8ba8d3"
+sha256 = "a5c7ec9eb4fbeb67fbb364173297d4744c8e819b038f32d262609624a3234fa8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_160151.hpl"
+uuid = "2bd22fb5-b236-4714-8113-76402a8532ba"
+sha256 = "f900aecc356a21ee3a4002bc21b2c7b7c82c470e27a5acb9f7202c69f5ffb75a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_164647.hpl"
+uuid = "17aef17f-a215-4ff1-a728-8f840109705c"
+sha256 = "9c3ba0a562d8c9a377d3164f19ac8c9b590b95a7aad3359ba62c51bd759c3937"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_004646.hpl"
+uuid = "e45016a7-ea88-4f85-98af-fa601e7bbc20"
+sha256 = "0f9c9145158d1440164a7c73b77071cd571b9ae83373dcb2bdfda69a8938a4b7"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_141647.hpl"
+uuid = "46088229-ec21-4d32-83a3-96d0ffc6520a"
+sha256 = "9027bb38d7a3f9ca51f70ec12e5459666c75cccf6cfb0f6b6e1a34cf608b3f1b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_023147.hpl"
+uuid = "9b3dec00-15d9-4e60-bb22-0a6abf1d94c6"
+sha256 = "70b83bcb063ef25fa187d8e7fe4acd9563007bc515264a7eb17592749e6d0f7a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_104647.hpl"
+uuid = "b1cb6812-f9b7-43f8-8eff-58a68f52b66b"
+sha256 = "7ac19b444bbab3e44034c6616b41b3b58cf06afd253b26c6dc7acdf091f433e8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_224654.hpl"
+uuid = "778e9eb1-c9b8-4fb8-8329-2b3d4e5166e5"
+sha256 = "10d64d10c7ed62b55d6c24807634c5f2b9bbe70f346f62bac0a6695d71a4e5c6"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_214656.hpl"
+uuid = "49d5cd36-6923-4654-8f99-86303bf44ef4"
+sha256 = "c70f67b4080ed9b7c3568752630d0fd6e3b836b7c883572226e92cc9032da640"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_000149.hpl"
+uuid = "955ace04-7ed5-4c20-9262-b9619fca44d0"
+sha256 = "772467c477b3c6ea93b78185b22308148455da46434570fa854ee1f496cee610"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_191657.hpl"
+uuid = "28214537-584f-4243-a797-ba506d1025a5"
+sha256 = "3347fc2fe52ee4e69a0423d03cd5df6d249ad6b7c3300fa6674fb72eedcf3ee7"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_133148.hpl"
+uuid = "6e8ce057-6ca0-4882-bf7c-0074bc1b5f90"
+sha256 = "702aab5929750100ad9442d0cd0b11c5d18785ba8c3bf4143b7d29d457c16588"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_223154.hpl"
+uuid = "737f7c0c-17fc-4c1e-b0fa-39b9e2271683"
+sha256 = "19dd4c0c20b0ce2a2c19b289a8559f6a88f97b8d7489840890ad46b71363a1b5"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_010151.hpl"
+uuid = "22ab55b7-72b7-4543-9747-f481ac0ab21b"
+sha256 = "4fcf24247cf66f50f99910978fd5cd84872db25c1c9abc0db5e216bc291c21f7"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_200201.hpl"
+uuid = "07ebfe04-2d1c-4267-9e02-2b498b37ff5c"
+sha256 = "8d284b17f71ea28543a91f9f1a681069a90504a061ec0a5b7ee5094e7428e467"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_234655.hpl"
+uuid = "11789508-a8ec-451e-b6c9-8f6804cb4152"
+sha256 = "3455ff2e4ecb5a572f38e953a271daa8e5de10ab03a15d379091014e7d6ab799"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_031648.hpl"
+uuid = "9f7a14ea-d3cd-484c-8469-44bf03a2ee93"
+sha256 = "32654998ffe830689866accea5c70ffae1662b4bbd02917cafefcabea13f6165"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_123146.hpl"
+uuid = "5d868fd3-2f40-4579-825a-5dc335ccebf1"
+sha256 = "17bf96327752a0e3168c043b574bbd1e71d9fb1dcb089f1b64f0dc97ddc37b8e"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_060150.hpl"
+uuid = "5a274d17-7271-454a-a472-980b5eb12132"
+sha256 = "35fd0d06d6e335a0c97785d29047febe81e3f9efb6358844e74b747f98529f53"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_074648.hpl"
+uuid = "52584b3d-1c36-4f67-b941-acc3932f503e"
+sha256 = "6168aae7513b6bc0771f3ca4818d6ea5e4f7a43a676e329afa05f5ef80f5308f"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_044647.hpl"
+uuid = "ad496eb5-06a4-4e08-a509-0a472752957b"
+sha256 = "2a7fd646f8bca43066d7f4a9ae3645a92228cd57286bf50d15de8b92b926c97d"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_021646.hpl"
+uuid = "30646c2a-56f8-4c57-82d6-3d31b35e6173"
+sha256 = "8832bf78acdaf995a9d24c419ec96e008354400996b4fed381bc065414456f72"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_204655.hpl"
+uuid = "5990cf99-82a2-412e-9ee1-dddf1fab38c0"
+sha256 = "44c05fcbd6b5b0e9c3f727ed4b39301531ca7909455a743d1e6b8dec0cb8dd00"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_153147.hpl"
+uuid = "4e3a32be-396f-4b78-9291-bff0e93eb996"
+sha256 = "655f1e220102d37099e7dac722aefb54a2f1b17b6eae793158a4a89fdc6e01e0"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_134646.hpl"
+uuid = "9f019776-068e-4077-9623-70163f096080"
+sha256 = "715abd0b24e7e1b89d5afb72b61bd67354f2a2c5e8c977cc92b324bd1701b24e"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_043147.hpl"
+uuid = "c2a0f0fa-625c-49ac-bc9f-8e71997cb171"
+sha256 = "165eb8127cc6dec95b0b8755e3b0850b66568561455ed95453a26efc35d5f956"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_061646.hpl"
+uuid = "e76230a0-5596-4acd-8c68-1ce68b54b3c8"
+sha256 = "f17eaa40b4a2c41f421fea9fce69f4bc33e7f9aab5b0e508c926ae06418617ef"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_101646.hpl"
+uuid = "dec08a9c-98af-4187-9d8b-29b3ab672129"
+sha256 = "9703cc5145e7d2f297a45a7a6faf8255604be6c96f0f38264d866f8e5e9d8bf8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_140151.hpl"
+uuid = "63b61e0f-ab01-4508-8cfb-74f0db653530"
+sha256 = "8b8bf17821a13de27485e3c504fcd905eb55c4601689fe254abf1f287ab0b1d8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_041646.hpl"
+uuid = "da39a358-7343-4a33-a734-34770abca840"
+sha256 = "77bb91d08a3e559249057625ac66a87c1703087ed50a08a756666e83ec815202"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_151648.hpl"
+uuid = "49440b72-ea4d-4d4c-bf03-d431c86f6882"
+sha256 = "95f359ab429d627bc93729ab9ecbef5fae2bfe467c2dff94b5e885e46f76e5b6"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_013148.hpl"
+uuid = "8e29d768-7f29-491b-a07f-710d7730563c"
+sha256 = "52ec8f0a9a63775428aa5270f1dc3a6d0ff3af72082e952d572b9d900b015f3a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_220159.hpl"
+uuid = "14bda9ad-816e-4ac3-b91d-e69dcd892551"
+sha256 = "fa5815bdb9774aa7e5b1f4a1a05db36a2f5b8d02dc6d59a88c3fec1d331afc77"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_114647.hpl"
+uuid = "f7062d39-4d6e-4bb7-bef5-ce40c29b66a6"
+sha256 = "770988769df2562524826fecf08ff7e7d83739fadd3bcbffc88273f8a8f706ea"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_001647.hpl"
+uuid = "ebf6c088-41e5-4f9d-8b3c-8cab25836ddc"
+sha256 = "64621828c4005d3a45ee499baa4d3bb7a7921604ae373168957731d07f96ec6f"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_120150.hpl"
+uuid = "a61d6cab-110d-46f8-8701-85341f8fd961"
+sha256 = "f7bd7ce0f41f0b8e54d704093c202461af0d210d3a29eec38a9641626564de15"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_034647.hpl"
+uuid = "1c2f1442-edad-4df4-a633-42242b995f03"
+sha256 = "9a0156e137103daf8a1370cc40287cc0f1371d3226e10a3ed94df88a368b4961"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_231655.hpl"
+uuid = "4d00e16d-2d4d-47a2-af64-5222ed355528"
+sha256 = "d7f5f13e0e6d0549b1ab6ca728e2397ffbc5f945b478f606443f2f69f72992bb"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_131648.hpl"
+uuid = "1db097b3-72ea-4541-a466-1b1de647f11e"
+sha256 = "8744804fbf0ccb88eb883cea99ab4d2c0f8ea003217b087131da64732cb8cbb8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_201657.hpl"
+uuid = "694b1c83-1e3d-4a04-98e9-369263053ee3"
+sha256 = "d7e5df97648d7634324cf71a65f147c619d7b0526217c967bff1aedf2dd2c3b7"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_024646.hpl"
+uuid = "46777fa9-e2b0-4722-a9ce-9c30e120fcb3"
+sha256 = "56528a17c55d98c9b46530edb8e662ec3228ae95fc8a9364b20a4b06324bf354"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_070150.hpl"
+uuid = "28309a1d-c09e-45e8-bc20-a687c46f2d2e"
+sha256 = "9e3cc070294e687b29617b635315446a09872113228589caa36bdfbc3c76dd95"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_064647.hpl"
+uuid = "fa6050c3-def5-43c9-8bff-159a2193c739"
+sha256 = "feacb2dbd04680b271a219f5f0aa8368b96d782ca739e106e1069f17aa8483b5"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_100150.hpl"
+uuid = "8aff3687-d277-44f3-bb7d-dcc6394c4cc3"
+sha256 = "673e3f954dad250ede785dc25f4b1a8bf8e066891a70e75c2aceece0d9bda8b1"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_091647.hpl"
+uuid = "6b14665d-2c53-4a93-b80f-bb1a557588cd"
+sha256 = "dc4b9873bcb2e71cf6ee339a7250aa450978fe0237bfa7798576c136f490cdf0"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_113146.hpl"
+uuid = "731f0a1c-d56b-400c-8d74-461126d43758"
+sha256 = "ba59d83d399b33356c0a6c1f366e8142d6f73296a9606d694eea6f3c1e4e2a83"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_084647.hpl"
+uuid = "ba71ea81-ff1c-4776-9d73-a322ab8680f6"
+sha256 = "ba9d8947e30d18b7b2c19897339562a1e5b01275d1dcbd426bf2a83c52c6699b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_053147.hpl"
+uuid = "ea89448e-f377-4ee8-8e4e-28b0d4591699"
+sha256 = "0bc99252b317bce825b9b86b57f5b74234d02a04637440fa61839559a86c0f41"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_054647.hpl"
+uuid = "6b47fdbe-58f3-4a6e-b93a-30d49ca9e9c9"
+sha256 = "6782e6e985d39dace697b431aa84ca0bcc356078eb1b6fa1bcce1fb2c7691277"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_090150.hpl"
+uuid = "4734b88c-4cc2-4501-8895-02fb4fb0c9fd"
+sha256 = "0a14358f43d048f64fd952b29b742864a33d95632e2d126524ac34de8224774d"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_233155.hpl"
+uuid = "a51ba606-1772-4af5-af6c-724ccd957cb7"
+sha256 = "f94a90d0ca94e847807b3893a1dbfb0caa3c74f7460c260f21ab899c225d4ba3"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_073146.hpl"
+uuid = "c7a71f6e-7cf3-4b29-8ecc-34ddcf9d3684"
+sha256 = "61ff00850f4a00f9ab5558f001235631f35e870032ac5922de33ccb3849f1d3f"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_003148.hpl"
+uuid = "75f0027a-dc46-4185-9faa-4d9b4f612f1d"
+sha256 = "860d27f41db24d801e03c898be1409039ef200f9ffd2e6d86925b6aac6ad7b09"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_230159.hpl"
+uuid = "196505fb-7d51-4e9d-8294-4f86272dcc36"
+sha256 = "d0004e8703b26c92cf2003fa8a0c7354a40b5c7de5d1513b405fa70534f45276"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_093146.hpl"
+uuid = "9f7de2cc-113d-46fc-a76c-bcbcf0849b23"
+sha256 = "76c384ed967b4756853ccb6c9f59bf651c78d32972741b3ef60e341e9f23c869"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_080151.hpl"
+uuid = "47508991-5f49-4412-bcd1-0ce19c0f8b5c"
+sha256 = "ec00fe3fad3a52c86591e3b7c4a664c3ddf983bb0a5477e86fe58a65eabcbc3e"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_210158.hpl"
+uuid = "e99dfd52-abaa-424c-a407-499042487dd3"
+sha256 = "45327f6385cf7339519e2e9c2d3e76c49f80ff9f9a91e88f9b3223d8230de49a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_083147.hpl"
+uuid = "a2696170-e9b5-4da2-8508-7d2cab34d930"
+sha256 = "880e4c4284b106baa0c95e2851b3be7f8954d8a4202ec592ceb1ea16f5f378d7"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_213156.hpl"
+uuid = "f8aa26b4-2652-4366-b358-387eabb48688"
+sha256 = "92136889d3add43eed4a0a52199dc74d82bce460444bebf988f74291582688d1"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_110150.hpl"
+uuid = "544c7f2d-d25d-4598-8dbf-31d502dcfd6a"
+sha256 = "0e4a0c9e39adede53c8a2663f628e4ce7596df4b0dbb5fb70f3dc44cd12d7648"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_071647.hpl"
+uuid = "dac9856d-cdf4-4423-85e9-ab1debeeb863"
+sha256 = "5ec784ce2735a5ad8c78f2854fc11e90304439c222bda7639223b28e1676cea1"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_081646.hpl"
+uuid = "2a900ce8-9f18-4b20-809a-d93e3b008661"
+sha256 = "adb0720b0f8e8c02be38da2b7d954cd6bed203fc8c0554331aae526df3043940"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_040150.hpl"
+uuid = "8d9dd004-42d7-4987-b0f4-40232a732028"
+sha256 = "ae6750faaeaf3646d9b7f837e7bdcc73e61dbcb44aa1506b027c4b6d083e8f2e"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_111646.hpl"
+uuid = "474f289d-d2a8-4614-9d18-ed1fbcc8673c"
+sha256 = "4acdc8d26b69955ad498d461741099647177b9e7427bc91bb248c48486f562dc"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_094647.hpl"
+uuid = "33c15b5c-d9f3-458b-953b-d88817cd8ef6"
+sha256 = "0f286377bdd66fde2b5b6eaff0bb450301ac119d5db86062c34bc49e5f24ce84"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_103147.hpl"
+uuid = "c5eaf1b5-33bf-443a-8cf1-7c4b05823572"
+sha256 = "6d9630fe67d5c7c2ec92f4df5919d8b4d1ade9cd5005721ada1a50400168e33c"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_063147.hpl"
+uuid = "90d76320-03f8-4ad0-9490-cf7e57967b46"
+sha256 = "5a2689ae8c8fcd1f8d433d8af0648f43e26ba7ed4659cc4247fa1944f0149874"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_033146.hpl"
+uuid = "841f6d78-a4b1-4259-b341-e963aa15f345"
+sha256 = "6bbd53b967c33e867174e95b7229ebe171963f849ea47192c9ea3f18a2662e89"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_051647.hpl"
+uuid = "40eebc49-a81f-4ee9-b3de-a5c93c5a9212"
+sha256 = "a7c262e4a2f43731336ea2689fa757827ae33658058bd8adaf6f561f4e3949a7"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_121648.hpl"
+uuid = "4cbfa17a-df5f-4de8-abaf-65712110e881"
+sha256 = "13c1bbc7cf2d1ce4ce5adabbaf64b73d94f3dcf5505cdab2fc8e8c60e07edcd7"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_050150.hpl"
+uuid = "be867587-2892-499d-bbdb-9846a5df014d"
+sha256 = "536fb2d46aa001d8b86e9b978b1ccb7f36ab768e7e5182049f5d497e1f24c19a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_180015.hpl"
+uuid = "f6ce0934-246b-497c-a62d-7f952ae83f12"
+sha256 = "6f854ab4f27eab09180392c4c66284dbeb1194170666a03d025c800f685a5d20"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_223010.hpl"
+uuid = "82a8ab6f-7e84-4a70-8d10-bf63a7cf6cc4"
+sha256 = "fdb24b49ca32168fbd60a8f9352b2d4021f244d2577f52a5640d13c723ab2659"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_113010.hpl"
+uuid = "5860a078-df3b-4e65-a1d0-be615e542c7b"
+sha256 = "9245b5ac0ef3ae33808082ef69ef8aca1511ab9435a727a1270d674ffa19ad8f"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_050015.hpl"
+uuid = "55d3de7a-7599-48ba-b3cd-5384d236156c"
+sha256 = "a72bf7e309c2d6880a6328f6afad10bccf3501cba1873a89820e0f3cb5b7f75f"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_101510.hpl"
+uuid = "34141305-61a3-4446-a0e9-380362f93d33"
+sha256 = "063c2cf03784413cc37073a2fccc52e2c6b68c4f3bbfe88f6277da58a930448b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_124510.hpl"
+uuid = "3ebf6ee4-f362-4b77-a791-1ed92d9fa46a"
+sha256 = "b3d681c2f1ec1659f0dcba1a7bdfb20f3247eb61fe72b929929650722f720494"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_140016.hpl"
+uuid = "0d12516b-1ef2-44af-a5e4-829fad166acc"
+sha256 = "336ce1c23771818866ffdadaf6bf2feebbb2fdb4e11a6d6615f048fdf4ec77ec"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_053010.hpl"
+uuid = "df396090-c1e7-41cb-ad29-f58cbff57303"
+sha256 = "70c0421e36c837f30ed248aeaa4be7c62fc9e01aa252a24abeb46da12edfa627"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_153011.hpl"
+uuid = "8f11b644-0dec-4987-a035-c2429c2a075d"
+sha256 = "b5a27c04170b15794b788ba75f5da9344a83d24233673620b0534a3fc7463922"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_030014.hpl"
+uuid = "ca5de224-4218-4cf4-86c2-2318683feb8c"
+sha256 = "2bc4bee785136036998e9eb0770cd0caaf30e5e5de3626d8428a534533844814"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_134510.hpl"
+uuid = "dc42dfa8-b500-42a0-b1cf-fc7a0341128c"
+sha256 = "003389f197b4b73e92b3483064a8cbc2b427b49e689174150d7f15f20cf31b5e"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_151511.hpl"
+uuid = "07bbebb8-846c-4fb1-acde-5438522f56e3"
+sha256 = "5f20a9a35cc0303c2f75a74e6e688dc4acc0421d04a4ee0f59f8310004743b4b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_000014.hpl"
+uuid = "1a3c1ca5-bc48-482f-aaf8-c501c0817d5c"
+sha256 = "43197efeeb92ce89fdd972c1d148f0d18267b07d9b353f420af077184caf7430"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_171510.hpl"
+uuid = "c80c9ffc-9e7f-4861-9ed2-384fd4d74126"
+sha256 = "0978e52782f047b4342cfc913ec84797fdbda9712bf5adb267b3f8788f1f2fe1"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_093010.hpl"
+uuid = "11639381-e8fd-4d19-88c3-f5d10bb85f11"
+sha256 = "7fddcc9d90829de803611f041230c6519bf8aa5b1f847de5991b2aecf6bbc8ed"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_011511.hpl"
+uuid = "0ba92f40-8dd7-4f70-b9bc-9038e6821ea2"
+sha256 = "55dba432cc26b6eb456f9f138e4366d411184554e75550339710329bab944132"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_020014.hpl"
+uuid = "a47311a9-c8f1-4442-a8e4-c87f1c2a6b83"
+sha256 = "1cbf1a41582615c8c6ba3876a5b584c2a1499251edec41414c9bd0b59bc9f6ed"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_043010.hpl"
+uuid = "bd415fad-11e4-4b2b-9ed4-f46b6228d71f"
+sha256 = "eef67b5b8df365479a839cb8213f26a29f07194e82f372360e67551f7adaa777"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_200016.hpl"
+uuid = "e482b6bd-da4d-4766-bd5a-d1c6ae1cc603"
+sha256 = "cdc0e05bff9f10053aef9928820f00ec35ecb69642d2d09c179eb4f537e3be44"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_010016.hpl"
+uuid = "d9613362-b556-45c3-bb3f-34f334e22ea5"
+sha256 = "a972ef98cdbab250a2cc046ed64286e9eb915421b0678dfe8b346c4745f994dd"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_170025.hpl"
+uuid = "38dacae8-c124-4a04-a0e1-bd05edf0d175"
+sha256 = "00966ca42e36787f6b739ffc4fa6500d7ffdfcc061108eebe6445ebdba54f5ac"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_051510.hpl"
+uuid = "2ef37d25-77b5-429b-82ad-dc0ace593afd"
+sha256 = "9def3fd308c0f21dc55b50c11377dd36e70b0948f74ed7af20ccfcaf2e89fd59"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_114510.hpl"
+uuid = "9da58b09-6123-437e-a348-e3eecdfb1b98"
+sha256 = "7a764e15a42754223702f5318958f4cf1078440ccad0fd2d8c590e658bf59877"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_191510.hpl"
+uuid = "9e089fe5-367c-4bad-a9ca-a49b3eba2866"
+sha256 = "e82a0a94da08b13836152b76250268ad189e04f9a3199e1e02ad66d8e47d5733"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_111510.hpl"
+uuid = "73f5ac39-45c8-4d30-88d7-1f6fb7473466"
+sha256 = "65bddf29dc41843142c004f1a9fcf85d6234e12dfaba889756a069db51508ca5"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_141511.hpl"
+uuid = "9505c4ec-e369-44ba-b02e-65c2a3145c76"
+sha256 = "5acc5e64077c8d0aac9dd887cd3f13b379d3e2573f88ea5cd655f6c986ad6b35"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_211511.hpl"
+uuid = "7805a997-7900-4abe-95b6-62e7c1777708"
+sha256 = "339d49fa73f98480bdc4029c3ec1881d9a9cde3ed47d12bbdbfcc76d9282019b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_064511.hpl"
+uuid = "50253704-987c-46a1-9daf-2d92082c735e"
+sha256 = "fa32db01c0e51be765f17b2331a0dd0893c1aaca30ae5fafda22cc7b8a5b7501"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_073010.hpl"
+uuid = "efbab0b8-d7e4-4120-800f-4d68ffc32a3c"
+sha256 = "80b31f742d53a02e72d0898c2cff89e315c79ab83da6ef14eec922e614a30738"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_201510.hpl"
+uuid = "b069415c-ebf2-48af-a964-bad5786bef8f"
+sha256 = "2a165cf977ff1d434979498c95b95eb9e0f5a00d8d178a88e987800da8a311e4"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_121511.hpl"
+uuid = "be5c0aae-abb7-40a5-b274-37607147a1a4"
+sha256 = "388f0e16543b6b91b354790c7e9b8ae6ecf7ab13bcc469126a2a6af5a27b8120"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_173010.hpl"
+uuid = "8242cad6-9d79-4fdd-b6d5-a6aa72f798e3"
+sha256 = "cf2c5763c5cff609aa8fcd4dd55e79a01431f43541bd0b24e9f33a1b41d0b841"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_090015.hpl"
+uuid = "344fcddd-acc0-4be5-bf0d-9ab0af761c2e"
+sha256 = "d289d8b2430bd11a5eab6a9be58e833cb48eb2d2949d80b370143e910d2cd165"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_231510.hpl"
+uuid = "fbc0766b-0f90-4d4b-b606-e09c8a935d75"
+sha256 = "d0994ab9d652330d4a8e470670e1da8cb0049e6e75c1abbd73860d580f47cdc4"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_001511.hpl"
+uuid = "2e169e98-515a-4b97-b831-4c57470db10d"
+sha256 = "2c4dd768205ba9278d826a302255544993bc6cc16607465127a09ee154415620"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_160015.hpl"
+uuid = "33c3213b-bc1b-4af0-b33d-2e7b68e825df"
+sha256 = "02100d06521dc41b2883a816a13e2daaa6cab57da87398ca90d3894f2abccfde"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_080015.hpl"
+uuid = "93cefc6d-8b80-4dd8-aa09-91777339e007"
+sha256 = "4c26667d1d3cf5bcfafcc7d778af62b734fdba8e5c32f6bb030079e3cf929457"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_041510.hpl"
+uuid = "32f5d500-5d1c-4ad0-b6c9-977c697662c1"
+sha256 = "a34d5a4905c7191c03d82f6ff07466d53047be1e4f29bc171bec6235ec32528a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_184511.hpl"
+uuid = "0fcfb00c-123c-4bf6-835c-6d44e468df65"
+sha256 = "0af75d2bdb514c3c4b89f1c47ca4bb614a852a05d61f7b722024a80b0bcd611e"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_164511.hpl"
+uuid = "e6e0581b-88c2-473a-8c4c-7ef265073e9f"
+sha256 = "8501c9258907a9b1db10d5c8777ab8b3eaf8acfa792d8d92797a8b6afd2a6d89"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_123010.hpl"
+uuid = "3540f5ca-db8b-465d-b8da-49ed759dc9b6"
+sha256 = "661210f1584999aeef489d281fafac180f0d3f8efbc8054a30a122559b8e3147"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_193011.hpl"
+uuid = "ca8d2e16-10e6-4039-af1c-6158f5d747ea"
+sha256 = "3c217ad5e6c0c2476c235c208eaa97afd819d1d10ecd88408517ef88bc2deb9c"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_154511.hpl"
+uuid = "8496a766-115c-4042-a805-113253439da4"
+sha256 = "8c440547411e7850bc4dc83336557cff04eb1d49ceb7d66236a79aaaf93a61c7"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_091510.hpl"
+uuid = "6cda808a-59e6-4ec9-936a-9a431ee859bd"
+sha256 = "df31589061e45188817900b38ae114c754bf0c10df4fe1c0d01423c4ce3fdb71"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_174511.hpl"
+uuid = "fd4af632-3b0b-45e9-bd78-6b19915a9a22"
+sha256 = "01e71730f554d35d3a6890d85fdd7c3f7d42b7d82838f067da97701192b85f61"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_214511.hpl"
+uuid = "07c3bdf5-f230-42e5-8860-a588baf456eb"
+sha256 = "270670806f13431d3f6b66142c031cf76b90821d28a8e68f99d4426db4ca3df3"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_070015.hpl"
+uuid = "e56e2aa7-28af-4382-aeea-174ebd1feea2"
+sha256 = "2b54370b13d930a8a6f6907f24e75cde1e0d0d8f5bdeaf1a1ce448d6cd2a415b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_133011.hpl"
+uuid = "49d91533-e394-4974-8190-f2756cfc2519"
+sha256 = "c3a6d66fc1e2e5a125f2f401d7bdd59cb4f18a9dabc2528d7b547e7bf086748a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_063010.hpl"
+uuid = "4b2ca9a9-6a5c-4252-900c-88f25e389b10"
+sha256 = "d0cef83e1926547dfdb12e521cbcf826badec28ad72f3d7bee82269c3776cae0"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_003011.hpl"
+uuid = "f951d7ec-062e-471f-a7ca-bb85644bcd64"
+sha256 = "00d01a41e7a8ad0f9f73d5a4d8e870b842f0ae85aaa78ad307a4dd8066fa0602"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_100014.hpl"
+uuid = "2a7daae4-1ae0-46e4-8e2a-be3d9c39b3cb"
+sha256 = "fe7672b563db938e2c8c98ca97a3c6ac3de31910ed91f1a9e7dcb627533f5445"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_084511.hpl"
+uuid = "750fa3a8-c33f-438f-b64b-fab24ead05b2"
+sha256 = "61854c8d1419aac876fc43f3a380e6a3235290297f5d2065f10219800d3d8b9a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_061510.hpl"
+uuid = "ee9f30a7-b073-4667-a220-59ffe43aba26"
+sha256 = "4621a061c2f39d08fe5f9eda3ab289b97a74ac927b39116cc3c0acf936c99208"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_203010.hpl"
+uuid = "f7466410-5a78-4ed0-8636-9dfc2f787505"
+sha256 = "49b8c6b19e487c198c08d939b960c5f8bd93772cec212ac474739a434d8876ca"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_131511.hpl"
+uuid = "7c706514-513d-4379-bf87-69244b74b060"
+sha256 = "48c880b68af798ad4b1816120b6a83c68fb7ae33b24aff22bd9ec162f0cfec25"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_104511.hpl"
+uuid = "a6c8894e-6ce6-4ecd-a7c0-ef64f99235bc"
+sha256 = "55822131536b4c4425bddcf6c0f5ca94deab60b2e7b31029efa2c8959fbc0ee2"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_204511.hpl"
+uuid = "48b20c87-1e88-48f6-8a15-06d94286097b"
+sha256 = "2cd5ea9d5d8ea81074933f9a95cc16eb9e44f70c1fc0b9047bbb2bbaf89bc657"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_181510.hpl"
+uuid = "419b6538-2faa-4f4c-8b47-91713849aeae"
+sha256 = "ab94dd051702c904d7c0a97b5cc3ffe59c308e2c05254bdfecddff4058e01c7b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_014510.hpl"
+uuid = "29aa3e3f-74ac-4d4d-a2bc-0fdbbecd0515"
+sha256 = "9a203e0b42797255cb51bdc1b8ae56d24077f213ad2f95bcc03328e99814d7d0"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_040014.hpl"
+uuid = "4bb308e6-1f8e-43b2-83e0-cee51935c849"
+sha256 = "54437c4ca6410886fa62a5b31f351fca619d0ab101397639b310aaed5d02218a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_120014.hpl"
+uuid = "e8ee7e30-0e22-4f2c-a448-4d779373c403"
+sha256 = "0bfdede9af9e2ff8bbd7c4b7848ee1b951fcf45abdc13917d150d9c6b56b5cf0"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_054511.hpl"
+uuid = "80ebb6e6-b9a1-4775-89c3-9948b3965e0a"
+sha256 = "8d51239b5df0199478787257da299a96fa4816b6fc88a1d0cd2506dff147500e"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_071510.hpl"
+uuid = "67d742b0-ecf5-474d-9bc6-785a530898b3"
+sha256 = "7990b87345d9eeca077b2315d29bbc8670e080bef06fa963205f95288752e3ea"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_033010.hpl"
+uuid = "165d5191-ad8f-457e-80cd-64779aced451"
+sha256 = "a57a5d3dfec20dd6613821333719a05c4b6ae53151fe7fed64fb552e31bbe3dc"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_110015.hpl"
+uuid = "a1902e10-c41e-4f29-9a0b-11af1162112e"
+sha256 = "9e7bbbf51abcba49b6fd406dd807bdbf3260da8ced03d5a90a85e280eabf41bc"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_183011.hpl"
+uuid = "6c07cc8f-5af5-4ab4-8664-b72aa79349c4"
+sha256 = "a941910edaa733f17f209238b1ad7e9546e404eedc050c804911b5c6384c2283"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_161510.hpl"
+uuid = "582cf8c7-d225-44a0-9cc3-df0dd76bc4ff"
+sha256 = "b8a0ef3051ab0a27ac8b7dd57432dfd602a0ccc95e897d311df3f60cf6b48313"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_060015.hpl"
+uuid = "701b0518-9a6a-4610-8aef-80d8a3a442a2"
+sha256 = "7c443b56add1b942633b49a6c928094cab194f99123587e8b97472313bc642f2"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_221510.hpl"
+uuid = "73f7c2e0-9cd5-49b0-a643-35d935a9d667"
+sha256 = "d19e93a1674fb6ce0d21f48fd684d311ea912880ae3284c76bf148a6cd226a50"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_220015.hpl"
+uuid = "a21f8ef3-6a54-4650-905b-bdd329ee5cc1"
+sha256 = "fb6ef1698a98773e02d5bd45d1d1357aa1e4ce1ae1b3ac42badd71993a866fe8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_150016.hpl"
+uuid = "e6f1505a-f20b-46bb-abac-0f9240083ceb"
+sha256 = "5603a9282b3bd8948891456fd57d6b945a837927032c6a1c66a6a60a2958d367"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_194511.hpl"
+uuid = "7c9b5d03-ab3f-4cca-8aa6-a393f2239c31"
+sha256 = "5977ad9045c1d52e1e3180e627d2aafd3c5eff7ceeb1626a196fc0babd250ddc"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_210015.hpl"
+uuid = "e06f28ec-67ba-4b64-bc28-909af97cf6f5"
+sha256 = "f15cafe4861ee9979e9425d1dd1ff560bbdcd3b7f0a1a7a5ff608b9d91f939d9"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_190016.hpl"
+uuid = "0f8ee483-c273-42b7-88f6-61de096309b2"
+sha256 = "045b47fc3c9da8b27bd44020d95f9ab48cab1bd0e802635832fa856323896e2c"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_234511.hpl"
+uuid = "f881d266-4355-448a-9557-1e8de68d6961"
+sha256 = "83126e81b7a3514c5763bca55e2bd19bd3db092aeac0e13feafdcf5b342d4a02"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_024510.hpl"
+uuid = "34b3ce44-0779-4ecd-9034-5b19d74a3f36"
+sha256 = "acf7cea401b2336fbf603cd62e0254a465c352520f9a348b32bb0301823710fd"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_143011.hpl"
+uuid = "8683b664-7af3-4f98-a987-9ef423e88f9c"
+sha256 = "c1ac128055061d7ba9bde07fe7de1d9e7cb5dce7c9b396c4e05e272310671bb8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_163011.hpl"
+uuid = "77e823a9-e5f3-4bd6-9b55-d9de00fff61e"
+sha256 = "c7c459aaf983c7ae2b3431fe5ded833db1f40e58267b00004b941c2160bc86f4"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_013012.hpl"
+uuid = "7d6c075d-8324-4091-8040-d9e1e60c0711"
+sha256 = "51722e35debd4df82b1ca4d429187b6ab35376521f984f1524f878b6bd6ee102"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_213011.hpl"
+uuid = "1e663d78-a13c-4c86-a495-2160dbe24e2d"
+sha256 = "cf613c1d39c21746f70d3141442fa4bb8b3960e94dafe3d85e28b4439202d7dc"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_081510.hpl"
+uuid = "4e274b95-780f-4a3c-8586-78576d4230a8"
+sha256 = "3809e75c6bf49df3023944d265a32459cce394003d007b6f4b134e0aafae7ac7"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_130016.hpl"
+uuid = "9c23f47a-6731-4c8c-b931-9eeaa189057a"
+sha256 = "003660de8135954749affe3498b86bc0d07bdad20e284d9c8e4522e4a48f2160"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_094511.hpl"
+uuid = "b1c4d53a-568f-4c3d-9e4b-323f3fbeaf04"
+sha256 = "23c82ed73895827257a7602f1bfc3cb1f2523f74bd7798f7e09391c517fa6153"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_004510.hpl"
+uuid = "99d2b057-62cf-4455-a947-e9cc48056318"
+sha256 = "040158318defddb6b38073afa52cc4bb55c6c7bc494ef963d35b22a37f886e87"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_023010.hpl"
+uuid = "18c01fed-5998-46f2-ac3d-608679003af6"
+sha256 = "ce74a3b9e2256816b19444e4d140c1031baa1e4aa59919ae7eac74347b7819e8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_074511.hpl"
+uuid = "cf211fc4-bf1e-4ba0-b521-72ab92512395"
+sha256 = "2019db92d3d6c2a01fe7448e590e98e52f9beda2ff6da505e29c62b64c07e739"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_103010.hpl"
+uuid = "54cef5c2-ce46-42ca-9dcb-22f9854438cc"
+sha256 = "fd4ead8a7319e37f71a3642164aa7f69cc2da9e65aba75f98446df3a5d208fc8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_031512.hpl"
+uuid = "a837415b-3e44-45a8-b30f-37f3d3aafda9"
+sha256 = "7809a2b4b3c0fc1e94a813233297d2c5391fa8565baa56e3bd998858e39aee3f"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_034511.hpl"
+uuid = "6a980fb8-6d0c-46ca-9131-059920fb8ffc"
+sha256 = "8946d325c4fbf95bf9333fb4820aec3d18b3b4ad18a4e21a065da1bd550c6929"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_144510.hpl"
+uuid = "f1caf43b-37bd-4eb3-8b02-396c363bc709"
+sha256 = "456c821ba9cf9e86d58e2aa932214395ad79e40be37d81ec66048623429e918c"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_044511.hpl"
+uuid = "5dc379e2-ce81-4e55-93cd-d8b07b4bdcb7"
+sha256 = "c67e79d850e3eaabcc048d12d6338712c3559686ee789d4b76106af830d16b8b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_230016.hpl"
+uuid = "81928c67-2e68-4854-9a09-e868eec8533b"
+sha256 = "3bb35220df088f9c23403657567c7740dbf2e58a85ecb530d1f1151f07abe06d"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_224510.hpl"
+uuid = "64c9bfd6-61c4-475f-b0cc-b31c6932c42f"
+sha256 = "e3c6b486eb42414bc33fc111bdcf4d907bb66acb5cfbcffc7e26bb4bfee852f8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_021510.hpl"
+uuid = "257a83ca-e020-4a45-b910-2493cc7186f0"
+sha256 = "c5f4c8d1639ab2554134dda14c5632d8f755a067bc78ec66263a025ebf7c705f"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_233011.hpl"
+uuid = "db807395-6464-400a-8da7-7cfbd6df0d55"
+sha256 = "2bda144d90c9c9c97e01857e3b1ed8912d035bd195a5b25ce692359a36b1d8ab"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_083010.hpl"
+uuid = "56b639ce-37db-4db8-8183-8f3b5af7b08b"
+sha256 = "c932d50726dd23ba4f9019e2f6818707a2130285ac4bdf1f5388691285d76c24"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_072028.hpl"
+uuid = "a5b96ae8-7abe-472e-9dc7-46a8be37daca"
+sha256 = "6a29e5d741d5acb296fc7bcf80796bd6f6a3df92ec1c1b6b7871e13b0eaa9c18"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_193558.hpl"
+uuid = "6647525c-34b0-450c-a9e9-27429e272b2e"
+sha256 = "63f025b20b263c074ca9df69ad42f1b927e6b9045771b6d59f105ac345ffb091"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_135028.hpl"
+uuid = "38953e56-ded5-41c1-89eb-5ebf33f3eb37"
+sha256 = "ffd97c7e2470c5eb25aac97d0990adc80b47f0dea3749abb48e040666aaeef52"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_042027.hpl"
+uuid = "714c4374-e3dc-4596-b34d-491725ece06c"
+sha256 = "52cfeb81d7ae88ad4640c40571b0082cc3e5ff2e86c058bf281af3cdfbc563a1"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_050530.hpl"
+uuid = "c8f44225-ed04-4505-b47c-61cd6e934149"
+sha256 = "6ccb87c9f63ab45c06b7d37cfacf5763a655ae41c1b7ca489b678c31b1ed0fe5"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_030530.hpl"
+uuid = "bf846247-2ebc-411b-957a-7200e9ac7080"
+sha256 = "40bdc0a9c60c3b76140e2a32f209b906f1f984ac95fcc5731ee45311a8779d51"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_043528.hpl"
+uuid = "10d9bf7a-6334-489b-bc2b-280ec7bbd872"
+sha256 = "9710833e4cb1c974e05db9321e77bde0231f8b40bd91c0923445a8422af66b2e"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_133528.hpl"
+uuid = "d92805b0-6597-4163-a2a9-b1282fba02b6"
+sha256 = "0ac5c206eb84817628e0baed1bb15ce10ffb51269d3c9c918d7b32c6d97526fa"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_032030.hpl"
+uuid = "ea2d92e9-7461-4efe-92b3-cf76e6fe6f97"
+sha256 = "98afae563623a78774cf5c5c4515aff0bcac31842f48abb79cbe3197355b9e7b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_005026.hpl"
+uuid = "ced7a1ff-e8e3-49f5-80d6-1373308603a4"
+sha256 = "a6802e04e0a0b577eae28fa96da14873841e1e3378a355cca430a37cce1e67d8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_110530.hpl"
+uuid = "6f32ed1d-888a-468e-a79b-04701cfe4cbb"
+sha256 = "02743ea9a8650b003b533d583d68e0dc6363b4d293fe18260a09c23c71669fb4"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_040532.hpl"
+uuid = "2842fa7b-4b60-4a5d-876a-604045411716"
+sha256 = "d2751c5cbe3860648d1df2f47c6d50b53fbf7ba54de3e1fba39a5d0463755814"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_025027.hpl"
+uuid = "f0076d75-efb3-4b0c-8f38-22ba0809ac01"
+sha256 = "64a56b7ce7812bc62d5c9f1c22c9169bb7248e25cbc1f75c8ab72d5b02125c6b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_125026.hpl"
+uuid = "ec1668f6-4dc2-4736-99fa-be6d0dc1bf54"
+sha256 = "13fa702d93eadc31614a3be0feb09a88557d411ffd6db18757e91fe7ec94049d"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_023528.hpl"
+uuid = "bda3b040-d692-45f9-acb3-3bad50114090"
+sha256 = "d73b8fd28c9edd4a4da5856f0a4b5b88330505156b411d725c9b7e657f8ff53a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_022026.hpl"
+uuid = "2a170876-4a8a-4bf1-ae07-1957232ba5e2"
+sha256 = "e77ad258743e00404e23d17f7401ec6a4a8561713123273f1705613bc0789ce7"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_052028.hpl"
+uuid = "4370766e-30e2-4247-a589-c03ef6cfe5c2"
+sha256 = "d4ccd2c8d429884ae0eaf264df29a11f0ac39d2bd5a3a750c6ee45274fc41eaf"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_015029.hpl"
+uuid = "457f506c-0f21-462c-a145-e33c7bff7d00"
+sha256 = "7f633ea644a00a9c859a286769e91e70791a2b92ade0b28c5fa552ef5e939c30"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_033527.hpl"
+uuid = "9e6cb6ea-a505-4e22-94fc-e01399c51900"
+sha256 = "2e2baff2042980360543e46a0e583617b090bcaa096a37f91670ca558ecb5c0f"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_002028.hpl"
+uuid = "7fccbe30-6e89-4cf1-8913-b7e6e302921e"
+sha256 = "711bc7b0708a084289bee45870fd4d3513d31f6eee883f83c972e9e76af27d40"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_130532.hpl"
+uuid = "8c3d08d2-f6fa-43eb-b7ac-2f3c99d2b7af"
+sha256 = "960fcf7cd00a7b03fb297d645aa2f1c9bba30409bbaa5bbca84241f2a1a5b420"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_063529.hpl"
+uuid = "553676ee-c1b1-4008-b0a0-98bd57187c34"
+sha256 = "f13ea300729b9f6961349ad37e57af952251783c9f465503ff9499fe035fe975"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_192057.hpl"
+uuid = "bbc5a7e8-c2e5-43bd-b98e-2d6ac3fa1f73"
+sha256 = "b7a8cf5c02effa9f69e7f1befbab56834e6ac959317a0dd029ad81fb4a3bf5be"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_115029.hpl"
+uuid = "684f094d-58f0-41a1-8aff-fb4271ee8ce4"
+sha256 = "c84627b29e03fc0221cfd1c0ed9065b3a6e69037f8bdf54f3ab9afaa41cd8d27"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_013528.hpl"
+uuid = "cef1152c-a837-4935-b2cc-78c17b61d92d"
+sha256 = "d0c063b8435889c05b438d12fa482d3ba95d64b88c12f538c188dddfee2aafa8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_035029.hpl"
+uuid = "8edce46b-3f83-421f-8b6c-bc846b2dac99"
+sha256 = "c1ea221e41a2ebe1ab30eab99352da3f6ec445855de79b8e46e9c5f85aa5d087"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_132029.hpl"
+uuid = "ceb797eb-0368-483b-902c-a065364f4075"
+sha256 = "7bdf099ea89132464f54e1299b1fa855e835b66ded60d52e8a8c46de7b9f0d54"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_162027.hpl"
+uuid = "d1e6b9cc-d5e5-4292-9ecb-b55d30353fff"
+sha256 = "d8dfe259db835b907d37f138a5439863e4eea2d8bb1ba786caa39066a6ba54df"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_093527.hpl"
+uuid = "e60de797-dc17-4de2-85da-270612e5f186"
+sha256 = "57492140e87d31b5149a891a698a50e93fccba5ab49ea572143eb1585cf0d48e"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_092028.hpl"
+uuid = "3bf88fb9-0260-4736-a9e0-dab4585306d1"
+sha256 = "6804ef9b58afab818273d21a7042df0dae2a53b843c5419e9d391fefe76896fb"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_070531.hpl"
+uuid = "f5cedf13-85ed-4cc9-9a72-a55ff23cdfed"
+sha256 = "c7d41a74375079c0229bb5821ee82a992d6875a48f03e6b390ae070d40c7ff5e"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_113527.hpl"
+uuid = "255e02d9-c92d-4dd0-b272-b6ff2489d7a7"
+sha256 = "f633277cb253a3776bcb9f130f1cdb0a46998a751779f829af5275dd75e7b65a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_053527.hpl"
+uuid = "ec4ebe40-30cb-4792-ac30-b1584a3f4f38"
+sha256 = "aac4a32f480fb0aa5adda7fc18b3a9ad5290b1bccbee01c3b6080107b631e0dc"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_185058.hpl"
+uuid = "bc6bbf64-350e-4605-82e4-a53b186a992c"
+sha256 = "d319ce48f0491ba94036d53348a9cfe3ecff75188f0cea4c47991cdf84e5dfa8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_003530.hpl"
+uuid = "ee8c8a75-1f34-4dde-9101-4e5a1926f66c"
+sha256 = "6e86ff7f2e2e896cd00e80dd3122b213adc8f0b28495db24754a8ecd75d51246"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_100532.hpl"
+uuid = "ed78b74a-d14b-4440-ad8c-33f3b1963b45"
+sha256 = "f3dc891b9b286752afd41fbe5ebb07ef1da0bed933d5cf433596d7bcf45ce97c"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_082027.hpl"
+uuid = "f59b048d-1335-4c88-82c4-b29f2e0ee322"
+sha256 = "68de8e696b30297a717863061a8992e2edea3e9db539cb8ab61447bd9bb83ed6"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_073527.hpl"
+uuid = "e20d7959-97e9-4a66-8ad1-7a7999d62fe2"
+sha256 = "a45530818d61fbc80920d596774986eaeda557f26fd96037ac602d4b13e03418"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_120531.hpl"
+uuid = "3b65007c-80ba-48c4-9f45-38e6b3f4dd7a"
+sha256 = "07338e35437820c3b791cc173ed55a09aec9f834837cfad95fee518d91e5f46f"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_102027.hpl"
+uuid = "a0ab64d1-e14a-42cb-ac69-e61890a4e00c"
+sha256 = "937eb50eafa9f95e13d3391f6a7f8379c381a1b3761a5c31ba99fc69b12865ea"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_143530.hpl"
+uuid = "2bc79455-67dd-4470-bc63-e481238713e6"
+sha256 = "c5dcb5b698a11833dc7a9fa6ac7dd4b4f6d06f69dd8984927c164e9c403d18df"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_155030.hpl"
+uuid = "f10b5a43-3904-4bd7-82b9-a6044b6ad2f5"
+sha256 = "c59a105ba4cd79b6b67bdd83aaa5d4ea86de938b6af0a6e77f0cee162ee5285b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_145026.hpl"
+uuid = "32f2278a-727f-4e6a-9ad3-33896ad64b47"
+sha256 = "9c28f09dfd69ec28ceeee8ad0e5cb190becce0fa5e5ca560c18fdeb5ec12f2ed"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_105027.hpl"
+uuid = "306ffe50-a3d3-45ee-bc7d-a92971dd792a"
+sha256 = "aa0a5b33f7d50b4e898d890bc59140020b84e01b20820b8867c7c14f8d5998ff"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_055029.hpl"
+uuid = "a91a23b3-fd3d-473c-9cbe-3c444e192332"
+sha256 = "6e0dea0084fb27d906a0d67fa7781a8fe48e68955ad4d861e03c976565804395"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_075029.hpl"
+uuid = "d92949b0-3b31-48d2-b44d-c3c99d5ef18e"
+sha256 = "9121d015f15ef9148ad643f34de8830730becaf4d3c1cb2f310afe4a71d68697"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_065028.hpl"
+uuid = "a3b89136-2e96-4050-b460-50a903689bf2"
+sha256 = "72c08f7e9cf33c5b33d705e2990f72df6a1e6b284b203a195fef08f204e2286b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_020532.hpl"
+uuid = "d17b231d-0eb8-4f68-b97a-84131cb53d78"
+sha256 = "d01bc8b01fa19a06ffc8de534b20bc67118bf8aa406950f296f24aed946d5fe8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_142028.hpl"
+uuid = "c7bb86ee-5421-441e-af28-cd8416949796"
+sha256 = "d10f3277929c4c3a94f882f69de14c3ba4a17ea653b09096fb25f1107e188f72"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_123528.hpl"
+uuid = "34d9624f-fcd8-44ec-9db6-103cd3287381"
+sha256 = "36b6c2a1e7fa2c16f62aa875aa58ece7e1fbc8697e1282c352d7492dec1b9aa5"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_045027.hpl"
+uuid = "f1938383-3e13-4cb9-b519-e65c83aef316"
+sha256 = "331c42eff8d33512370d7c65d6396b40a067397a81e1f550d83f4d03e7a2c976"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_060532.hpl"
+uuid = "5fbf84fd-37cd-4a2e-9ffd-f82a9427a279"
+sha256 = "5ecf7dd387cf5977469ad01cd028ba363dd2002495c15e6f58521a1c0a304f8a"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_225054.hpl"
+uuid = "6b997f85-bc48-4a4f-8125-dee30646ca8f"
+sha256 = "a685474bab6122e95d785cf1cbc59b135ec141031be5ac99286a21e9c88d9782"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_215056.hpl"
+uuid = "218492f3-e146-4661-882d-e301a3c4ee0b"
+sha256 = "1de67c1c82cf533f090d2358d1a7e512973956fe35cbcaa0a76874cac060e9d0"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_203555.hpl"
+uuid = "0d1c1c7d-00fc-4e57-92c7-41cf7041e20c"
+sha256 = "e8a73913368e9585fe4887fde90105d9f2e29f062a5dde19520ad353c08b647d"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_012029.hpl"
+uuid = "14024e77-5edb-40e7-9fa2-39b20d693626"
+sha256 = "f5fcb7188bfec9f201d3159a42b4c2902a7608d65ee7d84e9a0cab1c8ba4aae9"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_062027.hpl"
+uuid = "061a50d7-7aa0-41a4-bf13-fc02cc974a49"
+sha256 = "febb471773508196b32ed7357019f6a9ca98d7fd970c57afa4bf702bbe347490"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_213556.hpl"
+uuid = "fcbe5a0c-b929-4a2a-b3a6-1521733021b9"
+sha256 = "ce8db72985e2da96c33baffd7565da765008301021ff82c4b5634be16c420046"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_000531.hpl"
+uuid = "9ea83416-f6f9-4834-b3ba-33fac81b022c"
+sha256 = "ead971132d425ed41948bb96d7c39264d653a2880bb31571bcbf4a0cae8e5e94"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_090530.hpl"
+uuid = "920b601f-daf6-476e-a184-9a92d48c3d75"
+sha256 = "ebeb75f7441a20ab581620f71c68d5b70bf0b3f236f66a5f11906e0695cca863"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_173557.hpl"
+uuid = "68b70f6b-c5d4-49f6-a6c2-3bedc1bbfed0"
+sha256 = "2a88d4dd1b2f4c9430bdebf74e7f63d4c67b075c9cdd0e22d0df1553ad431669"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_195058.hpl"
+uuid = "346275a9-8993-4186-aacf-e88069f0c553"
+sha256 = "e19c943d58da0647e05e7ac7b6f2a83198e9455f01da67b39f82d6da627012a5"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_233553.hpl"
+uuid = "bc2edd71-e7da-424e-ad9c-6ead85ff81c4"
+sha256 = "8736ef0ac9f49fe8221d62bf9b7823635ed5df89111bb6cd4ca237e69852296b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_153528.hpl"
+uuid = "b32a360c-cf4e-45d0-9612-550b945c94df"
+sha256 = "c3f8784a975a946224c169a473c251358ca187ed5a2d646c6d8bbcfc70bcfdf7"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_080532.hpl"
+uuid = "2cafaaa8-09ab-417d-821e-7811ed176df5"
+sha256 = "bd96290a089ef17b1db69843784377f1e76ac14a100d8f6d00ce4b62a4d36b21"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_103529.hpl"
+uuid = "f2ba6c8d-21ae-4b76-8fd1-154a0a2d7997"
+sha256 = "c3cc2b6af6016e2853ca427cef590942e2bae84a802e3c1bf99a2a88f15cee45"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_165028.hpl"
+uuid = "901bb00d-c270-459e-aa6a-2cd800644873"
+sha256 = "790d66a802ba972dd1558ad94031f2bcacbba0fbe13613ea44f48e505906b91b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_182058.hpl"
+uuid = "71b82228-1b1b-4fa7-89b9-eaa9ff925308"
+sha256 = "467d1f9d05e3d03d05db84d26cd13018a9e47975ab73ac2816e2c0a1d0e11c11"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_223555.hpl"
+uuid = "05782452-bcaa-4ae2-958f-56e23a83ba37"
+sha256 = "775e0990480ad74f9f2c6381a09a58812de38e0d5da39487f32f5a244f18f5c9"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_085027.hpl"
+uuid = "501de559-9c82-4d93-8a4d-ddc860f00c7a"
+sha256 = "264369f1331443c4131271f25ee4de8f571deac7d9241dbf9184f30811046c33"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_222055.hpl"
+uuid = "d13d751a-c4d3-48fc-aa27-e4fd002aa4a0"
+sha256 = "2de492f3b72adb8cd1b46f82accb4e6631ed2d9d1c104a07cb1a8fb904ac9b88"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_230559.hpl"
+uuid = "187afb49-2661-47e5-8b0a-e650b1594fdc"
+sha256 = "d067f30d6bc82c5aecbf84985188feca10163798422ff76c6181c7d6d1a5fccc"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_140533.hpl"
+uuid = "d014fd94-44f3-4614-8fd5-8c5c911e1515"
+sha256 = "d6d30cd27561bb4cd48c27f54a6245eed5f3bd1cca792d213ac370fb453cc170"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_202057.hpl"
+uuid = "b1e9da7b-e6f6-4aeb-b9ce-55a120b74cd0"
+sha256 = "0ab2b0e4964100f46bcdab4defd1b21ff9bc3db3180c3c1b0b314946178e78e4"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_112028.hpl"
+uuid = "5ba63f00-4427-40b0-845b-aff9c8b56b40"
+sha256 = "22603c2b76d5937ae3362a544fb410e958fd67e8eb6892ca5582c848335adee5"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_010532.hpl"
+uuid = "b6b99c61-6e30-4b05-aafb-9cfe02f6f9b7"
+sha256 = "d77a4b4548fcdbe954837cb9b2dae3bdee2d71c7d2c373de34e06114714d4ace"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_122028.hpl"
+uuid = "7f591bc6-66a7-465d-a6f5-80f9e8da521e"
+sha256 = "f06db98c185654ea296ee31beb785b074a2c0f091e40527d10fd14ac8593d385"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_083529.hpl"
+uuid = "a56fd37e-2e2b-42e9-95cd-82daf28c2b37"
+sha256 = "c12942ba83b1cf6b791df097c987a127a6549f0420fa1fb539e4d6b6fde493f8"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_150531.hpl"
+uuid = "a3892691-f9de-4104-83b9-64f6d72db639"
+sha256 = "18d7e1a37dbe4965fd6889f61ec1027f06e59ae8c4bce85ce5649c052cd8b7f7"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_235054.hpl"
+uuid = "13ac8e09-e8ce-4e03-9689-5b5decc01610"
+sha256 = "f9be703ea133da924d49151c7571d6e834aeac5b0f2bbf068eb01e0d709ce67b"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_183558.hpl"
+uuid = "c2578677-1797-49d0-8643-1b0b222b3f9e"
+sha256 = "c15d65c95947bf5d32347c0da89404cce1673eaf17f9bd6b90f050414b299e05"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_160532.hpl"
+uuid = "e1d9f391-b6ee-4402-979f-a89fbb9b541c"
+sha256 = "49e9d39daad5e666451a41add92aaeb7bd5768d2fb1bb6b0f4eea4a68176f2d9"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_205056.hpl"
+uuid = "6c45a267-7624-4713-b5d8-b42c458bcb34"
+sha256 = "8cc0a87d6f5db67ca9521b84e0ba8403e9369c660e467d9afc992f0368452ce2"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_152029.hpl"
+uuid = "dbe9d3b8-8a47-446a-87ce-5c69f6377d06"
+sha256 = "82b1e9cd551db04738ad281bc2cd7d9612571ee7faedf7ff9f0b46613135b3d4"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_095029.hpl"
+uuid = "301e2878-3423-48c4-b6f1-0c3745343604"
+sha256 = "9e41d17fa9399e31922446f5ccaeccf59355a7e6cfb0c7e9c42e417578a2ed3c"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_232055.hpl"
+uuid = "589816ea-74e2-41f6-933b-bf8e7aba1302"
+sha256 = "4d252b0ab82a5daa5d0d0871303e6348fe7cd5c4aab971c4962c8d2e4b2a19bf"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_210558.hpl"
+uuid = "9518decd-96e8-453f-a783-8f9ed795a6b9"
+sha256 = "48a7a5b76a3c689cae4b4d28c7c0df00bee8c0e0f28d96539624b50770d824a9"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_175058.hpl"
+uuid = "1bcc3a01-e0ed-4cbb-bed0-3ba9979835e8"
+sha256 = "14a9380a3aab44576ff906f7f9c13c7256c76858ac28cbb18e5fb2753c361db1"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_172057.hpl"
+uuid = "6585cdb1-2451-4c0c-8bbe-1e79d92af42b"
+sha256 = "e8626bb86d12492a23a448f6f60bd30258b478f7c286a668343c9f8a17e2e956"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_163529.hpl"
+uuid = "73804efe-9187-426b-98e9-7933e8352e21"
+sha256 = "38d293ca8c977309611acd80260f11fe069bb20b7c0a100b29463b01cb046f07"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_212056.hpl"
+uuid = "65ba88d2-562f-4eaf-8180-ad485a089086"
+sha256 = "b3628857d1c9d15e9fed7d9a6ecad5bd5be2047e08c01a5c32475af99ba57ad2"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_220559.hpl"
+uuid = "a8530bd6-2804-4cb2-949f-5a06b0f44034"
+sha256 = "83e515b418dd57984bbff1c36e82010f30c3f0f2cfa8ef4107df6836a94c2f66"
+
+[wind.expect]
+height_len = 400
+system_id = "32"
+time_len = 92
+
+[wind.expect.meridional_wind]
+count = 36800
+mean = -0.2327706626362944
+skew = 0.04210690006684084
+var = 171.49973677399154
+
+[wind.expect.vertical_wind]
+count = 36800
+mean = -3.1670621272555226
+skew = -0.13103532176188504
+var = 12.265906294247143
+
+[wind.expect.zonal_wind]
+count = 36800
+mean = -1.437674350089909
+skew = 0.1004810229978447
+var = 175.60241544173786
 
 [[turbulence]]
 id = "2qkxbs"

@@ -12,7 +12,14 @@ import numpy.typing as npt
 from scipy.ndimage import generic_filter
 
 import doppy
+import doppy.exceptions
 from doppy.product.utils import arr_to_rounded_set
+
+MIN_PROFILES_PER_SCAN = 4  # 3 would yield perfect fit and screening would not work
+MIN_COMPLETE_ROTATIONS = 5
+PREFERRED_VAD_ELEVATION_DEG = 75
+MIN_VAD_ELEVATION_DEG = 5
+MAX_VAD_ELEVATION_DEG = 85
 
 
 @dataclass
@@ -79,7 +86,7 @@ class Wind:
         if options and options.azimuth_offset_deg:
             raw.azimuth += options.azimuth_offset_deg
 
-        groups = _group_scans_by_azimuth_rotation(raw)
+        groups = _group_scans_by_azimuth_rotation(raw.time, raw.azimuth)
         time_list = []
         elevation_list = []
         wind_list = []
@@ -87,7 +94,7 @@ class Wind:
 
         for group_index in set(groups):
             pick = group_index == groups
-            if pick.sum() < 4:
+            if pick.sum() < MIN_PROFILES_PER_SCAN:
                 continue
             time_, elevation_, wind_, rmse_ = _compute_wind(raw[pick])
             time_list.append(time_)
@@ -157,7 +164,7 @@ class Wind:
 
         for scan_index in set(raw.scan_index):
             pick = raw.scan_index == scan_index
-            if pick.sum() < 4:
+            if pick.sum() < MIN_PROFILES_PER_SCAN:
                 continue
             time_, elevation_, wind_, rmse_ = _compute_wind(raw[pick])
             time_list.append(time_)
@@ -383,77 +390,87 @@ def _compute_mask(
     return np.array((rmse > rmse_th) | neighbour_mask, dtype=np.bool_)
 
 
-def _group_scans_by_azimuth_rotation(raw: doppy.raw.HaloHpl) -> npt.NDArray[np.int64]:
+def _group_scans_by_azimuth_rotation(
+    time: npt.NDArray[np.datetime64],
+    azimuth: npt.NDArray[np.float64],
+) -> npt.NDArray[np.int64]:
     max_timedelta_in_scan = np.timedelta64(30, "s")
-    if len(raw.time) < 4:
+    if len(time) < MIN_PROFILES_PER_SCAN:
         raise doppy.exceptions.NoDataError(
-            "Less than 4 profiles is not sufficient for wind product."
+            f"Less than {MIN_PROFILES_PER_SCAN} profiles "
+            "is not sufficient for wind product."
         )
-    groups = -1 * np.ones_like(raw.time, dtype=np.int64)
+    az_int = np.round(azimuth).astype(np.int64) % 360
+    gap = np.empty(len(time), dtype=bool)
+    gap[0] = False
+    gap[1:] = np.diff(time) > max_timedelta_in_scan
 
+    groups = np.empty(len(time), dtype=np.int64)
     group = 0
-    first_azimuth_of_scan = _wrap_and_round_angle(raw.azimuth[0])
+    first_azimuth_of_scan = int(az_int[0])
     groups[0] = group
-    for i, (time_prev, time, azimuth) in enumerate(
-        zip(raw.time[:-1], raw.time[1:], raw.azimuth[1:]), start=1
-    ):
-        if (
-            angle := _wrap_and_round_angle(azimuth)
-        ) == first_azimuth_of_scan or time - time_prev > max_timedelta_in_scan:
+    for i in range(1, len(time)):
+        angle = int(az_int[i])
+        if angle == first_azimuth_of_scan or gap[i]:
             group += 1
             first_azimuth_of_scan = angle
         groups[i] = group
     return groups
 
 
-def _wrap_and_round_angle(a: np.float64) -> int:
-    return int(np.round(a)) % 360
+def _count_complete_rotations(
+    time: npt.NDArray[np.datetime64],
+    azimuth: npt.NDArray[np.float64],
+) -> int:
+    """Number of azimuth-rotation groups with at least MIN_PROFILES_PER_SCAN
+    profiles -- i.e. how many groups would yield a wind retrieval."""
+    if len(time) < MIN_PROFILES_PER_SCAN:
+        return 0
+    groups = _group_scans_by_azimuth_rotation(time, azimuth)
+    _, counts = np.unique(groups, return_counts=True)
+    return int((counts >= MIN_PROFILES_PER_SCAN).sum())
 
 
 def _select_raws_for_wind(
     raws: Sequence[doppy.raw.HaloHpl],
 ) -> Sequence[doppy.raw.HaloHpl]:
-    counter: Counter[tuple[int, int]] = Counter()
-    filtered_raws = []
+    scan_counts: Counter[tuple[int, int]] = Counter()
+    candidates: list[tuple[doppy.raw.HaloHpl, npt.NDArray[np.bool_], int, int]] = []
     for raw in raws:
-        select = (1 < raw.elevation) & (raw.elevation < 85)
-        for el in arr_to_rounded_set(raw.elevation[select]):
-            select_el = raw.elevation.round().astype(int) == el
-            select_and = select & select_el
-
-            if _get_nrounded_angles(raw.azimuth[select_and]) > 3:
-                filtered_raws.append(raw[select_and])
-                counter.update(
-                    Counter(
-                        (raw.header.mergeable_hash(), el)
-                        for el in raw.elevation[select_and].round().astype(int)
-                    )
-                )
-    if len(counter) == 0:
-        raise doppy.exceptions.NoDataError(
-            "No scans with 1 < elevation angle < 85 and more than 3 azimuth angles"
+        select = (MIN_VAD_ELEVATION_DEG <= raw.elevation) & (
+            raw.elevation <= MAX_VAD_ELEVATION_DEG
         )
-    if len(counter) == 1:
-        return filtered_raws
-    # Else select angle closes to 75 from angles
-    # that have count larger than mean_count/2
-    mean_count = counter.total() / len(counter)
-    elevation, _, hash = sorted(
-        [
-            (el, abs(el - 75), hash)
-            for (hash, el), count in counter.items()
-            if count > mean_count / 2
-        ],
-        key=lambda x: x[1],
-    )[0]
-    elevation_set = {elevation}
-    raws = [
-        raw
-        for raw in filtered_raws
-        if raw.header.mergeable_hash() == hash
-        and arr_to_rounded_set(raw.elevation) == elevation_set
+        elev_rounded = raw.elevation.round().astype(int)
+        raw_hash = raw.header.mergeable_hash()
+        for el in set(elev_rounded[select].tolist()):
+            select_and = select & (elev_rounded == el)
+            if _get_nrounded_angles(raw.azimuth[select_and]) <= 3:
+                continue
+            n_scans = _count_complete_rotations(
+                raw.time[select_and], raw.azimuth[select_and]
+            )
+            if n_scans == 0:
+                continue
+            candidates.append((raw, select_and, raw_hash, el))
+            scan_counts[(raw_hash, el)] += n_scans
+
+    eligible = [
+        (h, el, n) for (h, el), n in scan_counts.items() if n >= MIN_COMPLETE_ROTATIONS
     ]
-    return raws
+    if not eligible:
+        raise doppy.exceptions.NoDataError(
+            f"No scans with elevation in "
+            f"[{MIN_VAD_ELEVATION_DEG}, {MAX_VAD_ELEVATION_DEG}], "
+            f"more than 3 azimuth angles, "
+            f"and at least {MIN_COMPLETE_ROTATIONS} complete azimuth rotations"
+        )
+    eligible.sort(key=lambda c: (abs(c[1] - PREFERRED_VAD_ELEVATION_DEG), -c[2]))
+    picked_hash, picked_el, _ = eligible[0]
+    return [
+        raw[mask]
+        for raw, mask, h, el in candidates
+        if h == picked_hash and el == picked_el
+    ]
 
 
 def _get_nrounded_angles(arr: npt.NDArray[np.float64]) -> int:

@@ -76,10 +76,11 @@ pub fn from_filename_src(filename: String) -> Result<HaloHpl, RawParseError> {
     from_file_src(&file)
 }
 
+#[must_use]
 pub fn from_filename_srcs(filenames: Vec<String>) -> Vec<HaloHpl> {
     filenames
         .par_iter()
-        .filter_map(|filename| from_filename_src(filename.to_string()).ok())
+        .filter_map(|filename| from_filename_src(filename.clone()).ok())
         .collect()
 }
 
@@ -89,6 +90,7 @@ pub fn from_file_src(mut file: &File) -> Result<HaloHpl, RawParseError> {
     from_bytes_src(&content)
 }
 
+#[must_use]
 pub fn from_file_srcs(files: Vec<&File>) -> Vec<HaloHpl> {
     files
         .par_iter()
@@ -96,6 +98,7 @@ pub fn from_file_srcs(files: Vec<&File>) -> Vec<HaloHpl> {
         .collect()
 }
 
+#[must_use]
 pub fn from_bytes_srcs(contents: Vec<&[u8]>) -> Vec<HaloHpl> {
     contents
         .par_iter()
@@ -104,7 +107,7 @@ pub fn from_bytes_srcs(contents: Vec<&[u8]>) -> Vec<HaloHpl> {
 }
 
 pub fn from_bytes_src(content: &[u8]) -> Result<HaloHpl, RawParseError> {
-    let content_without_nulls: Vec<u8> = content.iter().filter(|&&x| x != 0).cloned().collect();
+    let content_without_nulls: Vec<u8> = content.iter().filter(|&&x| x != 0).copied().collect();
     let mut cur = Cursor::new(content_without_nulls.as_slice());
 
     let mut buf_header = vec![];
@@ -158,12 +161,12 @@ fn parse_data(
     let mut data_2d = vec![vec![0f64; (ngates * nfull_profiles) as usize]; n2d as usize];
     let mut k = 0;
     for p in 0..nfull_profiles as usize {
-        for var in data_1d.iter_mut() {
+        for var in &mut data_1d {
             var[p] = data_flat[k];
             k += 1;
         }
         for g in 0..ngates as usize {
-            for var in data_2d.iter_mut() {
+            for var in &mut data_2d {
                 var[g + p * ngates as usize] = data_flat[k];
                 k += 1;
             }
@@ -289,30 +292,26 @@ fn parse_header(header_bytes: &[u8]) -> Result<Info, RawParseError> {
                 match line.as_str() {
                     "Altitude of measurement (center of gate) = (range gate + 0.5) * Gate length"
                     | "Range of measurement (center of gate) = (range gate + 0.5) * Gate length" => {
-                        info.range_formula = Some(RangeFormula::Common)
+                        info.range_formula = Some(RangeFormula::Common);
                     }
                     "Range of measurement (center of gate) = Gate length / 2 + (range gate x 3)" => {
                         info.range_formula = Some(RangeFormula::Overlapping {
                             gate_length_div: 2.0,
                             gate_index_mul: 3.0,
-                        })
+                        });
                     }
-                    "Data line 1: Decimal time (hours)  Azimuth (degrees)  Elevation (degrees) Pitch (degrees) Roll (degrees)" =>
-                        {}
-                    "Data line 1: Decimal time (hours)  Azimuth (degrees)  Elevation (degrees)" => {
-                    }
-                    "f9.6,1x,f6.2,1x,f6.2" => (),
-                    "Data line 2: Range Gate  Doppler (m/s)  Intensity (SNR + 1)  Beta (m-1 sr-1)" =>
-                        {}
-                    "Data line 2: Range Gate  Doppler (m/s)  Intensity (SNR + 1)  Beta (m-1 sr-1) Spectral Width" =>
-                        {}
-                    "i3,1x,f6.4,1x,f8.6,1x,e12.6 - repeat for no. gates" => (),
-                    "i3,1x,f6.4,1x,f8.6,1x,e12.6,1x,f6.4 - repeat for no. gates" => (),
-                    "****" => (),
+                    "Data line 1: Decimal time (hours)  Azimuth (degrees)  Elevation (degrees) Pitch (degrees) Roll (degrees)"
+                    | "Data line 1: Decimal time (hours)  Azimuth (degrees)  Elevation (degrees)"
+                    | "f9.6,1x,f6.2,1x,f6.2"
+                    | "Data line 2: Range Gate  Doppler (m/s)  Intensity (SNR + 1)  Beta (m-1 sr-1)"
+                    | "Data line 2: Range Gate  Doppler (m/s)  Intensity (SNR + 1)  Beta (m-1 sr-1) Spectral Width"
+                    | "i3,1x,f6.4,1x,f8.6,1x,e12.6 - repeat for no. gates"
+                    | "i3,1x,f6.4,1x,f8.6,1x,e12.6,1x,f6.4 - repeat for no. gates"
+                    | "****" => (),
                     _ => return Err(format!("Unexpected header line: {line}").into()),
-                };
-            };
-        };
+                }
+            }
+        }
     }
     Ok(info)
 }

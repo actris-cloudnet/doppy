@@ -91,10 +91,6 @@ module = "doppy.rs.*"
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = "doppy.data.*"
-ignore_errors = true
-
-[[tool.mypy.overrides]]
 module = "doppy.bench.*"
 ignore_errors = true
 

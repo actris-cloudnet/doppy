@@ -7,7 +7,6 @@ use std::process::{Command, Stdio};
 
 use chrono::Local;
 use clap::{Parser, ValueEnum};
-use rand::seq::IndexedRandom;
 use regex::Regex;
 use toml_edit::DocumentMut;
 
@@ -353,23 +352,6 @@ fn confirm(msg: &str) -> bool {
     input.trim().eq_ignore_ascii_case("y")
 }
 
-fn congrats() -> &'static str {
-    let words = [
-        "Spectacular",
-        "Phenomenal",
-        "Extraordinary",
-        "Magnificent",
-        "Outstanding",
-        "Remarkable",
-        "Incredible",
-        "Fantastic",
-        "Brilliant",
-        "Glorious",
-    ];
-    let mut rng = rand::rng();
-    words.choose(&mut rng).unwrap_or(&"Great")
-}
-
 fn run() -> Result<(), String> {
     let cli = Cli::parse();
 
@@ -412,7 +394,7 @@ fn run() -> Result<(), String> {
     git.tag(&new.tag())?;
     git.push("origin", "main", &new.tag())?;
 
-    println!("Version {new} released! {} release!", congrats());
+    println!("Released {new}");
     Ok(())
 }
 

@@ -12,6 +12,7 @@ impl Default for RawParseError {
 }
 
 impl RawParseError {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             message: String::new(),

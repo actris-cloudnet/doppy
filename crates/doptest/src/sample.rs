@@ -193,7 +193,7 @@ async fn load_or_fetch_cache(force: bool) -> Result<Vec<CachedRecord>, String> {
 
         let mut instrument_count = 0usize;
         for (i, (from, to)) in intervals.iter().enumerate() {
-            eprint!("\r  [{}/{}] ", i + 1, total_intervals,);
+            eprint!("\r  [{}/{}] ", i + 1, total_intervals);
             match fetch_files_for_interval(&api, &instrument.id, *from, *to).await {
                 Ok(records) => {
                     let count = records.len();

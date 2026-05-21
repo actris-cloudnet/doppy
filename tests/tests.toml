@@ -625,6 +625,13 @@ instrument_id = "wls200s"
 instrument_uuid = "dca88604-798e-4647-a44d-ec61ea412301"
 description = "added by doptest sample"
 
+[[wind]]
+id = "1prfs7"
+site = "uto"
+date = "2026-05-18"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "1f7d5b3d-dc55-483b-8e13-debb13f42bc5"
+
 [[turbulence]]
 id = "2qkxbs"
 site = "invercargill"

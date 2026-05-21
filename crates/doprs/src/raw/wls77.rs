@@ -49,13 +49,15 @@ pub fn from_filename_src(filename: String) -> Result<Wls77, RawParseError> {
     from_file_src(&file)
 }
 
+#[must_use]
 pub fn from_filename_srcs(filenames: Vec<String>) -> Vec<Wls77> {
     filenames
         .par_iter()
-        .filter_map(|filename| from_filename_src(filename.to_string()).ok())
+        .filter_map(|filename| from_filename_src(filename.clone()).ok())
         .collect()
 }
 
+#[must_use]
 pub fn from_file_srcs(files: Vec<&File>) -> Vec<Wls77> {
     files
         .par_iter()
@@ -63,6 +65,7 @@ pub fn from_file_srcs(files: Vec<&File>) -> Vec<Wls77> {
         .collect()
 }
 
+#[must_use]
 pub fn from_bytes_srcs(contents: Vec<&[u8]>) -> Vec<Wls77> {
     contents
         .par_iter()
@@ -197,7 +200,7 @@ fn parse_info(info_str: &[u8]) -> Result<Info, RawParseError> {
             }
             b if b.starts_with(b"ID System=") => {
                 info.system_id = std::str::from_utf8(&line[10..])
-                    .map(|s| s.trim())
+                    .map(str::trim)
                     .map_err(|_| RawParseError {
                         message: "UTF-8 conversion error".into(),
                     })?
@@ -243,8 +246,8 @@ pub fn parse_data(data: &[u8]) -> Result<(Vec<f64>, i64), RawParseError> {
         for (i, part) in parts.iter().enumerate() {
             match i {
                 0 => {
-                    let date = String::from_utf8_lossy(part).trim().to_string();
-                    match datetime_to_timestamp(&date) {
+                    let datetime = String::from_utf8_lossy(part).trim().to_string();
+                    match datetime_to_timestamp(&datetime) {
                         Ok(d) => {
                             data_flat.push(d);
                         }
@@ -283,5 +286,5 @@ fn datetime_to_timestamp(s: &str) -> Result<f64, ParseError> {
     let format = "%Y/%m/%d %H:%M:%S%.f";
     let ndt = NaiveDateTime::parse_from_str(s, format)?;
     let dt = DateTime::<Utc>::from_naive_utc_and_offset(ndt, Utc);
-    Ok(dt.timestamp() as f64 + dt.timestamp_subsec_millis() as f64 / 1000.0)
+    Ok(dt.timestamp() as f64 + f64::from(dt.timestamp_subsec_millis()) / 1000.0)
 }
