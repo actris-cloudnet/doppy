@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.15 – 2026-05-22
+
+- Fix wind file selection
+
 ## 0.5.14 – 2026-04-10
 
 - Add intensity only noise mask option for stare
