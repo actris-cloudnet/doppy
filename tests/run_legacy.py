@@ -376,18 +376,6 @@ def handle_product_windcube_wind_mixed(api: Api, case: dict):
     assert len(wind.time) > 1, f"Expected time length > 1, got {len(wind.time)}"
 
 
-def handle_product_windcube_wind_mixed_bad(api: Api, case: dict):
-    records = api.get_raw_records(case["site"], case["date"])
-    ftype = case["ftype"]
-    ftype_re = re.compile(rf".*{ftype}_(.*)\.nc(?:\..*)?")
-    files = [
-        api.get_record_content(rec)
-        for rec in records
-        if ftype_re.match(rec["filename"])
-    ]
-    expect_error(case, lambda: Wind.from_windcube_data(files))
-
-
 def handle_product_wind_system_id(api: Api, case: dict):
     source = case["source"]
     expected_id = case["expect"]["system_id"]
@@ -513,7 +501,6 @@ HANDLERS: dict[str, object] = {
     "product.wind_bad": handle_product_wind_bad,
     "product.windcube_wind": handle_product_windcube_wind,
     "product.windcube_wind_mixed": handle_product_windcube_wind_mixed,
-    "product.windcube_wind_mixed_bad": handle_product_windcube_wind_mixed_bad,
     "product.wind_system_id": handle_product_wind_system_id,
     "product.stare_depol": handle_product_stare_depol,
     "product.stare_depol_bad": handle_product_stare_depol_bad,

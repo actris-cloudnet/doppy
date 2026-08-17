@@ -343,7 +343,7 @@ def _build_wind(
     if instrument_id in ("wls200s", "wls400s"):
         try:
             return Wind.from_windcube_data(data=paths, options=options)
-        except ValueError:
+        except (ValueError, doppy.exceptions.NoDataError):
             vad_re = re.compile(r".*_vad_(.*)\.nc\.*")
             dbs_re = re.compile(r".*_dbs_(.*)\.nc\.*")
             group_re = vad_re if any(vad_re.match(p.name) for p in paths) else dbs_re

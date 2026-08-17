@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import functools
-from collections import Counter
+import logging
+from collections import Counter, defaultdict
 from dataclasses import dataclass
 from io import BufferedIOBase
 from pathlib import Path
@@ -139,20 +140,20 @@ class Wind:
             raise doppy.exceptions.NoDataError("WindCube data missing")
 
         raw = (
-            doppy.raw.WindCube.merge(raws)
+            doppy.raw.WindCube.merge(_select_raws_for_windcube_wind(raws))
             .sorted_by_time()
             .non_strictly_increasing_timesteps_removed()
             .reindex_scan_indices()
         )
         # select scans with most frequent elevation angle from range (15,85)
         raw = raw[(raw.elevation > 15) & (raw.elevation < 85)]
+        if len(raw.time) == 0:
+            raise doppy.exceptions.NoDataError("No suitable data for the wind product")
+
         elevation_ints = raw.elevation.round().astype(int)
         unique_elevations, counts = np.unique(elevation_ints, return_counts=True)
         most_frequent_elevation = unique_elevations[np.argmax(counts)]
         raw = raw[elevation_ints == most_frequent_elevation]
-
-        if len(raw.time) == 0:
-            raise doppy.exceptions.NoDataError("No suitable data for the wind product")
 
         if options and options.azimuth_offset_deg:
             raw.azimuth += options.azimuth_offset_deg
@@ -173,6 +174,10 @@ class Wind:
             rmse_list.append(rmse_[np.newaxis, :])
 
         time = np.array(time_list)
+        if len(time) == 0:
+            raise doppy.exceptions.NoDataError(
+                f"No scan with at least {MIN_PROFILES_PER_SCAN} profiles"
+            )
         elevation = np.array(elevation_list)
         wind = np.concatenate(wind_list)
         rmse = np.concatenate(rmse_list)
@@ -471,6 +476,31 @@ def _select_raws_for_wind(
         for raw, mask, h, el in candidates
         if h == picked_hash and el == picked_el
     ]
+
+
+def _select_raws_for_windcube_wind(
+    raws: Sequence[doppy.raw.WindCube],
+) -> list[doppy.raw.WindCube]:
+    """Keep the scan configuration that measured the most rays.
+
+    Profiles on different gate layouts cannot share one height axis; payerne
+    2021-11-24 runs 138, 140 and 109 range gates in one day.
+    """
+    configurations: dict[bytes, list[doppy.raw.WindCube]] = defaultdict(list)
+    for raw in raws:
+        configurations[np.round(raw.height[0], 3).tobytes()].append(raw)
+
+    def rays(group: Sequence[doppy.raw.WindCube]) -> int:
+        return sum(len(raw.time) for raw in group)
+
+    picked = max(configurations.values(), key=rays)
+    if len(configurations) > 1:
+        logging.warning(
+            "Discarding %d rays measured in %d other scan configurations",
+            rays(raws) - rays(picked),
+            len(configurations) - 1,
+        )
+    return picked
 
 
 def _get_nrounded_angles(arr: npt.NDArray[np.float64]) -> int:

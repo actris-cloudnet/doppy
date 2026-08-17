@@ -16,8 +16,12 @@ from numpy import datetime64, timedelta64
 
 import doppy
 from doppy import exceptions
-from doppy.raw.utils import bytes_from_src
+from doppy.raw.utils import bytes_from_src, name_of_src, size_of_src
 from doppy.utils import merge_all_equal
+
+# A whole day is read into memory before it is parsed, so one runaway file
+# takes the day down. Largest non-malfunctioning hpl in the archive is 1.6 GB.
+MAX_FILE_SIZE = 4 * 1024**3
 
 
 @dataclass
@@ -36,9 +40,23 @@ class HaloHpl:
 
     @classmethod
     def from_srcs(
-        cls, data: Sequence[str | bytes | Path | BufferedIOBase]
+        cls,
+        data: Sequence[str | bytes | Path | BufferedIOBase],
+        max_file_size: int = MAX_FILE_SIZE,
     ) -> list[HaloHpl]:
-        data_bytes = [bytes_from_src(src) for src in data]
+        srcs = []
+        for src in data:
+            size = size_of_src(src)
+            if size is not None and size > max_file_size:
+                logging.warning(
+                    "Skipping %s: %d bytes is over the %d byte limit",
+                    name_of_src(src),
+                    size,
+                    max_file_size,
+                )
+                continue
+            srcs.append(src)
+        data_bytes = [bytes_from_src(src) for src in srcs]
         raw_dicts = doppy.rs.raw.halo_hpl.from_bytes_srcs(data_bytes)
         raws = []
         for r in raw_dicts:
@@ -46,6 +64,8 @@ class HaloHpl:
                 raws.append(_raw_tuple2halo_hpl(r))
             except exceptions.RawParsingError as err:
                 logging.warning("Skipping %s: %s", r[0].get("filename"), err)
+        if len(raws) < len(data):
+            logging.warning("Skipped %d of %d files", len(data) - len(raws), len(data))
         return raws
 
     @classmethod

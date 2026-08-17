@@ -1,16 +1,51 @@
 from __future__ import annotations
 
+import logging
+import re
 from dataclasses import dataclass
 from io import BufferedIOBase
 from pathlib import Path
-from typing import Sequence
+from typing import Callable, Sequence, TypeVar, cast
 
 import numpy as np
 import numpy.typing as npt
 from netCDF4 import Dataset, Variable, num2date
 from numpy import datetime64
 
+from doppy import exceptions
+from doppy.raw.utils import bytes_from_src, name_of_src
 from doppy.utils import merge_all_equal
+
+Src = str | Path | bytes | BufferedIOBase
+T = TypeVar("T")
+
+# An interrupted scan leaves a sweep group with only its settings variables.
+_FIXED_VARIABLES = frozenset(
+    {
+        "time",
+        "radial_wind_speed",
+        "cnr",
+        "relative_beta",
+        "radial_wind_speed_ci",
+        "azimuth",
+        "elevation",
+        "range",
+        "doppler_spectrum_width",
+        "ray_accumulation_time",
+    }
+)
+_VAD_OR_DBS_VARIABLES = frozenset(
+    {
+        "time",
+        "radial_wind_speed",
+        "cnr",
+        "radial_wind_speed_ci",
+        "azimuth",
+        "elevation",
+        "range",
+        "measurement_height",
+    }
+)
 
 
 @dataclass
@@ -35,13 +70,15 @@ class WindCubeFixed:
         | Sequence[bytes]
         | Sequence[BufferedIOBase],
     ) -> list[WindCubeFixed]:
-        return [WindCubeFixed.from_fixed_src(src) for src in data]
+        return _read_each(data, WindCubeFixed.from_fixed_src)
 
     @classmethod
-    def from_fixed_src(cls, data: str | Path | bytes | BufferedIOBase) -> WindCubeFixed:
-        data_bytes = _src_to_bytes(data)
-        nc = Dataset("inmemory.nc", "r", memory=data_bytes)
-        return _from_fixed_src(nc)
+    def from_fixed_src(cls, data: Src) -> WindCubeFixed:
+        try:
+            nc = Dataset("inmemory.nc", "r", memory=bytes_from_src(data))
+            return _from_fixed_src(nc)
+        except (OSError, IndexError, KeyError, AttributeError, ValueError) as err:
+            raise exceptions.RawParsingError(err) from err
 
     @classmethod
     def merge(cls, raws: list[WindCubeFixed]) -> WindCubeFixed:
@@ -121,13 +158,15 @@ class WindCube:
         | Sequence[bytes]
         | Sequence[BufferedIOBase],
     ) -> list[WindCube]:
-        return [WindCube.from_vad_or_dbs_src(src) for src in data]
+        return _read_each(data, WindCube.from_vad_or_dbs_src)
 
     @classmethod
-    def from_vad_or_dbs_src(cls, data: str | Path | bytes | BufferedIOBase) -> WindCube:
-        data_bytes = _src_to_bytes(data)
-        nc = Dataset("inmemory.nc", "r", memory=data_bytes)
-        return _from_vad_or_dbs_src(nc)
+    def from_vad_or_dbs_src(cls, data: Src) -> WindCube:
+        try:
+            nc = Dataset("inmemory.nc", "r", memory=bytes_from_src(data))
+            return _from_vad_or_dbs_src(nc)
+        except (OSError, IndexError, KeyError, AttributeError, ValueError) as err:
+            raise exceptions.RawParsingError(err) from err
 
     @classmethod
     def merge(cls, raws: list[WindCube]) -> WindCube:
@@ -232,18 +271,23 @@ def _merge_radial_distance_for_fixed(
     return radial_distance_list[0]
 
 
-def _src_to_bytes(data: str | Path | bytes | BufferedIOBase) -> bytes:
-    if isinstance(data, str):
-        path = Path(data)
-        with path.open("rb") as f:
-            return f.read()
-    elif isinstance(data, Path):
-        with data.open("rb") as f:
-            return f.read()
-    elif isinstance(data, bytes):
-        return data
-    elif isinstance(data, BufferedIOBase):
-        return data.read()
+def _read_each(
+    data: Sequence[str] | Sequence[Path] | Sequence[bytes] | Sequence[BufferedIOBase],
+    read: Callable[[Src], T],
+) -> list[T]:
+    """Read every source, skipping the ones that cannot be read.
+
+    A day is thousands of files; one bad file should not cost the rest.
+    """
+    raws = []
+    for src in data:
+        try:
+            raws.append(read(src))
+        except exceptions.RawParsingError as err:
+            logging.warning("Skipping %s: %s", name_of_src(src), err)
+    if len(raws) < len(data):
+        logging.warning("Skipped %d of %d files", len(data) - len(raws), len(data))
+    return raws
 
 
 def _from_fixed_src(nc: Dataset) -> WindCubeFixed:
@@ -262,46 +306,78 @@ def _from_fixed_src(nc: Dataset) -> WindCubeFixed:
     )
 
     expected_dimensions = ("time", "range")
-    for _, group in enumerate(
-        nc[group] for group in (nc.variables["sweep_group_name"][:])
-    ):
+    for name in nc.variables["sweep_group_name"][:]:
+        group = nc.groups.get(name)
+        if group is None or not _FIXED_VARIABLES <= set(group.variables):
+            logging.debug("Skipping sweep group %s: no ray data", name)
+            continue
+
         time_reference_ = time_reference
         if time_reference is None and "time_reference" in group.variables:
             time_reference_ = group["time_reference"][:]
 
         time_list.append(_extract_datetime64_or_raise(group["time"], time_reference_))
         radial_wind_speed_list.append(
-            _extract_float64_or_raise(group["radial_wind_speed"], expected_dimensions)
+            _values(
+                _extract_float64_or_raise(
+                    group["radial_wind_speed"], expected_dimensions
+                )
+            )
         )
-        cnr_list.append(_extract_float64_or_raise(group["cnr"], expected_dimensions))
+        cnr_list.append(
+            _dB_to_ratio(
+                _values(_extract_float64_or_raise(group["cnr"], expected_dimensions))
+            )
+        )
         relative_beta_list.append(
-            _extract_float64_or_raise(group["relative_beta"], expected_dimensions)
+            _values(
+                _extract_float64_or_raise(group["relative_beta"], expected_dimensions)
+            )
         )
         radial_wind_speed_confidence_list.append(
-            _extract_float64_or_raise(
-                group["radial_wind_speed_ci"], expected_dimensions
+            _values(
+                _extract_float64_or_raise(
+                    group["radial_wind_speed_ci"], expected_dimensions
+                )
             )
         )
         azimuth_list.append(
-            _extract_float64_or_raise(group["azimuth"], expected_dimensions)
+            _values_or_raise(
+                _extract_float64_or_raise(group["azimuth"], expected_dimensions),
+                "azimuth",
+            )
         )
         elevation_list.append(
-            _extract_float64_or_raise(group["elevation"], expected_dimensions)
+            _values_or_raise(
+                _extract_float64_or_raise(group["elevation"], expected_dimensions),
+                "elevation",
+            )
         )
         range_list.append(
-            _extract_float64_or_raise(group["range"], (expected_dimensions[1],))
+            _values_or_raise(
+                _extract_float64_or_raise(group["range"], (expected_dimensions[1],)),
+                "range",
+            )
         )
         doppler_spectrum_width_list.append(
-            _extract_float64_or_raise(
-                group["doppler_spectrum_width"], expected_dimensions
+            _values(
+                _extract_float64_or_raise(
+                    group["doppler_spectrum_width"], expected_dimensions
+                )
             )
         )
         ray_accumulation_time_list.append(
-            _extract_float64_or_raise(
-                group["ray_accumulation_time"], expected_dimensions
+            _values_or_raise(
+                _extract_float64_or_raise(
+                    group["ray_accumulation_time"], expected_dimensions
+                ),
+                "ray_accumulation_time",
             )
             * 1e-3  # convert ms to s
         )
+
+    if not time_list:
+        raise exceptions.RawParsingError("No sweep group with ray data")
 
     return WindCubeFixed(
         time=np.concatenate(time_list),
@@ -317,7 +393,7 @@ def _from_fixed_src(nc: Dataset) -> WindCubeFixed:
             "ray_accumulation_time",
             list(np.array(ray_accumulation_time_list, dtype=np.float64)),
         ),
-        system_id=nc.instrument_name,
+        system_id=_harmonised_system_id(nc.instrument_name),
     )
 
 
@@ -337,36 +413,63 @@ def _from_vad_or_dbs_src(nc: Dataset) -> WindCube:
     )
 
     expected_dimensions = ("time", "gate_index")
-    for i, group in enumerate(
-        nc[group] for group in (nc.variables["sweep_group_name"][:])
-    ):
+    scan_index = 0
+    for name in nc.variables["sweep_group_name"][:]:
+        group = nc.groups.get(name)
+        if group is None or not _VAD_OR_DBS_VARIABLES <= set(group.variables):
+            logging.debug("Skipping sweep group %s: no ray data", name)
+            continue
+
         time_reference_ = time_reference
         if time_reference is None and "time_reference" in group.variables:
             time_reference_ = group["time_reference"][:]
 
-        time_list.append(_extract_datetime64_or_raise(group["time"], time_reference_))
-        radial_wind_speed_list.append(
-            _extract_float64_or_raise(group["radial_wind_speed"], expected_dimensions)
+        time = _extract_datetime64_or_raise(group["time"], time_reference_)
+        radial_wind_speed = _extract_float64_or_raise(
+            group["radial_wind_speed"], expected_dimensions
         )
-        cnr_list.append(_extract_float64_or_raise(group["cnr"], expected_dimensions))
-        radial_wind_speed_confidence_list.append(
-            _extract_float64_or_raise(
-                group["radial_wind_speed_ci"], expected_dimensions
+        cnr = _extract_float64_or_raise(group["cnr"], expected_dimensions)
+        confidence = _extract_float64_or_raise(
+            group["radial_wind_speed_ci"], expected_dimensions
+        )
+        azimuth = _extract_float64_or_raise(group["azimuth"], expected_dimensions)
+        elevation = _extract_float64_or_raise(group["elevation"], expected_dimensions)
+        radial_distance = _extract_float64_or_raise(group["range"], expected_dimensions)
+        height = _extract_float64_or_raise(
+            group["measurement_height"], expected_dimensions
+        )
+
+        # An interrupted scan leaves fill in the positions it never measured.
+        located = ~(
+            _filled_rays(radial_distance)
+            | _filled_rays(height)
+            | _filled_rays(azimuth)
+            | _filled_rays(elevation)
+        )
+        if not located.any():
+            logging.debug("Skipping sweep group %s: no rays with a position", name)
+            continue
+        if not located.all():
+            logging.warning(
+                "Dropping %d of %d rays without a position from sweep group %s",
+                int((~located).sum()),
+                located.size,
+                name,
             )
-        )
-        azimuth_list.append(
-            _extract_float64_or_raise(group["azimuth"], expected_dimensions)
-        )
-        elevation_list.append(
-            _extract_float64_or_raise(group["elevation"], expected_dimensions)
-        )
-        range_list.append(
-            _extract_float64_or_raise(group["range"], expected_dimensions)
-        )
-        height_list.append(
-            _extract_float64_or_raise(group["measurement_height"], expected_dimensions)
-        )
-        scan_index_list.append(np.full(group["time"][:].shape, i, dtype=np.int64))
+
+        time_list.append(time[located])
+        radial_wind_speed_list.append(_values(radial_wind_speed)[located])
+        cnr_list.append(_dB_to_ratio(_values(cnr))[located])
+        radial_wind_speed_confidence_list.append(_values(confidence)[located])
+        azimuth_list.append(_values(azimuth)[located])
+        elevation_list.append(_values(elevation)[located])
+        range_list.append(_values(radial_distance)[located])
+        height_list.append(_values(height)[located])
+        scan_index_list.append(np.full(int(located.sum()), scan_index, dtype=np.int64))
+        scan_index += 1
+
+    if not time_list:
+        raise exceptions.RawParsingError("No sweep group with usable rays")
 
     return WindCube(
         scan_index=np.concatenate(scan_index_list),
@@ -378,7 +481,7 @@ def _from_vad_or_dbs_src(nc: Dataset) -> WindCube:
         radial_velocity=np.concatenate(radial_wind_speed_list),
         radial_velocity_confidence=np.concatenate(radial_wind_speed_confidence_list),
         cnr=np.concatenate(cnr_list),
-        system_id=nc.instrument_name,
+        system_id=_harmonised_system_id(nc.instrument_name),
     )
 
 
@@ -407,71 +510,64 @@ def _dB_to_ratio(decibels: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
 
 def _extract_float64_or_raise(
     nc: Variable[npt.NDArray[np.float64]], expected_dimensions: tuple[str, ...]
-) -> npt.NDArray[np.float64]:
+) -> np.ma.MaskedArray:
+    """Validate dimensions and units, keeping the fill mask for the caller.
+
+    Fill is expected in a measured variable, meaningless in a position.
+    """
     match nc.name:
         case "range" | "measurement_height":
-            if nc.dimensions != expected_dimensions:
-                raise ValueError(f"Unexpected dimensions for {nc.name}")
-            if nc.units != "m":
-                raise ValueError(f"Unexpected units for {nc.name}")
-            if nc[:].mask is not np.bool_(False):
-                raise ValueError
-            return np.array(nc[:].data, dtype=np.float64)
+            dimensions, units = expected_dimensions, "m"
         case "cnr":
-            if nc.dimensions != expected_dimensions:
-                raise ValueError(f"Unexpected dimensions for {nc.name}")
-            if nc.units != "dB":
-                raise ValueError(f"Unexpected units for {nc.name}")
-            if nc[:].mask is not np.bool_(False):
-                pass  # ignore that array contains masked values
-            return _dB_to_ratio(np.array(nc[:].data, dtype=np.float64))
+            dimensions, units = expected_dimensions, "dB"
         case "relative_beta":
-            if nc.dimensions != expected_dimensions:
-                raise ValueError(f"Unexpected dimensions for {nc.name}")
-            if nc.units != "m-1 sr-1":
-                raise ValueError(f"Unexpected units for {nc.name}")
-            if nc[:].mask is not np.bool_(False):
-                pass  # ignore that array contains masked values
-            return np.array(nc[:].data, dtype=np.float64)
-        case "radial_wind_speed":
-            if nc.dimensions != expected_dimensions:
-                raise ValueError(f"Unexpected dimensions for {nc.name}")
-            if nc.units != "m s-1":
-                raise ValueError(f"Unexpected units for {nc.name}")
-            if nc[:].mask is not np.bool_(False):
-                pass  # ignore that array contains masked values
-            return np.array(nc[:].data, dtype=np.float64)
+            dimensions, units = expected_dimensions, "m-1 sr-1"
+        case "radial_wind_speed" | "doppler_spectrum_width":
+            dimensions, units = expected_dimensions, "m s-1"
         case "radial_wind_speed_ci":
-            if nc.dimensions != expected_dimensions:
-                raise ValueError(f"Unexpected dimensions for {nc.name}")
-            if nc.units != "percent":
-                raise ValueError(f"Unexpected units for {nc.name}")
-            if nc[:].mask is not np.bool_(False):
-                pass  # ignore that array contains masked values
-            return np.array(nc[:].data, dtype=np.float64)
+            dimensions, units = expected_dimensions, "percent"
         case "azimuth" | "elevation":
-            if nc.dimensions != (expected_dimensions[0],):
-                raise ValueError(f"Unexpected dimensions for {nc.name}")
-            if nc.units != "degrees":
-                raise ValueError(f"Unexpected units for {nc.name}")
-            if nc[:].mask is not np.bool_(False):
-                raise ValueError
-            return np.array(nc[:].data, dtype=np.float64)
-        case "doppler_spectrum_width":
-            if nc.dimensions != expected_dimensions:
-                raise ValueError(f"Unexpected dimensions for {nc.name}")
-            if nc.units != "m s-1":
-                raise ValueError(f"Unexpected units for {nc.name}")
-            if nc[:].mask is not np.bool_(False):
-                pass  # ignore that array contains masked values
-            return np.array(nc[:].data, dtype=np.float64)
+            dimensions, units = (expected_dimensions[0],), "degrees"
         case "ray_accumulation_time":
-            if nc.dimensions != ():
-                raise ValueError(f"Unexpected dimensions for {nc.name}")
-            if nc.units != "ms":
-                raise ValueError(f"Unexpected units for {nc.name}")
-            if nc[:].mask is not np.bool_(False):
-                raise ValueError(f"Variable {nc.name} contains masked values")
-            return np.array(nc[:].data, dtype=np.float64)
+            dimensions, units = (), "ms"
         case _:
             raise ValueError(f"Unexpected variable name {nc.name}")
+    if nc.dimensions != dimensions:
+        raise ValueError(f"Unexpected dimensions for {nc.name}")
+    if nc.units != units:
+        raise ValueError(f"Unexpected units for {nc.name}")
+    return cast("np.ma.MaskedArray", nc[:])
+
+
+def _values(arr: np.ma.MaskedArray) -> npt.NDArray[np.float64]:
+    """Values with fill left in place."""
+    return np.asarray(np.ma.getdata(arr), dtype=np.float64)
+
+
+def _values_or_raise(arr: np.ma.MaskedArray, name: str) -> npt.NDArray[np.float64]:
+    """Values, rejecting fill: a wrong position silently corrupts the product."""
+    if np.ma.is_masked(arr):
+        raise ValueError(f"Variable {name} contains masked values")
+    return _values(arr)
+
+
+def _filled_rays(arr: np.ma.MaskedArray) -> npt.NDArray[np.bool_]:
+    """Rays holding fill anywhere; ray is the leading dimension."""
+    mask = np.ma.getmaskarray(arr)
+    return np.array(mask.any(axis=tuple(range(1, mask.ndim))), dtype=np.bool_)
+
+
+def _harmonised_system_id(instrument_name: object) -> str:
+    """The bare serial number, as the Cloudnet instrument record holds it.
+
+    Mirrors the rule Cloudnet applies downstream. Cabauw alternates between
+    WLS200S-218 and WLS200s-218 within a day, which would otherwise not merge.
+    """
+    # A non-string attribute is a bad file, not a crash.
+    if not isinstance(instrument_name, str):
+        raise ValueError(f"Unexpected instrument_name type {type(instrument_name)}")
+    if match := re.match(r"wls\d+s?-(\d+)", instrument_name, re.IGNORECASE):
+        return match.group(1)
+    if match := re.match(r"wcs0*(\d+)", instrument_name, re.IGNORECASE):
+        return match.group(1)
+    return instrument_name.lstrip("0") or instrument_name

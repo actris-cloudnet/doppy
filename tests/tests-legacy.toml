@@ -805,15 +805,12 @@ ftype = "dbs"
 reason = "'63_100m', '65_100m' with different time resolutions"
 slow = true
 
-# ── Product: WindCube Wind Mixed Bad ──────────────────────────────────
-
-[[product.windcube_wind_mixed_bad]]
+[[product.windcube_wind_mixed]]
 id = "smpnm6"
 site = "payerne"
 date = "2021-07-07"
 ftype = "dbs"
-expect_error = "ValueError"
-reason = "groups: '264_50m', '270_100m', '280_100m'"
+reason = "groups: '264_50m', '270_100m', '280_100m' with different gate counts"
 slow = true
 
 # ── Product: Wind System ID ──────────────────────────────────────────
@@ -831,7 +828,7 @@ id = "erofp0"
 site = "payerne"
 date = "2024-01-01"
 source = "windcube"
-expect = { system_id = "WLS200s-197" }
+expect = { system_id = "197" }
 slow = true
 
 [[product.wind_system_id]]

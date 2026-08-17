@@ -82,6 +82,10 @@ class Stare:
         | Sequence[BufferedIOBase],
     ) -> Stare:
         raws = doppy.raw.WindCubeFixed.from_srcs(data)
+
+        if len(raws) == 0:
+            raise doppy.exceptions.NoDataError("WindCube data missing")
+
         raw = (
             doppy.raw.WindCubeFixed.merge(raws).sorted_by_time().nan_profiles_removed()
         )

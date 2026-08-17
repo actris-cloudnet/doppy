@@ -632,6 +632,54 @@ date = "2026-05-18"
 instrument_id = "halo-doppler-lidar"
 instrument_uuid = "1f7d5b3d-dc55-483b-8e13-debb13f42bc5"
 
+[[wind]]
+id = "5ncg5g"
+site = "cabauw"
+date = "2026-08-03"
+instrument_id = "wls200s"
+instrument_uuid = "dca88604-798e-4647-a44d-ec61ea412301"
+description = "fill values in measurement_height of the last rays of a scan"
+
+[[wind]]
+id = "n009jp"
+site = "cabauw"
+date = "2024-09-13"
+instrument_id = "wls200s"
+instrument_uuid = "dca88604-798e-4647-a44d-ec61ea412301"
+description = "whole file is fill-valued measurement_height"
+
+[[wind]]
+id = "gc1vau"
+site = "cabauw"
+date = "2022-02-28"
+instrument_id = "wls200s"
+instrument_uuid = "dca88604-798e-4647-a44d-ec61ea412301"
+description = "corrupt files that cannot be opened"
+
+[[wind]]
+id = "hl9i95"
+site = "cabauw"
+date = "2021-10-27"
+instrument_id = "wls200s"
+instrument_uuid = "dca88604-798e-4647-a44d-ec61ea412301"
+description = "instrument_name capitalisation changes mid day"
+
+[[wind]]
+id = "qvw4k4"
+site = "palaiseau"
+date = "2025-02-04"
+instrument_id = "wls400s"
+instrument_uuid = "455010e1-1c05-45ae-b695-e23bb67f7af0"
+description = "sweep group announced but no rays written"
+
+[[wind]]
+id = "fosq5k"
+site = "payerne"
+date = "2021-11-24"
+instrument_id = "wls200s"
+instrument_uuid = "a3c0f804-d91e-4966-9efb-aef54b9f2cd1"
+description = "three scan configurations with different gate counts"
+
 [[turbulence]]
 id = "2qkxbs"
 site = "invercargill"
