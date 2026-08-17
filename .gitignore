@@ -4,6 +4,7 @@ tests/data/
 tests/.cache/
 tests/.tests.lock.flock
 bin/
+uv.lock
 
 
 __pycache__/

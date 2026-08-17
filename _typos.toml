@@ -1,4 +1,10 @@
 [default]
-extend-ignore-identifiers-re = ["explin", "EXPLIN", "add_atribute"]
+extend-ignore-identifiers-re = [
+  "explin",
+  "EXPLIN",
+  "add_atribute",
+  # scipy: LinearNDInterpolator, NearestNDInterpolator — "ND" is n-dimensional
+  ".*NDInterpolator",
+]
 [files]
 extend-exclude = ["docs/*.md", "tests/tests-legacy.toml", "tests/tests.toml"]
