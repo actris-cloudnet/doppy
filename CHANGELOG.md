@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.16 – 2026-08-19
+
+- Fix wind processing problems: masked windcube values and large raw files
+
 ## 0.5.15 – 2026-05-22
 
 - Fix wind file selection

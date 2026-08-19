@@ -421,7 +421,7 @@ dependencies = [
 
 [[package]]
 name = "dopbench"
-version = "0.5.15"
+version = "0.5.16"
 dependencies = [
  "chrono",
  "clap",
@@ -440,7 +440,7 @@ dependencies = [
 
 [[package]]
 name = "doppy_rs"
-version = "0.5.15"
+version = "0.5.16"
 dependencies = [
  "doprs",
  "ndarray",
@@ -450,7 +450,7 @@ dependencies = [
 
 [[package]]
 name = "doprs"
-version = "0.5.15"
+version = "0.5.16"
 dependencies = [
  "chrono",
  "ndarray",
@@ -460,7 +460,7 @@ dependencies = [
 
 [[package]]
 name = "doptest"
-version = "0.5.15"
+version = "0.5.16"
 dependencies = [
  "chrono",
  "clap",
@@ -1604,7 +1604,7 @@ checksum = "d6f6ff9a378485b298a5286656da665ba74413d36db0979633275d2e708145d4"
 
 [[package]]
 name = "rel"
-version = "0.5.15"
+version = "0.5.16"
 dependencies = [
  "chrono",
  "clap",
