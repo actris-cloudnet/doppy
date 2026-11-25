@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.17 – 2026-11-25
+
+- Fix wind masking
+
 ## 0.5.16 – 2026-08-19
 
 - Fix wind processing problems: masked windcube values and large raw files
