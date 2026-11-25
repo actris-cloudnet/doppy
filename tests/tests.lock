@@ -2,8 +2,8 @@
 # DO NOT EDIT. Regenerate with: doptest lock
 
 [meta]
-locked_at = "2026-08-17T14:26:05.986269+00:00"
-doppy_version = "0.5.15"
+locked_at = "2026-11-25T09:26:29.581620+00:00"
+doppy_version = "0.5.16"
 
 [[stare]]
 id = "u3aw5w"
@@ -95560,6 +95560,7 @@ sha256 = "09602ad5458a251a9409c87d08ef28b16ac944e167e9552f1d2c4fe829aa274d"
 
 [wind.expect]
 height_len = 320
+mask_fraction = 0.9084635416666668
 system_id = "118"
 time_len = 144
 
@@ -95571,14 +95572,14 @@ var = 49.37991515460666
 
 [wind.expect.vertical_wind]
 count = 46080
-mean = -0.07818879125349214
-skew = 3.2412987899646226
-var = 2.1669077032693633
+mean = -0.07818879125349217
+skew = 3.241298789964623
+var = 2.166907703269364
 
 [wind.expect.zonal_wind]
 count = 46080
-mean = 1.573367448410485
-skew = 0.4343464196014021
+mean = 1.5733674484104847
+skew = 0.4343464196014024
 var = 65.78489077302812
 
 [[wind]]
@@ -96304,25 +96305,26 @@ sha256 = "ab7bdd52c681ac822ec0086aa1bb9cfe50006f9858248b10d0529413c9e635ce"
 
 [wind.expect]
 height_len = 320
+mask_fraction = 0.9114291958041958
 system_id = "118"
 time_len = 143
 
 [wind.expect.meridional_wind]
 count = 45760
-mean = -0.34797686966823416
-skew = 0.12175457181408718
+mean = -0.3479768696682341
+skew = 0.12175457181408722
 var = 51.03520336105748
 
 [wind.expect.vertical_wind]
 count = 45760
 mean = -0.12172518341013897
-skew = 3.2649740768434077
-var = 2.262793060045639
+skew = 3.264974076843407
+var = 2.26279306004564
 
 [wind.expect.zonal_wind]
 count = 45760
 mean = 1.2397628372829477
-skew = 0.207294083542348
+skew = 0.20729408354234788
 var = 57.43648039459758
 
 [[wind]]
@@ -96813,25 +96815,26 @@ sha256 = "17eed1cc48f25de0c5b532be74999f8b031253ad263a408955010c1271b03bb5"
 
 [wind.expect]
 height_len = 333
+mask_fraction = 0.8675237737737738
 system_id = "213"
 time_len = 96
 
 [wind.expect.meridional_wind]
 count = 31968
-mean = 0.8700059622162698
-skew = -0.05772306401853093
-var = 175.48559885301822
+mean = 0.8700059622162696
+skew = -0.0577230640185309
+var = 175.48559885301816
 
 [wind.expect.vertical_wind]
 count = 31968
-mean = 0.6445792444106928
-skew = 0.027473738989664837
-var = 11.093830228750797
+mean = 0.644579244410693
+skew = 0.027473738989665077
+var = 11.093830228750802
 
 [wind.expect.zonal_wind]
 count = 31968
-mean = 0.3722941329539648
-skew = -0.027898263536092687
+mean = 0.3722941329539649
+skew = -0.027898263536092673
 var = 175.6466733329418
 
 [[wind]]
@@ -97087,25 +97090,26 @@ sha256 = "eaef9eb38c86bfd9f97b0e912bf8d6268c94bc91940bf00e64cf7f9e7a559371"
 
 [wind.expect]
 height_len = 250
+mask_fraction = 0.8528163265306122
 system_id = "232"
 time_len = 49
 
 [wind.expect.meridional_wind]
 count = 12250
-mean = 0.06618510979582948
-skew = -0.047523030475215625
-var = 72.20182605273718
+mean = 0.06618510979582945
+skew = -0.04752303047521562
+var = 72.20182605273716
 
 [wind.expect.vertical_wind]
 count = 12250
 mean = 0.013582081033054914
-skew = 0.04409488926269197
+skew = 0.04409488926269205
 var = 12.121044509220146
 
 [wind.expect.zonal_wind]
 count = 12250
 mean = -0.1812269873359023
-skew = 0.022804852751773557
+skew = 0.022804852751773543
 var = 72.9254344705023
 
 [[wind]]
@@ -97361,25 +97365,26 @@ sha256 = "3d94e257c71b0a88f31d348526042df6ab04ee357d960049bb141042a65a606d"
 
 [wind.expect]
 height_len = 250
+mask_fraction = 0.8315102040816327
 system_id = "91"
 time_len = 49
 
 [wind.expect.meridional_wind]
 count = 12250
-mean = -0.33626248359440836
-skew = -0.00010938515298482537
-var = 66.94976619986326
+mean = -0.3362624835944084
+skew = -0.00010938515298491212
+var = 66.94976619986325
 
 [wind.expect.vertical_wind]
 count = 12250
-mean = -0.9529169514338318
-skew = 0.04009776930255036
+mean = -0.952916951433832
+skew = 0.04009776930255048
 var = 11.899629760247588
 
 [wind.expect.zonal_wind]
 count = 12250
-mean = 0.1454836066203204
-skew = -0.000616626373767045
+mean = 0.14548360662032048
+skew = -0.000616626373766975
 var = 71.98485774939896
 
 [[wind]]
@@ -97635,25 +97640,26 @@ sha256 = "62bb82f53d5c62910936222fa3ffc057a65f95de3601fc2f872750a80e7fd73c"
 
 [wind.expect]
 height_len = 250
+mask_fraction = 0.8550204081632653
 system_id = "91"
 time_len = 49
 
 [wind.expect.meridional_wind]
 count = 12250
-mean = 0.01215295625917059
-skew = -0.003565228556281016
-var = 80.32986301329063
+mean = 0.012152956259170369
+skew = -0.003565228556281003
+var = 80.32986301329062
 
 [wind.expect.vertical_wind]
 count = 12250
 mean = -0.5278898171656116
-skew = -0.09291572203158475
+skew = -0.09291572203158492
 var = 13.117221503368883
 
 [wind.expect.zonal_wind]
 count = 12250
-mean = -0.36565405985389143
-skew = -0.022176679823637833
+mean = -0.3656540598538916
+skew = -0.022176679823637822
 var = 79.02174351760449
 
 [[wind]]
@@ -98384,26 +98390,27 @@ sha256 = "79930b9979ede88e0bbd56ca33404a4946a579e07780b7a5c7f120b9d94564e1"
 
 [wind.expect]
 height_len = 800
+mask_fraction = 0.8398611111111111
 system_id = "238"
 time_len = 144
 
 [wind.expect.meridional_wind]
 count = 115200
-mean = 0.5704310999753194
-skew = -0.01988538513095792
-var = 1324.723132330629
+mean = 0.5704310999753192
+skew = -0.01988538513095793
+var = 1324.7231323306298
 
 [wind.expect.vertical_wind]
 count = 115200
-mean = 0.9851817478219012
-skew = 0.13578326995321569
-var = 91.68894511318504
+mean = 0.9851817478219006
+skew = 0.13578326995321544
+var = 91.68894511318496
 
 [wind.expect.zonal_wind]
 count = 115200
 mean = 1.7861721308208671
-skew = -0.09311097401963604
-var = 1360.050662413483
+skew = -0.093110974019636
+var = 1360.0506624134832
 
 [[wind]]
 id = "wjy8y2"
@@ -99133,25 +99140,26 @@ sha256 = "7d7d2a5ce839997fef2aa035c6d33a01fbcd84cf93ddb62dd3eddec318f2036a"
 
 [wind.expect]
 height_len = 800
+mask_fraction = 0.8813194444444444
 system_id = "238"
 time_len = 144
 
 [wind.expect.meridional_wind]
 count = 115200
-mean = -0.19252466243122096
-skew = -0.010645060012632
-var = 1478.7417746589113
+mean = -0.1925246624312216
+skew = -0.010645060012631824
+var = 1478.7417746589117
 
 [wind.expect.vertical_wind]
 count = 115200
-mean = 0.6859208221752265
-skew = 0.09092747706552534
-var = 100.06427329722396
+mean = 0.6859208221752263
+skew = 0.09092747706552531
+var = 100.06427329722388
 
 [wind.expect.zonal_wind]
 count = 115200
-mean = 0.8313412239863741
-skew = -0.04355721817582588
+mean = 0.8313412239863742
+skew = -0.0435572181758259
 var = 1452.6748322187489
 
 [[wind]]
@@ -99877,26 +99885,27 @@ sha256 = "65bec9490aecec46994fcd0cf42504d3639defe08863f402a84b83cdac3e9e77"
 
 [wind.expect]
 height_len = 800
+mask_fraction = 0.7960576923076923
 system_id = "238"
 time_len = 143
 
 [wind.expect.meridional_wind]
 count = 114400
-mean = 0.22768510968344952
-skew = -0.039632459112377456
-var = 1205.9729057289885
+mean = 0.2276851096834493
+skew = -0.03963245911237747
+var = 1205.972905728989
 
 [wind.expect.vertical_wind]
 count = 114400
-mean = 0.5738534652537285
-skew = 0.12070148709415804
-var = 82.29078082156342
+mean = 0.5738534652537292
+skew = 0.12070148709415784
+var = 82.29078082156352
 
 [wind.expect.zonal_wind]
 count = 114400
-mean = 3.170385809949204
-skew = -0.1203858593065296
-var = 1217.839450660646
+mean = 3.1703858099492037
+skew = -0.12038585930652965
+var = 1217.8394506606455
 
 [[wind]]
 id = "xad5ux"
@@ -99916,6 +99925,7 @@ sha256 = "b1d6b6ff259cd37fbe965564d882bd01c5f2957735744e7f77cddfe2bcc30f22"
 
 [wind.expect]
 height_len = 39
+mask_fraction = 0.5899734184909323
 system_id = "WLS70-10"
 time_len = 8479
 
@@ -99955,6 +99965,7 @@ sha256 = "81bbebc3b4057d54c4d261e4e57296da3aeed2e5fc27928ab69fce995dbd79f4"
 
 [wind.expect]
 height_len = 39
+mask_fraction = 0.6005928877839525
 system_id = "WLS70-10"
 time_len = 8416
 
@@ -99973,7 +99984,7 @@ var = 0.5316955530338436
 [wind.expect.zonal_wind]
 count = 131095
 mean = 1.3967153700903925
-skew = 0.30491840546425114
+skew = 0.3049184054642509
 var = 5.643305286215186
 
 [[wind]]
@@ -99994,13 +100005,14 @@ sha256 = "106a959480e08ad45f463f5308916bc704c7ea0fc2a9cf47e3192d98b25b9740"
 
 [wind.expect]
 height_len = 39
+mask_fraction = 0.6306263770853006
 system_id = "WLS70-10"
 time_len = 8472
 
 [wind.expect.meridional_wind]
 count = 122044
 mean = -1.2501877966880797
-skew = 0.0778199266473057
+skew = 0.07781992664730573
 var = 7.453771209759963
 
 [wind.expect.vertical_wind]
@@ -100263,26 +100275,27 @@ sha256 = "6afe42b6cd6dc0d75ca37d197d612f704fa86a7e1bf286da69015cc8a2ee6b98"
 
 [wind.expect]
 height_len = 284
+mask_fraction = 0.8799882629107981
 system_id = "197"
 time_len = 48
 
 [wind.expect.meridional_wind]
 count = 13632
-mean = 0.5897281502982179
-skew = -0.05792338621814666
-var = 604.9522474669898
+mean = 0.5897281502982183
+skew = -0.05792338621814663
+var = 604.9522474669899
 
 [wind.expect.vertical_wind]
 count = 13632
 mean = 1.164018529373792
-skew = 0.12566181597426618
+skew = 0.12566181597426626
 var = 24.948238928183624
 
 [wind.expect.zonal_wind]
 count = 13632
 mean = 0.6567224415901758
-skew = -0.09973703729398932
-var = 613.8688239301288
+skew = -0.09973703729398936
+var = 613.8688239301287
 
 [[wind]]
 id = "5ch4sf"
@@ -100532,26 +100545,27 @@ sha256 = "92a9eec77a3c6778d5e47632330b3fa9f2d790effd7d7cccaf8bbe0994bb9b39"
 
 [wind.expect]
 height_len = 284
+mask_fraction = 0.8737529342723005
 system_id = "197"
 time_len = 48
 
 [wind.expect.meridional_wind]
 count = 13632
 mean = -1.1120736053772675
-skew = -0.07152222039944453
+skew = -0.07152222039944454
 var = 621.4829296632345
 
 [wind.expect.vertical_wind]
 count = 13632
-mean = 0.954126830458032
-skew = 0.24197083748799017
+mean = 0.9541268304580318
+skew = 0.2419708374879901
 var = 27.021617399954344
 
 [wind.expect.zonal_wind]
 count = 13632
-mean = 0.13491588930514395
-skew = -0.05703853855667084
-var = 618.7562811569977
+mean = 0.1349158893051441
+skew = -0.05703853855667085
+var = 618.7562811569976
 
 [[wind]]
 id = "thtssv"
@@ -100806,19 +100820,20 @@ sha256 = "9bfe3f2c8ed662fe32a75b8b66439bc5ba96176fb553319e0f6b496b667fee4a"
 
 [wind.expect]
 height_len = 250
+mask_fraction = 0.8914285714285715
 system_id = "91"
 time_len = 49
 
 [wind.expect.meridional_wind]
 count = 12250
 mean = -1.599055879110418
-skew = -0.05548651917728468
-var = 88.0570783195204
+skew = -0.05548651917728475
+var = 88.05707831952037
 
 [wind.expect.vertical_wind]
 count = 12250
 mean = -0.3877913965901347
-skew = 0.028413579880013463
+skew = 0.028413579880013314
 var = 13.02691316048453
 
 [wind.expect.zonal_wind]
@@ -101080,25 +101095,26 @@ sha256 = "ad26a938a35cb1fa758e3a5fa3a5e1aba7a3c3a603d3e9c5dcbe6eb9bd867336"
 
 [wind.expect]
 height_len = 250
+mask_fraction = 0.8754285714285714
 system_id = "91"
 time_len = 49
 
 [wind.expect.meridional_wind]
 count = 12250
 mean = -1.216726142339048
-skew = 0.12283574078295842
+skew = 0.12283574078295832
 var = 92.35583952728425
 
 [wind.expect.vertical_wind]
 count = 12250
 mean = -0.6689544895842343
-skew = 0.00597500841309662
+skew = 0.0059750084130965175
 var = 12.896478860856243
 
 [wind.expect.zonal_wind]
 count = 12250
 mean = 0.3084947988606465
-skew = -0.12496824046629187
+skew = -0.12496824046629182
 var = 81.13001535756487
 
 [[wind]]
@@ -101354,25 +101370,26 @@ sha256 = "4fc0ff7321926c11010bfca16b90b0639c8a3bdcb8805291a45bf40f08b4cc1e"
 
 [wind.expect]
 height_len = 250
+mask_fraction = 0.9203265306122448
 system_id = "91"
 time_len = 49
 
 [wind.expect.meridional_wind]
 count = 12250
-mean = -2.1195246406977457
-skew = 0.10105140562097371
-var = 86.90160338818684
+mean = -2.1195246406977453
+skew = 0.10105140562097346
+var = 86.90160338818683
 
 [wind.expect.vertical_wind]
 count = 12250
-mean = -0.20159634645779548
-skew = 0.012785619442539328
+mean = -0.2015963464577954
+skew = 0.012785619442539368
 var = 14.0303457613178
 
 [wind.expect.zonal_wind]
 count = 12250
-mean = 0.943948414170006
-skew = -0.1073284165029033
+mean = 0.9439484141700056
+skew = -0.10732841650290334
 var = 89.32138945967651
 
 [[wind]]
@@ -102103,25 +102120,26 @@ sha256 = "d68729be247d226e9e7f701246f576ff583d4295d5db21138229452989457799"
 
 [wind.expect]
 height_len = 320
+mask_fraction = 0.8387803819444445
 system_id = "118"
 time_len = 144
 
 [wind.expect.meridional_wind]
 count = 46080
-mean = -0.12404126732991574
-skew = 0.05813719963074226
+mean = -0.1240412673299158
+skew = 0.05813719963074224
 var = 39.46212992067537
 
 [wind.expect.vertical_wind]
 count = 46080
 mean = -0.176684388034789
 skew = 4.061975313311574
-var = 2.2650295481248395
+var = 2.2650295481248404
 
 [wind.expect.zonal_wind]
 count = 46080
-mean = -0.3521222453239853
-skew = 0.19953572420042384
+mean = -0.3521222453239854
+skew = 0.19953572420042376
 var = 40.9832130259133
 
 [[wind]]
@@ -102852,26 +102870,27 @@ sha256 = "c892e4c726395dfb11ef31df2f6febe8bb52f0b31e4c03c3025a6ef5076751d9"
 
 [wind.expect]
 height_len = 320
+mask_fraction = 0.8693576388888888
 system_id = "118"
 time_len = 144
 
 [wind.expect.meridional_wind]
 count = 46080
 mean = 0.13071869805131264
-skew = 0.009001974041498918
+skew = 0.009001974041498913
 var = 41.11905252001456
 
 [wind.expect.vertical_wind]
 count = 46080
-mean = -0.09219487094481035
-skew = 3.5327862578445024
-var = 2.239175610163744
+mean = -0.09219487094481038
+skew = 3.532786257844503
+var = 2.239175610163745
 
 [wind.expect.zonal_wind]
 count = 46080
-mean = -0.09315619240558488
-skew = 0.13175529422069424
-var = 42.67183945370095
+mean = -0.09315619240558494
+skew = 0.13175529422069418
+var = 42.67183945370094
 
 [[wind]]
 id = "j07ppn"
@@ -103596,25 +103615,26 @@ sha256 = "2e8dbef8eac093beb89d21a75bef204c1707d39a75c93c101a1aa83d64e424a5"
 
 [wind.expect]
 height_len = 320
+mask_fraction = 0.8580201048951049
 system_id = "118"
 time_len = 143
 
 [wind.expect.meridional_wind]
 count = 45760
 mean = 0.13065787543190943
-skew = 0.03545308632721192
-var = 41.15998574779495
+skew = 0.035453086327211884
+var = 41.15998574779494
 
 [wind.expect.vertical_wind]
 count = 45760
 mean = -0.13005977615317427
-skew = 3.7571909122948903
-var = 2.3341535356305254
+skew = 3.757190912294891
+var = 2.334153535630526
 
 [wind.expect.zonal_wind]
 count = 45760
-mean = -0.0935153872851656
-skew = 0.01896193752232984
+mean = -0.09351538728516567
+skew = 0.018961937522329803
 var = 40.84549745339365
 
 [[wind]]
@@ -105300,25 +105320,26 @@ sha256 = "c440e9e88084ec4f3fc83306cf3f991fb9a769cec13e5ea458de3f71682b474f"
 
 [wind.expect]
 height_len = 333
+mask_fraction = 0.8333750417083751
 system_id = "102"
 time_len = 144
 
 [wind.expect.meridional_wind]
 count = 47952
-mean = -0.2184809649601094
-skew = -0.015464410033052498
-var = 245.3527462958303
+mean = -0.2184809649601095
+skew = -0.01546441003305246
+var = 245.35274629583017
 
 [wind.expect.vertical_wind]
 count = 47952
 mean = 0.7604704533096248
-skew = 0.20805610872355307
-var = 10.357266070728096
+skew = 0.20805610872355293
+var = 10.357266070728093
 
 [wind.expect.zonal_wind]
 count = 47952
-mean = 0.013818359494374531
-skew = -0.0151761457200959
+mean = 0.013818359494374457
+skew = -0.015176145720095912
 var = 243.97609565281968
 
 [[wind]]
@@ -106799,25 +106820,26 @@ sha256 = "a16e079b1ae0d235e7e5156cec999095cbfcfad54e365e5b7072e32ec08cfce0"
 
 [wind.expect]
 height_len = 333
+mask_fraction = 0.8370811756638529
 system_id = "102"
 time_len = 127
 
 [wind.expect.meridional_wind]
 count = 42291
-mean = 0.49538336655181053
-skew = 0.05633553187024845
-var = 253.6743661592843
+mean = 0.4953833665518101
+skew = 0.05633553187024834
+var = 253.67436615928415
 
 [wind.expect.vertical_wind]
 count = 42291
-mean = 0.9875137446549666
-skew = 0.24379633949219096
-var = 10.82838552795741
+mean = 0.9875137446549664
+skew = 0.24379633949219115
+var = 10.828385527957408
 
 [wind.expect.zonal_wind]
 count = 42291
-mean = 0.2471564281730955
-skew = -0.00230861328596496
+mean = 0.24715642817309552
+skew = -0.002308613285964955
 var = 273.24264121674724
 
 [[wind]]
@@ -108508,26 +108530,27 @@ sha256 = "bf9f034cf7b1ce4474b25b231c2566cf867d6d64586eb78fd48a1dfadf93ad05"
 
 [wind.expect]
 height_len = 333
+mask_fraction = 0.8366074407741074
 system_id = "102"
 time_len = 144
 
 [wind.expect.meridional_wind]
 count = 47952
-mean = 0.48476857287814273
-skew = -0.00022620000413759245
-var = 261.0522050965508
+mean = 0.4847685728781423
+skew = -0.0002262000041376755
+var = 261.05220509655067
 
 [wind.expect.vertical_wind]
 count = 47952
 mean = 0.9016558120051402
-skew = 0.16694276118474796
-var = 11.081348643725352
+skew = 0.16694276118474774
+var = 11.08134864372535
 
 [wind.expect.zonal_wind]
 count = 47952
 mean = 0.5294776377192678
-skew = -0.013938584252363282
-var = 254.9389308492236
+skew = -0.0139385842523633
+var = 254.93893084922365
 
 [[wind]]
 id = "a456vd"
@@ -109012,26 +109035,27 @@ sha256 = "0dd668475b864d05db7059820d8359a85e6edd741b083f713ea8c7735e29053f"
 
 [wind.expect]
 height_len = 320
+mask_fraction = 0.9742105263157896
 system_id = "53"
 time_len = 95
 
 [wind.expect.meridional_wind]
 count = 30400
-mean = 0.0846118033025446
-skew = 0.0960058368708904
+mean = 0.08461180330254414
+skew = 0.09600583687089027
 var = 24.903427586820698
 
 [wind.expect.vertical_wind]
 count = 30400
-mean = -0.3089204104046658
+mean = -0.30892041040466584
 skew = -4.030618055848985
-var = 1.1959818503523405
+var = 1.1959818503523416
 
 [wind.expect.zonal_wind]
 count = 30400
-mean = 0.015613002907446572
-skew = -0.1370627650788558
-var = 25.742654475668388
+mean = 0.015613002907446494
+skew = -0.13706276507885592
+var = 25.742654475668395
 
 [[wind]]
 id = "vi5nlv"
@@ -109516,26 +109540,27 @@ sha256 = "a9d898336f5cf47ab903703dc71b9b3368806ad653fbfcd316f67ff0bde94a56"
 
 [wind.expect]
 height_len = 320
+mask_fraction = 0.9706907894736844
 system_id = "53"
 time_len = 95
 
 [wind.expect.meridional_wind]
 count = 30400
-mean = -0.13110423553398826
-skew = -0.05278824940091616
-var = 24.363558433288137
+mean = -0.13110423553398864
+skew = -0.05278824940091607
+var = 24.36355843328813
 
 [wind.expect.vertical_wind]
 count = 30400
-mean = -0.29039896640409485
-skew = -4.803549342787072
-var = 1.2846033753236732
+mean = -0.29039896640409496
+skew = -4.803549342787075
+var = 1.284603375323674
 
 [wind.expect.zonal_wind]
 count = 30400
 mean = 0.23092659261304305
 skew = 0.15112497420575066
-var = 25.62325699925669
+var = 25.623256999256693
 
 [[wind]]
 id = "32qf2m"
@@ -109709,14 +109734,14 @@ uuid = "e8ecb9f0-64b8-4a74-95fa-2be615803e50"
 sha256 = "cd1664c5cd16ba1163e1651409b483d78caf5525c73f3566d74489d1a3b2ba23"
 
 [[wind.input.files]]
-filename = "VAD_53_20240703_024220.hpl"
-uuid = "e715e7f3-4a19-43ad-b452-3ecebe20e743"
-sha256 = "100dcb93c3afdb11914e16378fd6e56a3821f5a6f6bc3f8caaf167fbd569763d"
-
-[[wind.input.files]]
 filename = "VAD_53_20240703_160200.hpl"
 uuid = "9a1c01b9-d718-4dfd-9c10-201dba0b690d"
 sha256 = "d8fe8be692ee7ea9baef28a0cf437c95ddefe819c48aa8b6851cd6a9a1b127c5"
+
+[[wind.input.files]]
+filename = "VAD_53_20240703_024220.hpl"
+uuid = "e715e7f3-4a19-43ad-b452-3ecebe20e743"
+sha256 = "100dcb93c3afdb11914e16378fd6e56a3821f5a6f6bc3f8caaf167fbd569763d"
 
 [[wind.input.files]]
 filename = "VAD_53_20240703_210349.hpl"
@@ -110020,26 +110045,27 @@ sha256 = "9aaa2426f6f6772bb688d209d8cb51262516b73ab2ac7c80bdc5f847c924c890"
 
 [wind.expect]
 height_len = 320
+mask_fraction = 0.9169407894736842
 system_id = "53"
 time_len = 95
 
 [wind.expect.meridional_wind]
 count = 30400
-mean = 0.1582244547224188
-skew = 0.03845739725297885
-var = 24.61805656892053
+mean = 0.1582244547224183
+skew = 0.038457397252978275
+var = 24.61805656892052
 
 [wind.expect.vertical_wind]
 count = 30400
-mean = -0.36733512690408937
-skew = -5.090255309669482
-var = 1.3321034585525768
+mean = -0.36733512690408954
+skew = -5.090255309669481
+var = 1.3321034585525784
 
 [wind.expect.zonal_wind]
 count = 30400
 mean = 0.440021876709644
-skew = -0.01346787302220958
-var = 25.566897455842813
+skew = -0.013467873022209528
+var = 25.566897455842824
 
 [[wind]]
 id = "skbjzo"
@@ -110338,14 +110364,14 @@ uuid = "b1c28737-7686-47a7-b010-7c5d798f6dff"
 sha256 = "9bcb838225af72fe38aa7091ef2189d3e69745e906fa8ddd94ddfaa9248cdc85"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_025201.hpl"
-uuid = "f7dd5109-39af-4186-a798-3f7817ef6639"
-sha256 = "f89137a5c4c304ab57e4daf5fd42d33828278568c5f05515b6601e77907de5ae"
-
-[[wind.input.files]]
 filename = "User2_017_20251103_064717.hpl"
 uuid = "23a38b39-c2c3-4453-8431-a6ded649b574"
 sha256 = "ad78a5222a2125f1ac2c5a302527ddc318525a1fa15f562d440135b060f5b19e"
+
+[[wind.input.files]]
+filename = "User1_017_20251103_025201.hpl"
+uuid = "f7dd5109-39af-4186-a798-3f7817ef6639"
+sha256 = "f89137a5c4c304ab57e4daf5fd42d33828278568c5f05515b6601e77907de5ae"
 
 [[wind.input.files]]
 filename = "User2_017_20251103_071217.hpl"
@@ -110428,11 +110454,6 @@ uuid = "58ac3812-0a1b-4024-a598-54c2e4189923"
 sha256 = "2205c191a6796c594a6517b44afe923422276696069b9aa0aca58a5ebf04d9c6"
 
 [[wind.input.files]]
-filename = "User2_017_20251103_063717.hpl"
-uuid = "a4c7135f-1b67-4437-959a-2dcb952bfea9"
-sha256 = "4643e98159d6b076c8d90ffbfa796865624b682ea51528cfd7f3b3e44e587a80"
-
-[[wind.input.files]]
 filename = "User2_017_20251103_010717.hpl"
 uuid = "f1e25673-6f90-4b32-91fb-66ea0ceaed7e"
 sha256 = "5845c0f0ef574e1c22082b76d48ca9ddac9a6269a9490710cf1ab2fcfecc53d9"
@@ -110441,6 +110462,11 @@ sha256 = "5845c0f0ef574e1c22082b76d48ca9ddac9a6269a9490710cf1ab2fcfecc53d9"
 filename = "User5_017_20251103_050218.hpl"
 uuid = "96c254f5-567a-461d-85c0-e85211d1dea6"
 sha256 = "d70aa59268e49222712a3104044c904b076bc5cf549c4bfaed8590301a61cee3"
+
+[[wind.input.files]]
+filename = "User2_017_20251103_063717.hpl"
+uuid = "a4c7135f-1b67-4437-959a-2dcb952bfea9"
+sha256 = "4643e98159d6b076c8d90ffbfa796865624b682ea51528cfd7f3b3e44e587a80"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_065201.hpl"
@@ -110513,14 +110539,14 @@ uuid = "b2edff7b-2a49-4dff-85e2-6fa200b43dce"
 sha256 = "8a62a63ac730b6fa910d196efd08d264701b1a7e52efe76cafa2504b4e217b0f"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_010200.hpl"
-uuid = "35807f3a-644e-4055-9151-02e1d8e7921e"
-sha256 = "b56f71e3f351aeb4fd08d28b747367e0f4604b1ff44554b9e4349777dba0bba6"
-
-[[wind.input.files]]
 filename = "User2_017_20251103_025218.hpl"
 uuid = "cbfb390e-99eb-4c3c-86f3-07dab042ae27"
 sha256 = "c3f3843cfb0f5713ffce3bb4f4ac3e48233cf7b81b4be63b57a0b22b534f496f"
+
+[[wind.input.files]]
+filename = "User1_017_20251103_010200.hpl"
+uuid = "35807f3a-644e-4055-9151-02e1d8e7921e"
+sha256 = "b56f71e3f351aeb4fd08d28b747367e0f4604b1ff44554b9e4349777dba0bba6"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_023700.hpl"
@@ -110533,14 +110559,14 @@ uuid = "d58ecbd4-7d4b-4867-bf82-dcd4c3f4efb8"
 sha256 = "7dc6de909574c90b84744b407f9f0a1c202426003db959ed8bd3c6630aabbd99"
 
 [[wind.input.files]]
-filename = "User2_017_20251103_014718.hpl"
-uuid = "a323534e-4f0c-4a63-a42f-5f06e75bf05f"
-sha256 = "1b50f86e156d34e8404084e768499ffd67498079a418718b06d489aabffe44f3"
-
-[[wind.input.files]]
 filename = "User5_017_20251103_070200.hpl"
 uuid = "c0b7986d-9e38-498e-974c-9063566c97a1"
 sha256 = "757e4897cba50dd65f2b48e48e3a68044ca7c3158982fc2dde0ec36533f094b6"
+
+[[wind.input.files]]
+filename = "User2_017_20251103_014718.hpl"
+uuid = "a323534e-4f0c-4a63-a42f-5f06e75bf05f"
+sha256 = "1b50f86e156d34e8404084e768499ffd67498079a418718b06d489aabffe44f3"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_005700.hpl"
@@ -110563,11 +110589,6 @@ uuid = "0fbcc36f-77b8-4beb-82e5-8a998cb57a31"
 sha256 = "80bf836a287fe19c381dc9568f7e179eeb076150d780b64636cfb8f9ab97ed8b"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_084200.hpl"
-uuid = "ae242188-3fae-43d6-8e72-098ede75d9f5"
-sha256 = "d7c726642e38fd620663b926995fe92e06a13fc1e491b679ea0dc00b079d693f"
-
-[[wind.input.files]]
 filename = "User1_017_20251103_065701.hpl"
 uuid = "654792ec-4b58-4aa2-a5d1-0a407fbc11f8"
 sha256 = "8db1f1ed88db125b92d001dbe94cdf95ae9e9efc06eaa987ce9c5957175caac3"
@@ -110576,6 +110597,11 @@ sha256 = "8db1f1ed88db125b92d001dbe94cdf95ae9e9efc06eaa987ce9c5957175caac3"
 filename = "User1_017_20251103_042200.hpl"
 uuid = "c378d371-6081-4c35-a102-44a9b653ed36"
 sha256 = "e5688a7eb88e57f6be9b5a46d8a15e70e13b1c80caf09d8cc11ee31d94adac38"
+
+[[wind.input.files]]
+filename = "User1_017_20251103_084200.hpl"
+uuid = "ae242188-3fae-43d6-8e72-098ede75d9f5"
+sha256 = "d7c726642e38fd620663b926995fe92e06a13fc1e491b679ea0dc00b079d693f"
 
 [[wind.input.files]]
 filename = "User2_017_20251103_070718.hpl"
@@ -110633,14 +110659,14 @@ uuid = "e1caa838-48ca-4ada-9f89-56c85cd39a5b"
 sha256 = "2f1f5d6831128d3975c6f5ed59d6e446e114257c6075a338cc892fa164f8cda1"
 
 [[wind.input.files]]
-filename = "User2_017_20251103_083217.hpl"
-uuid = "65292553-e570-43fc-bff6-fdff49f079f4"
-sha256 = "6b0c2fd842b7e682ea61e123f52cc4b6ca046aa2aa8096490588a19cb9c224d1"
-
-[[wind.input.files]]
 filename = "User1_017_20251103_034201.hpl"
 uuid = "34fdf616-7fbe-42a8-9ba0-f570dac79a24"
 sha256 = "3ad80b4614131bd2fef5010b6df53f97d6af424b219824b8b4ca1d94f371bf4b"
+
+[[wind.input.files]]
+filename = "User2_017_20251103_083217.hpl"
+uuid = "65292553-e570-43fc-bff6-fdff49f079f4"
+sha256 = "6b0c2fd842b7e682ea61e123f52cc4b6ca046aa2aa8096490588a19cb9c224d1"
 
 [[wind.input.files]]
 filename = "User2_017_20251103_065718.hpl"
@@ -110688,14 +110714,14 @@ uuid = "567c9ac7-061d-4fd5-a364-538f23a860e1"
 sha256 = "f03d391f8012c21aa75b9828174ba89ed139bdacab81e864560f91d2181784d0"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_071700.hpl"
-uuid = "e4297200-7166-4fa7-bbb8-541b5c3b5498"
-sha256 = "3e497a78f6814e3cb0cc926177a9f3db0bc52aad96840dd1e7d4c133e8018a4a"
-
-[[wind.input.files]]
 filename = "User2_017_20251103_075217.hpl"
 uuid = "e87833c1-cb9e-4542-a667-d79e50f0b1e9"
 sha256 = "43a20b3e0a43eead3c50c9a1a94d5f4585f1a80c88853119e692b39177b48f99"
+
+[[wind.input.files]]
+filename = "User1_017_20251103_071700.hpl"
+uuid = "e4297200-7166-4fa7-bbb8-541b5c3b5498"
+sha256 = "3e497a78f6814e3cb0cc926177a9f3db0bc52aad96840dd1e7d4c133e8018a4a"
 
 [[wind.input.files]]
 filename = "User2_017_20251103_082717.hpl"
@@ -110748,14 +110774,14 @@ uuid = "b47eefb7-4b20-4d94-9e0a-44e5950a2085"
 sha256 = "7decd14eb646b88b064203ee5cf115dc638374901bb965a3f364dd4d5a111143"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_045201.hpl"
-uuid = "e9a8183f-2bd8-479a-9b22-214a400cb02d"
-sha256 = "3940ca829569913c0c5b09c20a15ad9e89d7dd4be66e4e954dd5c388ca60db30"
-
-[[wind.input.files]]
 filename = "User1_017_20251103_050700.hpl"
 uuid = "8d250726-b974-41d5-aa07-a66f14d2ed0a"
 sha256 = "4cd0445cfdd73b9de73ffb22827cac1ecc7a92fa3d01149896fcca884917a2b3"
+
+[[wind.input.files]]
+filename = "User1_017_20251103_045201.hpl"
+uuid = "e9a8183f-2bd8-479a-9b22-214a400cb02d"
+sha256 = "3940ca829569913c0c5b09c20a15ad9e89d7dd4be66e4e954dd5c388ca60db30"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_040700.hpl"
@@ -110783,9 +110809,9 @@ uuid = "c72d43d4-d76f-4756-adf8-f60640a31915"
 sha256 = "4c009728f9b5b9e247134ea995a110077c88b1d6f00510821e49d48f3a12ed5a"
 
 [[wind.input.files]]
-filename = "User2_017_20251103_054217.hpl"
-uuid = "f1f5ab2f-a48c-4260-9f51-fefe984ca22d"
-sha256 = "16bea7607f06557b0b281ebc44257befe9398b8e7e4637516b59b30f4e444210"
+filename = "User1_017_20251103_082700.hpl"
+uuid = "077ad18e-7b0c-4379-ab74-d0ae4de5af60"
+sha256 = "e396b26789b99416faf30a66869616401bda1e4718a4f0c3d1796d4383288388"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_045700.hpl"
@@ -110793,9 +110819,9 @@ uuid = "7df204b1-37d2-452a-8ddd-90ed621cf83a"
 sha256 = "d4c0c2a436cedd3580f51c1be54e6e8698706e347c036ae1911978b5335ebbd3"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_082700.hpl"
-uuid = "077ad18e-7b0c-4379-ab74-d0ae4de5af60"
-sha256 = "e396b26789b99416faf30a66869616401bda1e4718a4f0c3d1796d4383288388"
+filename = "User2_017_20251103_054217.hpl"
+uuid = "f1f5ab2f-a48c-4260-9f51-fefe984ca22d"
+sha256 = "16bea7607f06557b0b281ebc44257befe9398b8e7e4637516b59b30f4e444210"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_044200.hpl"
@@ -110828,14 +110854,14 @@ uuid = "8a05bdbb-9048-42f7-95e0-1786512a4f7d"
 sha256 = "753c91be39a289ef204143d4a06bdb2c0fbee5747c92cd885525ff9e2770bdb1"
 
 [[wind.input.files]]
-filename = "User2_017_20251103_004218.hpl"
-uuid = "8ebcdebf-8e06-4fb1-940c-a59d52e8040b"
-sha256 = "0791a6e4e713e22172aea16075a78fd7bb684430230d71f42e5c807f75f6b6dc"
-
-[[wind.input.files]]
 filename = "User2_017_20251103_072718.hpl"
 uuid = "47ee1ca2-5653-4dc1-9095-ad62a19a4830"
 sha256 = "30c1a60dd2895b7f7cacfe701df3714fea748ed2e21ad50ed3b99a72086a9951"
+
+[[wind.input.files]]
+filename = "User2_017_20251103_004218.hpl"
+uuid = "8ebcdebf-8e06-4fb1-940c-a59d52e8040b"
+sha256 = "0791a6e4e713e22172aea16075a78fd7bb684430230d71f42e5c807f75f6b6dc"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_015201.hpl"
@@ -110903,24 +110929,24 @@ uuid = "4eb5b6b3-6983-437d-8817-a203d509b7ee"
 sha256 = "8c62ff6ae24301a244c5d8c915f605400be181eb54409b110c0e8a5d7a93e60f"
 
 [[wind.input.files]]
-filename = "User2_017_20251103_083717.hpl"
-uuid = "ad9c8075-fccb-4340-9b86-4948a92a0c8b"
-sha256 = "46bb1b5dc32d0dd5ad0ccffb778e295c333154da9d58109f112b7231de800ec9"
-
-[[wind.input.files]]
 filename = "User1_017_20251103_014701.hpl"
 uuid = "68cd014d-5417-495a-8346-0adb5b8bbe0c"
 sha256 = "3b49d3197b399db6866b8bd4fa312607dd6b1bd7f6f1b7d0c935c57d07ab6cdb"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_083700.hpl"
-uuid = "6a670f61-4396-4d34-80db-bdceec3f5e31"
-sha256 = "ec34061a6d4d35d8dcfaa598d75f09388bde363216504e0ecbda186f663f4bdc"
+filename = "User2_017_20251103_083717.hpl"
+uuid = "ad9c8075-fccb-4340-9b86-4948a92a0c8b"
+sha256 = "46bb1b5dc32d0dd5ad0ccffb778e295c333154da9d58109f112b7231de800ec9"
 
 [[wind.input.files]]
 filename = "User2_017_20251103_022717.hpl"
 uuid = "56d49f4c-35ae-4e88-a738-405599e679d5"
 sha256 = "a149ca18fa404f4be18a810266256a31b7159d1b4da8fcbfe6e392c0d5cc6240"
+
+[[wind.input.files]]
+filename = "User1_017_20251103_083700.hpl"
+uuid = "6a670f61-4396-4d34-80db-bdceec3f5e31"
+sha256 = "ec34061a6d4d35d8dcfaa598d75f09388bde363216504e0ecbda186f663f4bdc"
 
 [[wind.input.files]]
 filename = "User2_017_20251103_064218.hpl"
@@ -110938,14 +110964,14 @@ uuid = "9ad91086-2008-4eb2-9a51-9c9335551fd4"
 sha256 = "5195e5320d0e99f74147c40673373bf1c2520744a40f84f9713beff42a81a26a"
 
 [[wind.input.files]]
-filename = "User2_017_20251103_035717.hpl"
-uuid = "447a46f6-d73c-4b54-9466-2fddd1ec5f8d"
-sha256 = "9d19307d628690bd55e9fa245fad9579bce5bf53cf271a2000e5e3fcd970237a"
-
-[[wind.input.files]]
 filename = "User1_017_20251103_041201.hpl"
 uuid = "95b468a8-f984-4f64-bc2a-44e87e9a8632"
 sha256 = "99ca0b3bb0d1572d46763a81c62ed50533796afa621af4456bb59a9d2db76896"
+
+[[wind.input.files]]
+filename = "User2_017_20251103_035717.hpl"
+uuid = "447a46f6-d73c-4b54-9466-2fddd1ec5f8d"
+sha256 = "9d19307d628690bd55e9fa245fad9579bce5bf53cf271a2000e5e3fcd970237a"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_044700.hpl"
@@ -110958,14 +110984,14 @@ uuid = "37e8f08f-a259-4ca9-b01a-8fb5839b0dba"
 sha256 = "19befda51098d20aee9dee030ca6b977c05d0b8c4da00e932d6c255732e284f2"
 
 [[wind.input.files]]
-filename = "User2_017_20251103_053717.hpl"
-uuid = "7e6e0ed9-7c4b-42ad-b614-c57625f5e3ba"
-sha256 = "912d7f883d9b98531dc36d37b5bfd097fcbe465bb113c4782b7edc9ee6bc4bef"
-
-[[wind.input.files]]
 filename = "User2_017_20251103_073718.hpl"
 uuid = "b68ec2f4-2692-4726-a95c-58668f0635c2"
 sha256 = "44bcdc6b8106c72a69e6ec2ed6267f9e7a3ded80133580812209b730a777a17e"
+
+[[wind.input.files]]
+filename = "User2_017_20251103_053717.hpl"
+uuid = "7e6e0ed9-7c4b-42ad-b614-c57625f5e3ba"
+sha256 = "912d7f883d9b98531dc36d37b5bfd097fcbe465bb113c4782b7edc9ee6bc4bef"
 
 [[wind.input.files]]
 filename = "User5_017_20251103_060217.hpl"
@@ -111038,14 +111064,14 @@ uuid = "085d72a7-6562-44ee-b1b2-c7461e621ea9"
 sha256 = "00ceaba9fdd1bbcb89bf810e74e4e374f996e16d501d8e856db36a1441e47361"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_035200.hpl"
-uuid = "c58d95cc-54bc-43a6-aecc-dc0db40e929d"
-sha256 = "c0c2c2689b957bbdefb024f54f8171b167c2222460deaad2a2d6a20e87087cdd"
-
-[[wind.input.files]]
 filename = "User1_017_20251103_022700.hpl"
 uuid = "b6bd20cb-04e0-4146-a73e-09c57089a7bd"
 sha256 = "1611fd18b689ceaefd0f45ca2a455050a346d5aedb2ef6468f8b3567aeec6a51"
+
+[[wind.input.files]]
+filename = "User1_017_20251103_035200.hpl"
+uuid = "c58d95cc-54bc-43a6-aecc-dc0db40e929d"
+sha256 = "c0c2c2689b957bbdefb024f54f8171b167c2222460deaad2a2d6a20e87087cdd"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_011700.hpl"
@@ -111058,14 +111084,14 @@ uuid = "bfe69b10-e7ef-4aa7-932c-ddcc0e00c980"
 sha256 = "1ccba093b79419a500ae305825079a1049adcd5b80242b63380cb7f7f52ffe1a"
 
 [[wind.input.files]]
-filename = "User2_017_20251103_002218.hpl"
-uuid = "3cf96202-a7af-44c7-9ec7-34756a5fac3b"
-sha256 = "e6cca45c89102ae44059aeaac14b8998f50cef46cfcb7ada1c6f224c31f3f9d4"
-
-[[wind.input.files]]
 filename = "User2_017_20251103_060718.hpl"
 uuid = "1d126617-b774-495b-a528-1d8fae08c1c5"
 sha256 = "d0ebb6ff96b10e63e706d33105cd41fc05b306c34970d6b3657b9b34d8bee4e6"
+
+[[wind.input.files]]
+filename = "User2_017_20251103_002218.hpl"
+uuid = "3cf96202-a7af-44c7-9ec7-34756a5fac3b"
+sha256 = "e6cca45c89102ae44059aeaac14b8998f50cef46cfcb7ada1c6f224c31f3f9d4"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_020700.hpl"
@@ -111083,14 +111109,14 @@ uuid = "a087caf5-2277-483c-a256-211018c6b3ee"
 sha256 = "9096eb4f1fba71597cf380e1d4c316c14e6c5e9b3848c73f8e45f00f30a90b26"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_073701.hpl"
-uuid = "e60e9b9c-7c84-4c0f-8f27-7633653fc8ac"
-sha256 = "e7cdef3b88b3f34eea8fe651f6ca613e90773a63edb648ff17237edc3625ccfc"
-
-[[wind.input.files]]
 filename = "User2_017_20251103_053217.hpl"
 uuid = "7e1f60b7-4527-4737-937a-51a438784ffe"
 sha256 = "595bb5fee6ff1e0ed144ae148bf8ed7c82621e5ae51a8ec8a246e830c3ef087a"
+
+[[wind.input.files]]
+filename = "User1_017_20251103_073701.hpl"
+uuid = "e60e9b9c-7c84-4c0f-8f27-7633653fc8ac"
+sha256 = "e7cdef3b88b3f34eea8fe651f6ca613e90773a63edb648ff17237edc3625ccfc"
 
 [[wind.input.files]]
 filename = "User2_017_20251103_055718.hpl"
@@ -111153,14 +111179,14 @@ uuid = "26976ce5-90b3-452f-9f98-a3181060ee3f"
 sha256 = "f8c8a5f440da387ccaf2a152c62b13bc9310782cc1ac1625ec37570abeee11e1"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_031201.hpl"
-uuid = "a53d6b9e-c6b3-4874-93e4-1b5d35834089"
-sha256 = "64f67045e1cc0ea1b666b563f528cd94b3363991993d04cc2c1da037fd0ff6d4"
-
-[[wind.input.files]]
 filename = "User2_017_20251103_012717.hpl"
 uuid = "88c5c5fb-6a6d-4df5-bd04-df75eeecac13"
 sha256 = "a458f43553503f1c8292595f76ddfb09d76667d8cc69da45846e4861706667fc"
+
+[[wind.input.files]]
+filename = "User1_017_20251103_031201.hpl"
+uuid = "a53d6b9e-c6b3-4874-93e4-1b5d35834089"
+sha256 = "64f67045e1cc0ea1b666b563f528cd94b3363991993d04cc2c1da037fd0ff6d4"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_014201.hpl"
@@ -111198,19 +111224,14 @@ uuid = "a3abf5f9-00a3-4ae3-9368-2c2a41e524ab"
 sha256 = "e14cc4e55769adfaf2ad74c58c1ab37564656022980c43bea0e5d23cafa615c8"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_043200.hpl"
-uuid = "6e5a07de-1301-4270-90e2-92a7f6953971"
-sha256 = "edcb26f2cdd74bb09b352def96b47b4b5197922fece6f3f4dc7b805b460d3eb2"
-
-[[wind.input.files]]
 filename = "User2_017_20251103_051717.hpl"
 uuid = "67dc6040-f7fa-4b3f-954f-455db956a185"
 sha256 = "decfca2b66cf5ab1dd816723014a8f94abe911c9459eae2da10aa6025617fcf2"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_072200.hpl"
-uuid = "c009238a-90d9-41d6-b09c-4f65febb8976"
-sha256 = "47a6c1736a1b4ab4d2e7be4c65219305b272df596f30a1393c9709a3e6032492"
+filename = "User1_017_20251103_043200.hpl"
+uuid = "6e5a07de-1301-4270-90e2-92a7f6953971"
+sha256 = "edcb26f2cdd74bb09b352def96b47b4b5197922fece6f3f4dc7b805b460d3eb2"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_043701.hpl"
@@ -111218,9 +111239,9 @@ uuid = "740807c1-f271-47fa-ac6b-d01b9b50b92f"
 sha256 = "28ca7dc7a9da9347c951a792c1294675e77a0ed520223046bf15e56280f051ec"
 
 [[wind.input.files]]
-filename = "User2_017_20251103_084217.hpl"
-uuid = "23a67d7a-f8de-4d37-8ad2-c7465d34c92d"
-sha256 = "b91a5f19a46c87074dca29c8ab371c21f2877b9c4c7f7d1f70aac250dc06c256"
+filename = "User1_017_20251103_072200.hpl"
+uuid = "c009238a-90d9-41d6-b09c-4f65febb8976"
+sha256 = "47a6c1736a1b4ab4d2e7be4c65219305b272df596f30a1393c9709a3e6032492"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_081200.hpl"
@@ -111228,19 +111249,24 @@ uuid = "635fa7dc-b318-43af-8e2f-9a9a2ce38dcb"
 sha256 = "3f16ba7c5ecc68f557d82f5aecf4df6e3a4cf2bb0309ffb2745bdeb8b194d67f"
 
 [[wind.input.files]]
+filename = "User2_017_20251103_084217.hpl"
+uuid = "23a67d7a-f8de-4d37-8ad2-c7465d34c92d"
+sha256 = "b91a5f19a46c87074dca29c8ab371c21f2877b9c4c7f7d1f70aac250dc06c256"
+
+[[wind.input.files]]
 filename = "User2_017_20251103_001718.hpl"
 uuid = "13e3dbc8-a2e3-4653-a289-2d56df81b1df"
 sha256 = "35dedc91d24db89cf9a7af051c3c2184251ade70eda76582b608549fee318870"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_030700.hpl"
-uuid = "5fd56ac3-f66a-4cc6-8f1c-bb396db58768"
-sha256 = "addf88bed68c3979a58a9f2061cee23fbc33f7fcb74dc4ba209b566bc6c53557"
-
-[[wind.input.files]]
 filename = "User5_017_20251103_050201.hpl"
 uuid = "7c0fd9a0-376f-4df3-826a-ce639cd3aa2d"
 sha256 = "b7e46346d9dc9c00274a19cfa7e9f9edc8df338c37a06e7df83bc5faed455d9e"
+
+[[wind.input.files]]
+filename = "User1_017_20251103_030700.hpl"
+uuid = "5fd56ac3-f66a-4cc6-8f1c-bb396db58768"
+sha256 = "addf88bed68c3979a58a9f2061cee23fbc33f7fcb74dc4ba209b566bc6c53557"
 
 [[wind.input.files]]
 filename = "User5_017_20251103_030200.hpl"
@@ -111293,14 +111319,14 @@ uuid = "fd57c301-8d25-4625-8874-1e1a4ed1ac35"
 sha256 = "e407d816138b60be45bf9fb181fc9f76798376b970aa43e2ca5195362bf13b60"
 
 [[wind.input.files]]
-filename = "User1_017_20251103_033700.hpl"
-uuid = "e1096204-9d4b-46de-878a-74175e4ad271"
-sha256 = "c418aa589ec8d6b7fcd3595fbd82ef33242e21b08f78ef796b5055b70f35ce88"
-
-[[wind.input.files]]
 filename = "User2_017_20251103_015218.hpl"
 uuid = "306cbd40-b22b-495f-aa28-8ed6e0ffb4a1"
 sha256 = "efcb08cf3e1bdf568e6c75c6337f829f2ecf0d090411ee6e6ce8e9e39db752b9"
+
+[[wind.input.files]]
+filename = "User1_017_20251103_033700.hpl"
+uuid = "e1096204-9d4b-46de-878a-74175e4ad271"
+sha256 = "c418aa589ec8d6b7fcd3595fbd82ef33242e21b08f78ef796b5055b70f35ce88"
 
 [[wind.input.files]]
 filename = "User1_017_20251103_012700.hpl"
@@ -111334,25 +111360,26 @@ sha256 = "dc244a378065c448334df4671fd429fd824d074372058657b3dc1f45eb91a96d"
 
 [wind.expect]
 height_len = 320
+mask_fraction = 0.8314285714285714
 system_id = "017"
 time_len = 35
 
 [wind.expect.meridional_wind]
 count = 11200
-mean = 0.31456187218159787
-skew = 0.07823669185518264
-var = 20.132301956656107
+mean = 0.3145618721815981
+skew = 0.07823669185518277
+var = 20.132301956656104
 
 [wind.expect.vertical_wind]
 count = 11200
-mean = -1.9548252989238688
-skew = 0.45335018900353
+mean = -1.954825298923869
+skew = 0.4533501890035307
 var = 4.730317277089584
 
 [wind.expect.zonal_wind]
 count = 11200
-mean = 0.03798378138785347
-skew = 0.022219893669972488
+mean = 0.03798378138785338
+skew = 0.022219893669972565
 var = 20.73536808468448
 
 [[wind]]
@@ -111437,14 +111464,14 @@ uuid = "36ac4cd1-1df1-4808-94b0-2486f26d157d"
 sha256 = "8d00fde8eca5f023ead2f1ef0565d23f69704ff8f081473cd7a8729388e27fb3"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_222301.hpl"
-uuid = "f275f776-05c2-4c2e-a96e-3eb117fd614d"
-sha256 = "de6cf1cc290ab302cd1e38379407150b1eb6bcc1c2a20d80ca7350896d3c5606"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_172301.hpl"
 uuid = "d20ff360-d32a-41ab-8af9-3595e5192a05"
 sha256 = "93c0dc149527bbc30ad4166da27e910f9b31128ea6126b13ea173e40152ce221"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_222301.hpl"
+uuid = "f275f776-05c2-4c2e-a96e-3eb117fd614d"
+sha256 = "de6cf1cc290ab302cd1e38379407150b1eb6bcc1c2a20d80ca7350896d3c5606"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_152301.hpl"
@@ -111707,14 +111734,14 @@ uuid = "8efbb693-f24e-4775-bb7c-133e5699728b"
 sha256 = "d08bd2bc202cc8fe755cffeb597a23516d5cf48a32d15b5ea9c91d712e8cfbb5"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_163200.hpl"
-uuid = "c55f531e-ad2d-4537-b11b-ddc031c06216"
-sha256 = "a199a1c72e59eeb5fd36b9a81efe4cfc2b894ca5021dbab8bab5b4be65beee35"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_161717.hpl"
 uuid = "e11a1572-b38f-4d14-98e7-dc3079828bec"
 sha256 = "55c8d837b9a8f110df488b751a00deee8af3dfa3d3a2e823c98dcc66ae776e41"
+
+[[wind.input.files]]
+filename = "User1_017_20250927_163200.hpl"
+uuid = "c55f531e-ad2d-4537-b11b-ddc031c06216"
+sha256 = "a199a1c72e59eeb5fd36b9a81efe4cfc2b894ca5021dbab8bab5b4be65beee35"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_181217.hpl"
@@ -111732,14 +111759,14 @@ uuid = "ef253d35-0efd-4ed6-868f-5052a16cd985"
 sha256 = "082db3458089d65ad62fffa4a7deb48b2168948293238eb53a94606a8beee7c4"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_230200.hpl"
-uuid = "d772882e-8222-4922-8ddc-d14d3d6ed075"
-sha256 = "80aad3cd5cc132b38754112036d6c3ae321d519e4270ae4a2eef161ea205b0a8"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_233701.hpl"
 uuid = "3c0b468e-b98e-49fd-8836-d703b23d3ab6"
 sha256 = "df0b2fd388c7aea1bc638cb2e19d0adb411027a942e0c2cf913d2d12856721dc"
+
+[[wind.input.files]]
+filename = "User1_017_20250927_230200.hpl"
+uuid = "d772882e-8222-4922-8ddc-d14d3d6ed075"
+sha256 = "80aad3cd5cc132b38754112036d6c3ae321d519e4270ae4a2eef161ea205b0a8"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_234200.hpl"
@@ -111757,14 +111784,14 @@ uuid = "54ff43cc-7255-4c6a-8703-5de32afe22c2"
 sha256 = "338ef6f5868c29dcd8f46119011c23a910de600dda676be418210a24e5c991e6"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_133200.hpl"
-uuid = "087d095d-1899-475c-aa6f-8cd1318b22ce"
-sha256 = "1dafaeea59edd6de4f7b73459d529116c6da040949c4e464ddfd8b4811276cb2"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_223218.hpl"
 uuid = "53c4b592-1b9d-496d-987d-808485e7f459"
 sha256 = "1627129bc01fe6a839528ccc44a9c05a8f269bd072fca3630142691d56163786"
+
+[[wind.input.files]]
+filename = "User1_017_20250927_133200.hpl"
+uuid = "087d095d-1899-475c-aa6f-8cd1318b22ce"
+sha256 = "1dafaeea59edd6de4f7b73459d529116c6da040949c4e464ddfd8b4811276cb2"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_220217.hpl"
@@ -111832,14 +111859,14 @@ uuid = "ad5ef7e2-1b57-4d79-9756-4d0f87d118c5"
 sha256 = "82c37d1ec44b8fb3ea225fc13baa7205fe1ceed33042c7906bcc11e042e816c8"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_223201.hpl"
-uuid = "307038a2-d5c5-4f19-96ac-87f71b1bfd76"
-sha256 = "4d0e568c8be7266efd782b1f4e131d0e972f7e6f752ff3b4a72133c0943a7ef1"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_201200.hpl"
 uuid = "e16e1b78-41fb-4d91-b5a8-60b972a0afab"
 sha256 = "0f19828f3d15936e726ff61bb4e41d28b38471f6abdb57ee5edc1f3f589921f8"
+
+[[wind.input.files]]
+filename = "User1_017_20250927_223201.hpl"
+uuid = "307038a2-d5c5-4f19-96ac-87f71b1bfd76"
+sha256 = "4d0e568c8be7266efd782b1f4e131d0e972f7e6f752ff3b4a72133c0943a7ef1"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_211200.hpl"
@@ -111867,14 +111894,14 @@ uuid = "73a742f0-52d3-4393-b92d-d3aea1277fc5"
 sha256 = "fa440969998d6905ed76e53ebebaf60785bff9081e40e73298bc2cec03186af4"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_132217.hpl"
-uuid = "309f71d0-98e5-4cc3-9207-dd61006e213e"
-sha256 = "ad7d80e7c7f5df0fa483999e9fe40d8c3612d3fe3484899c8d1d5099678f362a"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_182717.hpl"
 uuid = "1d944fdb-45a6-48bc-8562-147745a0f75f"
 sha256 = "0db6dc6266eb6c4ad92181705e816bf9e8a9b52a55610b0a8e082a3f11bb808e"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_132217.hpl"
+uuid = "309f71d0-98e5-4cc3-9207-dd61006e213e"
+sha256 = "ad7d80e7c7f5df0fa483999e9fe40d8c3612d3fe3484899c8d1d5099678f362a"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_142217.hpl"
@@ -111982,11 +112009,6 @@ uuid = "20f218cb-86c2-4d3b-8806-8835d52fc651"
 sha256 = "19c2ca4b21629463ac83a0ff52b09a98b0fd2a814f3c3e7c227d9eae4e41f91e"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_171217.hpl"
-uuid = "c04bb3e8-904b-467a-aac2-fe6d76f868c4"
-sha256 = "c506491360348c4436ac083aca845b6b703f788c935bcb9d1654d2a3b84eb27b"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_135217.hpl"
 uuid = "06e24d88-0068-4887-8c8e-af460906a3da"
 sha256 = "f0817ed1a8cffed0959ddc780033ff2161a99b4c5ad10b0eedf3bdcbf4adba7d"
@@ -111997,14 +112019,19 @@ uuid = "c83cbb2e-a96f-46e1-ad54-acd522c71063"
 sha256 = "f81e83b012097a0bb152ec84eab3555adf6da107cd58460a438304479dc631f7"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_173717.hpl"
-uuid = "3c80c8a8-ace5-4b1d-a1e3-f5f821db9c37"
-sha256 = "f86246d0fd8a1f0ece3e6a2545a85554062782b28d281ba853531ce349570668"
+filename = "User2_017_20250927_171217.hpl"
+uuid = "c04bb3e8-904b-467a-aac2-fe6d76f868c4"
+sha256 = "c506491360348c4436ac083aca845b6b703f788c935bcb9d1654d2a3b84eb27b"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_142700.hpl"
 uuid = "fa1a2749-f665-4328-9b1b-6233ab4a739d"
 sha256 = "0324333d304f3907c1e6c631e4abe51a4e6d54204b76ae8034199907677c7671"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_173717.hpl"
+uuid = "3c80c8a8-ace5-4b1d-a1e3-f5f821db9c37"
+sha256 = "f86246d0fd8a1f0ece3e6a2545a85554062782b28d281ba853531ce349570668"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_203717.hpl"
@@ -112032,14 +112059,14 @@ uuid = "ea9d9792-4020-459e-894c-f5fd385a517f"
 sha256 = "c128f25c77a923f329fede68198690ecd20c0ad8ab375234ed13ee885d03fe93"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_150200.hpl"
-uuid = "5a90dfa4-52f0-40f0-b3d6-26ca3118a169"
-sha256 = "7f4e21e8697c0e4be99aa8a1c4239047d9f582806e9205c6da1ea37376c90ab5"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_185201.hpl"
 uuid = "2e354128-6772-4e5f-961b-20ce8df457ff"
 sha256 = "03e817703959156e0d51de1f8798925d59e1ecc40b1f53d4abf09802dc09ad68"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_150200.hpl"
+uuid = "5a90dfa4-52f0-40f0-b3d6-26ca3118a169"
+sha256 = "7f4e21e8697c0e4be99aa8a1c4239047d9f582806e9205c6da1ea37376c90ab5"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_173217.hpl"
@@ -112077,16 +112104,6 @@ uuid = "c9c11548-e3c1-4403-a526-aebc5b9a09ab"
 sha256 = "8adc8506b40d0a81dff25c76bd13ef0e03d672be2c6a94f46b19ca75b57c1dfb"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_124201.hpl"
-uuid = "8d62d3ba-9cb1-43d0-9af6-9849ce6bf7b5"
-sha256 = "d4d12e270d72eae1d4822c2374857da9398ad2ba0d6eb4a254710f8ac00414b1"
-
-[[wind.input.files]]
-filename = "User1_017_20250927_162200.hpl"
-uuid = "f3d6ed03-0e78-44e0-a273-1ee52697da2e"
-sha256 = "8ac938bc19b15af0fbe2af24a0530f9a0a3fb5b4cb806415ce6266ae9130f4b8"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_215217.hpl"
 uuid = "60f038ca-6e33-4e21-b5f2-b52cf94d2784"
 sha256 = "931aee4fea1f176c26bde3c8beea8f96c57cf81bedeae013c80d54271fe4814b"
@@ -112097,14 +112114,29 @@ uuid = "ce496f2c-b28e-4cfb-b728-4683e196b6b8"
 sha256 = "693af4fcbe5c7313923230cd215616d18faf6277d2f92789e9027320827cb58b"
 
 [[wind.input.files]]
+filename = "User1_017_20250927_162200.hpl"
+uuid = "f3d6ed03-0e78-44e0-a273-1ee52697da2e"
+sha256 = "8ac938bc19b15af0fbe2af24a0530f9a0a3fb5b4cb806415ce6266ae9130f4b8"
+
+[[wind.input.files]]
 filename = "User1_017_20250927_214201.hpl"
 uuid = "988785d2-38bb-485f-ae35-d7642082170c"
 sha256 = "e17762ca7e98e5fa58ffa3af5bca5ef55eedb0892e96a950cf29bdc38d7d91b2"
 
 [[wind.input.files]]
+filename = "User1_017_20250927_124201.hpl"
+uuid = "8d62d3ba-9cb1-43d0-9af6-9849ce6bf7b5"
+sha256 = "d4d12e270d72eae1d4822c2374857da9398ad2ba0d6eb4a254710f8ac00414b1"
+
+[[wind.input.files]]
 filename = "User1_017_20250927_145200.hpl"
 uuid = "82ca7256-7088-45d1-b539-d632de99329f"
 sha256 = "8ae478a0c642b2d379c0cfa16b8f026fd4b28f0d175c5833e327fa7ae8e57246"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_133217.hpl"
+uuid = "eecc376f-5a5e-4eef-8403-09f9a1475a45"
+sha256 = "18b6ca73c8fbbdddc67b7f5345667192a63c681f938885fd291b68ec3361eaf8"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_213717.hpl"
@@ -112115,11 +112147,6 @@ sha256 = "647ccfff0906490026d9b66140061766ed244c10760e400e763668232a67f4e7"
 filename = "User2_017_20250927_162217.hpl"
 uuid = "0d925d52-d114-4803-81c3-55a63785aa71"
 sha256 = "58bb77832e463d56a0fb763a1912ad0f514343be5b064a8b64c62931f264b7cc"
-
-[[wind.input.files]]
-filename = "User2_017_20250927_133217.hpl"
-uuid = "eecc376f-5a5e-4eef-8403-09f9a1475a45"
-sha256 = "18b6ca73c8fbbdddc67b7f5345667192a63c681f938885fd291b68ec3361eaf8"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_172700.hpl"
@@ -112172,19 +112199,14 @@ uuid = "1677a8a1-aed7-4a1c-957a-16e3fbcafdeb"
 sha256 = "d80b89814c1617aaa448378109fdc26284a54d2127a2b7687ceb42406debe886"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_194217.hpl"
-uuid = "623a569a-04fb-4b73-bdcf-9f1cb0494a84"
-sha256 = "57bf1a87d916bf24c38c78626935c45b2443670c7f84056fe18ad8cfd794ef18"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_141200.hpl"
 uuid = "609a5dc4-4150-442b-beac-7bb7793b6e78"
 sha256 = "47dd14da8590c3e6c4bee9c16cff609a0d14c85323be10f19fe8b28422ad696f"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_152200.hpl"
-uuid = "fc935118-8fd0-4a89-b01c-5c65e3666be7"
-sha256 = "87d4f72686ec61383c3ee210f04f2324ef6daf5f4dfd9d65decdb41e67cf8d1c"
+filename = "User2_017_20250927_194217.hpl"
+uuid = "623a569a-04fb-4b73-bdcf-9f1cb0494a84"
+sha256 = "57bf1a87d916bf24c38c78626935c45b2443670c7f84056fe18ad8cfd794ef18"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_164218.hpl"
@@ -112192,19 +112214,24 @@ uuid = "a52689fe-2826-4361-8cb3-26d9c93b7ad0"
 sha256 = "d299c26d1592e12f76f75afd483973956eceb86729161b89c43866d8321d9545"
 
 [[wind.input.files]]
+filename = "User1_017_20250927_152200.hpl"
+uuid = "fc935118-8fd0-4a89-b01c-5c65e3666be7"
+sha256 = "87d4f72686ec61383c3ee210f04f2324ef6daf5f4dfd9d65decdb41e67cf8d1c"
+
+[[wind.input.files]]
 filename = "User2_017_20250927_222718.hpl"
 uuid = "3171ab87-d25d-4094-97ed-b97b992211d7"
 sha256 = "91d988f07dae4a99db7c26e23746d632e0c6167fb54faed98d287e596f60f1c0"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_203217.hpl"
-uuid = "b0f7cb7c-5daf-47e4-af87-2bf996b602fa"
-sha256 = "3c8fdabd4daa61395849f6ba73ed0f50b033acaa98833cc6f003746c33987bc9"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_145217.hpl"
 uuid = "55226255-5db3-440d-95e3-80379aa68a32"
 sha256 = "5c9f753463a02205a90839aaeb98d4c708afbe6ea38695e026e440feea4a3281"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_203217.hpl"
+uuid = "b0f7cb7c-5daf-47e4-af87-2bf996b602fa"
+sha256 = "3c8fdabd4daa61395849f6ba73ed0f50b033acaa98833cc6f003746c33987bc9"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_193717.hpl"
@@ -112237,14 +112264,14 @@ uuid = "3672fd50-9d1e-46cc-9e4e-3631d898d55f"
 sha256 = "a52f979b91d6917fa26f4d2fd57b13d344b81d0b03696c9f920bd3060fb3cd60"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_172217.hpl"
-uuid = "d6814a06-c9cb-49b9-815a-467d81705e39"
-sha256 = "c967542b779690ef4cb756afc40debdf87fd46b027bf3e0f72cb6376d7f5ddcd"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_235717.hpl"
 uuid = "08216ff9-3230-4859-b65c-ab8be30e5e7c"
 sha256 = "367b5428850fc97545e08e0ef6a19429c380fe85d83588f879e504f04f4768ba"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_172217.hpl"
+uuid = "d6814a06-c9cb-49b9-815a-467d81705e39"
+sha256 = "c967542b779690ef4cb756afc40debdf87fd46b027bf3e0f72cb6376d7f5ddcd"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_201718.hpl"
@@ -112262,14 +112289,14 @@ uuid = "0e9d95ac-99c4-434a-8e00-18ba6b4bbe62"
 sha256 = "5ecf5cad1219b4017cc53c203f1a921685d51c6b0a3c2ce40d31befa7eb23823"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_135718.hpl"
-uuid = "384d371d-f406-4a9f-8b2b-fb9538ffb08e"
-sha256 = "0fb9babbc928d5170d8271c5bdf5c2b8716f081af611510445ebcedda53e3bd7"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_181200.hpl"
 uuid = "acf7fb47-d58f-48cf-b631-f57d43676b13"
 sha256 = "07ab07d86ec1fe5975c6e07389c38d821ea07a05a5d8094d8b25ebfb17b9e191"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_135718.hpl"
+uuid = "384d371d-f406-4a9f-8b2b-fb9538ffb08e"
+sha256 = "0fb9babbc928d5170d8271c5bdf5c2b8716f081af611510445ebcedda53e3bd7"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_163717.hpl"
@@ -112302,11 +112329,6 @@ uuid = "60161f0c-65ef-4729-8890-2a62b90422d1"
 sha256 = "68be790674e00a7b8797ad83a2c2c31a264560dcc9ea622b1e8630aaa7adc876"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_234717.hpl"
-uuid = "b91516fa-6d98-416b-afbd-1030875de26e"
-sha256 = "59da57c03d68d5f055cd193f462f269751c77e8527b225b0de370cfcfe45fd44"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_160200.hpl"
 uuid = "c8f1b0e5-586f-45b2-8694-62533c3467dd"
 sha256 = "92ce4c963b67e71618af2c595b5609a84eea9f906edf66336d8b948363f973d8"
@@ -112315,6 +112337,11 @@ sha256 = "92ce4c963b67e71618af2c595b5609a84eea9f906edf66336d8b948363f973d8"
 filename = "User1_017_20250927_190701.hpl"
 uuid = "b123702b-5b8f-43ed-964a-26f1a5654ef5"
 sha256 = "79543bcdb034827a6c2778cd36dfa74cf57bd2ef7556d394543c9b86b66c5829"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_234717.hpl"
+uuid = "b91516fa-6d98-416b-afbd-1030875de26e"
+sha256 = "59da57c03d68d5f055cd193f462f269751c77e8527b225b0de370cfcfe45fd44"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_232717.hpl"
@@ -112347,14 +112374,14 @@ uuid = "02b067f6-0853-4cd1-aa68-69c0dc71bdc0"
 sha256 = "605c78ea2681f2050934110d5653135f3948dc7610be70122b167262454d39d9"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_155717.hpl"
-uuid = "ed8a63f0-a630-465f-a37e-00fb9163ca6a"
-sha256 = "5015779efeb9ef91d1e777afbb1214a612171a25a51462470ebba4e1505b1059"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_131700.hpl"
 uuid = "518983c5-4d27-4f36-a583-e92415a771f4"
 sha256 = "a08ae83ccbdc56b375028ac4f6dd9cb0477e6897eadada29102c156ff529703f"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_155717.hpl"
+uuid = "ed8a63f0-a630-465f-a37e-00fb9163ca6a"
+sha256 = "5015779efeb9ef91d1e777afbb1214a612171a25a51462470ebba4e1505b1059"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_160217.hpl"
@@ -112402,14 +112429,14 @@ uuid = "e7ae78d1-3941-44c7-a72a-2cb458e669fe"
 sha256 = "80fc9dfdc66e30b293aac15c2d278fe777e2232664282bb4469dc6b8b2ec21d4"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_135200.hpl"
-uuid = "17ee86f3-eaef-4442-af1f-e0a0b403e395"
-sha256 = "17c387350a578faca42c9a2c52ff79761063941e8519a463874071cd3ec14227"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_160700.hpl"
 uuid = "e6023490-108f-408e-a187-2e6d1ca0d4c7"
 sha256 = "b2e5c05a4205ff546b08e4218de33d221cf3bfbaaba09589aef5a9045ff57a04"
+
+[[wind.input.files]]
+filename = "User1_017_20250927_135200.hpl"
+uuid = "17ee86f3-eaef-4442-af1f-e0a0b403e395"
+sha256 = "17c387350a578faca42c9a2c52ff79761063941e8519a463874071cd3ec14227"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_175700.hpl"
@@ -112422,14 +112449,14 @@ uuid = "e03ca8fa-d7d2-4d32-8269-e4321e2d3ea2"
 sha256 = "d18eec53b6ea55b8ea2178e781b2ee801b360ee8ea6fc5b46304a9ee938e68cb"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_213700.hpl"
-uuid = "d1903b9b-a2c2-4cf9-9113-1a4915fff9a5"
-sha256 = "7775cbbd0b9521dcd5a9267210de6812ebd393284f7e26dc75d2ac0ce927a947"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_140200.hpl"
 uuid = "27993685-3c2f-421c-aad1-73f6bbd87947"
 sha256 = "125d5625359c6e9472c2b6813cf713343dad5ff5be0685d0236752cfe0e92955"
+
+[[wind.input.files]]
+filename = "User1_017_20250927_213700.hpl"
+uuid = "d1903b9b-a2c2-4cf9-9113-1a4915fff9a5"
+sha256 = "7775cbbd0b9521dcd5a9267210de6812ebd393284f7e26dc75d2ac0ce927a947"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_213200.hpl"
@@ -112437,14 +112464,14 @@ uuid = "e99e3fc7-f7b4-42d8-9721-463c9aec1fc1"
 sha256 = "b6554d020b55cd6190379b751e916dca9e23642902a0266554d10bd433c16dab"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_233218.hpl"
-uuid = "c0da3e64-128c-439a-98b6-d7bca1c824e7"
-sha256 = "9b2610c767376a945896d968c5df7bcd0c626d56bc0d7a3f37cd199c29426ce8"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_203200.hpl"
 uuid = "a9c7d71e-abde-4894-b13f-f85e761ead62"
 sha256 = "59b9a7ae7137d74e717934eec7f3ef6cc6d6b74d42552b5a32d9806a3fcb2839"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_233218.hpl"
+uuid = "c0da3e64-128c-439a-98b6-d7bca1c824e7"
+sha256 = "9b2610c767376a945896d968c5df7bcd0c626d56bc0d7a3f37cd199c29426ce8"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_221201.hpl"
@@ -112472,14 +112499,14 @@ uuid = "a063448a-18b5-4834-a9b7-1b3b26bbffa3"
 sha256 = "6c90f3251309209da61b1c0229579813be62b1f0c90013a74b0646195a4d574e"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_143217.hpl"
-uuid = "1b255e66-60d2-42ae-8854-405afca31ac6"
-sha256 = "24dee2486d46b5313bc7d234e305a23b2f361e76237054b7cdcadfd730c00274"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_232700.hpl"
 uuid = "6ea24aac-5022-4c07-89e3-0507e5c8f22b"
 sha256 = "b57940382b83b3cb9d7655cad61b8c7fc1e37bf3f9c08036cec6e7ad41722711"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_143217.hpl"
+uuid = "1b255e66-60d2-42ae-8854-405afca31ac6"
+sha256 = "24dee2486d46b5313bc7d234e305a23b2f361e76237054b7cdcadfd730c00274"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_204717.hpl"
@@ -112487,14 +112514,14 @@ uuid = "aa0fbcf1-bee4-4192-90d6-d27e876c5702"
 sha256 = "7ab8c156be4e158e7c37f23a1643d6c598f07847d72b7eb8a2e8ec69fdf268b8"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_221218.hpl"
-uuid = "7488003d-280f-4e6b-822f-6cfd6af46c88"
-sha256 = "16b27c671e141898a8f1a12bd4b5f62db75e1d801da7035234f3a6f50e7c1e64"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_183717.hpl"
 uuid = "3e4b71bd-022d-4be3-9194-6d81ce7b32bb"
 sha256 = "7adba8ae0dfe32a5f2328bde1bd5d7c10547a1b2dda2fd70b9b3094465745bca"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_221218.hpl"
+uuid = "7488003d-280f-4e6b-822f-6cfd6af46c88"
+sha256 = "16b27c671e141898a8f1a12bd4b5f62db75e1d801da7035234f3a6f50e7c1e64"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_130718.hpl"
@@ -112527,14 +112554,14 @@ uuid = "7fe35b65-4998-4c6b-8ce8-0538ee0ea558"
 sha256 = "c23c790e2c906b8d734152a0f47fdb0ff4c09eab59b46548dd8240e273ec3b6f"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_195700.hpl"
-uuid = "446a89e5-6ad8-412b-8450-8c5dbeb00afa"
-sha256 = "6d4b3828ebd18583682ce45143c2139ce08752b7f5849e9a3f0bb9909417b5ec"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_202718.hpl"
 uuid = "feb535b9-188e-4ca1-8d64-ed49303004e7"
 sha256 = "54dd23fe768ac687868055f948d4ac50beeedb84979faf6dec250e2e1d24b5fd"
+
+[[wind.input.files]]
+filename = "User1_017_20250927_195700.hpl"
+uuid = "446a89e5-6ad8-412b-8450-8c5dbeb00afa"
+sha256 = "6d4b3828ebd18583682ce45143c2139ce08752b7f5849e9a3f0bb9909417b5ec"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_165201.hpl"
@@ -112542,9 +112569,9 @@ uuid = "24df9313-8314-489c-8faa-2c1221603aec"
 sha256 = "4f7a3c880ea1adba4e11c78b0aa1f6639739cc5acd5785e498d33044de563e41"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_152217.hpl"
-uuid = "07120c11-4414-4b36-a548-b0e114455b4a"
-sha256 = "314ac1c99e463bbe4c256fc591ddfa45e69de8246474040e88e3ec9eba894e24"
+filename = "User5_017_20250927_210218.hpl"
+uuid = "d6f3d766-4155-474f-9274-7a6c1c7aa655"
+sha256 = "b87aaf09f8f5df0f7e6b364261f7dd39b0423bbe48d0a53bcb5c8980df278ab6"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_165700.hpl"
@@ -112552,9 +112579,9 @@ uuid = "20d25556-1b89-4045-95df-fbe1e41c263f"
 sha256 = "4e25526e7f4082d7969bdce5583987b960af8daa969ed64ac63064f46bb66792"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_210218.hpl"
-uuid = "d6f3d766-4155-474f-9274-7a6c1c7aa655"
-sha256 = "b87aaf09f8f5df0f7e6b364261f7dd39b0423bbe48d0a53bcb5c8980df278ab6"
+filename = "User2_017_20250927_152217.hpl"
+uuid = "07120c11-4414-4b36-a548-b0e114455b4a"
+sha256 = "314ac1c99e463bbe4c256fc591ddfa45e69de8246474040e88e3ec9eba894e24"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_193201.hpl"
@@ -112572,14 +112599,14 @@ uuid = "a52df521-1c4f-4557-9ba6-58100d6ab08e"
 sha256 = "bb77bf98a48723adb907207b070bc463c415f24a8f3293cb918bb2961b4ca4b0"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_131717.hpl"
-uuid = "8f8d1ed3-b6ba-4d1b-9efb-9f66ccf622a2"
-sha256 = "5c22e230d638db5e77218b6e16325b3361ebe79c30d37a3131e40f4446bcf672"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_173701.hpl"
 uuid = "39801825-cf11-49e9-9d03-b53c85231781"
 sha256 = "1b38c1f3ca6edc91a1ba7bf625fb34dd03f16793bb67a3a8a79314980d3fdfe3"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_131717.hpl"
+uuid = "8f8d1ed3-b6ba-4d1b-9efb-9f66ccf622a2"
+sha256 = "5c22e230d638db5e77218b6e16325b3361ebe79c30d37a3131e40f4446bcf672"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_153700.hpl"
@@ -112632,14 +112659,14 @@ uuid = "b7225f1a-e1bf-459a-a327-b1c029cbd7d6"
 sha256 = "ed9d9de42b84682d25322942d898638c049ef652272e87936f508d43bc33d03b"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_200201.hpl"
-uuid = "7e92c31a-4494-4436-9424-37b42bc97430"
-sha256 = "dedba86574d7f8a93f0f52ea36c1ffdd52b9a43fecfb9023aaba7044362d51f2"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_170716.hpl"
 uuid = "32d83f8c-cc0a-4b96-98c4-4a29622bb2e0"
 sha256 = "ab73f906144ed5dbd0a490cf3ff7ffc246431e6fb350e6561ed14ac65294978d"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_200201.hpl"
+uuid = "7e92c31a-4494-4436-9424-37b42bc97430"
+sha256 = "dedba86574d7f8a93f0f52ea36c1ffdd52b9a43fecfb9023aaba7044362d51f2"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_165717.hpl"
@@ -112687,11 +112714,6 @@ uuid = "408ad307-ff6a-48e4-9d2b-50c41cb9eda2"
 sha256 = "85fcd613f1b0f386e07b58fbe7ebd6bc6c63bb45c883538ec052c1a474107fec"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_215701.hpl"
-uuid = "2fda6c77-d8a1-4e48-8461-f4f53a8628ab"
-sha256 = "9eec1db781edf0410ee7dd68b742b9f12c3d8a6475989722c4785c84b1806177"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_172200.hpl"
 uuid = "ad9a97d3-4232-48a6-91e1-4c3229e50a98"
 sha256 = "6950c40766f2354b91a605ee41f529c639fd23e990e234485c23cb39b791d712"
@@ -112700,6 +112722,11 @@ sha256 = "6950c40766f2354b91a605ee41f529c639fd23e990e234485c23cb39b791d712"
 filename = "User1_017_20250927_192700.hpl"
 uuid = "1f1968ee-5e4f-4764-bd44-8da073b7706a"
 sha256 = "f0ea8b5e25955a61539d1c0ef0782b48654fb7739d241ad60f6d43ba1b7b0450"
+
+[[wind.input.files]]
+filename = "User1_017_20250927_215701.hpl"
+uuid = "2fda6c77-d8a1-4e48-8461-f4f53a8628ab"
+sha256 = "9eec1db781edf0410ee7dd68b742b9f12c3d8a6475989722c4785c84b1806177"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_192217.hpl"
@@ -112777,24 +112804,24 @@ uuid = "3d0f9604-31b2-4d54-8391-2176bd738e29"
 sha256 = "1549a02c199fb0505eea2e6cff2734bc9af8d42feb1ff65883d9d3221b45e75f"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_155700.hpl"
-uuid = "0d0ccde0-bb03-4a07-8265-491b1f7192ae"
-sha256 = "ad0c4f456bc674eb14eeec542ff1972a6621d9b41d94d8f1e93e0fbdd2acd16a"
-
-[[wind.input.files]]
-filename = "User2_017_20250927_195717.hpl"
-uuid = "ae4c39dc-f0ce-490e-9c71-62508fe9687d"
-sha256 = "09743cd9b42b34e148030ac0c1318daffc3f80f3285994bc2e793cb4eeb127c4"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_144700.hpl"
 uuid = "ff83810e-e9de-4511-8e28-72aafbe9f6f5"
 sha256 = "d72a1012a356b7e99603687a44247df50093aa8fe8a7c4108f7b7c53b85bac4f"
 
 [[wind.input.files]]
+filename = "User1_017_20250927_155700.hpl"
+uuid = "0d0ccde0-bb03-4a07-8265-491b1f7192ae"
+sha256 = "ad0c4f456bc674eb14eeec542ff1972a6621d9b41d94d8f1e93e0fbdd2acd16a"
+
+[[wind.input.files]]
 filename = "User2_017_20250927_231717.hpl"
 uuid = "bf5df01a-7095-47ae-a40b-95126b921953"
 sha256 = "6fdcde08eeb69394cf66c477d4c47622eaea72a9c5a120937b12870a4d95522b"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_195717.hpl"
+uuid = "ae4c39dc-f0ce-490e-9c71-62508fe9687d"
+sha256 = "09743cd9b42b34e148030ac0c1318daffc3f80f3285994bc2e793cb4eeb127c4"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_185700.hpl"
@@ -112867,14 +112894,14 @@ uuid = "e6ea1506-a306-4efd-82e3-2fddc1be8632"
 sha256 = "e64b9aac450e70ddb5e73f9bca02240535114c865b3c1460bb90644658fbd4fc"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_202701.hpl"
-uuid = "26255aa7-22ba-4162-b8f2-79d731f35320"
-sha256 = "34518d4d06b82792719600bd3cd042fe113c23e743a252d083e78bdcd1153f97"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_195201.hpl"
 uuid = "fd8b00bb-80a0-467b-bd13-0e676af1a1cb"
 sha256 = "365de603a258c5a1bcd7cd9903a2fccaf6ca4a3e37fef08c62d13524855e7686"
+
+[[wind.input.files]]
+filename = "User1_017_20250927_202701.hpl"
+uuid = "26255aa7-22ba-4162-b8f2-79d731f35320"
+sha256 = "34518d4d06b82792719600bd3cd042fe113c23e743a252d083e78bdcd1153f97"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_195217.hpl"
@@ -112917,14 +112944,14 @@ uuid = "c7ff8aee-5b07-4ab1-be55-d9a28c28ca2b"
 sha256 = "ce2146b6f5a1591011a57dcae7f850d62055f5d1b5e3b544ca5f899f76721d67"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_202217.hpl"
-uuid = "9c828a23-a778-4871-adef-733519fe1ee3"
-sha256 = "4d00f77ebb3f06a5462c64014f94599c45a35bb3dfdbbe10a7af939ee778e69a"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_154700.hpl"
 uuid = "1855d603-47cb-47f0-9cbc-61c995b6df46"
 sha256 = "b3eb8741f63a99633d654b799af082a70553189b54a94ccf1b5960066f35587e"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_202217.hpl"
+uuid = "9c828a23-a778-4871-adef-733519fe1ee3"
+sha256 = "4d00f77ebb3f06a5462c64014f94599c45a35bb3dfdbbe10a7af939ee778e69a"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_163700.hpl"
@@ -112982,14 +113009,14 @@ uuid = "919d717c-6c78-48a3-85b4-03879e0d2d00"
 sha256 = "ad9634dd784fa2fd9f335c2cd62178599bec5d43071838f1332374776682f7e2"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_054200.hpl"
-uuid = "60d5cd85-f449-4070-a21f-889071d0948b"
-sha256 = "a9bf117911ed87694d41abde4d3d4bec892c927ec0e95eca831c280b2398a420"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_051201.hpl"
 uuid = "d75c7a47-1984-49a1-a128-8b218d162fdc"
 sha256 = "84f797243a0bc9923671446faf3bb511a996c32d4e1cd0407fbbda255ae6c185"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_054200.hpl"
+uuid = "60d5cd85-f449-4070-a21f-889071d0948b"
+sha256 = "a9bf117911ed87694d41abde4d3d4bec892c927ec0e95eca831c280b2398a420"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_052301.hpl"
@@ -112997,14 +113024,14 @@ uuid = "11056a4c-03d5-4e59-88ed-537ca882479a"
 sha256 = "fb3e148b7bfa532d458b40789830ea5ffab90daa07d609e1b1edde32d45325a7"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_064214.hpl"
-uuid = "ce053d91-1a37-49f0-b9da-33c65cb8001b"
-sha256 = "af55f6fa334928239cdbd0c66af6d3430b7683a18c0d78bc71364b289a44cdd7"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_032200.hpl"
 uuid = "1e349915-e908-4b19-8d00-19ac943f9a1a"
 sha256 = "26d86138f8fb6e39ec9be08329c48dafa48dd1e5396bf87626315e79fda8edc4"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_064214.hpl"
+uuid = "ce053d91-1a37-49f0-b9da-33c65cb8001b"
+sha256 = "af55f6fa334928239cdbd0c66af6d3430b7683a18c0d78bc71364b289a44cdd7"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_090714.hpl"
@@ -113027,14 +113054,14 @@ uuid = "2886361c-438e-4046-95b0-f7009c841481"
 sha256 = "fa75b1f545dfa4534d9b7693f39c51b7f0cd16db0962fa9041a6f2ec69c2663a"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_063201.hpl"
-uuid = "b80ba4d3-5fe3-4bb8-bd21-4b54657925ab"
-sha256 = "173412adfc0f8f5b40d1aac1694180a362b573dd055c534052cfd78650bd187f"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_091715.hpl"
 uuid = "2299b4ca-554c-41b5-9168-3b34d696f48f"
 sha256 = "5a9bbaf33dc5925493a6b80c1f60d1bbb1f293f2b12a20ab5d5b8e3b2ef0be4c"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_063201.hpl"
+uuid = "b80ba4d3-5fe3-4bb8-bd21-4b54657925ab"
+sha256 = "173412adfc0f8f5b40d1aac1694180a362b573dd055c534052cfd78650bd187f"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_025714.hpl"
@@ -113047,14 +113074,14 @@ uuid = "3e1f6217-c688-4d17-b6b3-8d73fe012565"
 sha256 = "ee07fd5eff31bc0839ffac86ab82cd314a21b921e02c9fd2ebdfabfc523d97f2"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_054714.hpl"
-uuid = "a7839996-76ac-4391-839e-1fcc6d500774"
-sha256 = "3f3eb93c180d9b79e39ff68b29d0a051037bef9a12597cb9de7bf2ed2942ee7d"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_024714.hpl"
 uuid = "6d3f7281-c385-4a20-a746-4ddc62946f9d"
 sha256 = "80ae89090fe3694f5f30749b235d7732c0de88a1e0ec4a2379c9b16696048202"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_054714.hpl"
+uuid = "a7839996-76ac-4391-839e-1fcc6d500774"
+sha256 = "3f3eb93c180d9b79e39ff68b29d0a051037bef9a12597cb9de7bf2ed2942ee7d"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_065214.hpl"
@@ -113062,14 +113089,14 @@ uuid = "20d3abe9-43d7-4b24-8ca3-657f84e69962"
 sha256 = "1469f448aceac9d3d3dccd29ce1fc5225e53e49641ada0dee1ca0c970dd3c4f9"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_070200.hpl"
-uuid = "1c42bfcc-f592-4a47-92dc-370bb7781e16"
-sha256 = "feb47430a3577465745b6bbfd0ab76d0046d608c4aeb3072181718a178435002"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_033700.hpl"
 uuid = "d8e03473-958f-4651-a810-2144f1f115c5"
 sha256 = "652d04e4c840e57abcdd36d722f7b51f9b4e1cdb21cf8bec4e1020faab3925c6"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_070200.hpl"
+uuid = "1c42bfcc-f592-4a47-92dc-370bb7781e16"
+sha256 = "feb47430a3577465745b6bbfd0ab76d0046d608c4aeb3072181718a178435002"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_091214.hpl"
@@ -113097,19 +113124,14 @@ uuid = "fea3acef-834d-4d8b-8886-8d77ee32f65d"
 sha256 = "9b4fba84080a563ca7356dbb8fd7fc9938705710cc971ae1b5f4594b56902229"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_082715.hpl"
-uuid = "3dcd691d-84a9-4d5a-93d7-b7a245614537"
-sha256 = "9701842afb8e4fa4224efdc7c2cf8415fe35e85c6690250e897828c2b58122b7"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_073800.hpl"
 uuid = "584be895-428f-4260-823a-9078e34ec3ef"
 sha256 = "9e65fc989f4e84c344efa4e087933b95fab088837e242b446fe4c02fb879bc6a"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_022701.hpl"
-uuid = "b25c86fa-e85c-48b5-a731-017e8012dcec"
-sha256 = "e2b0f90ef62aeace621d70c954802cc2a0ceb58a32a0981ea6b93ff00dfcf3ae"
+filename = "User5_017_20250927_082715.hpl"
+uuid = "3dcd691d-84a9-4d5a-93d7-b7a245614537"
+sha256 = "9701842afb8e4fa4224efdc7c2cf8415fe35e85c6690250e897828c2b58122b7"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_044714.hpl"
@@ -113117,19 +113139,24 @@ uuid = "a8947568-c53c-4920-81e7-2a34acf5d371"
 sha256 = "af828a07859f48b9094c4d4c93ff0233f2d4f731b3b2f691c1ca5fba9a3a82fc"
 
 [[wind.input.files]]
+filename = "User5_017_20250927_022701.hpl"
+uuid = "b25c86fa-e85c-48b5-a731-017e8012dcec"
+sha256 = "e2b0f90ef62aeace621d70c954802cc2a0ceb58a32a0981ea6b93ff00dfcf3ae"
+
+[[wind.input.files]]
 filename = "User5_017_20250927_085714.hpl"
 uuid = "d634dfaf-0235-4236-8d1f-45750766c722"
 sha256 = "1e1122ea47fe4d9c946c9b2b3f2e1994fe7db3e382ea9fb72221ea153f040a3a"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_113800.hpl"
-uuid = "8ba4afa3-54da-48ae-a731-eb2fe675b2dd"
-sha256 = "48916aaff31ad8932f20be85fe1518f2abeddf59f68898f58f73027ab7c2f1ee"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_101201.hpl"
 uuid = "0393c0cd-213d-4c6c-ab67-02a03ad1969d"
 sha256 = "fae520574bc6e84ca270578bf12ca8a5d7ad98c0fe50aceb0e6b7b1139f78d9d"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_113800.hpl"
+uuid = "8ba4afa3-54da-48ae-a731-eb2fe675b2dd"
+sha256 = "48916aaff31ad8932f20be85fe1518f2abeddf59f68898f58f73027ab7c2f1ee"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_065715.hpl"
@@ -113140,6 +113167,11 @@ sha256 = "896c41fc564074594b51f4c6ef20c725516a8f49a3e0bd684c4f9295981658e5"
 filename = "User5_017_20250927_000801.hpl"
 uuid = "2c6f8c1a-b581-4341-bcc4-4c7f0932aea2"
 sha256 = "1b533f66578cd170a42faad9f8942e20f904a8ca77ac225179c0f14f0e863187"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_013215.hpl"
+uuid = "1216c9a9-15b9-45de-93d3-0827e93f136e"
+sha256 = "5e47dae829a685e2f51b6c8cde89861ba433ad85718a2e0e4ea98716e6f2e3f6"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_011215.hpl"
@@ -113155,11 +113187,6 @@ sha256 = "6cac65acf6e16a376e6b070dc8ac34af5b86dd2e5f030d7d9308e1fc1146a1ab"
 filename = "User1_017_20250927_110701.hpl"
 uuid = "a1b98987-93d5-4cad-844e-c512b9e356a2"
 sha256 = "ddc8866f4614b9fa37c7235b4cf7d1462efc6754a48be06ca0c3ee9525ed17b3"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_013215.hpl"
-uuid = "1216c9a9-15b9-45de-93d3-0827e93f136e"
-sha256 = "5e47dae829a685e2f51b6c8cde89861ba433ad85718a2e0e4ea98716e6f2e3f6"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_042714.hpl"
@@ -113212,14 +113239,14 @@ uuid = "4848e499-9028-4fdf-b813-66cc5789d640"
 sha256 = "8bfa2d5edfb60510e43e09b5dcc439b09627ea7c414634377c889ba9a712efb3"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_080214.hpl"
-uuid = "92c68635-61a2-411f-8f58-0f6537a23956"
-sha256 = "ce8fe2404f5a7eef3e109931ace2c9f5c92b9c4ccf9f600a9a5ea6a05f4efa95"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_055300.hpl"
 uuid = "6dce7591-d14a-48e9-8397-158cdb4b6cf8"
 sha256 = "fc42def52bd0d07ce4b88e22cba219cfa58082b263e51bef640d719610e9b46f"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_080214.hpl"
+uuid = "92c68635-61a2-411f-8f58-0f6537a23956"
+sha256 = "ce8fe2404f5a7eef3e109931ace2c9f5c92b9c4ccf9f600a9a5ea6a05f4efa95"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_094201.hpl"
@@ -113237,6 +113264,11 @@ uuid = "fe23da4d-2bcb-4a23-8256-0692b177c147"
 sha256 = "9956382926809c7c24afd73b2c52ff4ea7f4b3752474942cd791936b84f99b87"
 
 [[wind.input.files]]
+filename = "User1_017_20250927_104201.hpl"
+uuid = "5b3acc1d-273d-40bc-bc4b-9e62cadf266d"
+sha256 = "6b0b14a08a64fef20eab959575c5a5a8c6172e619702e1c2e3c080ba626a144d"
+
+[[wind.input.files]]
 filename = "User1_017_20250927_100700.hpl"
 uuid = "946a97c5-67b2-44f4-b01a-66582bf5777e"
 sha256 = "0f99259264e8205f1001c2289b66208998c806ec3010c7c6160fa876525a8328"
@@ -113247,24 +113279,19 @@ uuid = "8681841d-592a-463b-a595-5e3f7c7df4c5"
 sha256 = "0a56c534d012d7d4078fe1b013144e68a93ef3226515d4153589ed7fab433381"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_104201.hpl"
-uuid = "5b3acc1d-273d-40bc-bc4b-9e62cadf266d"
-sha256 = "6b0b14a08a64fef20eab959575c5a5a8c6172e619702e1c2e3c080ba626a144d"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_001215.hpl"
 uuid = "52982ce9-af55-4d63-a7c8-1b4fccae5298"
 sha256 = "5a328274eb25178ed4fa75e964a902526c1a9cdeb76d160df25ae38624abd00b"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_023714.hpl"
-uuid = "cbb37724-8f9f-4b92-9e09-28a6c14d43d1"
-sha256 = "e971ed06d23e3041d144ea29b90bd79f49554bdd7b8b5242d96346d6f9bcc11e"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_060215.hpl"
 uuid = "8cfc15d3-d6f4-4aea-8751-4ef8f1a56286"
 sha256 = "a164b40bc772e8eab0bfadf0d99faae2e7f2c6b5ee04a99e4ff487e6482edc2a"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_023714.hpl"
+uuid = "cbb37724-8f9f-4b92-9e09-28a6c14d43d1"
+sha256 = "e971ed06d23e3041d144ea29b90bd79f49554bdd7b8b5242d96346d6f9bcc11e"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_002215.hpl"
@@ -113282,14 +113309,14 @@ uuid = "23921ea0-d407-4266-9291-49b0189b77bb"
 sha256 = "16fde02f9e8800685f16a0dbf28eeef7b21f453dea666e9fb090d73dc485eb70"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_053715.hpl"
-uuid = "129d2574-4f4c-430d-b6cf-b9f542c5a72b"
-sha256 = "61d52c01f2832ed2787e33d48e5b7882ff7fb33948481430565409f7b9b2e7e3"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_080715.hpl"
 uuid = "a025d33c-5eba-4e7e-b0e1-868b9fefdb24"
 sha256 = "5092c75083952502315b818b280bbdf95db1e99055baad4325dfb2d9c8198679"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_053715.hpl"
+uuid = "129d2574-4f4c-430d-b6cf-b9f542c5a72b"
+sha256 = "61d52c01f2832ed2787e33d48e5b7882ff7fb33948481430565409f7b9b2e7e3"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_123800.hpl"
@@ -113337,14 +113364,14 @@ uuid = "4edcfec9-8c86-4927-babd-91aa414467e5"
 sha256 = "f778ae700fdb521b055c2d884716de04a8deddd3ad7b69e3ba495804c60bb7f6"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_021715.hpl"
-uuid = "65f57ed0-4563-4259-beed-8e9f89263858"
-sha256 = "dfb759e6f6c9d98ddefdef911b627fd2c28e1830f0753c69ef5de5b71f2720fb"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_042700.hpl"
 uuid = "a41ef6b4-1c38-4092-ba69-977b7a913576"
 sha256 = "6b0320be7d2b3e21effae3cf4c2182163cd542cd24bf87103282f67c612b1f7a"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_021715.hpl"
+uuid = "65f57ed0-4563-4259-beed-8e9f89263858"
+sha256 = "dfb759e6f6c9d98ddefdef911b627fd2c28e1830f0753c69ef5de5b71f2720fb"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_002201.hpl"
@@ -113352,24 +113379,9 @@ uuid = "438fb5b9-4b91-4c38-a853-0f4106a3ed40"
 sha256 = "321c791036d5338abad053fc362c45b63b0ab4379a8d87bc1a299592117151ff"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_071700.hpl"
-uuid = "001dbe1d-292a-410c-97fd-2e5aa4584181"
-sha256 = "5e89c4ed7204217d7f13aee53b3a35f4e6977efdae2c27c76baa606b2049ddea"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_032300.hpl"
-uuid = "2121fefe-bd03-4832-a06a-7ce9b1a187fe"
-sha256 = "2491f69d30dad3ecfe3f25a8c19dfa11b800542e65be0160c80dff71f326837f"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_074701.hpl"
 uuid = "124702f0-d717-4832-af33-ea4e5f9a80d9"
 sha256 = "c5720bd4753fcdfadccd49a3fdc33ae20731e0b8e0189bb125d56d6f1be2a911"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_051215.hpl"
-uuid = "5b82c117-da5a-4496-aec1-52d2276227a1"
-sha256 = "410aaa665e6704644290e1827ba1a0f37d62777c03c56b662b30348dee05c32c"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_100201.hpl"
@@ -113377,14 +113389,24 @@ uuid = "f821a72a-23e2-44c6-8b46-1a0a61ab9bbf"
 sha256 = "e65c3550b9768ada01248b63fafefaf325904c1d8b6e60d2cf17bb4bb83f6f9d"
 
 [[wind.input.files]]
+filename = "User5_017_20250927_032300.hpl"
+uuid = "2121fefe-bd03-4832-a06a-7ce9b1a187fe"
+sha256 = "2491f69d30dad3ecfe3f25a8c19dfa11b800542e65be0160c80dff71f326837f"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_051215.hpl"
+uuid = "5b82c117-da5a-4496-aec1-52d2276227a1"
+sha256 = "410aaa665e6704644290e1827ba1a0f37d62777c03c56b662b30348dee05c32c"
+
+[[wind.input.files]]
 filename = "User1_017_20250927_092200.hpl"
 uuid = "0e18219e-7daf-4fb0-8b7f-02a5c86b3dec"
 sha256 = "6335fe922466b4c2d5ba9a786dea37b22bddb9cb27e59f088276dc20872b2e21"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_063715.hpl"
-uuid = "990c6bf2-98cd-4114-964a-8daf4d675363"
-sha256 = "87049972345f15237233f41f92b0c4b47b16db36f3ee954cee3880f143eca74c"
+filename = "User5_017_20250927_071700.hpl"
+uuid = "001dbe1d-292a-410c-97fd-2e5aa4584181"
+sha256 = "5e89c4ed7204217d7f13aee53b3a35f4e6977efdae2c27c76baa606b2049ddea"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_042201.hpl"
@@ -113395,6 +113417,11 @@ sha256 = "92eaff92bae9c2a942d41f7d89db27e2daccd07f4181f15e694273386a2f154d"
 filename = "User5_017_20250927_052214.hpl"
 uuid = "cc7a406b-2228-48e2-a2ce-ea2337b6195a"
 sha256 = "a2d4aa103b4cae9ee52041bff38a73fdfda211daa81dac31b82359af5667cd64"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_063715.hpl"
+uuid = "990c6bf2-98cd-4114-964a-8daf4d675363"
+sha256 = "87049972345f15237233f41f92b0c4b47b16db36f3ee954cee3880f143eca74c"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_035200.hpl"
@@ -113417,24 +113444,14 @@ uuid = "9e30c375-80df-4dd3-a714-04f53cacdaa0"
 sha256 = "f66f39ec4a40d8671b5c224baf47416b0464995a244400b17fa1f07091ac9481"
 
 [[wind.input.files]]
-filename = "RHI_017_20250927_101005.hpl"
-uuid = "499c6dd0-d96f-4bd8-9371-a669a5244aec"
-sha256 = "84440013dd044d16d02a8358fc2aae13f14981dd722510ac072f1ed761ef92ae"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_045715.hpl"
 uuid = "8ba6da15-f7ae-4f72-b0e2-6db849d02937"
 sha256 = "09aa23dfcc42dfd71aecb9ecf905cd93be64200f25d305ed1ff2169530e01c86"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_120800.hpl"
-uuid = "d81261a0-c594-41c8-9040-81441aecc217"
-sha256 = "c756dd3f203bf2ff3fbc399259b763d3860408be332f40e729cc462b7efdc582"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_030714.hpl"
-uuid = "5e611510-e414-4445-a85e-3b2534711e81"
-sha256 = "df91d2c6c37be7dee1029054184982605c114dd2341f8b02845728b5ade6fe53"
+filename = "RHI_017_20250927_101005.hpl"
+uuid = "499c6dd0-d96f-4bd8-9371-a669a5244aec"
+sha256 = "84440013dd044d16d02a8358fc2aae13f14981dd722510ac072f1ed761ef92ae"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_120714.hpl"
@@ -113442,14 +113459,24 @@ uuid = "bb8debe4-292e-433b-a0a9-db4b74c56d80"
 sha256 = "cc9d44ccc7864092508b7bdcb00b0c915ce3aeb2e391ddb745b908d06dc07197"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_050700.hpl"
-uuid = "f73174be-0139-4df6-b1db-d0d0a5a73d97"
-sha256 = "942df5176efbe4198a66531ee422e6f8583fbf509315618b0b5fbbc25a164c7c"
+filename = "User5_017_20250927_030714.hpl"
+uuid = "5e611510-e414-4445-a85e-3b2534711e81"
+sha256 = "df91d2c6c37be7dee1029054184982605c114dd2341f8b02845728b5ade6fe53"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_020715.hpl"
 uuid = "abb46e2b-68f7-4c01-a633-e93a9bac83f7"
 sha256 = "68931a4ba71f2d36a6766ae56f048056116b22fa16770f67050b5f15130a7fd0"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_050700.hpl"
+uuid = "f73174be-0139-4df6-b1db-d0d0a5a73d97"
+sha256 = "942df5176efbe4198a66531ee422e6f8583fbf509315618b0b5fbbc25a164c7c"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_120800.hpl"
+uuid = "d81261a0-c594-41c8-9040-81441aecc217"
+sha256 = "c756dd3f203bf2ff3fbc399259b763d3860408be332f40e729cc462b7efdc582"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_050214.hpl"
@@ -113467,19 +113494,24 @@ uuid = "a3f766e1-587a-416c-ab9d-7287674cf9af"
 sha256 = "d6eeabdb14ccbbdd1173194db3a72ad00c8d459986fda148c6fd4c5c3d350a4a"
 
 [[wind.input.files]]
-filename = "User2_017_20250927_113714.hpl"
-uuid = "cd46000e-2ec3-4352-b3dd-20c3d9450ca7"
-sha256 = "ac72f9b7d1e0a0fd4f5dfb79a8dd650779e67edae7a1b46d191dbf2b478aef06"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_004200.hpl"
 uuid = "8503a491-84bb-4b00-a376-a52e52bd9c44"
 sha256 = "e0533d5f2d917877c3bd30fbdd8021d1e739a48b09ca2f071955ebbc87e00c56"
 
 [[wind.input.files]]
+filename = "User2_017_20250927_113714.hpl"
+uuid = "cd46000e-2ec3-4352-b3dd-20c3d9450ca7"
+sha256 = "ac72f9b7d1e0a0fd4f5dfb79a8dd650779e67edae7a1b46d191dbf2b478aef06"
+
+[[wind.input.files]]
 filename = "User1_017_20250927_105700.hpl"
 uuid = "5bfef73c-9738-4af0-a008-a5ff053bfed1"
 sha256 = "aed5fe1605661d7fcc94e4684e800a38032de039d63b80ccf1f8a086a1f1280b"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_073214.hpl"
+uuid = "ee500242-5001-4ed8-9845-6ee32d067251"
+sha256 = "3dc0945d9372a3cedc02ae40abc66fc69924a2f8636819f1cd3f441f9e32f542"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_000700.hpl"
@@ -113492,24 +113524,14 @@ uuid = "d570826f-4ad7-459a-9aa5-326f72cefc3e"
 sha256 = "f9e0ccce573b3d1acf7a7c5adfdf559f540b59604cf28b13ddf04cef72559687"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_073214.hpl"
-uuid = "ee500242-5001-4ed8-9845-6ee32d067251"
-sha256 = "3dc0945d9372a3cedc02ae40abc66fc69924a2f8636819f1cd3f441f9e32f542"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_073200.hpl"
-uuid = "e3c07247-9ecf-461c-9bf5-d761780712b7"
-sha256 = "dc550f2b2f24f9a071f6298e94b6044e13c0084dae87953b8d5ecbbedfcda913"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_111201.hpl"
 uuid = "bac99423-d203-461b-a7e6-5e3b8801aa4c"
 sha256 = "cfa4df238f60890813423396bc152fc96c4c94629c5a668dee77bc54717c2cad"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_024201.hpl"
-uuid = "5de595d8-ce1c-400a-81cb-d1acd40cd09f"
-sha256 = "58863abd79bdaaf0ae2cbd891ee2780056943b4c43f4936a59cf6d11052dbb60"
+filename = "User5_017_20250927_073200.hpl"
+uuid = "e3c07247-9ecf-461c-9bf5-d761780712b7"
+sha256 = "dc550f2b2f24f9a071f6298e94b6044e13c0084dae87953b8d5ecbbedfcda913"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_063215.hpl"
@@ -113522,9 +113544,9 @@ uuid = "64967f59-36c8-4273-be89-6080d4161cfe"
 sha256 = "c280a617ee12f7490a853f369faacee25b5d3511b44d08d89592795004af9700"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_012714.hpl"
-uuid = "1a68c32a-01de-4400-a928-39f47fa30343"
-sha256 = "882a224654a446f310b96fc2a7e80528d975c01e2604937ecd6fe368a69fb90a"
+filename = "User5_017_20250927_024201.hpl"
+uuid = "5de595d8-ce1c-400a-81cb-d1acd40cd09f"
+sha256 = "58863abd79bdaaf0ae2cbd891ee2780056943b4c43f4936a59cf6d11052dbb60"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_110200.hpl"
@@ -113532,14 +113554,19 @@ uuid = "d3b51244-74d6-4988-b618-2f9dd9b56cca"
 sha256 = "1d5888cd3eb12dfc0283120c3a408cfb1a2b2e818dcc6c1075f329896104809c"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_010801.hpl"
-uuid = "a50cbd65-352a-4670-b35e-7f4092e20a03"
-sha256 = "588b54885fe36b0ad89f2a153057073e1c9354e0e42d56e0d0e65d739b34c9d0"
+filename = "User5_017_20250927_012714.hpl"
+uuid = "1a68c32a-01de-4400-a928-39f47fa30343"
+sha256 = "882a224654a446f310b96fc2a7e80528d975c01e2604937ecd6fe368a69fb90a"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_033800.hpl"
 uuid = "f6818e96-34ea-4708-81b7-383053cb9600"
 sha256 = "c8e32f1f73710f25ffd1264988611be7befc663c8d95ce94919a7bb1cbfdfca1"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_010801.hpl"
+uuid = "a50cbd65-352a-4670-b35e-7f4092e20a03"
+sha256 = "588b54885fe36b0ad89f2a153057073e1c9354e0e42d56e0d0e65d739b34c9d0"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_050800.hpl"
@@ -113557,14 +113584,14 @@ uuid = "04b27f69-f784-432d-b0b5-04ffdbe75872"
 sha256 = "7d70d8bbef41dee07f2553b0b83e52e743189858c298e7ff3007db7c78335614"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_030801.hpl"
-uuid = "bea8f5a3-9015-4ed7-b042-7b45da73f5d2"
-sha256 = "0464dbd58bfe7216edb8f1635afd34a47f3513cccd2c40b6904e53b88094e6bc"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_085701.hpl"
 uuid = "10c7bd51-e592-49a2-bbd7-a8e02a1d52ee"
 sha256 = "032ac282e317e237782e8f6f1db38cb73b055a32436a487f118abb80c5d2cabe"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_030801.hpl"
+uuid = "bea8f5a3-9015-4ed7-b042-7b45da73f5d2"
+sha256 = "0464dbd58bfe7216edb8f1635afd34a47f3513cccd2c40b6904e53b88094e6bc"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_010714.hpl"
@@ -113572,14 +113599,14 @@ uuid = "b687809a-bd48-4d8a-aa46-02f28109a706"
 sha256 = "9e9f7506bcb09044e2f2960954dc85ffd04d0e356cf4e81e815c63a64ff45bbe"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_053700.hpl"
-uuid = "c59d1861-e8c4-4def-92fb-7a09e27c41fa"
-sha256 = "f8ebb18c76b9a3baea12af7eaff637fa1136f67eb4930836a9d488b784d2e7ce"
-
-[[wind.input.files]]
 filename = "User1_017_20250927_091200.hpl"
 uuid = "ca91b73f-4c3a-443f-a794-13fb12776276"
 sha256 = "0fa5750ed515ddd3b794f7b4e15a57a72c184c8fd4dd3b643666a357b19b1e67"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_053700.hpl"
+uuid = "c59d1861-e8c4-4def-92fb-7a09e27c41fa"
+sha256 = "f8ebb18c76b9a3baea12af7eaff637fa1136f67eb4930836a9d488b784d2e7ce"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_024215.hpl"
@@ -113587,19 +113614,14 @@ uuid = "e19b1363-cd8f-4c84-889f-8942b68908be"
 sha256 = "631831caa12ee58412d561d72aaa30717ee1187a66a6dd041e9f62d14c59bf85"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_081004.hpl"
-uuid = "ff24065e-555b-454b-8610-7a16b706a1f1"
-sha256 = "e185df42c91cf22c2b7495f89fec866eb67c88d2cea157df7559b1e292274f25"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_102214.hpl"
 uuid = "a29539f9-b655-4f73-b75b-802a63456bd2"
 sha256 = "e81155450c1a5efb2733ea797a679c3bc5f3a043a0c223a1c22baec05d848587"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_103200.hpl"
-uuid = "9cd7d2f0-bbcc-43c0-8500-b6455fccbba5"
-sha256 = "fd2e83619cf03140f8a6d8d543f430420e2304d84eb563c467220533d99efca7"
+filename = "User5_017_20250927_081004.hpl"
+uuid = "ff24065e-555b-454b-8610-7a16b706a1f1"
+sha256 = "e185df42c91cf22c2b7495f89fec866eb67c88d2cea157df7559b1e292274f25"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_030200.hpl"
@@ -113607,9 +113629,9 @@ uuid = "5fd414a2-47aa-405d-b2e3-0ac95b68f537"
 sha256 = "b51928865bfb528433fdcf71ad5e0188b6c946bd18038a86f44abecad054afc9"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_061714.hpl"
-uuid = "5c257c43-41c2-4e2d-97ca-141b9c9602da"
-sha256 = "0c2c4cdcbde1f920adfc3b63a706ede2e439c406cbbb31bb2ce6cda6abcaa507"
+filename = "User1_017_20250927_103200.hpl"
+uuid = "9cd7d2f0-bbcc-43c0-8500-b6455fccbba5"
+sha256 = "fd2e83619cf03140f8a6d8d543f430420e2304d84eb563c467220533d99efca7"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_053801.hpl"
@@ -113617,9 +113639,24 @@ uuid = "eed0cdc2-2d6a-41e0-b834-f21c901af055"
 sha256 = "e433a095cc977802750f8c1744d2cb2ee9db2dd5d284978a6dcc847cfa8ed54e"
 
 [[wind.input.files]]
+filename = "User5_017_20250927_061714.hpl"
+uuid = "5c257c43-41c2-4e2d-97ca-141b9c9602da"
+sha256 = "0c2c4cdcbde1f920adfc3b63a706ede2e439c406cbbb31bb2ce6cda6abcaa507"
+
+[[wind.input.files]]
 filename = "User5_017_20250927_032700.hpl"
 uuid = "7fcf93c6-cc0f-42d7-a62e-1aa64a63bfb2"
 sha256 = "3091db8dc460273e98ea3111c4ea3e8946050da6ff473cde57b3cdb7a3d3c6eb"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_103714.hpl"
+uuid = "559a0744-1e52-4235-b7c7-d39117de5bfb"
+sha256 = "4f8f7b920e48d57d1dab98752de7a6378d8ac598e891298906887d91e1b78808"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_112214.hpl"
+uuid = "c0e5dda8-7f52-4256-9287-9ac0b588d542"
+sha256 = "94e47e2793ef532da46ae5029028ad9335b54a16c6278d51848d64d2dcba31d8"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_004714.hpl"
@@ -113630,16 +113667,6 @@ sha256 = "d3399ebffffb2e31d5e2f723f78608a862b3d897add7dd0f664ea227560b27b3"
 filename = "User5_017_20250927_025700.hpl"
 uuid = "20b7203b-e7dc-4a37-929d-2245d77ac391"
 sha256 = "dd0f83bbe609269e9feee83532b54b279a741f124e0c8e9b8c6047b5a72544e6"
-
-[[wind.input.files]]
-filename = "User2_017_20250927_112214.hpl"
-uuid = "c0e5dda8-7f52-4256-9287-9ac0b588d542"
-sha256 = "94e47e2793ef532da46ae5029028ad9335b54a16c6278d51848d64d2dcba31d8"
-
-[[wind.input.files]]
-filename = "User2_017_20250927_103714.hpl"
-uuid = "559a0744-1e52-4235-b7c7-d39117de5bfb"
-sha256 = "4f8f7b920e48d57d1dab98752de7a6378d8ac598e891298906887d91e1b78808"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_102715.hpl"
@@ -113667,9 +113694,9 @@ uuid = "17313ec0-165d-4f6b-be11-fa37ade957e5"
 sha256 = "3cb3a8b298f2033611ab6fd65a23b1a1f78aa01cfb61c59d05396e81d4e3fb01"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_025214.hpl"
-uuid = "41967805-1c11-422e-a37e-bc17b0d9cd0c"
-sha256 = "7fd9a76cdd931087518a902fdc2d11eaf190c5e2950e59d56e1ce9b52a5f8f74"
+filename = "User5_017_20250927_003701.hpl"
+uuid = "c60e3037-527c-4230-8c09-98c505c13705"
+sha256 = "d24a919d483e68fbc4844c3d434a4d34fa00b99e272fc1a3fd1702beddb3f4f6"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_072214.hpl"
@@ -113677,14 +113704,14 @@ uuid = "216058c3-0d58-47bc-9998-a47b8db5593a"
 sha256 = "95a778f2f735f75f46ce9a189d787d24ea7327dd01c9da20b80eaebd48f5a606"
 
 [[wind.input.files]]
+filename = "User5_017_20250927_025214.hpl"
+uuid = "41967805-1c11-422e-a37e-bc17b0d9cd0c"
+sha256 = "7fd9a76cdd931087518a902fdc2d11eaf190c5e2950e59d56e1ce9b52a5f8f74"
+
+[[wind.input.files]]
 filename = "User1_017_20250927_102200.hpl"
 uuid = "66a43a6f-62f1-431b-8470-d5e24d995ba6"
 sha256 = "9e53ee8cbedb62c9655bc947e26f2ee678c385fde67bfc0219b2e4d47525926f"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_003701.hpl"
-uuid = "c60e3037-527c-4230-8c09-98c505c13705"
-sha256 = "d24a919d483e68fbc4844c3d434a4d34fa00b99e272fc1a3fd1702beddb3f4f6"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_074201.hpl"
@@ -113692,14 +113719,14 @@ uuid = "81bbfd1f-4a7f-4124-82ef-ffb99713681f"
 sha256 = "caee9e6329492e889bae01ad26eeed18b082ca0f04bdf1e1ac2e35e16e32a538"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_073700.hpl"
-uuid = "590d91bb-aa77-40bd-b428-688d9253b925"
-sha256 = "273fdcf12f2941a01e3fe6d405ad7e63af8801d0913d1ed826d509e145fe0faf"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_103214.hpl"
 uuid = "187e003e-b48d-4843-b776-4636e346ad8d"
 sha256 = "7d61d06a669b5208f98f6388558f3a44d483bccf04c8defba086543d1b5c9c4c"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_073700.hpl"
+uuid = "590d91bb-aa77-40bd-b428-688d9253b925"
+sha256 = "273fdcf12f2941a01e3fe6d405ad7e63af8801d0913d1ed826d509e145fe0faf"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_034715.hpl"
@@ -113712,14 +113739,14 @@ uuid = "f8ba8536-fbbd-4f86-a910-3495a2105efe"
 sha256 = "08c5b8dd64215721567b0e76ba6ced4550e6ea8a857c9d7b5398e7ad977fa1f7"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_062300.hpl"
-uuid = "8ab259b8-345e-43bf-88fc-a52e5fb5561a"
-sha256 = "1f2431a0c165bcca03f3c41b40ab18326c7e457efef2bc1926813d0a4091e5e8"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_050714.hpl"
 uuid = "26bf26f2-c54d-4892-a56b-02dd3e47f4ff"
 sha256 = "b58d1421e966e16be410badfcebcf2fbde28dfd9f6fd40b9de371a42870ba883"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_062300.hpl"
+uuid = "8ab259b8-345e-43bf-88fc-a52e5fb5561a"
+sha256 = "1f2431a0c165bcca03f3c41b40ab18326c7e457efef2bc1926813d0a4091e5e8"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_014701.hpl"
@@ -113742,9 +113769,9 @@ uuid = "751ae004-4cfd-4d3b-aa5b-6d13b46e99b9"
 sha256 = "c7bbb50e6e19138453a2f9bda024bd5fdb127235144ccc4564e251e179c0811b"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_055201.hpl"
-uuid = "c7f0f46e-309b-4c73-92ce-995df48d8456"
-sha256 = "b45973d11f9ef213dcac79a0a7382f2afaf32e9702aeffd7e0b6607d1f5ce5c4"
+filename = "User5_017_20250927_021201.hpl"
+uuid = "2dbf1600-a062-438f-8ed3-3a738473ccca"
+sha256 = "feb5b2d2e8ec18c63c1ffe1b084754f4eac1317e9e4da617300d1c7adbc2f059"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_045200.hpl"
@@ -113757,14 +113784,14 @@ uuid = "f52880c4-0ae7-4534-a91c-3da523b8a2b1"
 sha256 = "2b1152ac85fae24a13a5456a801f3f8c41141387e7c9fe89e47899ecfae8d749"
 
 [[wind.input.files]]
+filename = "User5_017_20250927_055201.hpl"
+uuid = "c7f0f46e-309b-4c73-92ce-995df48d8456"
+sha256 = "b45973d11f9ef213dcac79a0a7382f2afaf32e9702aeffd7e0b6607d1f5ce5c4"
+
+[[wind.input.files]]
 filename = "User5_017_20250927_075200.hpl"
 uuid = "e8dc4843-8298-4593-92d5-1169b2cd6afd"
 sha256 = "dc1947c2b6befeafe8cd8a8098323cad13ee09c5b3e3bae87107a415140b1033"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_021201.hpl"
-uuid = "2dbf1600-a062-438f-8ed3-3a738473ccca"
-sha256 = "feb5b2d2e8ec18c63c1ffe1b084754f4eac1317e9e4da617300d1c7adbc2f059"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_003200.hpl"
@@ -113777,9 +113804,9 @@ uuid = "4b190e25-32c2-4710-83d9-2d1f2fa6ab16"
 sha256 = "409b098f1d0900d0b369de171cfe4856da47350d4fd5f8808bb954a463952586"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_020700.hpl"
-uuid = "373edc24-8d4a-43a9-ba2d-5dd856f5a742"
-sha256 = "3886d56221ccbcab2ff74d11c5e8d83130e8ee099f87d82049f1d82f14ed3620"
+filename = "RHI_017_20250927_111004.hpl"
+uuid = "2a7d8b80-7d74-4643-9c72-2ffc43fe3f39"
+sha256 = "0a8bd18dc89a557b85b5ed23b198ee2b09e88a412a77d27982b52f94aee96d48"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_053201.hpl"
@@ -113792,29 +113819,9 @@ uuid = "d80da211-18e8-43b7-acd1-c861c8fe4f9f"
 sha256 = "6c9a9a75d6ac198047a01c87fb5c5cfa426e460aa00683fcce306bd1e031d8e9"
 
 [[wind.input.files]]
-filename = "RHI_017_20250927_111004.hpl"
-uuid = "2a7d8b80-7d74-4643-9c72-2ffc43fe3f39"
-sha256 = "0a8bd18dc89a557b85b5ed23b198ee2b09e88a412a77d27982b52f94aee96d48"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_093800.hpl"
-uuid = "ba406e5f-32a2-4e99-a608-098ec0f61a43"
-sha256 = "6fff98d07c9fb7493f7ca916aadbca53ef8e75c9dbf8a8bb198fa726614bf3c4"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_072300.hpl"
-uuid = "ff2ab48b-a57b-4401-b171-abb6afdd284a"
-sha256 = "c2b011bd41da86de4e9e9547c364c6564c9af98ef51ca824d9101df14e74858e"
-
-[[wind.input.files]]
-filename = "User1_017_20250927_093700.hpl"
-uuid = "a3af9d09-450a-4caa-8ff4-97193213db5c"
-sha256 = "b5ca5c0abe68ca6df829317c2ffd58db7c7d8de3058e4a020122bcad1bd7361d"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_054700.hpl"
-uuid = "401a3ee9-5d26-41ab-8352-73cdafbefbed"
-sha256 = "6f5fc93f54c3bd4d8eba371df2521dde460e25e3ec72ed4758530c267080c65f"
+filename = "User5_017_20250927_020700.hpl"
+uuid = "373edc24-8d4a-43a9-ba2d-5dd856f5a742"
+sha256 = "3886d56221ccbcab2ff74d11c5e8d83130e8ee099f87d82049f1d82f14ed3620"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_035301.hpl"
@@ -113822,9 +113829,34 @@ uuid = "54cbe477-72f1-415e-bfff-07648b092989"
 sha256 = "0c350ea8002ecfebe0a3c9a4a1720fcf5caedf74468f731b0f0670c1e5cb55e9"
 
 [[wind.input.files]]
+filename = "User5_017_20250927_054700.hpl"
+uuid = "401a3ee9-5d26-41ab-8352-73cdafbefbed"
+sha256 = "6f5fc93f54c3bd4d8eba371df2521dde460e25e3ec72ed4758530c267080c65f"
+
+[[wind.input.files]]
+filename = "User1_017_20250927_093700.hpl"
+uuid = "a3af9d09-450a-4caa-8ff4-97193213db5c"
+sha256 = "b5ca5c0abe68ca6df829317c2ffd58db7c7d8de3058e4a020122bcad1bd7361d"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_072300.hpl"
+uuid = "ff2ab48b-a57b-4401-b171-abb6afdd284a"
+sha256 = "c2b011bd41da86de4e9e9547c364c6564c9af98ef51ca824d9101df14e74858e"
+
+[[wind.input.files]]
 filename = "User5_017_20250927_060201.hpl"
 uuid = "ee794aca-5c74-494b-a484-a18ef533e541"
 sha256 = "e83a3a401c320f9ba1464e8d984e215ef178ff1a161ee207eb9adc577672c114"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_093800.hpl"
+uuid = "ba406e5f-32a2-4e99-a608-098ec0f61a43"
+sha256 = "6fff98d07c9fb7493f7ca916aadbca53ef8e75c9dbf8a8bb198fa726614bf3c4"
+
+[[wind.input.files]]
+filename = "User1_017_20250927_091701.hpl"
+uuid = "5b05de39-b6e3-4f3c-870f-e4d4bed7ace2"
+sha256 = "31268cecae33311791d780f2cc36e821ae4f6e76fc4f14de32a08621b88bbf81"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_013714.hpl"
@@ -113837,19 +113869,14 @@ uuid = "3b9c24bd-b5f5-44ae-858f-12c852daefb3"
 sha256 = "b847767d67044b803f893288c7c7409a4d273c70474aae45a40cbd155b1e5ecb"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_091701.hpl"
-uuid = "5b05de39-b6e3-4f3c-870f-e4d4bed7ace2"
-sha256 = "31268cecae33311791d780f2cc36e821ae4f6e76fc4f14de32a08621b88bbf81"
+filename = "User2_017_20250927_113214.hpl"
+uuid = "f75854c5-9026-41db-a234-f6a2c1a59edc"
+sha256 = "45eaed630d1a23f050e05e368f93f8ce15713daf44fca84f77b736cdcd350816"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_011004.hpl"
 uuid = "bbae6ae7-5ffa-4252-88a0-7b27e618dd87"
 sha256 = "af92b92e529392ec2d7659d29c8fad9046c086c1dfa5e457017d57868341793d"
-
-[[wind.input.files]]
-filename = "User2_017_20250927_113214.hpl"
-uuid = "f75854c5-9026-41db-a234-f6a2c1a59edc"
-sha256 = "45eaed630d1a23f050e05e368f93f8ce15713daf44fca84f77b736cdcd350816"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_095714.hpl"
@@ -113867,9 +113894,9 @@ uuid = "d0abe6e0-49a6-4f46-ab9e-eb4d7e0b784f"
 sha256 = "3935341b4e29314247baf5e527a076bdbafffdc127ac82e49b2afece8296c09d"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_072715.hpl"
-uuid = "9ff13bbd-d148-45bb-9acb-88a058c5424e"
-sha256 = "550772ced56d5ca967befb8e94bcc63b7f586de569c1e31ad29f96337e19ef05"
+filename = "User5_017_20250927_000020.hpl"
+uuid = "771837d3-d532-4600-afaa-e0cbb9fadb9f"
+sha256 = "ffc65b5f03e59302ec013df44dbb7487fa6b85c13129acc5e061e289c4532f17"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_043701.hpl"
@@ -113877,14 +113904,14 @@ uuid = "72c14d19-def2-43f2-ba45-6b5c4e97b457"
 sha256 = "7c34d03641543497369a5059af73df0cffafb1975cbfc3518040e1d2faef3431"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_000020.hpl"
-uuid = "771837d3-d532-4600-afaa-e0cbb9fadb9f"
-sha256 = "ffc65b5f03e59302ec013df44dbb7487fa6b85c13129acc5e061e289c4532f17"
+filename = "User5_017_20250927_072715.hpl"
+uuid = "9ff13bbd-d148-45bb-9acb-88a058c5424e"
+sha256 = "550772ced56d5ca967befb8e94bcc63b7f586de569c1e31ad29f96337e19ef05"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_123700.hpl"
-uuid = "f4e42d5a-d155-46db-88cb-04d0975e69cf"
-sha256 = "e21cc03fd00c880effd7949494f85da7628a75ad667de2209ce76232a4d2542a"
+filename = "User5_017_20250927_012200.hpl"
+uuid = "96f5310a-9509-40c0-aba0-54d5155971dd"
+sha256 = "e64ae25cb457df6bcd1dbce732a057509b8e77d9366f8a298d928795bc6a447f"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_100714.hpl"
@@ -113892,9 +113919,9 @@ uuid = "f017618e-aded-4e79-ba39-8d9851e2a0c5"
 sha256 = "662e0686fe435dcd787d0ff3947efc2d9ed5a20561af749fd3905aa9498845c7"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_012200.hpl"
-uuid = "96f5310a-9509-40c0-aba0-54d5155971dd"
-sha256 = "e64ae25cb457df6bcd1dbce732a057509b8e77d9366f8a298d928795bc6a447f"
+filename = "User1_017_20250927_123700.hpl"
+uuid = "f4e42d5a-d155-46db-88cb-04d0975e69cf"
+sha256 = "e21cc03fd00c880effd7949494f85da7628a75ad667de2209ce76232a4d2542a"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_070700.hpl"
@@ -113912,19 +113939,9 @@ uuid = "a765d14c-b1c7-4338-8c61-e9988432f2e9"
 sha256 = "8e94430e050c4df61ac70c07cd9cbec5be45b37515b4752c7769b4a0fbb7198d"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_003214.hpl"
-uuid = "06c49e67-dfb1-404c-8bfd-ac1e085e4362"
-sha256 = "509f8aad88933c82600f2168525acf48ad1d511af24c2c38984f9c13b0244631"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_092214.hpl"
 uuid = "8a23aa9f-bd09-4ecb-a3d0-7cdc8ae96cb0"
 sha256 = "8220ffa5e6c6e09e1af2d5def147f4c7f25673333edf0e9506b76ea0c36a33eb"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_070214.hpl"
-uuid = "84d8fa71-9b99-4e83-8d52-e9e19c01cede"
-sha256 = "00d16e452498d48efab5ffecdaab5fca7c00d7f24f4e9652507437cfbe951460"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_031215.hpl"
@@ -113932,14 +113949,19 @@ uuid = "2ac12eb5-292e-4ec6-8cdb-0cddd0994bff"
 sha256 = "95c3834194bd7acd5644330374c30bb0f7df41dd443b12c9ca4e966df2708fe3"
 
 [[wind.input.files]]
+filename = "User5_017_20250927_070214.hpl"
+uuid = "84d8fa71-9b99-4e83-8d52-e9e19c01cede"
+sha256 = "00d16e452498d48efab5ffecdaab5fca7c00d7f24f4e9652507437cfbe951460"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_003214.hpl"
+uuid = "06c49e67-dfb1-404c-8bfd-ac1e085e4362"
+sha256 = "509f8aad88933c82600f2168525acf48ad1d511af24c2c38984f9c13b0244631"
+
+[[wind.input.files]]
 filename = "User5_017_20250927_043200.hpl"
 uuid = "52c17a0d-7a32-499b-9f58-3372465b4a83"
 sha256 = "a8cb91d98a4563b0f27a5859dcb0dd6cfab8395a2bf492a9ee596049769eefb8"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_033214.hpl"
-uuid = "0968d343-abca-45c1-bb46-a3ece8b66905"
-sha256 = "4684f473589b79046b4c04dccda679bda3c53b8f2197960d7ccf677dd770cb97"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_052714.hpl"
@@ -113947,14 +113969,14 @@ uuid = "e9f3b562-fcf3-41a0-b29b-20298598746f"
 sha256 = "13e226fef71cf283381b0bbaa65ec8e8003c4c050fc2d3983fb120bf82553ecf"
 
 [[wind.input.files]]
+filename = "User5_017_20250927_033214.hpl"
+uuid = "0968d343-abca-45c1-bb46-a3ece8b66905"
+sha256 = "4684f473589b79046b4c04dccda679bda3c53b8f2197960d7ccf677dd770cb97"
+
+[[wind.input.files]]
 filename = "User1_017_20250927_105200.hpl"
 uuid = "1c5db406-e279-4d45-b7a5-1f478b4f8087"
 sha256 = "83ef8ae178ce2708d14e219029f5cc91c7f3eda9c1a758d985c805e82569dcce"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_081700.hpl"
-uuid = "9037608a-761d-43ae-8f30-6362cc688395"
-sha256 = "82c21e7ecdad807d542d5610634baa9a91a01eafe69a8d568b96bcb3d3f4f4fc"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_071714.hpl"
@@ -113967,9 +113989,19 @@ uuid = "8fcc8191-ca9b-4159-ac21-ffe38d6cc236"
 sha256 = "0b34af143c37fcffb1809ba2a3f236ce5d53bfc58f87e9baf7bc1a4340888838"
 
 [[wind.input.files]]
+filename = "User5_017_20250927_081700.hpl"
+uuid = "9037608a-761d-43ae-8f30-6362cc688395"
+sha256 = "82c21e7ecdad807d542d5610634baa9a91a01eafe69a8d568b96bcb3d3f4f4fc"
+
+[[wind.input.files]]
 filename = "User5_017_20250927_040800.hpl"
 uuid = "5030574d-0b4d-4a7f-991b-9bca2fb2abaa"
 sha256 = "f668c0c200158866fa06830aa695135bc5d43ee985c7e208c00eac37170125b7"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_040200.hpl"
+uuid = "a88516f8-b9c7-4cff-9dde-ece89c7e8fba"
+sha256 = "934ebf446e78d991b4f92989265b2b3b616f47126a168ee2bf41332495b4847b"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_093214.hpl"
@@ -113982,9 +114014,9 @@ uuid = "5bf96d5e-e1c8-4895-8da3-c3fd557db41a"
 sha256 = "a6ede8d43990d27ab0f0ae624502c4f9fda9d5c45e04fee23dadb5fb0d3eb3c4"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_040200.hpl"
-uuid = "a88516f8-b9c7-4cff-9dde-ece89c7e8fba"
-sha256 = "934ebf446e78d991b4f92989265b2b3b616f47126a168ee2bf41332495b4847b"
+filename = "User1_017_20250927_102701.hpl"
+uuid = "546a58d0-9cc1-4f5b-9cbd-277046f6937a"
+sha256 = "c0a99bc2e10355251591dc1595422cc58c1bf574dd8cca96ff52904cc73da514"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_035700.hpl"
@@ -113997,9 +114029,9 @@ uuid = "0aeb8f0b-517e-487e-baed-cda985b2792b"
 sha256 = "63cd80fce2923641370727d3a19c19f2a7b265a5ef2480844b8d97dd02874833"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_102701.hpl"
-uuid = "546a58d0-9cc1-4f5b-9cbd-277046f6937a"
-sha256 = "c0a99bc2e10355251591dc1595422cc58c1bf574dd8cca96ff52904cc73da514"
+filename = "User5_017_20250927_075714.hpl"
+uuid = "4f416032-037a-4b83-b56f-0a920de9fa71"
+sha256 = "39e869f3946d3b00e2f68fc822e97ee0ed69b5849114838490d249c6959e6ac2"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_050200.hpl"
@@ -114007,19 +114039,9 @@ uuid = "6d6df2f4-1125-4fc7-8cf4-57b6433eac89"
 sha256 = "2b2c04a49feedc21a3417a95d6a780b5825cf4c59555c83fa8890ef5c7888acf"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_075714.hpl"
-uuid = "4f416032-037a-4b83-b56f-0a920de9fa71"
-sha256 = "39e869f3946d3b00e2f68fc822e97ee0ed69b5849114838490d249c6959e6ac2"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_062214.hpl"
-uuid = "bf4ee068-49d5-4f41-a3ee-9cab966c6da4"
-sha256 = "ba856b1b14c2374d370ba0caeb718e8b57c765fea9e460f16ff014412229f13f"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_100214.hpl"
-uuid = "dff8b40c-da42-43c4-beac-ddd131948535"
-sha256 = "851263640f9c690928896aa0052bf9f218318571ce69dfcb4f40a0be25bf0f51"
+filename = "User5_017_20250927_005214.hpl"
+uuid = "ea89781b-0683-45d9-bca3-c188030db360"
+sha256 = "f12b40de3ac8dcec4c96affe4f2265d80787e5b7541bf5c48ba8e91b81aff16b"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_042300.hpl"
@@ -114027,14 +114049,14 @@ uuid = "bf506fc1-734d-420c-9db9-a1c8e4a019f5"
 sha256 = "e1336cfa82aaacb20aad5fceebca5fb5c2e8184f2168e74c16f444a4bb0c5e3f"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_005214.hpl"
-uuid = "ea89781b-0683-45d9-bca3-c188030db360"
-sha256 = "f12b40de3ac8dcec4c96affe4f2265d80787e5b7541bf5c48ba8e91b81aff16b"
+filename = "User5_017_20250927_100214.hpl"
+uuid = "dff8b40c-da42-43c4-beac-ddd131948535"
+sha256 = "851263640f9c690928896aa0052bf9f218318571ce69dfcb4f40a0be25bf0f51"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_060700.hpl"
-uuid = "367778ec-64af-4845-b220-14c50e8dce04"
-sha256 = "abf295ad5fc60df8567e9cebb3c4647a78fc8569d73394f74bd512f7512b4d06"
+filename = "User5_017_20250927_062214.hpl"
+uuid = "bf4ee068-49d5-4f41-a3ee-9cab966c6da4"
+sha256 = "ba856b1b14c2374d370ba0caeb718e8b57c765fea9e460f16ff014412229f13f"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_090800.hpl"
@@ -114045,6 +114067,11 @@ sha256 = "3f5021a8622a5cfa1b9eb51e2120e8246287fa38eb453253b40efb1f24490563"
 filename = "User5_017_20250927_064714.hpl"
 uuid = "1300a710-67a6-431a-a440-40a635dde3b4"
 sha256 = "67ff804a6c58041e9fa2abe85fc7da3eea168b15599f7cec6cfdd546a3cde7c5"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_060700.hpl"
+uuid = "367778ec-64af-4845-b220-14c50e8dce04"
+sha256 = "abf295ad5fc60df8567e9cebb3c4647a78fc8569d73394f74bd512f7512b4d06"
 
 [[wind.input.files]]
 filename = "User1_017_20250927_112200.hpl"
@@ -114067,19 +114094,14 @@ uuid = "ebe11809-fe00-4711-84ad-a417c607be2f"
 sha256 = "0e927e7d4c4053209747e10d209e7c90bf86547558d309387478fd74cc3047ab"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_023700.hpl"
-uuid = "a292a7ed-56d1-47f6-81ac-aed9dc1f3a2f"
-sha256 = "a7524f3eba8747090b1d491e716d9707f0aa4e3e52a457cffa78b730a758f938"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_111715.hpl"
 uuid = "1af64010-7c78-4d63-b746-6a18b78fe769"
 sha256 = "1c6dec9ffe3e1d055ee13b1de673201c40b825fa75b1bec96434e75a645357dd"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_044700.hpl"
-uuid = "c4fc71d3-3885-4ea6-a1d1-a3795bebc5e8"
-sha256 = "104158945f81e90a62efa6e4decdec9facbb6c4a0bca981fae61aa7c2de54f13"
+filename = "User5_017_20250927_023700.hpl"
+uuid = "a292a7ed-56d1-47f6-81ac-aed9dc1f3a2f"
+sha256 = "a7524f3eba8747090b1d491e716d9707f0aa4e3e52a457cffa78b730a758f938"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_110714.hpl"
@@ -114087,24 +114109,19 @@ uuid = "6f837309-4015-465c-a56d-dff65f074d77"
 sha256 = "4d07371dd3be6ccd0a53a93dd117c4f2632c411c83a1ae4e2e5d4c04bbb3370e"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_094701.hpl"
-uuid = "c21250b4-1a76-41d3-8105-9d4a92d77148"
-sha256 = "e7680647e8d158e1f1db7f5043ab1554aed24d0bef834fb5c6bc29c52f7f49e0"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_040214.hpl"
 uuid = "f998365d-9b27-41fb-8630-86998f205072"
 sha256 = "4173986460867ca7e3a33972cfc01a558cf94c9951c116ce5b65e484c8872916"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_084214.hpl"
-uuid = "2699791a-7b02-4735-84c2-43b792999edb"
-sha256 = "4a4c0a05085d407e95205b0ba6ec8c830113059987bee579818a0e0518d3f9c8"
+filename = "User5_017_20250927_044700.hpl"
+uuid = "c4fc71d3-3885-4ea6-a1d1-a3795bebc5e8"
+sha256 = "104158945f81e90a62efa6e4decdec9facbb6c4a0bca981fae61aa7c2de54f13"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_053215.hpl"
-uuid = "1a261cd7-72f1-4860-9be2-e29cb2640543"
-sha256 = "e684b05d473951582332d3d95f640058cc15e74ef9e97e253f74e53fc2e1ed24"
+filename = "User1_017_20250927_094701.hpl"
+uuid = "c21250b4-1a76-41d3-8105-9d4a92d77148"
+sha256 = "e7680647e8d158e1f1db7f5043ab1554aed24d0bef834fb5c6bc29c52f7f49e0"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_012700.hpl"
@@ -114112,19 +114129,14 @@ uuid = "e38c5f99-75f7-4cc7-af28-201cccd290dc"
 sha256 = "fd78746bfb3d4ace0888cafe9337de0c93949def7ca69e3ff14267287952316f"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_083715.hpl"
-uuid = "5f13027b-2e47-4265-a14c-c660bc243d97"
-sha256 = "fd691c03e905bf3d86fb1b24be87288046480f865a03c8c331947052d2101c96"
+filename = "User5_017_20250927_053215.hpl"
+uuid = "1a261cd7-72f1-4860-9be2-e29cb2640543"
+sha256 = "e684b05d473951582332d3d95f640058cc15e74ef9e97e253f74e53fc2e1ed24"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_015700.hpl"
-uuid = "771e4f4c-ad6e-4bb1-9c38-0f8d8d305ec6"
-sha256 = "cc1cb1f324020e951790bffe07e186f5eb46b009710400d9ec232f4344d0ad20"
-
-[[wind.input.files]]
-filename = "User2_017_20250927_101215.hpl"
-uuid = "d11249e2-1e4c-47e3-9329-05a973f402b1"
-sha256 = "19c4a24a0dd37066129f8da8c7a64b4359795fc5eafb3bab594657ac8981289a"
+filename = "User5_017_20250927_084214.hpl"
+uuid = "2699791a-7b02-4735-84c2-43b792999edb"
+sha256 = "4a4c0a05085d407e95205b0ba6ec8c830113059987bee579818a0e0518d3f9c8"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_104714.hpl"
@@ -114132,9 +114144,24 @@ uuid = "43628819-0de0-43ad-8e43-f4bb798b507d"
 sha256 = "d5af7dd8f0b86444eab65b24a49c8f9203a2b06a59de62ddcb0aa3fa0f815225"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_033714.hpl"
-uuid = "1e9bc6b5-ed8b-4c48-8d6c-31467f3b1b54"
-sha256 = "e642ff6389f160f7320cdbfc636166c6bb267990c2ad1266dab4eb13ce3bb689"
+filename = "User5_017_20250927_015700.hpl"
+uuid = "771e4f4c-ad6e-4bb1-9c38-0f8d8d305ec6"
+sha256 = "cc1cb1f324020e951790bffe07e186f5eb46b009710400d9ec232f4344d0ad20"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_083715.hpl"
+uuid = "5f13027b-2e47-4265-a14c-c660bc243d97"
+sha256 = "fd691c03e905bf3d86fb1b24be87288046480f865a03c8c331947052d2101c96"
+
+[[wind.input.files]]
+filename = "User2_017_20250927_101215.hpl"
+uuid = "d11249e2-1e4c-47e3-9329-05a973f402b1"
+sha256 = "19c4a24a0dd37066129f8da8c7a64b4359795fc5eafb3bab594657ac8981289a"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_004700.hpl"
+uuid = "664878a5-7f65-41c4-9ea8-08c89e817a02"
+sha256 = "23ba513b8fa387c630ea1f54d2fcb1417d910d02c3785478815aa6b7443e84cc"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_074215.hpl"
@@ -114142,9 +114169,9 @@ uuid = "0eabe7be-3cb4-4023-ba5e-a25bed6306a6"
 sha256 = "c8dc6e227bb12a8d81a6854e1b22a3baf4bd4504ff646a8d82d30294d34fd4c1"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_004700.hpl"
-uuid = "664878a5-7f65-41c4-9ea8-08c89e817a02"
-sha256 = "23ba513b8fa387c630ea1f54d2fcb1417d910d02c3785478815aa6b7443e84cc"
+filename = "User5_017_20250927_033714.hpl"
+uuid = "1e9bc6b5-ed8b-4c48-8d6c-31467f3b1b54"
+sha256 = "e642ff6389f160f7320cdbfc636166c6bb267990c2ad1266dab4eb13ce3bb689"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_041700.hpl"
@@ -114172,6 +114199,16 @@ uuid = "a2eb9860-a4bc-48df-b8da-36172199da32"
 sha256 = "d752f6d4a7c265b2168c88b581dcc986479f662b967f513766bbbb76bc3d48f5"
 
 [[wind.input.files]]
+filename = "User5_017_20250927_071004.hpl"
+uuid = "85aa8927-346d-47ab-a9fb-fed241c08deb"
+sha256 = "63ba0ac236ea726e26a327ae9e24efca8034a332ca2adacf63588bd748273cba"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_061214.hpl"
+uuid = "4989fc30-89e1-455c-95f0-2d3263561ff5"
+sha256 = "ca00624c5606f0e80ad0dbd2316adf3878969a7c8e369de9136603300538b0d4"
+
+[[wind.input.files]]
 filename = "User5_017_20250927_085200.hpl"
 uuid = "f5931def-f9ac-4157-9025-979c708145d6"
 sha256 = "14af84e8ff4b44b2485d88903cbee413c40dc7dcb194c7c8a6e93906a9252f29"
@@ -114182,14 +114219,9 @@ uuid = "3a5bd320-e28b-4fcb-a033-c1d2458a3d20"
 sha256 = "409179d825cc3cf9c115a4fd58fae4beea9b2e9563427c5db85a6011ad19d438"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_061214.hpl"
-uuid = "4989fc30-89e1-455c-95f0-2d3263561ff5"
-sha256 = "ca00624c5606f0e80ad0dbd2316adf3878969a7c8e369de9136603300538b0d4"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_071004.hpl"
-uuid = "85aa8927-346d-47ab-a9fb-fed241c08deb"
-sha256 = "63ba0ac236ea726e26a327ae9e24efca8034a332ca2adacf63588bd748273cba"
+filename = "User5_017_20250927_031004.hpl"
+uuid = "73175243-461c-4a4f-a1e9-2aa846a9ae62"
+sha256 = "08c3ba3d35b707bcb48c91fb28c29fd456d0c44074275dcc701e93361bb60ea1"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_070715.hpl"
@@ -114202,11 +114234,6 @@ uuid = "81338f4f-35c1-4601-81eb-1f7128b8aa8f"
 sha256 = "a10bd9d871c21082235c600276cbc99daac7787a96d845da9f2ba5464a1c4a98"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_031004.hpl"
-uuid = "73175243-461c-4a4f-a1e9-2aa846a9ae62"
-sha256 = "08c3ba3d35b707bcb48c91fb28c29fd456d0c44074275dcc701e93361bb60ea1"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_101714.hpl"
 uuid = "3a31afbe-21a7-4d95-b1fb-90ac76a6dffd"
 sha256 = "1d053de789393eeda1aea0accc0cec95e4bbf45a8bf6225a44359e2f940a7c87"
@@ -114217,24 +114244,9 @@ uuid = "be444c37-2f8b-4d6b-b0f0-3b95113d0fc1"
 sha256 = "c8cf715459170f07ab5e80fc181aa9da3884ce20b0595359d18f3ed237366924"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_022715.hpl"
-uuid = "c57bcdf4-dfad-4d0c-8ca5-12c313e98df3"
-sha256 = "45af2b44ef8acc48aed259db6780c3e0c1b5fa57226a4f571aed9aef197b8b16"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_083214.hpl"
 uuid = "a92333bd-e0a0-47fb-92b7-a27b44e53434"
 sha256 = "7ac176c36fbaebb1e39de3e932376d77490d60bf67fe5cb0348f9b85cc2b5e47"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_045300.hpl"
-uuid = "b56898c0-ea68-4efc-82f9-2a0ab99490d5"
-sha256 = "a300a84b9128e9aa53f1ee5925fea2781bbcc22128c3af1f9c34f95493c127fc"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_005715.hpl"
-uuid = "342317cc-4b7d-471f-a54b-fbf36e3af2c6"
-sha256 = "b524d137918eafdd389ee9dd0d0285f17d11b2b900c4201725ff9f1bedf3a7f4"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_100800.hpl"
@@ -114242,14 +114254,29 @@ uuid = "699ec58a-0fa9-4954-8d35-7c28803a4461"
 sha256 = "c826ccadd3c6c0da5acf672318801cd4d5286504c31ac067cf7203a9f0187f4a"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_084200.hpl"
-uuid = "c5204f5a-790e-4b7e-b303-b5c7ea73c272"
-sha256 = "667a2244ef78a0725a0c8854b122e4011452caf386b1929c5ab530eee65d00de"
+filename = "User5_017_20250927_005715.hpl"
+uuid = "342317cc-4b7d-471f-a54b-fbf36e3af2c6"
+sha256 = "b524d137918eafdd389ee9dd0d0285f17d11b2b900c4201725ff9f1bedf3a7f4"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_045300.hpl"
+uuid = "b56898c0-ea68-4efc-82f9-2a0ab99490d5"
+sha256 = "a300a84b9128e9aa53f1ee5925fea2781bbcc22128c3af1f9c34f95493c127fc"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_022715.hpl"
+uuid = "c57bcdf4-dfad-4d0c-8ca5-12c313e98df3"
+sha256 = "45af2b44ef8acc48aed259db6780c3e0c1b5fa57226a4f571aed9aef197b8b16"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_001200.hpl"
 uuid = "b1db2d08-b195-421d-a31f-5fdda8162655"
 sha256 = "90a0e005c31251ba8f8cdda28fd2f27120ca50a345bd0c18e8cab9869aa73e84"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_084200.hpl"
+uuid = "c5204f5a-790e-4b7e-b303-b5c7ea73c272"
+sha256 = "667a2244ef78a0725a0c8854b122e4011452caf386b1929c5ab530eee65d00de"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_071201.hpl"
@@ -114262,24 +114289,14 @@ uuid = "7d8bafa0-5e0c-41cd-b968-44b6df026fe4"
 sha256 = "6bf9eb68bff5885c2af66531852fe3e65b99adc6bc04d79ed21b75a58bd474b5"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_065200.hpl"
-uuid = "16913466-ddf6-4cc9-b6bc-ee7e4d93ff2f"
-sha256 = "04367c9dfa4411031e3e89d074b883779cd838353c09ee7ba84f4a915ce2c875"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_060715.hpl"
 uuid = "16dd0b1e-1d13-411d-b838-7631ed181abf"
 sha256 = "a933fa573c2ec5277625ac38dff95d2734ef020ad711a4913728a85258a09082"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_031700.hpl"
-uuid = "41f425dc-b6dd-432b-b621-b33e34e36976"
-sha256 = "3100eaf46e17069644560bf393cb073476b9a996fc1a7b6849ae48a2fb02d3c0"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_083701.hpl"
-uuid = "e3d11a9c-9dcc-41f4-90d6-1ed73b6897aa"
-sha256 = "bef1969cf4b0d049a5006d95a58fea82c3407135808859f29cc025bd993e7f7f"
+filename = "User5_017_20250927_065200.hpl"
+uuid = "16913466-ddf6-4cc9-b6bc-ee7e4d93ff2f"
+sha256 = "04367c9dfa4411031e3e89d074b883779cd838353c09ee7ba84f4a915ce2c875"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_010700.hpl"
@@ -114287,9 +114304,9 @@ uuid = "3bf52956-0ad3-47ce-9620-93a469255f04"
 sha256 = "eac693acd46c4e463d2464278221d3ba473423cbf2a569a05a34b9b0cfd13e5e"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_005300.hpl"
-uuid = "a4932d84-f5f1-47ee-adc1-1c63646d1464"
-sha256 = "6f742ef52ef11075a49712f303cef7ec04555bd88964014135dfc37a28a04910"
+filename = "User5_017_20250927_083701.hpl"
+uuid = "e3d11a9c-9dcc-41f4-90d6-1ed73b6897aa"
+sha256 = "bef1969cf4b0d049a5006d95a58fea82c3407135808859f29cc025bd993e7f7f"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_062715.hpl"
@@ -114297,14 +114314,24 @@ uuid = "773adb67-a5e7-4f91-a80c-cea8b0846219"
 sha256 = "c767488d3451c3fab796b82ff8248317f51323375c8ff84fd7e8e6f19a45acfc"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_095700.hpl"
-uuid = "58e53bcd-863e-4c8c-829e-30e3c917955b"
-sha256 = "9c384e943c372db16027a4412198cc83275dd5dacfbde1c642c974a2902567a9"
+filename = "User5_017_20250927_031700.hpl"
+uuid = "41f425dc-b6dd-432b-b621-b33e34e36976"
+sha256 = "3100eaf46e17069644560bf393cb073476b9a996fc1a7b6849ae48a2fb02d3c0"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_005300.hpl"
+uuid = "a4932d84-f5f1-47ee-adc1-1c63646d1464"
+sha256 = "6f742ef52ef11075a49712f303cef7ec04555bd88964014135dfc37a28a04910"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_083200.hpl"
 uuid = "f0acdefa-fbcf-477e-97d5-a8491afe3800"
 sha256 = "b21f86dcaf44d6a18455819c163bedc3e4ba3c2d71781ac5edd026d8e6b084d7"
+
+[[wind.input.files]]
+filename = "User1_017_20250927_095700.hpl"
+uuid = "58e53bcd-863e-4c8c-829e-30e3c917955b"
+sha256 = "9c384e943c372db16027a4412198cc83275dd5dacfbde1c642c974a2902567a9"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_042215.hpl"
@@ -114317,14 +114344,19 @@ uuid = "5e184daf-929d-437c-ae59-2709409162a5"
 sha256 = "c8964ef054986487f02fa1602e27bddc17680789c80e221ae988dbe927671658"
 
 [[wind.input.files]]
+filename = "User5_017_20250927_000214.hpl"
+uuid = "bf60b19a-59e3-44a6-b972-ca8ac75075a0"
+sha256 = "5ab6c889c15b3a3f5f4419356375884902a56f8259adf9c2ab74c8438e17da80"
+
+[[wind.input.files]]
 filename = "User1_017_20250927_095200.hpl"
 uuid = "cfebf0f2-14fd-41d2-ad8b-6472ecc38f68"
 sha256 = "6fa772ff815684470b6ce43239125059d21dce2c7ab667291bdaed51700c6d4f"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_000214.hpl"
-uuid = "bf60b19a-59e3-44a6-b972-ca8ac75075a0"
-sha256 = "5ab6c889c15b3a3f5f4419356375884902a56f8259adf9c2ab74c8438e17da80"
+filename = "User5_017_20250927_080701.hpl"
+uuid = "4e49973e-d540-42a1-bc06-d098496b0109"
+sha256 = "f7c33251485bf02d0fe576171101dbf7724a2f6535351ccb0926679c74e2d719"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_110214.hpl"
@@ -114342,19 +114374,9 @@ uuid = "c8190fb5-251d-4838-8f9a-dfd050a5cda2"
 sha256 = "df58ff74078d512f54e8a4633bc5a642283f3ddbecdb6c8b3d4a5704e9d96711"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_080701.hpl"
-uuid = "4e49973e-d540-42a1-bc06-d098496b0109"
-sha256 = "f7c33251485bf02d0fe576171101dbf7724a2f6535351ccb0926679c74e2d719"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_121715.hpl"
 uuid = "87e616c8-9653-415c-b0aa-65841b3af2d2"
 sha256 = "7a761ac6cd99312ef77cfca1a6743bf0056ad7fe9dee174529568e2a1501bf37"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_061700.hpl"
-uuid = "53047b95-56f3-4456-88a7-8ab0613664b2"
-sha256 = "87f1eaea19516ede8d6797891ac3936595ccd12f77cc4c58f9a881fc345150ef"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_011201.hpl"
@@ -114362,19 +114384,24 @@ uuid = "695a93c6-f230-4616-a4af-5834d63118d3"
 sha256 = "6ab32a895175aa936b76ff816ec792c035ed289c357dde740db00a210eb1d327"
 
 [[wind.input.files]]
+filename = "User5_017_20250927_061700.hpl"
+uuid = "53047b95-56f3-4456-88a7-8ab0613664b2"
+sha256 = "87f1eaea19516ede8d6797891ac3936595ccd12f77cc4c58f9a881fc345150ef"
+
+[[wind.input.files]]
 filename = "User1_017_20250927_121701.hpl"
 uuid = "04d1a43b-6301-4746-b1ea-ea6d0843a412"
 sha256 = "14c579ce02749a134704763c86bc1c0f2b809cc21695d2ff7042374e2593c5c6"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_021004.hpl"
-uuid = "4e1f4f4a-a9a2-49c5-bb33-a6b878d064ca"
-sha256 = "c654faacbd9f526a5c9cdb7f5084d7e4b0cbdc514ec7956298ac84c5a85fe777"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_071215.hpl"
 uuid = "b8c7249d-3c9c-4ef9-86cc-49066d6b4956"
 sha256 = "e2085663fb9da5879b6ba78e043735d7ce631a2153aa382107b6f6195e93f63d"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_021004.hpl"
+uuid = "4e1f4f4a-a9a2-49c5-bb33-a6b878d064ca"
+sha256 = "c654faacbd9f526a5c9cdb7f5084d7e4b0cbdc514ec7956298ac84c5a85fe777"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_062200.hpl"
@@ -114402,11 +114429,6 @@ uuid = "08bcb655-cfa3-496c-b205-2a6c27fbf98a"
 sha256 = "727ad20ec2526076cd59b3fb0c8d23b40d38a3880cf69c7668f1ba6d14c12070"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_081714.hpl"
-uuid = "29a907e3-a84f-4258-b713-f34f6465a9ad"
-sha256 = "eda9d45da55bcff08940762521bea55cf8ef1cdc3f20fefec6b8d2b5608809ea"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_065300.hpl"
 uuid = "2d91376d-9439-43b7-a500-774ec605a614"
 sha256 = "fa2b2a0910242e7709c0f514ee014202a715752f96b848d1b6bbfb07d260793d"
@@ -114417,14 +114439,19 @@ uuid = "e66fc302-d367-4396-a826-f4c1a872e6fb"
 sha256 = "b912726a739f94912168467c1685199b39731ec4b0dff76e5bd698ae4b703acb"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_060801.hpl"
-uuid = "4452c054-4025-470f-b4b4-c91df6f0a794"
-sha256 = "1fbaffaab00b25d751dfe66b0c314383a954d12edade0be4d12690ee3d893eb7"
+filename = "User5_017_20250927_081714.hpl"
+uuid = "29a907e3-a84f-4258-b713-f34f6465a9ad"
+sha256 = "eda9d45da55bcff08940762521bea55cf8ef1cdc3f20fefec6b8d2b5608809ea"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_061200.hpl"
 uuid = "57e433fb-e7fc-4c2d-9afd-3e3aea393606"
 sha256 = "cdf04e017322b5d051f1ac630b7e6a9d840fdb57424400987ff74ed1648ea9ee"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_060801.hpl"
+uuid = "4452c054-4025-470f-b4b4-c91df6f0a794"
+sha256 = "1fbaffaab00b25d751dfe66b0c314383a954d12edade0be4d12690ee3d893eb7"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_041200.hpl"
@@ -114472,14 +114499,14 @@ uuid = "250e1283-224c-48c8-9a40-2d57c9d68540"
 sha256 = "cb947cea87c688b4f88fd9ed8aacaea625dce0cc94ba84537ef73333e879a7db"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_031714.hpl"
-uuid = "b666c838-055b-4caa-bf45-33fd2cfaf62a"
-sha256 = "302705bf5b44b28b7d15d02ce05e2e9302f04a1cb7b40ffcd41c0479ee268ec7"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_023800.hpl"
 uuid = "84b33fef-d3dd-4bc4-ab15-6a343729577b"
 sha256 = "94485a62d2b5439ac4b8ca4682cd5390ca2740133424e9c8627a6135a942b2c4"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_031714.hpl"
+uuid = "b666c838-055b-4caa-bf45-33fd2cfaf62a"
+sha256 = "302705bf5b44b28b7d15d02ce05e2e9302f04a1cb7b40ffcd41c0479ee268ec7"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_090215.hpl"
@@ -114487,14 +114514,19 @@ uuid = "d951e6cf-f891-4ca6-831d-41f08144fb5b"
 sha256 = "e58efdd363ce756152e11af9152145c1862d799d3adf4b781a3e3acfc129d9ef"
 
 [[wind.input.files]]
+filename = "User1_017_20250927_103700.hpl"
+uuid = "6398a7a1-0b21-4e7b-a468-c2799468d5a3"
+sha256 = "3855ee7f1ad8aaf16ea6c1dffca7b37b10507bef143d371620d8874020310d45"
+
+[[wind.input.files]]
 filename = "User5_017_20250927_011701.hpl"
 uuid = "cef1bb03-31ee-44c2-a14f-c828b4b8b494"
 sha256 = "2d4ee47d0f83b80298bb72b0ed1f6f5c7e77d0dad729c48a45f678f44561f83d"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_103700.hpl"
-uuid = "6398a7a1-0b21-4e7b-a468-c2799468d5a3"
-sha256 = "3855ee7f1ad8aaf16ea6c1dffca7b37b10507bef143d371620d8874020310d45"
+filename = "User5_017_20250927_084715.hpl"
+uuid = "8e8045d7-fd14-4f42-a299-e899ed4cb820"
+sha256 = "00d94a7e51febf21e89c4a51aa62308a63939c87c6b73856a023137fcbccf8c7"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_075700.hpl"
@@ -114507,16 +114539,6 @@ uuid = "836bc88e-ef51-45e1-b339-784b6cbcbecc"
 sha256 = "1219a35ab9e74be88279563f64fa71000ecea10f1e083b83f58680e359522a06"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_084715.hpl"
-uuid = "8e8045d7-fd14-4f42-a299-e899ed4cb820"
-sha256 = "00d94a7e51febf21e89c4a51aa62308a63939c87c6b73856a023137fcbccf8c7"
-
-[[wind.input.files]]
-filename = "User5_017_20250927_043800.hpl"
-uuid = "cac528fa-ab96-4799-913f-e258c36a6752"
-sha256 = "76fba330c912e1d65821bf3ef61894700d4cf1011d59165cc8fa92a99cb90f26"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_103800.hpl"
 uuid = "7df2b012-ee1b-4b04-ac53-75ce318fdd07"
 sha256 = "332941cf37626f6dff1a79eb51c0b4438a828c5005ba6447c6e6e2f778e0c1dd"
@@ -114525,6 +114547,11 @@ sha256 = "332941cf37626f6dff1a79eb51c0b4438a828c5005ba6447c6e6e2f778e0c1dd"
 filename = "User1_017_20250927_112701.hpl"
 uuid = "66820a2a-12e7-432c-be2d-602ce0d226bc"
 sha256 = "369a2db2b2055a214e03930b159f1a05be8b0302570773f286d9301535f2a0dc"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_043800.hpl"
+uuid = "cac528fa-ab96-4799-913f-e258c36a6752"
+sha256 = "76fba330c912e1d65821bf3ef61894700d4cf1011d59165cc8fa92a99cb90f26"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_064700.hpl"
@@ -114542,14 +114569,14 @@ uuid = "889ef516-0122-47ea-b6b7-93d4a2d73841"
 sha256 = "e64855aa4c45f206c3a87fb3c5c799fdcf3fccdd3c409656df5060d199f447cc"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_045214.hpl"
-uuid = "cbff0648-3fef-4c6c-a02e-5d4b880604ec"
-sha256 = "cad0bee392b246af43731e0287fbd3272c05c965ab11d0a5b80f362cd84bc643"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_002301.hpl"
 uuid = "16664bc6-f0a5-42e5-902f-81c315f731bb"
 sha256 = "4c764bbfb666b19c4f5973f258201e433b38cf53d102f3c7c0af0a7d691c7874"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_045214.hpl"
+uuid = "cbff0648-3fef-4c6c-a02e-5d4b880604ec"
+sha256 = "cad0bee392b246af43731e0287fbd3272c05c965ab11d0a5b80f362cd84bc643"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_081201.hpl"
@@ -114557,14 +114584,14 @@ uuid = "b76d3bb3-c956-465f-8f63-ddb326dafded"
 sha256 = "d98c845e676773c857ef7c462b88d8ce30d7b9b867b6b022958af2d11b9df69d"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_043214.hpl"
-uuid = "524f8956-0970-479c-8120-4bf3af906a3a"
-sha256 = "cfc126de6eeb2512c3b0307dc628411a4ae29de61bfcfe54167621a77c4c4bd8"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_072701.hpl"
 uuid = "9d564760-e5f8-4b1e-a62a-fcfc78d38d15"
 sha256 = "a695f4b03467ebf5faf83b96d6b87a148cc51c439cea6a34064a72b3bc1c417b"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_043214.hpl"
+uuid = "524f8956-0970-479c-8120-4bf3af906a3a"
+sha256 = "cfc126de6eeb2512c3b0307dc628411a4ae29de61bfcfe54167621a77c4c4bd8"
 
 [[wind.input.files]]
 filename = "User2_017_20250927_112715.hpl"
@@ -114592,14 +114619,14 @@ uuid = "6ee979c7-cc54-4a38-b73c-4b6011a99d77"
 sha256 = "84afbf024c57ac833e9fa930e8278f5c2746e24f64af5e6910227cc0e390f1a2"
 
 [[wind.input.files]]
-filename = "User5_017_20250927_012214.hpl"
-uuid = "3925a862-4b1b-47b8-9ccf-67450644502e"
-sha256 = "2c89f0c793c825b2f39d39c972c491c99e486d8896af76e418fb3eeab1604076"
-
-[[wind.input.files]]
 filename = "User5_017_20250927_005200.hpl"
 uuid = "81fb182c-07f0-4767-a312-1c913c73d0ff"
 sha256 = "9833d68e8aa5888744b1a63c754a3d87fdb17f5b007e2c662a5766bfb8c5f44c"
+
+[[wind.input.files]]
+filename = "User5_017_20250927_012214.hpl"
+uuid = "3925a862-4b1b-47b8-9ccf-67450644502e"
+sha256 = "2c89f0c793c825b2f39d39c972c491c99e486d8896af76e418fb3eeab1604076"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_021700.hpl"
@@ -114642,14 +114669,14 @@ uuid = "a2f17ba4-45c0-4eab-a4d4-6e0b8c2cb0be"
 sha256 = "d5a72528cb46ac80338b379d284d8c7c9c80ae13b3236cd43de5c254f7e77229"
 
 [[wind.input.files]]
-filename = "User1_017_20250927_122201.hpl"
-uuid = "007e7d20-c0d5-452a-b739-70b05f6b4ec7"
-sha256 = "d29b547f24f1755bd8cc9b3c560f348ad315b199ca8e6dd315b78d87046d4103"
-
-[[wind.input.files]]
 filename = "User2_017_20250927_105715.hpl"
 uuid = "5e0b4964-814a-47ad-ba93-c7f312574c6a"
 sha256 = "5678bead8a4600900cb2dff3726387346d65617101eba9e408cda6ca36ecc463"
+
+[[wind.input.files]]
+filename = "User1_017_20250927_122201.hpl"
+uuid = "007e7d20-c0d5-452a-b739-70b05f6b4ec7"
+sha256 = "d29b547f24f1755bd8cc9b3c560f348ad315b199ca8e6dd315b78d87046d4103"
 
 [[wind.input.files]]
 filename = "User5_017_20250927_015714.hpl"
@@ -114713,26 +114740,27 @@ sha256 = "225edf43d9508a7299d11b9bd65d38cb3d2550ac37c5669ec2266c80b1eb022a"
 
 [wind.expect]
 height_len = 320
+mask_fraction = 0.8589743589743589
 system_id = "017"
 time_len = 39
 
 [wind.expect.meridional_wind]
 count = 12480
-mean = 0.28977064032412514
-skew = -0.20730776086739777
+mean = 0.28977064032412503
+skew = -0.20730776086739788
 var = 20.64972168471302
 
 [wind.expect.vertical_wind]
 count = 12480
 mean = -1.6129592218150155
-skew = 0.5014584581850985
+skew = 0.5014584581850982
 var = 4.494582682242682
 
 [wind.expect.zonal_wind]
 count = 12480
-mean = -0.11933988066551056
-skew = 0.11075394223034446
-var = 21.52462401481433
+mean = -0.11933988066551068
+skew = 0.11075394223034452
+var = 21.524624014814332
 
 [[wind]]
 id = "4e0d4b"
@@ -114982,25 +115010,26 @@ sha256 = "1f0ba0f5694eefb87b5b113dcc8ff442d3115404e548be4500b3a135f86dc5bb"
 
 [wind.expect]
 height_len = 250
+mask_fraction = 0.7891578947368421
 system_id = "166"
 time_len = 38
 
 [wind.expect.meridional_wind]
 count = 9500
-mean = -0.6052995838178971
-skew = 0.3155602928642505
-var = 80.85883395687395
+mean = -0.6052995838178968
+skew = 0.31556029286425064
+var = 80.85883395687392
 
 [wind.expect.vertical_wind]
 count = 9500
 mean = 1.111416945237219
-skew = 0.2750546227714976
+skew = 0.2750546227714974
 var = 13.62962324231023
 
 [wind.expect.zonal_wind]
 count = 9500
 mean = -1.033594564370879
-skew = 0.0070721557559898784
+skew = 0.007072155755989843
 var = 79.307365088826
 
 [[wind]]
@@ -115726,25 +115755,26 @@ sha256 = "4bfe458aa31ba61b138f073a10e70529b3aacdf1ad75bb29eed8b8c352bce8e2"
 
 [wind.expect]
 height_len = 333
+mask_fraction = 0.8800688800688801
 system_id = "213"
 time_len = 143
 
 [wind.expect.meridional_wind]
 count = 47619
-mean = -0.058560591228620416
+mean = -0.05856059122862059
 skew = -0.14940264490370206
-var = 200.43605513508143
+var = 200.43605513508135
 
 [wind.expect.vertical_wind]
 count = 47619
-mean = -0.7274252823327274
-skew = 0.15672504841413926
-var = 14.510168765385028
+mean = -0.7274252823327277
+skew = 0.15672504841413942
+var = 14.51016876538504
 
 [wind.expect.zonal_wind]
 count = 47619
 mean = 0.10366624007823418
-skew = -0.14505106112940372
+skew = -0.14505106112940366
 var = 199.2787259382929
 
 [[wind]]
@@ -116465,25 +116495,26 @@ sha256 = "2c7062468897126ab3a270a05307c49b25e85bf765d71ffc267f0cb2856ad6f9"
 
 [wind.expect]
 height_len = 333
+mask_fraction = 0.8944296409085142
 system_id = "213"
 time_len = 142
 
 [wind.expect.meridional_wind]
 count = 47286
-mean = -0.12337044870529752
+mean = -0.1233704487052976
 skew = -0.1045712015678157
 var = 198.94250485321703
 
 [wind.expect.vertical_wind]
 count = 47286
-mean = -0.5027110239720488
-skew = 0.07752893443541094
-var = 13.889463956911955
+mean = -0.5027110239720489
+skew = 0.07752893443541087
+var = 13.889463956911966
 
 [wind.expect.zonal_wind]
 count = 47286
-mean = 0.15636430008644167
-skew = -0.1094340197651613
+mean = 0.15636430008644173
+skew = -0.10943401976516132
 var = 199.11862241604865
 
 [[wind]]
@@ -117209,25 +117240,26 @@ sha256 = "0cc3f8871c32140c493b58a32ec8001177a94acb16e5d1423e10fabbc78298f3"
 
 [wind.expect]
 height_len = 333
+mask_fraction = 0.8307818307818308
 system_id = "213"
 time_len = 143
 
 [wind.expect.meridional_wind]
 count = 47619
-mean = -0.33965974789561304
-skew = -0.02974098818272907
-var = 168.81093455439773
+mean = -0.3396597478956131
+skew = -0.029740988182729106
+var = 168.8109345543977
 
 [wind.expect.vertical_wind]
 count = 47619
-mean = -0.3192780990153465
+mean = -0.3192780990153466
 skew = 0.20426208300949544
-var = 12.254035022952111
+var = 12.25403502295212
 
 [wind.expect.zonal_wind]
 count = 47619
-mean = 1.0761603657209755
-skew = -0.24104908057817423
+mean = 1.076160365720976
+skew = -0.24104908057817429
 var = 173.07571902887778
 
 [[wind]]
@@ -117478,26 +117510,27 @@ sha256 = "6bd0505c0cbe2826e028276514f238e8f0706da904f68ee17ec8fa939ed67c04"
 
 [wind.expect]
 height_len = 188
+mask_fraction = 0.9427083333333334
 system_id = "218"
 time_len = 48
 
 [wind.expect.meridional_wind]
 count = 8836
-mean = -0.26173664666421764
-skew = 0.06294862676020722
-var = 61.60212209216163
+mean = -0.2617366466642169
+skew = 0.06294862676020704
+var = 61.6021220921616
 
 [wind.expect.vertical_wind]
 count = 8836
-mean = -2.0666232696393347
-skew = -0.2202613664624266
-var = 3.375476355050438
+mean = -2.0666232696393343
+skew = -0.2202613664624273
+var = 3.3754763550504383
 
 [wind.expect.zonal_wind]
 count = 8836
 mean = -0.9604644411326524
-skew = 0.1008865366567792
-var = 62.206893587636046
+skew = 0.10088653665677914
+var = 62.20689358763601
 
 [[wind]]
 id = "6fm3yt"
@@ -117747,26 +117780,27 @@ sha256 = "120413f848fc587aae16a12dbc78ac42e365eecdeeb733f09fca5c093dc3cbea"
 
 [wind.expect]
 height_len = 284
+mask_fraction = 0.9201144366197184
 system_id = "197"
 time_len = 48
 
 [wind.expect.meridional_wind]
 count = 13348
-mean = -0.19772370659182972
-skew = -0.01136908031977194
+mean = -0.19772370659183017
+skew = -0.011369080319772035
 var = 614.5954407392791
 
 [wind.expect.vertical_wind]
 count = 13348
-mean = 0.5525133111074457
-skew = 0.07562691089450174
-var = 24.001767674288764
+mean = 0.5525133111074455
+skew = 0.07562691089450162
+var = 24.00176767428876
 
 [wind.expect.zonal_wind]
 count = 13348
-mean = 0.2029772522067569
-skew = -0.016741397669171484
-var = 607.0273235553639
+mean = 0.2029772522067568
+skew = -0.0167413976691715
+var = 607.0273235553638
 
 [[wind]]
 id = "sys6fp"
@@ -118016,26 +118050,27 @@ sha256 = "6d350cc962fe532aaf36775c96d70daa82720749bd4f5fcf6510bb862c50337b"
 
 [wind.expect]
 height_len = 188
+mask_fraction = 0.9348404255319148
 system_id = "218"
 time_len = 48
 
 [wind.expect.meridional_wind]
 count = 8836
-mean = 1.0472317322211766
-skew = -0.12460070392982724
-var = 63.606167330766105
+mean = 1.0472317322211773
+skew = -0.12460070392982764
+var = 63.60616733076609
 
 [wind.expect.vertical_wind]
 count = 8836
-mean = -2.1575235441419656
-skew = -0.14095052838002825
+mean = -2.157523544141966
+skew = -0.1409505283800278
 var = 2.87466737032202
 
 [wind.expect.zonal_wind]
 count = 8836
 mean = -0.9610369138929332
-skew = 0.08487784781896118
-var = 64.61890142392241
+skew = 0.08487784781896117
+var = 64.61890142392238
 
 [[wind]]
 id = "1prfs7"
@@ -118254,14 +118289,14 @@ uuid = "9f7a14ea-d3cd-484c-8469-44bf03a2ee93"
 sha256 = "32654998ffe830689866accea5c70ffae1662b4bbd02917cafefcabea13f6165"
 
 [[wind.input.files]]
-filename = "User5_32_20260518_123146.hpl"
-uuid = "5d868fd3-2f40-4579-825a-5dc335ccebf1"
-sha256 = "17bf96327752a0e3168c043b574bbd1e71d9fb1dcb089f1b64f0dc97ddc37b8e"
-
-[[wind.input.files]]
 filename = "User5_32_20260518_060150.hpl"
 uuid = "5a274d17-7271-454a-a472-980b5eb12132"
 sha256 = "35fd0d06d6e335a0c97785d29047febe81e3f9efb6358844e74b747f98529f53"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_123146.hpl"
+uuid = "5d868fd3-2f40-4579-825a-5dc335ccebf1"
+sha256 = "17bf96327752a0e3168c043b574bbd1e71d9fb1dcb089f1b64f0dc97ddc37b8e"
 
 [[wind.input.files]]
 filename = "User5_32_20260518_074648.hpl"
@@ -118609,14 +118644,14 @@ uuid = "a47311a9-c8f1-4442-a8e4-c87f1c2a6b83"
 sha256 = "1cbf1a41582615c8c6ba3876a5b584c2a1499251edec41414c9bd0b59bc9f6ed"
 
 [[wind.input.files]]
-filename = "User5_32_20260518_043010.hpl"
-uuid = "bd415fad-11e4-4b2b-9ed4-f46b6228d71f"
-sha256 = "eef67b5b8df365479a839cb8213f26a29f07194e82f372360e67551f7adaa777"
-
-[[wind.input.files]]
 filename = "User5_32_20260518_200016.hpl"
 uuid = "e482b6bd-da4d-4766-bd5a-d1c6ae1cc603"
 sha256 = "cdc0e05bff9f10053aef9928820f00ec35ecb69642d2d09c179eb4f537e3be44"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_043010.hpl"
+uuid = "bd415fad-11e4-4b2b-9ed4-f46b6228d71f"
+sha256 = "eef67b5b8df365479a839cb8213f26a29f07194e82f372360e67551f7adaa777"
 
 [[wind.input.files]]
 filename = "User5_32_20260518_010016.hpl"
@@ -118859,14 +118894,14 @@ uuid = "582cf8c7-d225-44a0-9cc3-df0dd76bc4ff"
 sha256 = "b8a0ef3051ab0a27ac8b7dd57432dfd602a0ccc95e897d311df3f60cf6b48313"
 
 [[wind.input.files]]
-filename = "User5_32_20260518_060015.hpl"
-uuid = "701b0518-9a6a-4610-8aef-80d8a3a442a2"
-sha256 = "7c443b56add1b942633b49a6c928094cab194f99123587e8b97472313bc642f2"
-
-[[wind.input.files]]
 filename = "User5_32_20260518_221510.hpl"
 uuid = "73f7c2e0-9cd5-49b0-a643-35d935a9d667"
 sha256 = "d19e93a1674fb6ce0d21f48fd684d311ea912880ae3284c76bf148a6cd226a50"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_060015.hpl"
+uuid = "701b0518-9a6a-4610-8aef-80d8a3a442a2"
+sha256 = "7c443b56add1b942633b49a6c928094cab194f99123587e8b97472313bc642f2"
 
 [[wind.input.files]]
 filename = "User5_32_20260518_220015.hpl"
@@ -119089,14 +119124,14 @@ uuid = "4370766e-30e2-4247-a589-c03ef6cfe5c2"
 sha256 = "d4ccd2c8d429884ae0eaf264df29a11f0ac39d2bd5a3a750c6ee45274fc41eaf"
 
 [[wind.input.files]]
-filename = "User5_32_20260518_015029.hpl"
-uuid = "457f506c-0f21-462c-a145-e33c7bff7d00"
-sha256 = "7f633ea644a00a9c859a286769e91e70791a2b92ade0b28c5fa552ef5e939c30"
-
-[[wind.input.files]]
 filename = "User5_32_20260518_033527.hpl"
 uuid = "9e6cb6ea-a505-4e22-94fc-e01399c51900"
 sha256 = "2e2baff2042980360543e46a0e583617b090bcaa096a37f91670ca558ecb5c0f"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_015029.hpl"
+uuid = "457f506c-0f21-462c-a145-e33c7bff7d00"
+sha256 = "7f633ea644a00a9c859a286769e91e70791a2b92ade0b28c5fa552ef5e939c30"
 
 [[wind.input.files]]
 filename = "User5_32_20260518_002028.hpl"
@@ -119439,14 +119474,14 @@ uuid = "9518decd-96e8-453f-a783-8f9ed795a6b9"
 sha256 = "48a7a5b76a3c689cae4b4d28c7c0df00bee8c0e0f28d96539624b50770d824a9"
 
 [[wind.input.files]]
-filename = "User5_32_20260518_175058.hpl"
-uuid = "1bcc3a01-e0ed-4cbb-bed0-3ba9979835e8"
-sha256 = "14a9380a3aab44576ff906f7f9c13c7256c76858ac28cbb18e5fb2753c361db1"
-
-[[wind.input.files]]
 filename = "User5_32_20260518_172057.hpl"
 uuid = "6585cdb1-2451-4c0c-8bbe-1e79d92af42b"
 sha256 = "e8626bb86d12492a23a448f6f60bd30258b478f7c286a668343c9f8a17e2e956"
+
+[[wind.input.files]]
+filename = "User5_32_20260518_175058.hpl"
+uuid = "1bcc3a01-e0ed-4cbb-bed0-3ba9979835e8"
+sha256 = "14a9380a3aab44576ff906f7f9c13c7256c76858ac28cbb18e5fb2753c361db1"
 
 [[wind.input.files]]
 filename = "User5_32_20260518_163529.hpl"
@@ -119465,25 +119500,26 @@ sha256 = "83e515b418dd57984bbff1c36e82010f30c3f0f2cfa8ef4107df6836a94c2f66"
 
 [wind.expect]
 height_len = 400
+mask_fraction = 0.8662228260869566
 system_id = "32"
 time_len = 92
 
 [wind.expect.meridional_wind]
 count = 36800
-mean = -0.2327706626362944
-skew = 0.04210690006684084
-var = 171.49973677399154
+mean = -0.2327706626362958
+skew = 0.04210690006684087
+var = 171.49973677399151
 
 [wind.expect.vertical_wind]
 count = 36800
-mean = -3.1670621272555226
+mean = -3.167062127255524
 skew = -0.13103532176188504
-var = 12.265906294247143
+var = 12.265906294247154
 
 [wind.expect.zonal_wind]
 count = 36800
-mean = -1.437674350089909
-skew = 0.1004810229978447
+mean = -1.4376743500899087
+skew = 0.10048102299784475
 var = 175.60241544173786
 
 [[wind]]
@@ -119491,11 +119527,6 @@ id = "5ncg5g"
 site = "cabauw"
 date = "2026-08-03"
 instrument_uuid = "dca88604-798e-4647-a44d-ec61ea412301"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_07-50-03_dbs_113_75m_200s.nc"
-uuid = "63990064-431d-4fa7-8b86-8e7c6b3b3e46"
-sha256 = "bce37e3c3e5844758eaf2e0c015cb4574e49ad2ebc76e973c33cd5adc365d624"
 
 [[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_09-20-02_dbs_113_75m_200s.nc"
@@ -119508,9 +119539,9 @@ uuid = "03682754-1101-4924-9245-5fb342671263"
 sha256 = "a795491080fa15c13bde29651438fd579b075da14e5644288019158c6f51fdd7"
 
 [[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_19-50-03_dbs_113_75m_200s.nc"
-uuid = "8593c662-426a-4937-9f0d-b82f13663e2b"
-sha256 = "b176f773f6340a800ae7e848a078d05c1ab710bc30e4b8f3a2a523f52d368e58"
+filename = "WLS200s-218_2026-08-03_03-20-02_dbs_113_75m_200s.nc"
+uuid = "8ddabb08-f79f-4129-abf7-f0bdff693b46"
+sha256 = "81c78e15e86ed9f3948ea470cb07f9586d71c635743f638888e89183016a6d78"
 
 [[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_01-20-02_dbs_113_75m_200s.nc"
@@ -119518,19 +119549,19 @@ uuid = "37e7b0b2-5af9-486f-8888-18554c52c78a"
 sha256 = "30c40b1eeb89105634f72ae27706b3e6c3c9fda5dfb492de526f0b276682901c"
 
 [[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_07-50-03_dbs_113_75m_200s.nc"
+uuid = "63990064-431d-4fa7-8b86-8e7c6b3b3e46"
+sha256 = "bce37e3c3e5844758eaf2e0c015cb4574e49ad2ebc76e973c33cd5adc365d624"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_19-50-03_dbs_113_75m_200s.nc"
+uuid = "8593c662-426a-4937-9f0d-b82f13663e2b"
+sha256 = "b176f773f6340a800ae7e848a078d05c1ab710bc30e4b8f3a2a523f52d368e58"
+
+[[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_07-20-02_dbs_113_75m_200s.nc"
 uuid = "924124f0-c59d-4bf1-bd57-2568447475d4"
 sha256 = "572dcc5753caa55d13cfd0086ac3137477b62f3f350970e66dd9d69d79d36d98"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_22-20-02_dbs_113_75m_200s.nc"
-uuid = "8aca73ae-ed82-4bd1-a910-caa09eba7192"
-sha256 = "106eb0b785ae12e8b4a025df53e804edd846a0da8c03bcfb59612e5c039b74a5"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_03-20-02_dbs_113_75m_200s.nc"
-uuid = "8ddabb08-f79f-4129-abf7-f0bdff693b46"
-sha256 = "81c78e15e86ed9f3948ea470cb07f9586d71c635743f638888e89183016a6d78"
 
 [[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_20-20-02_dbs_113_75m_200s.nc"
@@ -119538,34 +119569,19 @@ uuid = "5fdef826-d81f-4d4e-93d7-6a00610d8ebd"
 sha256 = "95923ed9d0d990f739798063d926c526151cc027203523bcf45fd723cd1d100a"
 
 [[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_22-20-02_dbs_113_75m_200s.nc"
+uuid = "8aca73ae-ed82-4bd1-a910-caa09eba7192"
+sha256 = "106eb0b785ae12e8b4a025df53e804edd846a0da8c03bcfb59612e5c039b74a5"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_18-50-02_dbs_113_75m_200s.nc"
+uuid = "7a506388-8705-4d17-b9be-0dec4ecc56a1"
+sha256 = "7150aa32d874f4cbcb5087578d466ebac76761c065cad8ef397d0a5571f56ebb"
+
+[[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_20-50-02_dbs_113_75m_200s.nc"
 uuid = "7a8981e1-454a-44ad-9efa-b6ae7c1daa6b"
 sha256 = "7ba1b7ae9cc6622e45d842dac26a502aebfb6c99a3cd27d324bfde2dbac7cf8b"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_08-20-02_dbs_113_75m_200s.nc"
-uuid = "a9cc324c-b8c7-43c6-8b70-16db8587b6ff"
-sha256 = "80d4d7793e4445a7eb3fd55764d5b135b18b711925b70ff0dc0efd827b85b5ae"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_08-50-02_dbs_113_75m_200s.nc"
-uuid = "826ae1cd-117e-4407-8ed6-2dc798452977"
-sha256 = "4dea7d54f23f33e64c5b8ad800ae162349c22f66c5c6d83c4aacf6782c637c91"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_23-20-02_dbs_113_75m_200s.nc"
-uuid = "0d7bf6bc-289d-4bc3-bec8-2153374af3bf"
-sha256 = "ba02159e3e391bfc52eba6f5267064a53325625be03993be0c4d5ef724dd36f9"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_02-20-02_dbs_113_75m_200s.nc"
-uuid = "91e5e641-5edc-4503-8e7c-fa8431ffe8ee"
-sha256 = "2458a5f92a9501d300c27a0b16d6cb088ac06c62358079d714b64427d66dd09f"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_17-20-02_dbs_113_75m_200s.nc"
-uuid = "3ee4cd45-594b-42d6-b435-2a88941cf308"
-sha256 = "1e7441263659094e123d0a72ec9bbe8ce0d95f93be82eb6d84990c3d7e64d785"
 
 [[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_17-50-02_dbs_113_75m_200s.nc"
@@ -119583,34 +119599,39 @@ uuid = "0541ac78-6cdf-4ca0-a20b-416e242c147a"
 sha256 = "ad9b25f05f3ed41d5939add884d4bbeb6bcc24f4e304bb807015aafafb2ec5f2"
 
 [[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_17-20-02_dbs_113_75m_200s.nc"
+uuid = "3ee4cd45-594b-42d6-b435-2a88941cf308"
+sha256 = "1e7441263659094e123d0a72ec9bbe8ce0d95f93be82eb6d84990c3d7e64d785"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_02-20-02_dbs_113_75m_200s.nc"
+uuid = "91e5e641-5edc-4503-8e7c-fa8431ffe8ee"
+sha256 = "2458a5f92a9501d300c27a0b16d6cb088ac06c62358079d714b64427d66dd09f"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_08-20-02_dbs_113_75m_200s.nc"
+uuid = "a9cc324c-b8c7-43c6-8b70-16db8587b6ff"
+sha256 = "80d4d7793e4445a7eb3fd55764d5b135b18b711925b70ff0dc0efd827b85b5ae"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_08-50-02_dbs_113_75m_200s.nc"
+uuid = "826ae1cd-117e-4407-8ed6-2dc798452977"
+sha256 = "4dea7d54f23f33e64c5b8ad800ae162349c22f66c5c6d83c4aacf6782c637c91"
+
+[[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_19-20-02_dbs_113_75m_200s.nc"
 uuid = "ae79a402-ee1f-4b81-898e-29fd428e79a3"
 sha256 = "79e1760ec2780e757f88d17aa5c98d7d1b4741baf083990ab41c663b3b2145d8"
 
 [[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_18-50-02_dbs_113_75m_200s.nc"
-uuid = "7a506388-8705-4d17-b9be-0dec4ecc56a1"
-sha256 = "7150aa32d874f4cbcb5087578d466ebac76761c065cad8ef397d0a5571f56ebb"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_09-50-02_dbs_113_75m_200s.nc"
-uuid = "99060333-55c0-43ae-9733-87dcb0547d4c"
-sha256 = "65f13e587474a97f9cf9ca454a98944ff21741a3b01ee5c6833dab54f44e5d66"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_18-20-03_dbs_113_75m_200s.nc"
-uuid = "7fef9d55-be72-4cbe-b34a-3576d2423767"
-sha256 = "f4891bcf437938c296f8819a73ebaea87b890819c1bcb9acba5c6a2768ee3e21"
+filename = "WLS200s-218_2026-08-03_23-20-02_dbs_113_75m_200s.nc"
+uuid = "0d7bf6bc-289d-4bc3-bec8-2153374af3bf"
+sha256 = "ba02159e3e391bfc52eba6f5267064a53325625be03993be0c4d5ef724dd36f9"
 
 [[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_05-20-02_dbs_113_75m_200s.nc"
 uuid = "e994046f-9d55-4e59-9112-e5e097bf6954"
 sha256 = "75b4268e8462330c05cdcaee739a7117e290e629194ddedba9426c388140e772"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_21-20-02_dbs_113_75m_200s.nc"
-uuid = "a1d459fd-a9db-40a9-a3a1-ec2a345e46f1"
-sha256 = "5fcd247d4e763b56e3bbe204ae57d6c5c26d06005f05c561f231dc9573a0f508"
 
 [[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_00-50-02_dbs_113_75m_200s.nc"
@@ -119623,19 +119644,19 @@ uuid = "86843700-0241-4a01-9bdf-be261b0b9fa3"
 sha256 = "084afff9cba410d3158c9fe7f1b33608a73450ea5ee205743bd66fe26049ae43"
 
 [[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_12-50-02_dbs_113_75m_200s.nc"
-uuid = "eb004bcf-9b84-4ac8-bfba-d70802f2f710"
-sha256 = "0b2c545aa6a87eb2cca30534d44d0da8f2dcefc0d25d641c769899e954852206"
+filename = "WLS200s-218_2026-08-03_09-50-02_dbs_113_75m_200s.nc"
+uuid = "99060333-55c0-43ae-9733-87dcb0547d4c"
+sha256 = "65f13e587474a97f9cf9ca454a98944ff21741a3b01ee5c6833dab54f44e5d66"
 
 [[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_01-50-02_dbs_113_75m_200s.nc"
-uuid = "6714efe0-d64b-4932-adb8-05fe01601d5d"
-sha256 = "3517706c598f918afb35dfdaed191d7b3df8f4dfada34a3f2e6281b21c8c96f9"
+filename = "WLS200s-218_2026-08-03_18-20-03_dbs_113_75m_200s.nc"
+uuid = "7fef9d55-be72-4cbe-b34a-3576d2423767"
+sha256 = "f4891bcf437938c296f8819a73ebaea87b890819c1bcb9acba5c6a2768ee3e21"
 
 [[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_16-50-02_dbs_113_75m_200s.nc"
-uuid = "27bb4815-0b27-422e-bd13-09c2585d1725"
-sha256 = "b4b91c66eb13f734252379c6cc7f9f51a41b6aab161aa0e7e60828f8b01381e0"
+filename = "WLS200s-218_2026-08-03_21-20-02_dbs_113_75m_200s.nc"
+uuid = "a1d459fd-a9db-40a9-a3a1-ec2a345e46f1"
+sha256 = "5fcd247d4e763b56e3bbe204ae57d6c5c26d06005f05c561f231dc9573a0f508"
 
 [[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_15-20-03_dbs_113_75m_200s.nc"
@@ -119643,29 +119664,14 @@ uuid = "f14183fb-8b2b-4902-8a10-8e0c97b339cd"
 sha256 = "b05c86818c029410d43356b687b33e5cca157e0b721817c4fb1a3ade4bc47f11"
 
 [[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_02-50-02_dbs_113_75m_200s.nc"
-uuid = "1b84b20b-3770-4bbb-98d2-7b660c8a0d84"
-sha256 = "9ef3b9b2f3c0196bc07fc9337267e5fc10f160d7231902c41494af6d92124be6"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_10-50-02_dbs_113_75m_200s.nc"
-uuid = "15cb73d1-9805-496a-adb3-3e873cf80b9e"
-sha256 = "4f47c1836c231efab900460e16e03a81b17e88cc0ac8b2c89af93160d1437dfd"
+filename = "WLS200s-218_2026-08-03_01-50-02_dbs_113_75m_200s.nc"
+uuid = "6714efe0-d64b-4932-adb8-05fe01601d5d"
+sha256 = "3517706c598f918afb35dfdaed191d7b3df8f4dfada34a3f2e6281b21c8c96f9"
 
 [[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_03-50-03_dbs_113_75m_200s.nc"
 uuid = "5fe3d0d7-ccd9-4eda-8d07-48bdddde1f11"
 sha256 = "9417d55c3d5840ae783907bf1411885c51e937219b3e82472dc11d1c10d3bce2"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_11-20-02_dbs_113_75m_200s.nc"
-uuid = "e8d146f4-905a-4357-ac0a-79eb910ad5b0"
-sha256 = "99f86cacabb5b8f1a5b8bb4e54b883973a4f1d5f0f001a806460d3d981d50e64"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_10-20-02_dbs_113_75m_200s.nc"
-uuid = "a5ee0e4a-cf8a-4619-b151-6fa404f00e05"
-sha256 = "f682e8ae40e5d7c8e8c380bb5ebe4cc3733350611f70e819664341d16d238149"
 
 [[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_21-50-02_dbs_113_75m_200s.nc"
@@ -119678,9 +119684,34 @@ uuid = "5d801031-b486-43f1-b882-019996df1b9e"
 sha256 = "0317c0ba64556c70d2824fb600c55df962ed9a8ca368f229bb228e928b56bbef"
 
 [[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_22-50-02_dbs_113_75m_200s.nc"
-uuid = "f15dc46f-5852-4bad-af7b-4c2f9c9b4bc8"
-sha256 = "2d1ab9eb280f47ad1bdd3502930121233fa4080fb2a7b5e91d54226fe082708f"
+filename = "WLS200s-218_2026-08-03_10-20-02_dbs_113_75m_200s.nc"
+uuid = "a5ee0e4a-cf8a-4619-b151-6fa404f00e05"
+sha256 = "f682e8ae40e5d7c8e8c380bb5ebe4cc3733350611f70e819664341d16d238149"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_10-50-02_dbs_113_75m_200s.nc"
+uuid = "15cb73d1-9805-496a-adb3-3e873cf80b9e"
+sha256 = "4f47c1836c231efab900460e16e03a81b17e88cc0ac8b2c89af93160d1437dfd"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_12-50-02_dbs_113_75m_200s.nc"
+uuid = "eb004bcf-9b84-4ac8-bfba-d70802f2f710"
+sha256 = "0b2c545aa6a87eb2cca30534d44d0da8f2dcefc0d25d641c769899e954852206"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_16-50-02_dbs_113_75m_200s.nc"
+uuid = "27bb4815-0b27-422e-bd13-09c2585d1725"
+sha256 = "b4b91c66eb13f734252379c6cc7f9f51a41b6aab161aa0e7e60828f8b01381e0"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_11-20-02_dbs_113_75m_200s.nc"
+uuid = "e8d146f4-905a-4357-ac0a-79eb910ad5b0"
+sha256 = "99f86cacabb5b8f1a5b8bb4e54b883973a4f1d5f0f001a806460d3d981d50e64"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_02-50-02_dbs_113_75m_200s.nc"
+uuid = "1b84b20b-3770-4bbb-98d2-7b660c8a0d84"
+sha256 = "9ef3b9b2f3c0196bc07fc9337267e5fc10f160d7231902c41494af6d92124be6"
 
 [[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_16-20-02_dbs_113_75m_200s.nc"
@@ -119688,34 +119719,19 @@ uuid = "225e9346-4430-45ce-9fb2-005c9155957c"
 sha256 = "5914e82944342d5d18972beb93681b33cfd511bdc9bcae0973d88028ce793784"
 
 [[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_22-50-02_dbs_113_75m_200s.nc"
+uuid = "f15dc46f-5852-4bad-af7b-4c2f9c9b4bc8"
+sha256 = "2d1ab9eb280f47ad1bdd3502930121233fa4080fb2a7b5e91d54226fe082708f"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_13-50-02_dbs_113_75m_200s.nc"
+uuid = "d92586a7-33ec-42bb-91be-54f680c2790d"
+sha256 = "bfcd260885e5b3a8aad43bbef7d8c5a0d4feead32e7ee879531fd7d0158f1b0c"
+
+[[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_12-20-03_dbs_113_75m_200s.nc"
 uuid = "da860e4d-0ca6-4afe-afbe-40512ae0a19c"
 sha256 = "60f56018e02f30074b26627969a4877f003e2642bad5ac5d6d6f0a73d55016f2"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_04-50-02_dbs_113_75m_200s.nc"
-uuid = "eaa72001-7d9b-4ede-92fb-7bd36e3dcf55"
-sha256 = "100a2ef9d6fe462e372e39c66eb154b7b44b4cbf064a13d59e9bfeae18f8a88e"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_14-50-02_dbs_113_75m_200s.nc"
-uuid = "6708e15f-3b87-432f-b0ae-b1dcf62d942d"
-sha256 = "114f07217ff27339f0bcacf0a5bbd0ce69a1bc53a630def7911f349b887bf152"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_13-20-03_dbs_113_75m_200s.nc"
-uuid = "6d38be53-cfce-468e-8633-2fc1e2a45c65"
-sha256 = "85978867ff900c08930ca78c0d172b3f9a22e81c751a17336160bb942605e907"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_11-50-02_dbs_113_75m_200s.nc"
-uuid = "e51fd935-aa6c-451a-89b6-b20636f06b50"
-sha256 = "76587622b6d5e707299ecad6ccb343ffe870cd4a75e12a9de96dee5bd1223f71"
-
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_14-20-02_dbs_113_75m_200s.nc"
-uuid = "79c6c99f-df41-4ea9-be0f-41df5163b574"
-sha256 = "b013d844febaccdec8c11eca8f61e07426b4a0434122d1ba5115ee81464f90cd"
 
 [[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_05-50-02_dbs_113_75m_200s.nc"
@@ -119723,23 +119739,44 @@ uuid = "9012818a-d449-442e-9fe8-62a6eafa4a69"
 sha256 = "1ca2e8766ee5f841e6ca23934702002c239795ac1d1e75b4096a3129dc2c7687"
 
 [[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_14-50-02_dbs_113_75m_200s.nc"
+uuid = "6708e15f-3b87-432f-b0ae-b1dcf62d942d"
+sha256 = "114f07217ff27339f0bcacf0a5bbd0ce69a1bc53a630def7911f349b887bf152"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_04-50-02_dbs_113_75m_200s.nc"
+uuid = "eaa72001-7d9b-4ede-92fb-7bd36e3dcf55"
+sha256 = "100a2ef9d6fe462e372e39c66eb154b7b44b4cbf064a13d59e9bfeae18f8a88e"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_13-20-03_dbs_113_75m_200s.nc"
+uuid = "6d38be53-cfce-468e-8633-2fc1e2a45c65"
+sha256 = "85978867ff900c08930ca78c0d172b3f9a22e81c751a17336160bb942605e907"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_14-20-02_dbs_113_75m_200s.nc"
+uuid = "79c6c99f-df41-4ea9-be0f-41df5163b574"
+sha256 = "b013d844febaccdec8c11eca8f61e07426b4a0434122d1ba5115ee81464f90cd"
+
+[[wind.input.files]]
+filename = "WLS200s-218_2026-08-03_11-50-02_dbs_113_75m_200s.nc"
+uuid = "e51fd935-aa6c-451a-89b6-b20636f06b50"
+sha256 = "76587622b6d5e707299ecad6ccb343ffe870cd4a75e12a9de96dee5bd1223f71"
+
+[[wind.input.files]]
 filename = "WLS200s-218_2026-08-03_15-50-02_dbs_113_75m_200s.nc"
 uuid = "b67818ba-615f-4e9b-837c-3f31d2629e70"
 sha256 = "791bad24a936a7373d8699c7b28ae2542964b57353189dc91a5260e92b9edff5"
 
-[[wind.input.files]]
-filename = "WLS200s-218_2026-08-03_13-50-02_dbs_113_75m_200s.nc"
-uuid = "d92586a7-33ec-42bb-91be-54f680c2790d"
-sha256 = "bfcd260885e5b3a8aad43bbef7d8c5a0d4feead32e7ee879531fd7d0158f1b0c"
-
 [wind.expect]
 height_len = 188
+mask_fraction = 0.7709441489361702
 system_id = "218"
 time_len = 48
 
 [wind.expect.meridional_wind]
 count = 8836
-mean = 2.462250806841194
+mean = 2.462250806841195
 skew = -0.3519786588061438
 var = 49.97566404408552
 
@@ -119747,13 +119784,13 @@ var = 49.97566404408552
 count = 8836
 mean = -1.578529949709962
 skew = -0.5209566900105552
-var = 2.902147948445529
+var = 2.9021479484455295
 
 [wind.expect.zonal_wind]
 count = 8836
-mean = 1.8388814482639189
-skew = -0.03533503137876367
-var = 53.39694288503461
+mean = 1.8388814482639184
+skew = -0.03533503137876371
+var = 53.39694288503459
 
 [[wind]]
 id = "n009jp"
@@ -120373,26 +120410,27 @@ sha256 = "0163ac28e12917a6b9ea6849d52ab747067dd0cb18776d9c30c77f0ac063d016"
 
 [wind.expect]
 height_len = 188
+mask_fraction = 0.9465007912783542
 system_id = "218"
 time_len = 121
 
 [wind.expect.meridional_wind]
 count = 22748
-mean = -0.42538812482709126
-skew = 0.06046945571601204
+mean = -0.4253881248270918
+skew = 0.06046945571601186
 var = 110.6722891410284
 
 [wind.expect.vertical_wind]
 count = 22748
 mean = -2.915401884323088
-skew = 0.033727240865908586
+skew = 0.0337272408659085
 var = 4.558274298261465
 
 [wind.expect.zonal_wind]
 count = 22748
-mean = -0.16863729446912556
-skew = 0.10757730937370429
-var = 111.77582545723448
+mean = -0.16863729446912545
+skew = 0.10757730937370442
+var = 111.7758254572344
 
 [[wind]]
 id = "gc1vau"
@@ -134122,26 +134160,27 @@ sha256 = "cbe582d53827b7c0d1579d5759d4da6b47b2fdac924c39f4d37fd95ff3ff2428"
 
 [wind.expect]
 height_len = 140
+mask_fraction = 0.9304475170193678
 system_id = "218"
 time_len = 2707
 
 [wind.expect.meridional_wind]
 count = 378700
 mean = 0.960453063900858
-skew = -0.04451727082760155
-var = 2224.290477790776
+skew = -0.044517270827601575
+var = 2224.2904777907747
 
 [wind.expect.vertical_wind]
 count = 378700
 mean = -1.968531752358378
-skew = -0.031207215308909516
-var = 84.01651002432554
+skew = -0.03120721530890945
+var = 84.01651002432556
 
 [wind.expect.zonal_wind]
 count = 378700
-mean = 0.3947316328957626
-skew = -0.01896830480360779
-var = 2304.0843905208817
+mean = 0.3947316328957627
+skew = -0.01896830480360837
+var = 2304.0843905208826
 
 [[wind]]
 id = "hl9i95"
@@ -145356,26 +145395,27 @@ sha256 = "4830fa3fad8b816e909b225cced8ddaab9c304b77555fa0388da71c91374eeaa"
 
 [wind.expect]
 height_len = 159
+mask_fraction = 0.8273092369477911
 system_id = "218"
 time_len = 1494
 
 [wind.expect.meridional_wind]
 count = 237546
-mean = 1.4481699781626294
-skew = -0.10270621307782316
-var = 2007.2798271077304
+mean = 1.4481699781626285
+skew = -0.10270621307782311
+var = 2007.2798271077284
 
 [wind.expect.vertical_wind]
 count = 237546
 mean = -1.2671139001885443
-skew = -0.07285343010279748
-var = 78.30947905585731
+skew = -0.0728534301027975
+var = 78.30947905585734
 
 [wind.expect.zonal_wind]
 count = 237546
 mean = 2.4253950528280113
-skew = -0.1366539015250967
-var = 2110.864452952857
+skew = -0.13665390152509685
+var = 2110.8644529528556
 
 [[wind]]
 id = "qvw4k4"
@@ -145625,26 +145665,27 @@ sha256 = "326f3e6ccb11bc8966bbb24adc0ddbcab5bd26442537903163fd0f2013560f00"
 
 [wind.expect]
 height_len = 250
+mask_fraction = 0.9942127659574468
 system_id = "243"
 time_len = 47
 
 [wind.expect.meridional_wind]
 count = 11750
-mean = -0.4168591376576893
-skew = -0.13436346520831627
+mean = -0.41685913765769056
+skew = -0.1343634652083163
 var = 98.92264356291254
 
 [wind.expect.vertical_wind]
 count = 11750
-mean = -3.4764011017016525
-skew = -0.6559673305420537
-var = 7.548209616152175
+mean = -3.476401101701652
+skew = -0.6559673305420541
+var = 7.548209616152174
 
 [wind.expect.zonal_wind]
 count = 11750
-mean = -0.2285671170106039
-skew = -0.1718405425486222
-var = 126.91142731092404
+mean = -0.2285671170106042
+skew = -0.17184054254862238
+var = 126.91142731092398
 
 [[wind]]
 id = "fosq5k"
@@ -146648,14 +146689,14 @@ uuid = "9b488af4-9dc4-4df6-8792-94ff9d129770"
 sha256 = "ca740cf9a49ad314dc511cd0993db416baaac6f7f8965202d4acc15a52b92d8a"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_09-44-26_dbs_264_50m.nc.gz"
-uuid = "2cf8de2e-3271-48f5-b864-f9ef9f3e8f3d"
-sha256 = "67e11b7d180be51175ec016289da4d2c0fc309087227d6748ce34c84685d2c62"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_02-04-29_dbs_264_50m.nc.gz"
 uuid = "5c755c13-7169-4fdc-ac8a-481694bd2ba2"
 sha256 = "ef5a5d55ca63cfeef4ba5095fb2f74a8de5cc2aa87714ffc81bca33d39bfcef2"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_09-44-26_dbs_264_50m.nc.gz"
+uuid = "2cf8de2e-3271-48f5-b864-f9ef9f3e8f3d"
+sha256 = "67e11b7d180be51175ec016289da4d2c0fc309087227d6748ce34c84685d2c62"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_03-44-29_dbs_264_50m.nc.gz"
@@ -146853,14 +146894,14 @@ uuid = "a2f97646-96d9-446c-a33e-6c01964b4d0c"
 sha256 = "91a7da9e577468967edde3ffce0078723f89d24e31a7f0cd0d60ee2cfeb87fdc"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_07-44-28_dbs_264_50m.nc.gz"
-uuid = "d9e15dd5-1351-4e9f-949c-13052ef66ed8"
-sha256 = "9d50fbcae9d1adb33ae25d49007187d993a1dbe27dc2932a27730d42aff44527"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_12-07-16_dbs_264_50m.nc.gz"
 uuid = "7e78385b-4f44-4416-80a0-b66b10797214"
 sha256 = "3fa9bbc7a2ab96215d68004d09425b016a49f88c099f0d661518906fa2ef7ff5"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_07-44-28_dbs_264_50m.nc.gz"
+uuid = "d9e15dd5-1351-4e9f-949c-13052ef66ed8"
+sha256 = "9d50fbcae9d1adb33ae25d49007187d993a1dbe27dc2932a27730d42aff44527"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_12-37-16_dbs_264_50m.nc.gz"
@@ -146958,24 +146999,24 @@ uuid = "3a4119c4-4b86-4b17-a9e6-72965e018d39"
 sha256 = "eb212ecbc4f72bdb3a03dbf79ed6906ebd564c2b5c88872f77d2f7b2ab2b583b"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_13-57-15_dbs_264_50m.nc.gz"
-uuid = "11615df3-8076-4af0-bd8e-283d5ffc896f"
-sha256 = "9cbf8f871decb75098c718a1c79fc9fd4c5652f1887f8bf89dc03b34f8240055"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_10-34-28_dbs_264_50m.nc.gz"
 uuid = "91c33f87-bc9f-4677-a534-e13f21a8dba5"
 sha256 = "bef3211ff680f41b88c36174c49237f568a8d3342ab34b631a7a4166d47a46ac"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_10-54-28_dbs_264_50m.nc.gz"
-uuid = "2736acbf-c3f3-4270-9e69-c1d2bfe4d64d"
-sha256 = "805e0fab5ddb1e6f32522d7fbb317b9ad0d7a4154188bf30f17feb81ac5548c6"
+filename = "WLS200S-197_2021-11-24_13-57-15_dbs_264_50m.nc.gz"
+uuid = "11615df3-8076-4af0-bd8e-283d5ffc896f"
+sha256 = "9cbf8f871decb75098c718a1c79fc9fd4c5652f1887f8bf89dc03b34f8240055"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_09-07-16_dbs_264_50m.nc.gz"
 uuid = "0ffa2b73-789f-4649-ad12-8feaa7a27d23"
 sha256 = "55d008f24aba98aae4f6bd20e2ed657aa8a1ea70867c5e0e0dc81171160719d3"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_10-54-28_dbs_264_50m.nc.gz"
+uuid = "2736acbf-c3f3-4270-9e69-c1d2bfe4d64d"
+sha256 = "805e0fab5ddb1e6f32522d7fbb317b9ad0d7a4154188bf30f17feb81ac5548c6"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_02-37-15_dbs_264_50m.nc.gz"
@@ -147003,14 +147044,14 @@ uuid = "373be639-6204-4ec9-8f3d-0194f7e4792f"
 sha256 = "a5b074baf695a827bfa8afa5d5144b951f23e33338d86d9a32a5676c3250cbee"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_11-44-28_dbs_264_50m.nc.gz"
-uuid = "a230e4dd-8902-451d-a684-3d9fd3d5a6da"
-sha256 = "1c51900e2a25f64f5172da3058988ab14f9a9929a074ba53535fb1d5e08a5e44"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_06-54-29_dbs_264_50m.nc.gz"
 uuid = "3538be4e-e57e-45bd-98a6-1a31c8cffbb0"
 sha256 = "0b71ac91f539cbb741a95a6e3101b4d296f4b9d58afe64cea43679f6f5dfdf51"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_11-44-28_dbs_264_50m.nc.gz"
+uuid = "a230e4dd-8902-451d-a684-3d9fd3d5a6da"
+sha256 = "1c51900e2a25f64f5172da3058988ab14f9a9929a074ba53535fb1d5e08a5e44"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_07-37-15_dbs_264_50m.nc.gz"
@@ -147068,14 +147109,14 @@ uuid = "6735f63b-81e4-4dfa-b089-6ae8cd21f4bb"
 sha256 = "aab5e62aee28536d2c7c7ffaba2bdaae94556290250f67e45ae95570184f6580"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_16-17-15_dbs_264_50m.nc.gz"
-uuid = "79af3eed-56e9-42d8-aa1b-83c1b9463593"
-sha256 = "08fa7f7aa3c6d9f23818d7fe0d828bbe858ea07e151ffbb138d91b4d5fdd199d"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_08-17-16_dbs_264_50m.nc.gz"
 uuid = "dc27f658-4366-40ce-8e61-6b8f10ba1135"
 sha256 = "c4a7e1e7f60b3d9a5e7a524bb763bd71e02f33878580bfb1f19a31580121d149"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_16-17-15_dbs_264_50m.nc.gz"
+uuid = "79af3eed-56e9-42d8-aa1b-83c1b9463593"
+sha256 = "08fa7f7aa3c6d9f23818d7fe0d828bbe858ea07e151ffbb138d91b4d5fdd199d"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_10-44-27_dbs_264_50m.nc.gz"
@@ -147118,14 +147159,14 @@ uuid = "56821f8c-030c-4e3c-91f3-b25a214fc635"
 sha256 = "dd70b8ba6b4105e44c43245c05e6bff129e500ab0d7df188edb2e0c27116a566"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_04-17-16_dbs_264_50m.nc.gz"
-uuid = "da426939-626d-4fd1-93f4-87270ed1dda8"
-sha256 = "05f7850388a326a46deec402aa89857d0f276ce2d7be84537ae21d09369c712c"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_15-47-15_dbs_264_50m.nc.gz"
 uuid = "cacf386a-b4e4-4377-a439-a7ae9ea543ac"
 sha256 = "bdb1c76848a2d232c9ef2863733ae6d4fed8dfda21cd4ffb57813efa0a810910"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_04-17-16_dbs_264_50m.nc.gz"
+uuid = "da426939-626d-4fd1-93f4-87270ed1dda8"
+sha256 = "05f7850388a326a46deec402aa89857d0f276ce2d7be84537ae21d09369c712c"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_14-27-16_dbs_264_50m.nc.gz"
@@ -147358,24 +147399,24 @@ uuid = "bfffe2ec-ff5b-45ea-b6be-8f1d43eacc95"
 sha256 = "27575fa6a5d7c89fdf89372bc0c7695534cec1f0124c4fb7690d8296dff4f054"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_20-04-29_dbs_264_50m.nc.gz"
-uuid = "b484320a-46ff-4442-bb5d-87eb77d0b730"
-sha256 = "b062d5285319a8699e1e6e8ff9d0f2d4a3167cff265d55a6e4f231593f8309fb"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_18-04-29_dbs_264_50m.nc.gz"
 uuid = "fe73260f-cf11-40b1-aaab-3c7c270edb3b"
 sha256 = "679ecbc71bd98ce13186b72dcc2511d88e1ae9bd2d2dbe2c8a48acf97f0a477d"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_14-14-28_dbs_264_50m.nc.gz"
-uuid = "4c4a18e2-681b-456b-9ad9-2f3c25057e6d"
-sha256 = "ee5846dea33260cb036f4aaba43c4962b0959c9f1d28d861d354a3363c0721bc"
+filename = "WLS200S-197_2021-11-24_20-04-29_dbs_264_50m.nc.gz"
+uuid = "b484320a-46ff-4442-bb5d-87eb77d0b730"
+sha256 = "b062d5285319a8699e1e6e8ff9d0f2d4a3167cff265d55a6e4f231593f8309fb"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_15-37-16_dbs_264_50m.nc.gz"
 uuid = "03095eb2-622f-434f-8657-3a105c94255d"
 sha256 = "4a5c19ceaec05fcc7608363ecc98427abbb2c0173f08e739ba33b97687d41dda"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_14-14-28_dbs_264_50m.nc.gz"
+uuid = "4c4a18e2-681b-456b-9ad9-2f3c25057e6d"
+sha256 = "ee5846dea33260cb036f4aaba43c4962b0959c9f1d28d861d354a3363c0721bc"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_20-17-16_dbs_264_50m.nc.gz"
@@ -147903,14 +147944,14 @@ uuid = "46f14087-75dc-4721-b44c-b8ec5de5d084"
 sha256 = "82e5687f3c5954d3c5478857708226c6da58d0ab335d59d7e2f4ef64d7048e1d"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_08-40-13_dbs_264_50m.nc.gz"
-uuid = "7a855f21-1d5a-46b0-8ff0-9b0b4ce3bc0e"
-sha256 = "2bc99e3ed9244ee60c43edcbd88101c58c052fceaebfe2765c10ad6aedeb1664"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_15-50-13_dbs_264_50m.nc.gz"
 uuid = "05d528b2-39ae-4e4a-872d-fb87aa9a654c"
 sha256 = "46052c60a79e3826b5b29f95ef00e4295d244f37f56db84507147f195708b31c"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_08-40-13_dbs_264_50m.nc.gz"
+uuid = "7a855f21-1d5a-46b0-8ff0-9b0b4ce3bc0e"
+sha256 = "2bc99e3ed9244ee60c43edcbd88101c58c052fceaebfe2765c10ad6aedeb1664"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_02-30-13_dbs_264_50m.nc.gz"
@@ -148003,14 +148044,14 @@ uuid = "4321db3f-0e2d-4352-9990-1212bf4b6076"
 sha256 = "9c4079e71b090c2e8f7c3cd337580240f077b9aa5873fb981413f6b270da245c"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_08-50-13_dbs_264_50m.nc.gz"
-uuid = "6ebbee4a-138b-41bc-bca4-f54b665e09dc"
-sha256 = "c2e7cdcf3f15a7ce77a74d73469f05f656b9003c3183937227133b78ceadf8de"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_08-00-13_dbs_264_50m.nc.gz"
 uuid = "ec839be5-d8f3-41f8-a694-68362665efe0"
 sha256 = "94c798b1d66b07408fc90eb78173261f60763bcc402e9ed8632dd8b1640ba496"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_08-50-13_dbs_264_50m.nc.gz"
+uuid = "6ebbee4a-138b-41bc-bca4-f54b665e09dc"
+sha256 = "c2e7cdcf3f15a7ce77a74d73469f05f656b9003c3183937227133b78ceadf8de"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_03-00-13_dbs_264_50m.nc.gz"
@@ -148018,14 +148059,14 @@ uuid = "b7b702a7-8302-472d-b82a-1eb5fcfe16c9"
 sha256 = "76e76b052e521830256d9b73400ec5ad385aaf3a76e57eac9e6cf0b3b3e155c9"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_09-40-14_dbs_264_50m.nc.gz"
-uuid = "a2d1f1af-1620-4f41-8322-0074a48b88af"
-sha256 = "f86b227fff82c6f13ed41e3c298f8f01e6c2afa72881e89b32f97986d067d859"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_12-50-13_dbs_264_50m.nc.gz"
 uuid = "f65aa098-4d47-463f-874d-3d84b66a85d1"
 sha256 = "9288cef569ace2bbfefe004e5de97004e5a380fcaee282fc3505cf774ee3dcc9"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_09-40-14_dbs_264_50m.nc.gz"
+uuid = "a2d1f1af-1620-4f41-8322-0074a48b88af"
+sha256 = "f86b227fff82c6f13ed41e3c298f8f01e6c2afa72881e89b32f97986d067d859"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_03-20-14_dbs_264_50m.nc.gz"
@@ -148048,14 +148089,14 @@ uuid = "e6d24d82-3331-4a04-b8c5-386a473f5daa"
 sha256 = "2b0ca51072bc491bf92dd55bf6d738c5eb090a364679140805d39516c698c63b"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_08-10-13_dbs_264_50m.nc.gz"
-uuid = "2b202faa-84be-4e19-a351-47b43904a6cc"
-sha256 = "968b4d4aeffec6e6508fed6304753dfc491c14c6fc2e8828e863034fa670fbf5"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_21-50-14_dbs_264_50m.nc.gz"
 uuid = "52c7333a-9a1c-408d-9d75-431c25dd806a"
 sha256 = "b9cbcd23d294bd56344627600c0fa7b0c6338099ea842b6605f7aa94fa006085"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_08-10-13_dbs_264_50m.nc.gz"
+uuid = "2b202faa-84be-4e19-a351-47b43904a6cc"
+sha256 = "968b4d4aeffec6e6508fed6304753dfc491c14c6fc2e8828e863034fa670fbf5"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_19-40-13_dbs_264_50m.nc.gz"
@@ -148198,14 +148239,14 @@ uuid = "d9a8c0be-6abe-489b-b5d7-77d6b0f539a7"
 sha256 = "c2d5cd29857216a35dc48a2b970c1a56507512dab79803cbd6476a54bbeafdce"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_15-10-14_dbs_264_50m.nc.gz"
-uuid = "d784493a-c688-4cd1-b280-3e78415e3040"
-sha256 = "91040d058e953e4939bf8271e4ec36a22811f77d29029d0fb94ce4740cc9c436"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_20-30-13_dbs_264_50m.nc.gz"
 uuid = "63d29301-8867-4d4d-901e-c20f255a5cba"
 sha256 = "8821353638b02f4da8db67de78d6c6392c07f3dbb7bd6a051fdc7126f38fb2f1"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_15-10-14_dbs_264_50m.nc.gz"
+uuid = "d784493a-c688-4cd1-b280-3e78415e3040"
+sha256 = "91040d058e953e4939bf8271e4ec36a22811f77d29029d0fb94ce4740cc9c436"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_20-20-14_dbs_264_50m.nc.gz"
@@ -148848,14 +148889,14 @@ uuid = "b72af8a9-1c5c-4ffe-a485-ba0a981eba3a"
 sha256 = "f37a96cbdd0fe3d61aacd231f220b6c4b595e3931f4eaed6693524fa416d4050"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_14-36-03_dbs_287_50m.nc.gz"
-uuid = "123c195c-600e-4117-a8d3-27ad41c9e31a"
-sha256 = "a504cc07b2594ed5f74ff4eaa52139edbc3588d74b4ee40755d89ea42906bef1"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_08-06-03_dbs_287_50m.nc.gz"
 uuid = "894f8f60-9d9a-484d-a906-c5d01b2018d8"
 sha256 = "c8ca4b126b6e0714c0f02bd299cda98be5030f143f5a26c250219bd18950cb42"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_14-36-03_dbs_287_50m.nc.gz"
+uuid = "123c195c-600e-4117-a8d3-27ad41c9e31a"
+sha256 = "a504cc07b2594ed5f74ff4eaa52139edbc3588d74b4ee40755d89ea42906bef1"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_17-26-03_dbs_287_50m.nc.gz"
@@ -148933,14 +148974,14 @@ uuid = "c1ddecbd-bced-4050-8c1e-5af94f3c9d45"
 sha256 = "48e5605c1d2d8e5b91e0b014a9fdb33171fbcac89770803d1465423e378c5654"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_05-16-02_dbs_287_50m.nc.gz"
-uuid = "b6ca6f0b-4be9-44f1-a1d9-7afec7da64a6"
-sha256 = "fed7299d08b61ea6f52033cde77665ecbb3e65e447629385ca3980db95487949"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_07-26-03_dbs_287_50m.nc.gz"
 uuid = "2bc1c419-25d3-4380-94a5-7b4eba7b0155"
 sha256 = "319df0e3acac4af2356ea3dcffcb2f6829f1375692b097eb2ab4c7592b18d8df"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_05-16-02_dbs_287_50m.nc.gz"
+uuid = "b6ca6f0b-4be9-44f1-a1d9-7afec7da64a6"
+sha256 = "fed7299d08b61ea6f52033cde77665ecbb3e65e447629385ca3980db95487949"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_14-46-02_dbs_287_50m.nc.gz"
@@ -148968,14 +149009,14 @@ uuid = "f867a522-59b1-476d-8571-6708753b9ee7"
 sha256 = "728f2ae3100634a106b885317f4b9d8c78c4e8a7238665aad796fcd4477e9908"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_16-36-03_dbs_287_50m.nc.gz"
-uuid = "f22ec5c2-6cbb-41b1-a446-e97c08d5630e"
-sha256 = "26e8e7ebb535d6f43163e7aa1b7979eaaf1b5c3df048efbbb6e086e70d4ca649"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_18-26-03_dbs_287_50m.nc.gz"
 uuid = "a51d2a49-7f15-41be-8ba2-1a051246af1e"
 sha256 = "421c08b9388118e78b72dc3a4b6f3f94eee90e3d9f1c8503c16727b9fc06dde8"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_16-36-03_dbs_287_50m.nc.gz"
+uuid = "f22ec5c2-6cbb-41b1-a446-e97c08d5630e"
+sha256 = "26e8e7ebb535d6f43163e7aa1b7979eaaf1b5c3df048efbbb6e086e70d4ca649"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_02-56-02_dbs_287_50m.nc.gz"
@@ -149038,14 +149079,14 @@ uuid = "ec78075d-dace-43ae-bb35-02d0463bfc14"
 sha256 = "d01d499a6a5fe177a2eaf959baf411950332c915c3603753de88b61e4c032af2"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_04-26-03_dbs_287_50m.nc.gz"
-uuid = "0534b529-1bef-4386-ae42-5a946ff19cb5"
-sha256 = "7a334998310f03deeb8ce2a3e05ff848c6d135ef4210b6a7dd9f28923d91529b"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_19-16-09_dbs_287_50m.nc.gz"
 uuid = "a83341d6-423e-4a1e-9967-9fc47547429d"
 sha256 = "384b4689b130852fa8033ca4bf53353ee4e26b237066b4d5daaa8bbafb614c9e"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_04-26-03_dbs_287_50m.nc.gz"
+uuid = "0534b529-1bef-4386-ae42-5a946ff19cb5"
+sha256 = "7a334998310f03deeb8ce2a3e05ff848c6d135ef4210b6a7dd9f28923d91529b"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_22-46-03_dbs_287_50m.nc.gz"
@@ -149183,14 +149224,14 @@ uuid = "aee88927-851b-4fa7-913b-f24820b2ac72"
 sha256 = "aefe7b6e8bfd4d44b54041ab9abee0e8fdc0e7c5516a85fc6416676fafb11e5b"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_23-06-02_dbs_287_50m.nc.gz"
-uuid = "51999573-4f47-4c3a-8790-77b59734a2ae"
-sha256 = "d09c7e049676cabcfc72ae2d4d017d39aea73eb7ac6d418ab90e610af2961480"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_21-16-03_dbs_287_50m.nc.gz"
 uuid = "364f1677-7e47-41d2-8cd7-b9533f7097fd"
 sha256 = "b7bcd2d198c256820844127a56dda0a09a03555af72770bdcee03a124f5631cb"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_23-06-02_dbs_287_50m.nc.gz"
+uuid = "51999573-4f47-4c3a-8790-77b59734a2ae"
+sha256 = "d09c7e049676cabcfc72ae2d4d017d39aea73eb7ac6d418ab90e610af2961480"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_21-46-03_dbs_287_50m.nc.gz"
@@ -149343,14 +149384,14 @@ uuid = "8603b78a-6355-418d-b541-e809d2317067"
 sha256 = "9e7dbc8b4ad71471e02610088d041c60a0503cd7e81c59b8cc13f75c3f9f1528"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_01-03-27_dbs_270_100m.nc.gz"
-uuid = "7abde25a-00aa-4b4e-a0c1-e67665ad5ade"
-sha256 = "3d02d88b3c03173993290a94ce83e459bd0f20a221c31df540d2e2d5dc0aac8c"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_19-53-26_dbs_270_100m.nc.gz"
 uuid = "373ac736-790e-499e-ba79-d01438ed0235"
 sha256 = "1669261a45155b3f3affbf7a3f9a89e25637a43a7bf4c80aab8bcbbc153372ee"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_01-03-27_dbs_270_100m.nc.gz"
+uuid = "7abde25a-00aa-4b4e-a0c1-e67665ad5ade"
+sha256 = "3d02d88b3c03173993290a94ce83e459bd0f20a221c31df540d2e2d5dc0aac8c"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_05-46-29_dbs_287_50m.nc.gz"
@@ -149448,14 +149489,14 @@ uuid = "a641ca19-f5f1-4700-9a1f-8f221fe04d21"
 sha256 = "13855fcd1a88c611d80af66328935f2d11580e2823dde9f408751301d6824490"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_17-23-26_dbs_270_100m.nc.gz"
-uuid = "3291f2b7-bd43-4bc5-a4bd-95fe2adc3311"
-sha256 = "0b5a91ea1784747a9269fc4390cb2fc7149d42ae3317d2e17e603fdb765e258c"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_09-53-28_dbs_270_100m.nc.gz"
 uuid = "f7bc538e-d8a3-48d1-a415-cdb0b8454f4f"
 sha256 = "bb35eeaa62480c4a52b87ec4b70e449c866c10981bcad64e839ee5dd98d80a1b"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_17-23-26_dbs_270_100m.nc.gz"
+uuid = "3291f2b7-bd43-4bc5-a4bd-95fe2adc3311"
+sha256 = "0b5a91ea1784747a9269fc4390cb2fc7149d42ae3317d2e17e603fdb765e258c"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_04-33-25_dbs_270_100m.nc.gz"
@@ -149558,14 +149599,14 @@ uuid = "e9e3bc31-388b-4ebc-851f-a036d3e44ff9"
 sha256 = "5556caeb1a3a10977409068354d059cb7f2f1962439285f5240eb28664891e5f"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_01-13-26_dbs_270_100m.nc.gz"
-uuid = "b8fe4446-d0e2-41c7-8b92-1294fb1475c0"
-sha256 = "77a4f2ba6c476b383284d23bbc7a209457152e9f9f99198815f39fb7cb90afe3"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_17-43-26_dbs_270_100m.nc.gz"
 uuid = "c62b83f9-2bee-45fd-81a1-0d560d8a7232"
 sha256 = "ec11670dc00031e11d5026672b716c7d9007032c812e75e4342c303ab984969a"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_01-13-26_dbs_270_100m.nc.gz"
+uuid = "b8fe4446-d0e2-41c7-8b92-1294fb1475c0"
+sha256 = "77a4f2ba6c476b383284d23bbc7a209457152e9f9f99198815f39fb7cb90afe3"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_10-23-26_dbs_270_100m.nc.gz"
@@ -149733,6 +149774,11 @@ uuid = "726abaad-99d2-41d1-9ccd-8c5787dc8817"
 sha256 = "282e5be1a8932d2757330d8d4a92983a1a27cc3fd3ad98d5a15b54bf6aed69d3"
 
 [[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_17-53-26_dbs_270_100m.nc.gz"
+uuid = "4853c880-8910-4a0f-b903-34b44d0863c3"
+sha256 = "bc2bf6196414f67ba3a3098a90bc019fbaca46c3d9adc90fc4fcd193ad5dbfc6"
+
+[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_21-43-25_dbs_270_100m.nc.gz"
 uuid = "f86dfbb8-45d3-4400-9c3b-bdc10122efc4"
 sha256 = "abca13b0ff8e01dd0bfb96400ada174b662e47829fce0d25f2a1b44ece1be7b6"
@@ -149743,24 +149789,19 @@ uuid = "640d0bb4-843a-49e3-b211-c5218bc48ef7"
 sha256 = "ad9dc1f8041f662967113329448e8ba98673d8fe26a4c3b67d3c26441d5e9029"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_17-53-26_dbs_270_100m.nc.gz"
-uuid = "4853c880-8910-4a0f-b903-34b44d0863c3"
-sha256 = "bc2bf6196414f67ba3a3098a90bc019fbaca46c3d9adc90fc4fcd193ad5dbfc6"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_00-53-24_dbs_270_100m.nc.gz"
 uuid = "369d3f87-9a7d-4c0c-bc85-f5ed89849f9a"
 sha256 = "02da128e37bf4f7ab1446e74903f918732a47c8862ff0e15ec3f199ad36f779f"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_04-24-25_dbs_270_100m.nc.gz"
-uuid = "f4c0d79f-0d60-41f5-9e8b-6b129647e9e0"
-sha256 = "efdc8412a4303cd6b2afb963593eec0c652e480ca979addb7e1eeca3a4c17bbf"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_17-03-25_dbs_270_100m.nc.gz"
 uuid = "d65d30b6-547f-4773-9e76-0601bb1c590f"
 sha256 = "53f50725e692bf62c438aae502607ad9cff50af26bbdf28ddd1df1a920ea21a4"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_04-24-25_dbs_270_100m.nc.gz"
+uuid = "f4c0d79f-0d60-41f5-9e8b-6b129647e9e0"
+sha256 = "efdc8412a4303cd6b2afb963593eec0c652e480ca979addb7e1eeca3a4c17bbf"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_20-43-26_dbs_270_100m.nc.gz"
@@ -150033,14 +150074,14 @@ uuid = "7ae2ecf1-bdb0-4f30-88e6-72419f0e780e"
 sha256 = "ae500612672893928da176def79f67b822c007093f1d91ce46dc01c2d04cce53"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_16-05-57_dbs_264_50m.nc.gz"
-uuid = "9e851185-f29e-4b36-9797-64c4e3726ba4"
-sha256 = "8470b6cd76ed12316a63398534e0dd65e4f53b80e9e5a905029227ff0d90b70d"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_15-25-56_dbs_264_50m.nc.gz"
 uuid = "0f70dee6-f927-4a6e-a115-fcbaad8f8577"
 sha256 = "1223cc8a966deed98da5d3c950dcceb0c8027695f8a587cf637b73cb5914a878"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_16-05-57_dbs_264_50m.nc.gz"
+uuid = "9e851185-f29e-4b36-9797-64c4e3726ba4"
+sha256 = "8470b6cd76ed12316a63398534e0dd65e4f53b80e9e5a905029227ff0d90b70d"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_02-15-56_dbs_264_50m.nc.gz"
@@ -150058,14 +150099,14 @@ uuid = "3ca22381-feee-42c0-8ce9-0ce6c97a8f5b"
 sha256 = "f7be3166f324ee91a25ee6d0ed4911d1464585fc7844bcaba9f42c73126777cf"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_16-45-56_dbs_264_50m.nc.gz"
-uuid = "4b27e472-9451-4b94-90d1-7d1987e752f4"
-sha256 = "98f6a97984a917aa8dceb5c2640e27ca23fb224149751cdf20e175591fd47c37"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_11-55-57_dbs_264_50m.nc.gz"
 uuid = "379be203-398a-49a6-8082-a89a09f5a967"
 sha256 = "aaab6536fa6ec9ca7bf2a1996c371c4d68ff9e59782e4f401bfdba08965d72f7"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_16-45-56_dbs_264_50m.nc.gz"
+uuid = "4b27e472-9451-4b94-90d1-7d1987e752f4"
+sha256 = "98f6a97984a917aa8dceb5c2640e27ca23fb224149751cdf20e175591fd47c37"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_15-35-56_dbs_264_50m.nc.gz"
@@ -150178,14 +150219,14 @@ uuid = "fd714044-2a20-4c2b-b04e-e26bbcce2185"
 sha256 = "c2fb0b1477e943d20c4cc040e982b719a305b03d65e06dc6971ad1e431f74234"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_06-35-58_dbs_264_50m.nc.gz"
-uuid = "2f694d2c-5b49-4ee0-ad48-9aaae22ad12d"
-sha256 = "b63f2e0abca38996366779ea65699d8007d6484e4e934bad6bcca7ab76ccb607"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_10-35-57_dbs_264_50m.nc.gz"
 uuid = "b6d6d613-4588-4d1e-8a2e-708d47692124"
 sha256 = "5437cfc42285712cf4bddd64457cd78432bffbe099cf8dae7bd8141457e1d197"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_06-35-58_dbs_264_50m.nc.gz"
+uuid = "2f694d2c-5b49-4ee0-ad48-9aaae22ad12d"
+sha256 = "b63f2e0abca38996366779ea65699d8007d6484e4e934bad6bcca7ab76ccb607"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_02-25-58_dbs_264_50m.nc.gz"
@@ -150203,19 +150244,19 @@ uuid = "8ef5b9e4-996c-4b66-b2ea-cde9df123e77"
 sha256 = "ed6f85a81ac21182bbba236a292864880f7b7bedea50b5ae21101b855d512cf4"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_06-25-57_dbs_264_50m.nc.gz"
-uuid = "b31e6f1d-1407-46dc-905e-2db2d4fb11aa"
-sha256 = "b6e11770af5112a5e903dc1d7aa7843413def3f854e0dffe32b1603dcb50fd86"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_03-45-58_dbs_264_50m.nc.gz"
 uuid = "34333164-16fb-4c33-87ec-f2c0618930a7"
 sha256 = "ec5c0e9f5201f19deedfa2fea07f25c8848f898af37c62a9d9426c50f8699cbc"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_03-15-58_dbs_264_50m.nc.gz"
-uuid = "f0b277b3-5c65-46f4-9903-dc59e3c000ed"
-sha256 = "2a0835edcba2786a9b9131922250395e81cea25c51a1ff6759ac0f3c51e1cd63"
+filename = "WLS200S-197_2021-11-24_06-25-57_dbs_264_50m.nc.gz"
+uuid = "b31e6f1d-1407-46dc-905e-2db2d4fb11aa"
+sha256 = "b6e11770af5112a5e903dc1d7aa7843413def3f854e0dffe32b1603dcb50fd86"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_07-15-58_dbs_264_50m.nc.gz"
+uuid = "e00c1bc8-9cf6-42d9-a77b-79c915c20d02"
+sha256 = "ae50f4bd261ea44c28f3e876ec14c4fa1cd4e6cbc646aa9ebb61fd0f705cb552"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_03-05-57_dbs_264_50m.nc.gz"
@@ -150223,9 +150264,9 @@ uuid = "c90b0695-bffe-456c-9b22-98d3352ab331"
 sha256 = "a22ed0ff3aec0e87a205ed88a88b1e10ce819aa0846ca7e7608009cc7440c835"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_07-15-58_dbs_264_50m.nc.gz"
-uuid = "e00c1bc8-9cf6-42d9-a77b-79c915c20d02"
-sha256 = "ae50f4bd261ea44c28f3e876ec14c4fa1cd4e6cbc646aa9ebb61fd0f705cb552"
+filename = "WLS200S-197_2021-11-24_03-15-58_dbs_264_50m.nc.gz"
+uuid = "f0b277b3-5c65-46f4-9903-dc59e3c000ed"
+sha256 = "2a0835edcba2786a9b9131922250395e81cea25c51a1ff6759ac0f3c51e1cd63"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_14-35-58_dbs_264_50m.nc.gz"
@@ -150248,24 +150289,24 @@ uuid = "1a68b40b-ef4d-41ff-bc54-7f0bd5be025b"
 sha256 = "4020490df408e381a7a29f27cca820014ac721d55174853fda8931443aa9366b"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_04-45-58_dbs_264_50m.nc.gz"
-uuid = "b0d484cf-7d17-4d78-bf97-6502699d1a00"
-sha256 = "3b8ed73ff02158570359d2ec56fb8cd0c18efec2aee5a5f3b05c943a0bd46f6f"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_08-45-57_dbs_264_50m.nc.gz"
 uuid = "40a58291-2463-451a-a6ed-8b931a457991"
 sha256 = "54b93b828771318c58a50a0ba47c98f751fd02974c9a3939c7ed30e1e7e5548c"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_17-05-57_dbs_264_50m.nc.gz"
-uuid = "9b80a188-8654-4137-89b9-10a46d0b5479"
-sha256 = "7d8465e86656d7bad08352aa1cfcd81ae0559fddbe7a48b7fa7331edcd2a4068"
+filename = "WLS200S-197_2021-11-24_04-45-58_dbs_264_50m.nc.gz"
+uuid = "b0d484cf-7d17-4d78-bf97-6502699d1a00"
+sha256 = "3b8ed73ff02158570359d2ec56fb8cd0c18efec2aee5a5f3b05c943a0bd46f6f"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_01-45-58_dbs_264_50m.nc.gz"
 uuid = "7712e828-7f75-4d2e-a465-215f43b7203f"
 sha256 = "477cbff54d8998ffd9194773838bf06ee955fd05df65319eadbd180a34c8cb8b"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_17-05-57_dbs_264_50m.nc.gz"
+uuid = "9b80a188-8654-4137-89b9-10a46d0b5479"
+sha256 = "7d8465e86656d7bad08352aa1cfcd81ae0559fddbe7a48b7fa7331edcd2a4068"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_04-55-58_dbs_264_50m.nc.gz"
@@ -150278,14 +150319,14 @@ uuid = "8fc79a0a-d9be-49d1-a187-0043badd0122"
 sha256 = "9320e0e6c60d89b1568a9b6de720bc73a6f565f20a0f77c24cfcc2043a90f0b8"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_01-55-58_dbs_264_50m.nc.gz"
-uuid = "3d5349f0-bf32-4b9f-a356-9dd1edf87bbe"
-sha256 = "96933fa4a3ac21368b90c3ff8b2651e77671932d52cf4c891af3169b5a6e8d04"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_15-15-57_dbs_264_50m.nc.gz"
 uuid = "0d5ddc80-b9c6-49e2-9b86-9e1952c54220"
 sha256 = "7c0d69534e8f5b900b1cd63dce7fd9c44250fa2d4db4cf3e60d02e9e0cac6585"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_01-55-58_dbs_264_50m.nc.gz"
+uuid = "3d5349f0-bf32-4b9f-a356-9dd1edf87bbe"
+sha256 = "96933fa4a3ac21368b90c3ff8b2651e77671932d52cf4c891af3169b5a6e8d04"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_13-15-58_dbs_264_50m.nc.gz"
@@ -150313,24 +150354,24 @@ uuid = "9bf02cc1-0b0e-46de-a313-e369074906d3"
 sha256 = "c51917f263ba29860907397c06f4e77d846c60217e69f9a8a4fdcc06225b56e1"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_21-25-58_dbs_264_50m.nc.gz"
-uuid = "163e3644-3cd1-42b0-bf42-09a047d51978"
-sha256 = "043cd110d20b0c35d62aa3a236e63a68c92663e5d9236202114bacf0a4f20825"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_18-35-57_dbs_264_50m.nc.gz"
 uuid = "57b0bac7-ba1c-495d-8e1b-22c8797e1288"
 sha256 = "db0f9d25e3e98b5e43d9e2123865b9e3f60aa196c9dcfe47a83dbcd9fd3c3e65"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_00-15-58_dbs_264_50m.nc.gz"
-uuid = "594120bc-09df-404a-ba29-1983202ff54f"
-sha256 = "184f2fa1b5c7e2f0bc17a2bbe879e71666e4b86a2e31f81e301392f5045e1ccc"
+filename = "WLS200S-197_2021-11-24_21-25-58_dbs_264_50m.nc.gz"
+uuid = "163e3644-3cd1-42b0-bf42-09a047d51978"
+sha256 = "043cd110d20b0c35d62aa3a236e63a68c92663e5d9236202114bacf0a4f20825"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_21-35-57_dbs_264_50m.nc.gz"
 uuid = "98a76a7d-5cc3-4dbe-80fd-8422e4e43011"
 sha256 = "6a84f7dd17cb5bf04efd43d181291796856df2c5940ddcc063ffadcfa7eb9307"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_00-15-58_dbs_264_50m.nc.gz"
+uuid = "594120bc-09df-404a-ba29-1983202ff54f"
+sha256 = "184f2fa1b5c7e2f0bc17a2bbe879e71666e4b86a2e31f81e301392f5045e1ccc"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_17-35-58_dbs_264_50m.nc.gz"
@@ -150341,11 +150382,6 @@ sha256 = "3722e891195be75eb85ff7f1e10415870ce864b1dbffdc71680fe5ef878e39e4"
 filename = "WLS200S-197_2021-11-24_11-25-57_dbs_264_50m.nc.gz"
 uuid = "7e45f5d8-179e-422f-976e-ae53a0bfd1a7"
 sha256 = "7e0a914ae8f5be423b64a3552c91c4c7a1bcc4af24378ee305afe1c6a6cf896f"
-
-[[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_20-25-57_dbs_264_50m.nc.gz"
-uuid = "9fcb4b81-65d0-4fce-b335-26a35dcc19af"
-sha256 = "ea7f54e211dd2cb29eb4557e160a9fb81434ff97604b7d80857f3874b4adac0b"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_07-55-57_dbs_264_50m.nc.gz"
@@ -150363,6 +150399,11 @@ uuid = "21d8461d-64df-4fb5-8931-9c3f0b0d97b7"
 sha256 = "5b4098893551c089f8a4ed302cf2a39ce71685c0246f7941f55bbb5bdf140ec4"
 
 [[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_20-25-57_dbs_264_50m.nc.gz"
+uuid = "9fcb4b81-65d0-4fce-b335-26a35dcc19af"
+sha256 = "ea7f54e211dd2cb29eb4557e160a9fb81434ff97604b7d80857f3874b4adac0b"
+
+[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_16-55-57_dbs_264_50m.nc.gz"
 uuid = "257f3ed7-2001-4578-beac-eb130e79535e"
 sha256 = "713d133ba2d76bafd6025a335bca2d022d9551db7502329167953c5b94c44665"
@@ -150373,14 +150414,14 @@ uuid = "c2538040-eb29-4d1b-9651-6a92c8525520"
 sha256 = "779958693e8c91cb50ffdd5d22f961d51d3a2186993a504b1e05f91bbcec23c3"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_15-05-57_dbs_264_50m.nc.gz"
-uuid = "4d406bb1-ea40-461f-811d-b1e6674abab6"
-sha256 = "ffeed1d4a1b651ab6d059d50356eebbb78b1a24141c1de69c591eb9ef9983ccc"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_00-45-57_dbs_264_50m.nc.gz"
 uuid = "b60df966-c6d8-4691-806b-03ebde96299b"
 sha256 = "c17618022788bf8875a588f5a25e06bd35b7192da55b2d629801ba553e43e800"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_15-05-57_dbs_264_50m.nc.gz"
+uuid = "4d406bb1-ea40-461f-811d-b1e6674abab6"
+sha256 = "ffeed1d4a1b651ab6d059d50356eebbb78b1a24141c1de69c591eb9ef9983ccc"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_07-25-57_dbs_264_50m.nc.gz"
@@ -150498,14 +150539,14 @@ uuid = "ed155d6f-43a3-4748-889c-349ebee5c2c4"
 sha256 = "dd42735b865558da1b1fec4addf610a1c556070a47f08f5d32c4838467974b0a"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_22-55-58_dbs_264_50m.nc.gz"
-uuid = "9025c9bc-62ad-47e2-9347-8ec9762352df"
-sha256 = "c9c47b078c4beb4979768e42e16814fc339f1c663dc8267c230b1466e5ecdf69"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_18-25-57_dbs_264_50m.nc.gz"
 uuid = "be089fbe-ddba-40b6-bfd1-d87144ccc87e"
 sha256 = "4685d63390b2d007380423f83b0b99be01c73b2586b10b790a7e8db96f1e640a"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_22-55-58_dbs_264_50m.nc.gz"
+uuid = "9025c9bc-62ad-47e2-9347-8ec9762352df"
+sha256 = "c9c47b078c4beb4979768e42e16814fc339f1c663dc8267c230b1466e5ecdf69"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_12-05-57_dbs_264_50m.nc.gz"
@@ -150558,14 +150599,14 @@ uuid = "3cace3b1-8a58-46da-83df-ebac8cb5c5bb"
 sha256 = "17d7bbde4031aa49bb5fa44c6c46e6eefe118d8be6db9fd95c68dc7158b7f7c9"
 
 [[wind.input.files]]
-filename = "WLS200S-197_2021-11-24_22-05-57_dbs_264_50m.nc.gz"
-uuid = "12a3ce1e-0af4-45f6-81b2-c755389ccad7"
-sha256 = "d925360f9c225d7185cc471fc98429eabdd994a3eb0dd74a4e28a2c7e96ba3fc"
-
-[[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_03-25-59_dbs_264_50m.nc.gz"
 uuid = "2c714ac3-7ddf-4776-a528-e94022f048e0"
 sha256 = "9f6b5d8a4e3eb1831107384252a44da40763b9f0f94553cce0f1eab7d5d215d5"
+
+[[wind.input.files]]
+filename = "WLS200S-197_2021-11-24_22-05-57_dbs_264_50m.nc.gz"
+uuid = "12a3ce1e-0af4-45f6-81b2-c755389ccad7"
+sha256 = "d925360f9c225d7185cc471fc98429eabdd994a3eb0dd74a4e28a2c7e96ba3fc"
 
 [[wind.input.files]]
 filename = "WLS200S-197_2021-11-24_20-55-58_dbs_264_50m.nc.gz"
@@ -150659,26 +150700,27 @@ sha256 = "8aac82c40331011552ae53e116ae258b9f7124744ec775034701c89b791a6531"
 
 [wind.expect]
 height_len = 138
+mask_fraction = 0.9350094517958412
 system_id = "197"
 time_len = 575
 
 [wind.expect.meridional_wind]
 count = 79350
-mean = 0.18538716971637045
-skew = -0.025505713442772426
-var = 515.1041251751361
+mean = 0.1853871697163701
+skew = -0.025505713442772433
+var = 515.104125175136
 
 [wind.expect.vertical_wind]
 count = 79350
-mean = -2.4882830780901015
-skew = -0.06783152168908461
+mean = -2.488283078090102
+skew = -0.06783152168908449
 var = 23.25902191975883
 
 [wind.expect.zonal_wind]
 count = 79350
-mean = -0.4550929770487572
-skew = 0.017698204170682207
-var = 566.955020810063
+mean = -0.4550929770487574
+skew = 0.017698204170682172
+var = 566.9550208100629
 
 [[turbulence]]
 id = "2qkxbs"

@@ -1568,8 +1568,7 @@ fn print_results<T: HasIdAndSite>(results: &[(&T, f64)], old_elapsed: &HashMap<S
         let pctl = entry.percentile().unwrap_or("-");
         let speedup = old_elapsed
             .get(entry.id())
-            .map(|&old| format_speedup(old, *elapsed))
-            .unwrap_or_default();
+            .map_or_default(|&old| format_speedup(old, *elapsed));
         eprint!(
             "  \x1b[36m{:<8}\x1b[0m {:<6} {:<20} {:<12} ",
             entry.id(),
@@ -1907,24 +1906,19 @@ fn symbolicate_profile(profile_path: &Path, syms_path: &Path) -> Result<(), Stri
     for thread in threads {
         let resource_table_libs = thread["resourceTable"]["lib"]
             .as_array()
-            .map(|a| {
+            .map_or_default(|a| {
                 a.iter()
                     .map(|v| v.as_i64().unwrap_or(-1))
                     .collect::<Vec<_>>()
-            })
-            .unwrap_or_default();
-        let func_names: Vec<usize> = thread["funcTable"]["name"]
-            .as_array()
-            .map(|a| {
-                a.iter()
-                    .filter_map(|v| usize::try_from(v.as_u64().unwrap_or(0)).ok())
-                    .collect()
-            })
-            .unwrap_or_default();
+            });
+        let func_names: Vec<usize> = thread["funcTable"]["name"].as_array().map_or_default(|a| {
+            a.iter()
+                .filter_map(|v| usize::try_from(v.as_u64().unwrap_or(0)).ok())
+                .collect()
+        });
         let func_resources: Vec<i64> = thread["funcTable"]["resource"]
             .as_array()
-            .map(|a| a.iter().map(|v| v.as_i64().unwrap_or(-1)).collect())
-            .unwrap_or_default();
+            .map_or_default(|a| a.iter().map(|v| v.as_i64().unwrap_or(-1)).collect());
 
         let Some(string_array) = thread["stringArray"].as_array_mut() else {
             continue;

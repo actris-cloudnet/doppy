@@ -237,6 +237,7 @@ def lock_wind(case: dict) -> dict:
         "zonal_wind": array_stats(wind.zonal_wind),
         "meridional_wind": array_stats(wind.meridional_wind),
         "vertical_wind": array_stats(wind.vertical_wind),
+        "mask_fraction": float(wind.mask.mean()),
         "system_id": wind.system_id,
     }
     return {"input": {"files": files}, "expect": expect}

@@ -931,10 +931,12 @@ def _plot_wind(wind: Wind) -> None:
 
     panels = [
         ("zonal wind u [m/s]", _masked_float(wind.zonal_wind, wind.mask)),
+        ("unscreened u [m/s]", wind.zonal_wind),
         ("meridional wind v [m/s]", _masked_float(wind.meridional_wind, wind.mask)),
+        ("unscreened v [m/s]", wind.meridional_wind),
     ]
-    fig, axes = plt.subplots(2, 1, sharex=True, figsize=(11, 5))
-    for ax, (label, data) in zip(axes, panels):
+    fig, axes = plt.subplots(2, 2, sharex=True, sharey=True, figsize=(15, 6))
+    for ax, (label, data) in zip(axes.flat, panels):
         m = ax.pcolormesh(
             wind.time,
             wind.height,
@@ -945,10 +947,14 @@ def _plot_wind(wind: Wind) -> None:
             vmax=20,
         )
         fig.colorbar(m, ax=ax, label=label)
+    for ax in axes[:, 0]:
         ax.set_ylabel("height [m]")
-    axes[-1].set_xlabel("time")
-    fig.suptitle(f"Wind — system_id={wind.system_id}")
-    _concise_time_axis(axes[-1])
+    for ax in axes[-1]:
+        ax.set_xlabel("time")
+        _concise_time_axis(ax)
+    fig.suptitle(
+        f"Wind — system_id={wind.system_id}, masked={100 * wind.mask.mean():.1f}%"
+    )
     fig.tight_layout()
     plt.show()
 

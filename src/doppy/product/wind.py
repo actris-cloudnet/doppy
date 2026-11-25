@@ -10,7 +10,7 @@ from typing import Sequence
 
 import numpy as np
 import numpy.typing as npt
-from scipy.ndimage import generic_filter
+from scipy.ndimage import convolve, generic_filter
 
 import doppy
 import doppy.exceptions
@@ -21,6 +21,9 @@ MIN_COMPLETE_ROTATIONS = 5
 PREFERRED_VAD_ELEVATION_DEG = 75
 MIN_VAD_ELEVATION_DEG = 5
 MAX_VAD_ELEVATION_DEG = 85
+DEFAULT_RMSE_THRESHOLD = 5.0
+NOISE_SNR_THRESHOLD = 0.002
+MIN_NOISE_SAMPLES = 10_000
 
 
 @dataclass
@@ -113,7 +116,7 @@ class Wind:
         if not np.allclose(elevation, elevation[0]):
             raise ValueError("Elevation is expected to stay same")
         height = raw.radial_distance * np.sin(np.deg2rad(elevation[0]))
-        mask = _compute_mask(wind, rmse)
+        mask = _compute_mask(wind, rmse, _estimate_rmse_threshold(raw))
         return Wind(
             time=time,
             height=height,
@@ -368,8 +371,20 @@ def _compute_wind(
     return time, elevation[0], wind, rmse
 
 
+def _estimate_rmse_threshold(raw: doppy.raw.HaloHpl) -> float:
+    """Scale the RMSE threshold down for instruments whose noise is not
+    spread over the whole velocity range (e.g. vehmasmaki HALO 53)."""
+    v = raw.radial_velocity
+    noise = np.isfinite(v) & (raw.intensity - 1 < NOISE_SNR_THRESHOLD)
+    if noise.sum() < MIN_NOISE_SAMPLES:
+        return DEFAULT_RMSE_THRESHOLD
+    return min(DEFAULT_RMSE_THRESHOLD, 0.5 * float(np.std(v[noise])))
+
+
 def _compute_mask(
-    wind: npt.NDArray[np.float64], rmse: npt.NDArray[np.float64]
+    wind: npt.NDArray[np.float64],
+    rmse: npt.NDArray[np.float64],
+    rmse_threshold: float = DEFAULT_RMSE_THRESHOLD,
 ) -> npt.NDArray[np.bool_]:
     """
     Parameters
@@ -391,8 +406,16 @@ def _compute_mask(
         axis=2,
     )
 
-    rmse_th = 5
-    return np.array((rmse > rmse_th) | neighbour_mask, dtype=np.bool_)
+    mask = (rmse > rmse_threshold) | neighbour_mask | np.any(np.isnan(wind), axis=2)
+
+    # Second pass: a pixel with at most two unmasked neighbours in time or
+    # height must pass a stricter threshold to survive.
+    kernel = np.ones((3, 3), dtype=int)
+    kernel[1, 1] = 0
+    n_valid_neighbours = convolve((~mask).astype(int), kernel, mode="constant")
+    isolated = ~mask & (n_valid_neighbours <= 2)
+    mask |= isolated & (rmse > rmse_threshold / 2)
+    return np.array(mask, dtype=np.bool_)
 
 
 def _group_scans_by_azimuth_rotation(
