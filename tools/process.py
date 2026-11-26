@@ -380,6 +380,8 @@ def _trim_to_date(
     if not np.any(is_valid):
         raise SystemExit("No valid timestamps found")
     for field in dataclasses.fields(product):
+        if field.name in ("height", "radial_distance"):
+            continue  # range axis; its length can coincide with n_time
         value = getattr(product, field.name)
         if isinstance(value, np.ndarray) and value.shape[:1] == (n_time,):
             setattr(product, field.name, value[is_valid])

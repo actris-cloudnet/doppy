@@ -151,6 +151,8 @@ class Stare:
             .non_strictly_increasing_timesteps_removed()
             .nans_removed()
         )
+        if len(raw.time) == 0:
+            raise doppy.exceptions.NoDataError("No valid profiles in stare data")
 
         bgs = doppy.raw.HaloBg.from_srcs(data_bg)
         bgs = [bg[:, : raw.header.ngates] for bg in bgs]
