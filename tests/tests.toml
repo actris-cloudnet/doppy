@@ -345,6 +345,22 @@ description = "neumayer EMI case — exercises NoiseMaskMethod.INTENSITY_ONLY (E
 [stare.options]
 noise_mask_method = "intensity_only"
 
+[[stare]]
+id = "8ih0q5"
+site = "kappelrodeck"
+date = "2026-11-22"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "c1ddaa8d-62e9-4942-b35e-600de8728873"
+description = "noise fit fails in profiles without noise gates; inf poisoned uniform_filter"
+
+[[stare]]
+id = "0vxka8"
+site = "kappelrodeck"
+date = "2026-11-18"
+instrument_id = "halo-doppler-lidar"
+instrument_uuid = "c1ddaa8d-62e9-4942-b35e-600de8728873"
+description = "noise fit fails in many profiles without noise gates; inf poisoned uniform_filter"
+
 [[wind]]
 id = "e583nj"
 site = "chilbolton"

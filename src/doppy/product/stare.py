@@ -18,6 +18,8 @@ from doppy.product.noise_utils import detect_wind_noise
 
 SelectionGroupKeyType: TypeAlias = tuple[int,]
 
+MIN_NOISE_GATES = 10
+
 
 @dataclass(slots=True)
 class RayAccumulationTime:
@@ -186,6 +188,7 @@ class Stare:
             raw.radial_distance,
             noise_mask_method,
         )
+        mask_beta |= ~np.isfinite(beta)
         match noise_mask_method:
             case options.NoiseMaskMethod.INTENSITY_AND_VELOCITY:
                 mask_radial_velocity = detect_wind_noise(
@@ -324,21 +327,32 @@ def _compute_noise_mask(
     radial_distance: npt.NDArray[np.float64],
     method: options.NoiseMaskMethod,
 ) -> npt.NDArray[np.bool_]:
-    intensity_mean_mask = uniform_filter(intensity, size=(21, 3)) < 1.0025
+    size = (21, 3)
+    intensity_mean_mask = _uniform_nanmean(intensity, size) < 1.0025
     THREE_PULSES_LENGTH = 90
     near_instrument_noise_mask = np.zeros_like(intensity, dtype=np.bool_)
     near_instrument_noise_mask[:, radial_distance < THREE_PULSES_LENGTH] = True
     low_intensity_mask = intensity < 1
-    base = near_instrument_noise_mask | low_intensity_mask
+    non_finite_mask = ~np.isfinite(intensity)
+    base = near_instrument_noise_mask | low_intensity_mask | non_finite_mask
     match method:
         case options.NoiseMaskMethod.INTENSITY_AND_VELOCITY:
-            velocity_abs_mean_mask = (
-                uniform_filter(np.abs(radial_velocity), size=(21, 3)) > 2
-            )
+            velocity_abs_mean_mask = _uniform_nanmean(np.abs(radial_velocity), size) > 2
             intensity_term = intensity_mean_mask & velocity_abs_mean_mask
         case options.NoiseMaskMethod.INTENSITY_ONLY:
             intensity_term = intensity_mean_mask
     return np.asarray(base | intensity_term, dtype=np.bool_)
+
+
+def _uniform_nanmean(
+    a: npt.NDArray[np.float64], size: tuple[int, int]
+) -> npt.NDArray[np.float64]:
+    finite = np.isfinite(a)
+    total = uniform_filter(np.where(finite, a, 0.0), size=size)
+    count = uniform_filter(finite.astype(np.float64), size=size)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        mean = np.where(count > 1e-9, total / count, np.nan)
+    return np.array(mean, dtype=np.float64)
 
 
 def _compute_beta(
@@ -466,8 +480,23 @@ def _correct_intensity_noise_bias(
     intensity_[~noise_mask] = 0
 
     A_pinv = np.linalg.pinv(A)
-    x = A_pinv @ intensity_[:, :, np.newaxis]
-    noise_fit = (A_ @ x).squeeze(axis=2)
+    x = (A_pinv @ intensity_[:, :, np.newaxis]).squeeze(axis=2)
+
+    # Profiles with too few noise gates give no usable fit: pinv of an
+    # all-zero design matrix yields x = 0, i.e. noise_fit = 0 and intensity/0 = inf.
+    # Replace their fit parameters by interpolating over time from valid profiles.
+    noise_fit = x @ A_[0].T
+    valid = (noise_mask.sum(axis=1) >= MIN_NOISE_GATES) & np.all(
+        np.isfinite(noise_fit) & (noise_fit > 0), axis=1
+    )
+    if not np.all(valid):
+        if np.any(valid):
+            t = (raw.time - raw.time[0]) / np.timedelta64(1, "s")
+            for j in range(x.shape[1]):
+                x[~valid, j] = np.interp(t[~valid], t[valid], x[valid, j])
+        else:
+            x[:] = [0.0, 1.0]
+        noise_fit = x @ A_[0].T
     return np.array(intensity / noise_fit, dtype=np.float64)
 
 
