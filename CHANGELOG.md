@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.18 – 2026-11-26
+
+- Fix the stare noise mask nan problem
+
 ## 0.5.17 – 2026-11-25
 
 - Fix wind masking
