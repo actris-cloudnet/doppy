@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.19 – 2026-11-27
+
+- Fix turbulence window bug
+
 ## 0.5.18 – 2026-11-26
 
 - Fix the stare noise mask nan problem
