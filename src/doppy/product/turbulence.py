@@ -46,7 +46,8 @@ class Turbulence:
         sampling_time = _sampling_time_in_seconds(res)
         ls_up = V * sampling_time
         dissipation_rate = _compute_dissipation_rate(res.variance, ls_low, ls_up)
-        mask = np.isnan(dissipation_rate) | vert.mask
+        short_window = ~(sampling_time >= options.period / 3)
+        mask = np.isnan(dissipation_rate) | vert.mask | short_window
         return cls(
             time=vert.time.copy(),
             height=vert.height.copy(),
@@ -113,16 +114,12 @@ def _compute_variance(vert: VerticalWind, period: float) -> VarResult:
     nsamples = np.zeros_like(vert.w, dtype=np.int64)
     i = 0
     j = 0
-    n = len(vert.time)
     for k, t in enumerate(vert.time):
-        while i + 1 < n and t - vert.time[i + 1] >= half_period:
-            i += 1
-        while j + 1 < n and vert.time[j] - t < half_period:
-            j += 1
+        i, j = _window_bounds(vert.time, t, half_period, i, j)
         i_valid = next_valid[i]
-        i_inbound = (0 <= i_valid) & (i_valid < n)
+        i_inbound = i_valid <= j
         j_valid = prev_valid[j]
-        j_inbound = (0 <= j_valid) & (j_valid < n)
+        j_inbound = j_valid >= i
         period_start[k][i_inbound] = vert.time[i_valid[i_inbound]]
         period_stop[k][j_inbound] = vert.time[j_valid[j_inbound]]
         var[k] = var_ij(i, j)
@@ -193,14 +190,29 @@ def _rolling_mean_over_time(
 
     i = 0
     j = 0
-    n = len(time)
     for k, t in enumerate(time):
-        while i + 1 < n and t - time[i + 1] >= half_period:
-            i += 1
-        while j + 1 < n and time[j] - t < half_period:
-            j += 1
+        i, j = _window_bounds(time, t, half_period, i, j)
         rol_mean[k] = rolling_mean(i, j)
     return rol_mean
+
+
+def _window_bounds(
+    time: npt.NDArray[np.datetime64],
+    t: np.datetime64,
+    half_period: np.timedelta64,
+    i: int,
+    j: int,
+) -> tuple[int, int]:
+    """
+    Advance (i, j) so that time[i:j+1] are exactly the samples with
+    t - half_period <= time <= t + half_period.
+    """
+    n = len(time)
+    while time[i] < t - half_period:
+        i += 1
+    while j + 1 < n and time[j + 1] <= t + half_period:
+        j += 1
+    return i, j
 
 
 def _compute_dissipation_rate(

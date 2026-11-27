@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import dataclasses
 import datetime
+import difflib
 import gzip
 import logging
 import re
@@ -51,7 +52,7 @@ ZENITH_ANGLE_THRESHOLD = 15
 PRODUCT_INSTRUMENT_PRIORITY: dict[str, list[str]] = {
     "stare": ["halo-doppler-lidar", "wls200s", "wls400s"],
     "wind": ["halo-doppler-lidar", "wls200s", "wls400s", "wls70", "wls77"],
-    "turbulence": ["halo-doppler-lidar"],
+    "turbulence": ["halo-doppler-lidar", "wls200s", "wls400s"],
     "raw": ["halo-doppler-lidar", "wls200s", "wls400s", "wls70", "wls77"],
 }
 
@@ -95,6 +96,21 @@ def _row_to_rec(row: dict) -> RawRec:
         download_url=row["downloadUrl"],
         size=int(row.get("size", 0)),
     )
+
+
+def check_site(session: requests.Session, site: str) -> None:
+    """Fail early on an unknown site id, suggesting the closest known ids."""
+    resp = session.get(f"{API_BASE}/sites", timeout=60)
+    resp.raise_for_status()
+    site_ids = [row["id"] for row in resp.json()]
+    if site in site_ids:
+        return
+    msg = f"Unknown site {site!r}."
+    if close := difflib.get_close_matches(site, site_ids, n=3):
+        msg += f" Did you mean: {', '.join(close)}?"
+    else:
+        msg += f" See {API_BASE}/sites for valid ids."
+    raise SystemExit(msg)
 
 
 def fetch_raw_records(
@@ -742,40 +758,23 @@ def run_turbulence(
     calibration: Calibration,
     cache_dir: Path,
 ) -> Turbulence:
-    if instrument.id != "halo-doppler-lidar":
-        raise SystemExit(f"turbulence only supported for HALO, not {instrument.id}")
-
-    stare_co, _, wind_recs, bg = _fetch_halo_records(
-        session, site, date, instrument, calibration.time_offset
-    )
-
-    if not stare_co:
-        raise SystemExit("No HALO co-polarized Stare*.hpl files")
-    if not wind_recs:
-        raise SystemExit("No HALO wind .hpl files (non-Stare, non-cross)")
-    if not bg:
-        raise SystemExit("No HALO Background*.txt files in ±1 day window")
-
-    logging.info(
-        "Downloading %d stare + %d wind + %d bg files",
-        len(stare_co),
-        len(wind_recs),
-        len(bg),
-    )
-    stare_paths = download_records(session, stare_co, cache_dir / "stare")
-    wind_paths = download_records(session, wind_recs, cache_dir / "wind")
-    bg_paths = download_records(session, bg, cache_dir / "bg")
-
-    stare = Stare.from_halo_data(
-        data=stare_paths,
-        data_bg=bg_paths,
-        noise_mask_method=calibration.noise_mask_method,
-    )
-    _trim_to_date(stare, date, calibration.time_offset)
+    # cloudnet builds epsilon-lidar from the doppler-lidar and doppler-lidar-wind
+    # products of the same instrument, whatever its type.
+    if instrument.id == "halo-doppler-lidar":
+        stare, wind = _halo_turbulence_inputs(
+            session, site, date, instrument, calibration, cache_dir
+        )
+    elif instrument.id in ("wls200s", "wls400s"):
+        windcube_stare = run_stare(
+            session, site, date, instrument, calibration, cache_dir
+        )
+        if not isinstance(windcube_stare, Stare):
+            raise SystemExit("Expected co-polarised stare from WindCube")
+        stare = windcube_stare
+        wind = run_wind(session, site, date, instrument, calibration, cache_dir)
+    else:
+        raise SystemExit(f"turbulence not implemented for {instrument.id}")
     zenith = _check_zenith_angle(stare)
-
-    wind = _build_wind(instrument.id, wind_paths, calibration.wind_options)
-    _trim_to_date(wind, date, calibration.time_offset)
 
     # cloudnet derives epsilon from the two harmonized products rather than from
     # raw files, so the inputs carry that file's conventions: heights above mean
@@ -805,6 +804,48 @@ def run_turbulence(
         ),
         options,
     )
+
+
+def _halo_turbulence_inputs(
+    session: requests.Session,
+    site: str,
+    date: datetime.date,
+    instrument: Instrument,
+    calibration: Calibration,
+    cache_dir: Path,
+) -> tuple[Stare, Wind]:
+    """Co-polarised stare (cross-polarised files ignored) and wind for HALO."""
+    stare_co, _, wind_recs, bg = _fetch_halo_records(
+        session, site, date, instrument, calibration.time_offset
+    )
+
+    if not stare_co:
+        raise SystemExit("No HALO co-polarized Stare*.hpl files")
+    if not wind_recs:
+        raise SystemExit("No HALO wind .hpl files (non-Stare, non-cross)")
+    if not bg:
+        raise SystemExit("No HALO Background*.txt files in ±1 day window")
+
+    logging.info(
+        "Downloading %d stare + %d wind + %d bg files",
+        len(stare_co),
+        len(wind_recs),
+        len(bg),
+    )
+    stare_paths = download_records(session, stare_co, cache_dir / "stare")
+    wind_paths = download_records(session, wind_recs, cache_dir / "wind")
+    bg_paths = download_records(session, bg, cache_dir / "bg")
+
+    stare = Stare.from_halo_data(
+        data=stare_paths,
+        data_bg=bg_paths,
+        noise_mask_method=calibration.noise_mask_method,
+    )
+    _trim_to_date(stare, date, calibration.time_offset)
+
+    wind = _build_wind(instrument.id, wind_paths, calibration.wind_options)
+    _trim_to_date(wind, date, calibration.time_offset)
+    return stare, wind
 
 
 def run_raw(
@@ -963,21 +1004,23 @@ def _plot_wind(wind: Wind) -> None:
 
 def _plot_turbulence(turb: Turbulence) -> None:
     import matplotlib.pyplot as plt
+    from matplotlib.colors import LogNorm
 
+    # Same as the cloudnet quicklook (cloudnetpy plotting/plot_meta.py "epsilon"):
+    # inferno on a log scale over 1e-7..1e-1, values below the range clipped up.
+    vmin, vmax = 1e-7, 1e-1
     eps = _masked_float(turb.turbulent_kinetic_energy_dissipation_rate, turb.mask)
-    with np.errstate(invalid="ignore", divide="ignore"):
-        log_eps = np.log10(eps)
+    eps = np.maximum(eps, vmin)  # NaN (masked) stays NaN and is left blank
     fig, ax = plt.subplots(1, 1, figsize=(11, 4))
     m = ax.pcolormesh(
         turb.time,
         turb.height,
-        log_eps.T,
+        eps.T,
         shading="auto",
-        cmap="viridis",
-        vmin=-6,
-        vmax=-2,
+        cmap="inferno",
+        norm=LogNorm(vmin=vmin, vmax=vmax),
     )
-    fig.colorbar(m, ax=ax, label="log10(epsilon) [m^2 s^-3]")
+    fig.colorbar(m, ax=ax, label="epsilon [m^2 s^-3]")
     ax.set_ylabel("height [m]")
     ax.set_xlabel("time")
     fig.suptitle("Turbulence — dissipation rate of turbulent kinetic energy")
@@ -1122,6 +1165,7 @@ def main() -> int:
     )
     date = datetime.date.fromisoformat(args.date)
     session = requests.Session()
+    check_site(session, args.site)
     instrument = _pick_instrument(
         session,
         args.site,
